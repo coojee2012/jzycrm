@@ -10,6 +10,7 @@ namespace test
         static void Main(string[] args)
         {
             Console.WriteLine("开始测试");
+            Console.WriteLine("测试GIT");
             ServiceReference.JzyServiceClient sr = new ServiceReference.JzyServiceClient();
             //string aaa = sr.SendSMS("15308098290", "Everyone should take action with a dream and be strong with a reason .");
             sr.getCustom("");
