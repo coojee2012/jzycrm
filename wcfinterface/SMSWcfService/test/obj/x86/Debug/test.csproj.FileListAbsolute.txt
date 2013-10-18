@@ -1,0 +1,12 @@
+F:\work_palte\建设网短信接口\trunk\SMSWcfService\test\bin\Debug\test.exe.config
+F:\work_palte\建设网短信接口\trunk\SMSWcfService\test\bin\Debug\test.exe
+F:\work_palte\建设网短信接口\trunk\SMSWcfService\test\bin\Debug\test.pdb
+F:\work_palte\建设网短信接口\trunk\SMSWcfService\test\obj\x86\Debug\ResolveAssemblyReference.cache
+F:\work_palte\建设网短信接口\trunk\SMSWcfService\test\obj\x86\Debug\test.exe
+F:\work_palte\建设网短信接口\trunk\SMSWcfService\test\obj\x86\Debug\test.pdb
+E:\WORK\江智勇\WCF接口\SMSWcfService\test\bin\Debug\test.exe.config
+E:\WORK\江智勇\WCF接口\SMSWcfService\test\obj\x86\Debug\test.exe
+E:\WORK\江智勇\WCF接口\SMSWcfService\test\obj\x86\Debug\test.pdb
+E:\WORK\江智勇\WCF接口\SMSWcfService\test\bin\Debug\test.exe
+E:\WORK\江智勇\WCF接口\SMSWcfService\test\bin\Debug\test.pdb
+E:\WORK\江智勇\WCF接口\SMSWcfService\test\obj\x86\Debug\ResolveAssemblyReference.cache

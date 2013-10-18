@@ -1,0 +1,14 @@
+F:\work_palte\建设网短信接口\trunk\SMSWcfService\bin\SMSWcfService.dll
+F:\work_palte\建设网短信接口\trunk\SMSWcfService\bin\SMSWcfService.pdb
+F:\work_palte\建设网短信接口\trunk\SMSWcfService\bin\DataAccess.dll
+F:\work_palte\建设网短信接口\trunk\SMSWcfService\bin\DataAccess.pdb
+F:\work_palte\建设网短信接口\trunk\SMSWcfService\obj\Debug\ResolveAssemblyReference.cache
+F:\work_palte\建设网短信接口\trunk\SMSWcfService\obj\Debug\SMSWcfService.dll
+F:\work_palte\建设网短信接口\trunk\SMSWcfService\obj\Debug\SMSWcfService.pdb
+E:\WORK\江智勇\WCF接口\SMSWcfService\obj\Debug\ResolveAssemblyReference.cache
+E:\WORK\江智勇\WCF接口\SMSWcfService\obj\Debug\SMSWcfService.dll
+E:\WORK\江智勇\WCF接口\SMSWcfService\obj\Debug\SMSWcfService.pdb
+E:\WORK\江智勇\WCF接口\SMSWcfService\bin\SMSWcfService.dll
+E:\WORK\江智勇\WCF接口\SMSWcfService\bin\SMSWcfService.pdb
+E:\WORK\江智勇\WCF接口\SMSWcfService\bin\DataAccess.dll
+E:\WORK\江智勇\WCF接口\SMSWcfService\bin\DataAccess.pdb

@@ -1,0 +1,131 @@
+set ANSI_NULLS ON
+set QUOTED_IDENTIFIER ON
+GO
+ALTER Procedure [dbo].[proc_MtSend]
+	/* Param List */
+	@s_iPhone	 varchar(35), 
+	@s_iService_Code        varchar(35),
+	@s_iContent             varchar(2000),	
+	@i_iPgId                int,
+	@i_iConnId              int,
+	@i_iMtTypeId             int,
+	@s_iLinkId              varchar(20) = '',
+	@s_ifeePhone              varchar(35) = '',
+	@s_iReserve		varchar(140) = '',
+	@s_iMoIdentity          varchar(100)='',
+        @i_imsgfmt               int=15,
+	@i_ineedreport		int=1,
+        @i_iphonetype            int=0,
+        @i_ifeephonetype            int=0
+AS
+
+  set nocount on
+  declare @status int 
+  set  @status = 0
+  begin tran tran_compile_fail
+
+/*
+  if(exists(select * from tb_sys_heiuser where userphone= @s_iPhone))
+  begin
+      set @status = -7
+      goto perform_exit
+  end
+ */
+
+--判断手机号码是否为空
+  if(len(@s_iPhone)<=0)
+  begin		
+		set @status = -1
+	goto perform_exit 		
+  end
+
+--错误的服务号码
+ -- if(not exists(select * from tb_sys_conn where left(@s_iService_Code,len(Service_code))=Service_code ))
+ -- begin
+--		set @status = -2	
+--	goto perform_exit 		
+ -- end
+
+ -- if(@@error <> 0) GOTO compile_fail
+
+--判断短信内容是否为空
+  if(len(@s_iContent)<=0)
+  begin
+		set @status = -3
+	goto perform_exit	
+  end
+--判断节目Id是否正确
+  if(not exists(select * from tb_sys_program where [id] = @i_iPgId))
+  begin
+		set @status = -4
+        goto perform_exit
+  end
+  
+  if(@@error <> 0) GOTO compile_fail
+
+--判断连接Id是否存在
+
+ if(not exists(select * from tb_sys_conn where connId = @i_iConnId ))
+ begin
+
+		set @status = -5
+        goto perform_exit
+ end
+
+ if(@@error <> 0) GOTO compile_fail
+--判断 短信下发类型是否正确
+ if(@i_iMtTypeId<1 or @i_iMtTypeId > 10)
+ begin
+		set @status = -6
+	goto perform_exit
+ end
+
+ if(@@error <> 0) GOTO compile_fail
+
+
+--判断对应的节目是否开通这个连接
+ if(not exists(select * from tb_sys_program_conn where pg_id = @i_iPgId and connId = @i_iConnId))
+ begin
+	set @status = -8
+	goto perform_exit
+ end
+
+ if(@@error <> 0) GOTO compile_fail
+
+
+--判断短信下发类型是否与节目类型匹配
+ if(exists(select * from tb_sys_program where ([id] = @i_iPgId) and (pg_type = 1 or pg_type=2 or pg_type = 5) 
+	and  (@i_iMtTypeId=2 or @i_iMtTypeId = 3 or @i_iMtTypeId = 4 
+	or @i_iMtTypeId = 5 or @i_iMtTypeId = 6)))
+ begin
+		set @status = -9
+	goto  perform_exit
+ end
+
+ if(@@error <> 0) GOTO compile_fail
+
+ if(exists(select * from tb_sys_program where ([id] = @i_iPgId) and  (pg_type = 3 or pg_type=4) 
+	and  (@i_iMtTypeId=1 or @i_iMtTypeId = 7 )))
+ begin
+		set @status = -9
+	goto  perform_exit
+ end
+ if(@@error <> 0) GOTO compile_fail
+
+  insert into tb_sys_smsout (phone, Service_code,feePhone,pg_id, content,connId,submitSmsTypeId,linkid,reserve,msgfmt,needReport,phone_type,feephone_type,moIdentity) 
+  values(@s_iPhone,@s_iService_Code,@s_ifeePhone,@i_iPgId,@s_iContent,@i_iConnId,@i_iMtTypeId,@s_iLinkId,@s_iReserve,@i_imsgfmt,@i_ineedreport,@i_iphonetype,@i_ifeephonetype,@s_iMoIdentity)
+
+	if(@@error <> 0) GOTO compile_fail
+	select @status=@@IDENTITY
+
+  if(@@error <> 0) GOTO compile_fail
+  else goto perform_exit
+
+  compile_fail:
+	rollback tran tran_compile_fail
+	return -100
+
+  perform_exit:
+ 	commit tran tran_compile_fail  
+--	select @status
+	return @status

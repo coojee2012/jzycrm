@@ -1,0 +1,10 @@
+F:\work_palte\建设网短信接口\trunk\DataAccess\obj\Debug\ResolveAssemblyReference.cache
+F:\work_palte\建设网短信接口\trunk\DataAccess\bin\Debug\DataAccess.dll
+F:\work_palte\建设网短信接口\trunk\DataAccess\bin\Debug\DataAccess.pdb
+F:\work_palte\建设网短信接口\trunk\DataAccess\obj\Debug\DataAccess.dll
+F:\work_palte\建设网短信接口\trunk\DataAccess\obj\Debug\DataAccess.pdb
+E:\WORK\江智勇\WCF接口\DataAccess\bin\Debug\DataAccess.dll
+E:\WORK\江智勇\WCF接口\DataAccess\bin\Debug\DataAccess.pdb
+E:\WORK\江智勇\WCF接口\DataAccess\obj\Debug\ResolveAssemblyReference.cache
+E:\WORK\江智勇\WCF接口\DataAccess\obj\Debug\DataAccess.dll
+E:\WORK\江智勇\WCF接口\DataAccess\obj\Debug\DataAccess.pdb
