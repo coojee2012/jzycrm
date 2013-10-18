@@ -51,11 +51,11 @@ namespace SMSWcfService
         protected System.Data.DataSet dataSet;//
         #endregion
 
-        public CunstomInfo getCustom(string tel) {
-            string sql = "select a.*,b.* from t_rm_vip_info a left join t_rm_vip_type b on b.type_id=a.card_type";
+        public CustomInfo getCustom(string tel) {
+            string sql = "select a.*,b.* from t_rm_vip_info a left join t_rm_vip_type b on b.type_id=a.card_type ";
             sql += " where a.vip_tel='13408598180'";
             DataTable dt = Query(sql);
-            CunstomInfo cinfo = new CunstomInfo();
+            CustomInfo cinfo = new CustomInfo();
             foreach (DataRow row in dt.Rows)
             {
                 cinfo.Vip_name = row["vip_name"].ToString() ;
@@ -63,6 +63,24 @@ namespace SMSWcfService
             
             }
             return cinfo;
+        }
+
+        public List<CustomInfo> getCustoms(string cunit, string cardnum, string jbr) {
+            List<CustomInfo> customs = new List<CustomInfo>();
+            string sql = "select a.* from t_rm_vip_info a left join t_rm_vip_type b on b.type_id=a.card_type where 1=1  ";
+            if (!string.IsNullOrEmpty(cunit)) {
+                sql += " and vip_name like '%vip_name%' ";
+            }
+            DataTable dt = Query(sql);
+            foreach (DataRow row in dt.Rows)
+            {
+                CustomInfo cinfo = new CustomInfo();
+                cinfo.Vip_name = row["vip_name"].ToString();
+                cinfo.Vip_tel = row["vip_tel"].ToString();
+                customs.Add(cinfo);
+            
+            }
+            return customs;
         }
 
 

@@ -26,8 +26,8 @@ namespace SMSWcfService
     /// 客户档案
     /// </summary>
     [DataContract]
-    public class CunstomInfo {
-        public CunstomInfo() { }
+    public class CustomInfo {
+        public CustomInfo() { }
         private int _card_id;//卡号
         [DataMember]
         public int Card_id
@@ -111,5 +111,111 @@ namespace SMSWcfService
 
 
     }
+    /// <summary>
+    /// 商品档案
+    /// </summary>
+    [DataContract]
+    public class shopItemInfo {
+        public shopItemInfo() { }
+        //货号
+        private string _item_no;
+        [DataMember]
+        public string ItemNo {
+            get { return _item_no; }
+            set { _item_no = value; }
+        }
 
+        //子货号
+        private string _item_subno;
+        [DataMember]
+        public string ItemSubno
+        {
+            get { return _item_subno; }
+            set { _item_subno = value; }
+        }
+
+        //商品名称
+        private string _item_name;
+        [DataMember]
+        public string ItemName
+        {
+            get { return _item_name; }
+            set { _item_name = value; }
+        }
+
+
+        //单位
+        private string _unit_no;
+        [DataMember]
+        public string UnitNo
+        {
+            get { return _unit_no; }
+            set { _unit_no = value; }
+        }
+
+        //进货价
+        private decimal _price;
+        [DataMember]
+        public decimal Price
+        {
+            get { return _price; }
+            set { _price = value; }
+        }
+
+        //零售价
+        private decimal _sale_price;
+        [DataMember]
+        public decimal SalePrice
+        {
+            get { return _sale_price; }
+            set { _sale_price = value; }
+        }
+
+        //零售价
+        private decimal _low_sale_price;
+        [DataMember]
+        public decimal LowSalePrice
+        {
+            get { return _low_sale_price; }
+            set { _low_sale_price = value; }
+        }
+
+        //允许折扣
+        private int _en_dis;
+        [DataMember]
+        public int EnDis
+        {
+            get { return _en_dis; }
+            set { _en_dis = value; }
+        }
+
+        //实时库存
+        private int _stors;
+        [DataMember]
+        public int Stors
+        {
+            get { return _stors; }
+            set { _stors = value; }
+        }
+
+        //供应商名称
+        private string _supcust_name;
+        [DataMember]
+        public string SupcustName
+        {
+            get { return _supcust_name; }
+            set { _supcust_name = value; }
+        }
+
+        //供应商电话
+        private string _supcust_tel;
+        [DataMember]
+        public string SupcustTel
+        {
+            get { return _supcust_tel; }
+            set { _supcust_tel = value; }
+        }
+
+
+    }
 }
