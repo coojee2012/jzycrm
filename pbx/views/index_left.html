@@ -1,0 +1,80 @@
+<div id="lr_bar">
+<ul id="default_app">
+	<li id="app0"><span><img id="app0img"
+		src="/themes/default/icon/leftmenubtn1.png" title="示忙" alt="无图片" /></span>
+	<div class="text">示忙<s></s></div>
+	</li>
+	<li id="app1"><span><img
+		src="/themes/default/icon/leftmenubtn2.png" title="转接" alt="无图片" /></span>
+	<div class="text">转接<s></s></div>
+	</li>
+	<li id="app2"><span><img id="app2img"
+		src="/themes/default/icon/leftmenubtn3.png" title="保持" alt="无图片" /></span>
+	<div class="text">保持<s></s></div>
+	</li>
+	<!-- li id="app4"><span><img src="/themes/default/icon/leftmenubtn4.png" title="三方" alt="无图片"/></span><div class="text">三方<s></s></div></li -->
+	<li id="app3"><span><img
+		src="/themes/default/icon/leftmenubtn5.png" title="评分" alt="无图片" /></span>
+	<div class="text">评分<s></s></div>
+	</li>
+	<li id="app4"><span><img
+		src="/themes/default/icon/leftmenubtn6.png" title="挂机" alt="无图片" /></span>
+	<div class="text">挂机<s></s></div>
+	</li>
+
+</ul>
+
+<div id="default_tools"><span id="showZm_btn" title="全屏"></span> <span
+	id="shizhong_btn" title="工作提醒"></span> <span id="weather_btn"
+	title="天气"></span> <span id="them_btn" title="主题"></span></div>
+<div id="start_block"><a title="开始" id="start_btn"></a>
+
+<div id="start_item">
+
+<ul class="item admin">
+
+	<li id="starmenmu_grsz"><span class="adminImg"></span>个人设置</li>
+	<li id="starmenmu_syzn"><span class="help_btn"></span>使用指南</li>
+</ul>
+
+<ul class="item">
+	<li id="starmenmu_xtsz"><span class="help_btn"></span>系统管理<b></b></li>
+	<div id="sub_item_xtsz">
+	<ul class="item">
+
+		<% umenmus.forEach(function(item){%> <% if(item.mgID==7){%>
+		<li id="starmenmu_xtsz_<%= item.id%>"><%= item.menName%></li>
+		<%}%> <%})%>
+	</ul>
+	</div>
+
+	<li id="starmenmu_pbx"><span class="help_btn"></span>PBX管理<b></b></li>
+	<div id="sub_item_pbx">
+	<ul class="item">
+
+
+
+		<% umenmus.forEach(function(item){%> <% if(item.mgID==8){%>
+		<li id="sub_item_pbx_<%= item.id%>"><%= item.menName%></li>
+		<%}%> <%})%>
+
+
+
+
+	</ul>
+	</div>
+
+
+</ul>
+<ul class="item admin">
+	<li id="starmenmu_gywm"><span class="about_btn"></span>关于我们</li>
+
+	<li id="starmenmu_tcxt"><span class="logout_btn"></span>退出系统</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>

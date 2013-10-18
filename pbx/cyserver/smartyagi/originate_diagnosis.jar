@@ -1,0 +1,41 @@
+#-----------------------------------------------------------------
+#
+# AMI 通信接口ACTION
+#
+#-----------------------------------------------------------------
+
+# 说明主函数
+sub originate_diagnosis_gpl_license(){return("ami port run this function diagnosis");}
+
+
+# 主函数
+#
+# 诊断
+#
+sub originate_diagnosis()
+{
+my	$self = shift;
+my	$AGI = $self->{server}{agi};				#Asterisk::AGI object
+my	$INPUT = $self->{server}{input};			#Extension input
+my	$PARAM = $self->{server}{params};			#Call params
+my	$CONF = $self->{server}->{conf};	
+my	$DBH = $self->database_pconnect();			#DBI object
+
+	#设置
+	$DBH->do("update extension set fristchecked=2 where accountcode = '".$PARAM->{'accountcode'}."'")
+		or die $self->logfile(4, 'Database Error : '.$DBH->errstr);
+
+	sleep(1);
+
+	#播放
+	$self->say_digit($PARAM->{'accountcode'});
+
+	sleep(2);
+
+	#播放
+	$self->say_digit($PARAM->{'accountcode'});
+
+	$self->hangup();
+
+exit;
+}

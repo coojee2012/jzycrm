@@ -1,0 +1,337 @@
+#!/usr/bin/perl
+use FindBin qw($Bin);
+use lib "$Bin/../lib/";
+use base qw(Net::Server::PreFork);
+use Time::HiRes qw( gettimeofday );
+use DBI;
+use Asterisk::AGI;
+use Data::Dumper;
+use File::Basename;
+use Config::IniFiles;
+use cyabtwo::utils;
+use strict;
+no strict "refs";
+use warnings;
+our @ISA = qw(Net::Server::PreFork);
+
+#=================================================================
+# help print
+#=================================================================
+my $VERSION=1.0;
+if (defined$ARGV[0] && $ARGV[0] eq '--h') {
+
+	print qq~
+  欢迎使用CYPBX：V $VERSION
+
+用法:
+  显示帮助             :    $0 --h
+  后台运行             :    $0 --s
+  调试模式             :    $0 --v
+~;
+
+	exit;
+
+} elsif (!defined$ARGV[0] || ($ARGV[0] ne '--s' && $ARGV[0] ne '--v')) {
+
+	print "显示帮助 :    $0 --h\n";
+
+	exit;
+}
+
+#my $IsAllowed;
+#my $trunkNums;
+#if(-e "$Bin/../license"){
+#require "$Bin/../license";
+#}
+#else{
+#	print "NO LICENSE FILE FOUNDED!\n";
+#	exit;
+#}
+#$IsAllowed=&resone();
+#$trunkNums=&restwo();
+
+
+#=================================================================
+# Module Preload
+#=================================================================
+warn "==========================================================================\n";
+warn "正在初始化，请稍候...\n";
+
+# announce static module struction
+our (%STATIC_MODULES,@STATIC_MODULES_LIST);
+while (<$Bin/../smartyagi/*.class>) {
+	push(@STATIC_MODULES_LIST,$_);
+}
+foreach (sort @STATIC_MODULES_LIST) {
+	next if (!-e$_);
+	
+	#file register
+my	$mname = basename($_);
+	$mname =~ s/\.(.*)//;
+
+	#load static module
+	#do $_;
+	require $_;
+	if ($@) {
+		warn "无法正常加载 : ".$_."\n".$@."\n";
+		exit;
+	}
+
+	if (!defined *{$mname}{CODE} || !defined *{$mname.'_gpl_license'}{CODE}) {
+		warn "$_ 中不存在函数： '$mname'  \n";
+		exit;
+	}
+
+	#saving
+my	@filestat = stat($_);
+	$STATIC_MODULES{$mname} = {
+		'path'=>$_,
+		'regtime'=>time,
+		'filestat'=>\@filestat,
+		'info'=>&{$mname.'_gpl_license'}(),
+	};
+
+	warn "加载模块 - ".basename($_)." - '".$STATIC_MODULES{$mname}{'info'}."' \n";
+
+}
+
+warn "==========================================================================\n";
+
+#running...
+print __PACKAGE__,"\n";
+__PACKAGE__->run();
+
+
+exit;
+
+
+#=================================================================
+# Core servery
+#=================================================================
+#
+# subroute : load when server configure
+#
+sub configure_hook {
+my	$self = shift;
+
+	#server options
+	$self->{server}->{port} = '127.0.0.1:4573';
+	$self->{server}->{user} = 'root';
+	$self->{server}->{group} = 'root';
+#my  $sernum=&getSernum();
+#if($IsAllowed eq $sernum){
+	$self->{server}->{min_servers} = 6;
+	$self->{server}->{min_spare_servers} = 6;
+	$self->{server}->{max_spare_servers} = 12;
+	$self->{server}->{max_servers} = 128;
+	$self->{server}->{max_requests} = 1024;
+#}else{
+       # $self->{server}->{min_servers} = 1;
+	#$self->{server}->{min_spare_servers} = 1;
+	#$self->{server}->{max_spare_servers} = 2;
+	#$self->{server}->{max_servers} = 8;
+	#$self->{server}->{max_requests} = 16;	
+#}
+
+	#system logger
+my	$runner = basename($0);
+	$runner =~ s/\.(.*)//;
+	if (defined $ARGV[0] && $ARGV[0] eq '--v') {
+		$self->{server}->{log_level} = 4;
+	} else {
+		$self->{server}->{log_level} = 1;
+		$self->{server}->{log_file} = "$Bin/../logs/".$runner.".log";
+		$self->{server}->{setsid} = 1;
+	}
+
+	$self->{server}->{pid_file} = "$Bin/../logs/".$runner.".pid";
+	#pid exists checking
+	if (-e$self->{server}->{pid_file}) {
+	my	$pid_number = `cat $self->{server}->{pid_file}`;
+		chomp($pid_number);
+		if (-e"/proc/$pid_number/cmdline") {
+		my	$pid_cmdline = `cat /proc/$pid_number/cmdline`;
+			chomp($pid_cmdline);
+		my	$myname = basename($0);
+			#pid found
+			if ($pid_cmdline =~ /$myname/) {
+				$self->logfile(1,"Aready Running:$pid_number");
+				$self->logfile(1,"Restarting...");
+				system("kill $pid_number");
+				sleep(1);
+				system("kill $pid_number");
+			
+			#pid not this script
+			} else {
+				unlink($self->{server}->{pid_file});
+			}
+
+		#pid not exists
+		} else {
+			unlink($self->{server}->{pid_file});
+		}
+
+		sleep(1);
+	}
+
+	#global configure
+	my (%conf);
+	tie %conf, 'Config::IniFiles', ( -file => "$Bin/../cyserver.conf" );
+	$self->{server}->{conf} = \%conf;
+
+}
+#
+# subroute : load when child process
+#
+sub child_init_hook
+{
+my	$self = shift;
+
+	#global configure
+my	(%conf);
+	tie %conf, 'Config::IniFiles', ( -file => "$Bin/../cyserver.conf" );
+	$self->{server}->{conf} = \%conf;
+
+	#connect database
+	$self->database_pconnect();
+}
+#
+# subroute : input parser like GET / POST in HTML
+#
+sub process_request {
+my	$self = shift;
+
+	# create Asterisk::AGI handle
+	$self->{server}{agi} = Asterisk::AGI->new;
+my	%input = $self->{server}{agi}->ReadParse();
+
+while(my ($key, $val) = each(%input)) { $self->logfile(4, "$key $val"); }
+
+	$self->{server}{input} = \%input;
+
+	# GET PARSE PARAM
+my	%params;
+my	($method, $path) = $input{'request'} =~ m/\/(\w+)\?*([^\/]*)$/;
+	foreach (split(/[&;]/,$path)) {
+		my($p,$v) = split('=',$_,2);
+		$params{$p} = $v;
+	}
+	$self->{server}{params} = \%params;
+	$self->{server}{method} = $method;
+	$self->{server}{path}	= $path;
+
+	#trying from static table
+	if (exists($STATIC_MODULES{$method})) {
+
+		$self->logfile(4, "Get class files:$method $input{callerid}-->$input{extension}");
+
+		$self->$method() if($self->can($method));
+
+
+	} else {
+
+		#trying from dynamic
+		if (-e"$Bin/../smartyagi/$method\.jar") {
+
+			$self->logfile(4, "Get jar files:$method $input{callerid}-->$input{extension}");
+
+			#load static module
+			#do "$Bin/../smartyagi/$method\.dynamic";
+			do "$Bin/../smartyagi/$method\.jar";
+			#require "$Bin/../smartyagi/$method\.jar";
+			if ($@) {
+				$self->logfile(4, "jar Error:".$method." ".$@."");
+				$self->{server}{agi}->hangup();
+				exit;
+			}
+
+			if (!defined *{$method}{CODE} || !defined *{$method.'_gpl_license'}{CODE}) {
+				$self->logfile(4, "jar:'$method' has no function:'$method' ");
+				$self->{server}{agi}->hangup();
+				exit;
+			}
+
+			$self->$method() if($self->can($method));
+
+		#not found
+		} else {
+			$self->logfile(4, "Get:$method Failed");
+			$self->{server}{agi}->hangup();
+		}
+
+	}
+
+}
+
+
+#
+# subroute : file logger record
+#
+sub logfile
+{
+my	$self = shift;
+my	$level = shift;
+my	$message = shift;
+my	$time = localtime();
+	$self->log($level,"[$time] [$$] $message");
+}
+#=================================================================
+# services
+#=================================================================
+#
+# subroute : database perisistence connect
+#
+sub database_pconnect
+{
+my	$self = shift;
+
+	if (!defined $self->{server}{dbh} || !$self->{server}{dbh}->ping) {
+
+		$self->{server}{dbh} = DBI->connect("DBI:mysql:database=".$self->{server}->{conf}->{'database'}{'dbname'}.
+											";host=".$self->{server}->{conf}->{'database'}{'dbhost'}.
+											";port=".$self->{server}->{conf}->{'database'}{'dbport'}.
+											";mysql_socket=".$self->{server}->{conf}->{'database'}{'dbsock'},
+										$self->{server}->{conf}->{'database'}{'dbuser'},
+										$self->{server}->{conf}->{'database'}{'dbpasswd'},
+										{'RaiseError' => 1});
+		$self->logfile(4, "Success connect DataBase!");
+
+	}
+
+return($self->{server}{dbh});
+}
+
+
+sub setsessionid{
+	my $self=shift;
+	my ($seconds, $microseconds)=gettimeofday;
+	return($seconds, $microseconds);
+	
+}
+
+sub getSernum{
+my $self=shift;
+my $fh;
+if(-e "/dev/sda"){
+open($fh,"hdparm -I /dev/sda |grep 'Serial Number' |") or die $!;
+while(<$fh>){
+chomp($_);
+my ($k,$v)=split /\:/,$_;
+$v=~s/\W//g;
+return $v;
+}
+}
+elsif(-e "/dev/sda"){
+ open($fh,"hdparm -I /dev/sda |grep 'Serial Number' |") or die $!;
+while(<$fh>){
+chomp($_);
+my ($k,$v)=split /\:/,$_;
+$v=~s/\W//g;
+return $v;
+}   
+}
+else{
+ return '0';   
+}	
+	
+}

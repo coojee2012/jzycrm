@@ -1,0 +1,58 @@
+#-----------------------------------------------------------------
+#
+# AMI 通信接口ACTION
+#
+#-----------------------------------------------------------------
+
+# 说明主函数
+sub originate_recordoverphone_gpl_license(){return("ami port run this function record over phone");}
+
+
+# 主函数
+#
+# 发起录音
+#
+sub originate_recordoverphone()
+{
+my	$self = shift;
+my	$AGI = $self->{server}{agi};				#Asterisk::AGI object
+my	$INPUT = $self->{server}{input};			#Extension input
+my	$PARAM = $self->{server}{params};			#Call params
+my	$CONF = $self->{server}->{conf};	
+my	$DBH = $self->database_pconnect();			#DBI object
+
+
+	#get asterisk conf
+my	(%ast_conf);
+	tie %ast_conf, 'Config::IniFiles', ( -file => $CONF->{general}{asterisketc}.'/asterisk.conf' );
+
+my	$sth = $DBH->prepare("select * from voicefiles where id = '".$PARAM->{'soundfileid'}."'");
+	$sth->execute;
+my	$row = $sth->fetchrow_hashref();
+	$sth->finish;
+
+	#如果当前不是语音文件就拒绝录音
+	exit if ($row->{'label'} ne 'sound');
+
+	#文件
+my	$filepath = $ast_conf{'directories'}{'astvarlibdir'}.'/sounds/'.$row->{'associate'}.'/'.$row->{'folder'}.'/'.$row->{'filename'}.'.'.$row->{'extname'};
+my	$newfile = $ast_conf{'directories'}{'astvarlibdir'}.'/sounds/'.$row->{'associate'}.'/'.$row->{'folder'}.'/'.$row->{'filename'}.'.wav';
+	#删除掉旧文件
+	
+	unlink($filepath);
+            
+	#更新文件名称
+	$DBH->do("update voicefiles set extname='wav' where id = '".$PARAM->{'soundfileid'}."'")
+		or die $self->logfile(4, 'Database Error : '.$DBH->errstr);
+
+	#录音
+	sleep(1);
+	$AGI->exec('noop',"Start recording sound:$newfile");
+	$AGI->exec('record',$newfile.',6,0,sk');
+
+	#权限
+	system("chmod 666 $newfile");
+
+exit;
+}
+1;

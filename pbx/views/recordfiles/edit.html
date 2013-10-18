@@ -1,0 +1,188 @@
+<div class="container-fluid"> 
+<%if(msg!=null){%>
+<div class="alert alert-block">
+  <button type="button" class="close" data-dismiss="alert">x</button>
+  <h4 class="alert-heading">注意!</h4>
+  <%= util.inspect(msg,false,null)%>
+</div>
+
+<%}%>
+
+<div class="container-fluid"> 
+
+			<div class="row-fluid sortable"> 
+				<div class="box span12"> 
+					<div class="box-content"> 
+						<form class="form-horizontal" method="POST"> 
+						<div>
+						 <a href="/recordfiles/" class="btn btn-small btn-primary">
+						 <i class="icon-chevron-left icon-white"></i>列表</a> 
+						  <a href="/recordfiles/create" class="btn btn-small btn-primary">
+						 <i class="icon-plus icon-white"></i>新增</a>  
+						 </div>
+						  <fieldset> 
+							<legend>录音记录</legend> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.filename!=null){%>error<%}%>"> 
+							<label class="control-label" for="filename">文件名 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="filename" name="filename" value="<% if(inst!=null){%><%= inst.filename %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.filename!=null){%><%= msg.filename%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.extname!=null){%>error<%}%>"> 
+							<label class="control-label" for="extname">扩展名 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="extname" name="extname" value="<% if(inst!=null){%><%= inst.extname %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.extname!=null){%><%= msg.extname%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.associate!=null){%>error<%}%>"> 
+							<label class="control-label" for="associate">关联编号 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="associate" name="associate" value="<% if(inst!=null){%><%= inst.associate %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.associate!=null){%><%= msg.associate%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.extennum!=null){%>error<%}%>"> 
+							<label class="control-label" for="extennum">分机号 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="extennum" name="extennum" value="<% if(inst!=null){%><%= inst.extennum %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.extennum!=null){%><%= msg.extennum%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+						    <input type="hidden" id="id" name="id" value="<% if(inst!=null){%><%= inst.id %><% }%>" />
+							<div class="form-actions"> 
+							  <button type="submit" class="btn btn-primary">保存</button> 
+							  <button type="reset" class="btn">取消</button> 
+							</div> 
+						  </fieldset> 
+						</form>   
+ 
+					</div> 
+				</div><!--/span--> 
+ 
+			</div><!--/row--> 
+			</div><!-- div containt -->
+				<script type="text/javascript"><!--
+
+
+</script>
+
+<script type="text/javascript">
+
+
+</script>

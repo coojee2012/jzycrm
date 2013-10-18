@@ -1,0 +1,137 @@
+
+<div class="container-fluid"><%if(msg!=null){%>
+<div class="alert alert-block">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<h4>注意!</h4>
+<%= util.inspect(msg,false,null)%></div>
+<%}%>
+
+<div class="container-fluid">
+
+<div class="row-fluid sortable">
+<div class="box span12">
+<div class="box-content">
+<form class="form-horizontal" method="POST">
+<div><a href="/ComplaintRecords/"
+	class="btn btn-small btn-primary"> <i
+	class="icon-chevron-left icon-white"></i>列表</a></div>
+<fieldset><legend>投诉记录</legend>
+<input type="hidden" id="CustomID" name="CustomID" value="<% if(inst!=null){%><%= inst.CustomID%><%}%>" />
+<input type="hidden" id="workManID" name="workManID" value="<% if(inst!=null){%><%= inst.workManID%><%}%>" />
+
+<div class="control-group<%if(msg!=null &&
+msg.CodeID!=null){%>error<%}%>"> <label class="control-label"
+	for="CodeID">投诉类型 </label>
+<div class="controls"><select id="CodeID" name="CodeID"
+	data-rel="chosen">
+</select></div>
+</div>
+
+<div class="control-group<%if(msg!=null &&
+msg.Content!=null){%>error<%}%>"> <label class="control-label"
+	for="Content">受理内容 </label>
+<div class="controls"><textarea class="autogrow" id="Content"
+	name="Content"><% if(inst!=null){%><%= inst.Content%><%}%></textarea>
+<span class="help-inline"><%if(msg!=null &&
+msg.Content!=null){%><%= msg.Content%><%}%></span></div>
+</div>
+
+
+
+<div class="control-group">
+<label class="control-label" for="answerDept">处理部门</label>
+<div class="controls"><select id="answerDept" name="answerDept" multiple data-rel="chosen">
+</select></div>
+</div>
+
+<div class="form-actions">
+<button type="submit" class="btn btn-primary">保存</button>
+<button type="reset" class="btn">取消</button>
+</div>
+</fieldset>
+</form>
+
+</div>
+</div>
+<!--/span--></div>
+<!--/row--></div>
+<!-- div containt --> <script type="text/javascript">
+$(function(){
+$("#workManID").val(parent._USERID);	
+});
+</script> <script type="text/javascript">
+
+$(function(){
+	 $.ajax(
+	            {
+	                url: '/selectdb/',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{tbname:'crm/ComplaintCode',key:'id',value:'CodeName'},
+	                success: function (data, textStatus) {
+	                	if(data.success)
+                        {
+                        	for (var i = 0; i < data.data.length; i++) {
+                        		<%if(inst!=null){ %>
+	                        if( data.data[i].id==<%= inst.CodeID%>)
+	                        {
+	                        	$("<option value='" + data.data[i].id + "' selected='selected' >" + data.data[i].CodeName + "</option>").appendTo("#CodeID");	
+		                        }
+	                        <%}else{%>
+	                        if(false){}
+	                        <%}%>
+	                        else{
+                        	$("<option value='" + data.data[i].id + "'  >" + data.data[i].CodeName + "</option>").appendTo("#CodeID");	
+	                        }
+                        	}
+	                        }
+	                        else{
+	                        	alert(data.msg);
+		                        }
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('服务器访问发生异常！' + textStatus);
+	                    return;
+	                }
+
+	            }
+	            );	
+	
+});
+
+
+$(function(){
+	 $.ajax(
+	            {
+	                url: '/selectdb/',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{tbname:'crm/DepInfo',key:'id',value:'depName'},
+	                success: function (data, textStatus) {
+	                	if(data.success)
+                       {
+                       	for (var i = 0; i < data.data.length; i++) {	
+                       	$("<option value='" + data.data[i].id + "'  >" + data.data[i].depName + "</option>").appendTo("#answerDept");		                        
+                       	}
+	                        }
+	                        else{
+	                        	alert(data.msg);
+		                        }
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('服务器访问发生异常！' + textStatus);
+	                    return;
+	                }
+
+	            }
+	            );	
+	
+});
+
+
+</script> <script type="text/javascript">
+
+
+</script>

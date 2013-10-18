@@ -1,0 +1,113 @@
+<div class="container-fluid"><%if(msg!=null){%>
+<div class="alert alert-block">
+<button type="button" class="close" data-dismiss="alert">x</button>
+<h4 class="alert-heading">注意!</h4>
+<%= util.inspect(msg,false,null)%></div>
+
+<%}%>
+
+<div class="container-fluid">
+
+<div class="row-fluid sortable">
+<div class="box span12">
+<div class="box-content">
+<form class="form-horizontal" method="POST">
+<div><a href="/Faq/" class="btn btn-small btn-primary"> <i
+	class="icon-chevron-left icon-white"></i>列表</a> <a href="/Faq/create"
+	class="btn btn-small btn-primary"> <i class="icon-plus icon-white"></i>新增</a>
+</div>
+<fieldset><legend>知识库</legend>
+
+
+
+<div class="control-group<%if(msg!=null &&
+msg.titile!=null){%>error<%}%>"> <label class="control-label"
+	for="titile">标题 </label>
+<div class="controls"><input type="text" class="span6" id="titile"
+	name="titile" value="<% if(inst!=null){%><%= inst.titile %><%
+}%>" /> <span class="help-inline"><%if(msg!=null &&
+msg.titile!=null){%><%= msg.titile%><%}%></span></div>
+</div>
+
+
+
+<div class="control-group<%if(msg!=null &&
+msg.content!=null){%>error<%}%>"> <label class="control-label"
+	for="content">内容 </label>
+<div class="controls"><textarea class="cleditor" id="content"
+	name="content" rows="3"><% if(inst!=null){%><%= inst.content%><%}%></textarea>
+<span class="help-inline"><%if(msg!=null &&
+msg.content!=null){%><%= msg.content%><%}%></span></div>
+</div>
+
+
+
+<div class="control-group<%if(msg!=null &&
+msg.faqCodeId!=null){%>error<%}%>"> <label class="control-label"
+	for="faqCodeId">分类名称 </label>
+<div class="controls"><select id="faqCodeId" name="faqCodeId"
+	data-rel="chosen">
+</select></div>
+</div>
+
+<input type="hidden" id="id" name="id" value="<%
+if(inst!=null){%><%= inst.id %><% }%>" />
+<div class="form-actions">
+<button type="submit" class="btn btn-primary">保存</button>
+<button type="reset" class="btn">取消</button>
+</div>
+</fieldset>
+</form>
+
+</div>
+</div>
+<!--/span--></div>
+<!--/row--></div>
+<!-- div containt --> <script type="text/javascript"><!--
+
+$(function(){
+	 $.ajax(
+	            {
+	                url: '/selectdb/',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{tbname:'crm/FaqCode',key:'id',value:'CodeName'},
+	                success: function (data, textStatus) {
+	                	if(data.success)
+                        {
+                        	for (var i = 0; i < data.data.length; i++) {
+                        		<%if(inst!=null){ %>
+	                        if(data.data[i].id==<%= inst.faqCodeId%>)
+	                        {
+	                        	$("<option value='" + data.data[i].id + "' selected='selected' >" + data.data[i].CodeName + "</option>").appendTo("#faqCodeId");	
+		                        }
+	                        <%}else{%>
+	                        if(false){}
+	                        <%}%>
+	                        else{
+                        	$("<option value='" + data.data[i].id + "'  >" + data.data[i].CodeName + "</option>").appendTo("#faqCodeId");	
+	                        }
+                        	}
+	                        }
+	                        else{
+	                        	alert(data.msg);
+		                        }
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('服务器访问发生异常！' + textStatus);
+	                    return;
+	                }
+
+	            }
+	            );	
+	
+});
+
+
+
+
+</script> <script type="text/javascript">
+
+
+</script>
