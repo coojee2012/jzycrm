@@ -8,3 +8,8 @@ E:\WORK\江智勇\WCF接口\DataAccess\bin\Debug\DataAccess.pdb
 E:\WORK\江智勇\WCF接口\DataAccess\obj\Debug\ResolveAssemblyReference.cache
 E:\WORK\江智勇\WCF接口\DataAccess\obj\Debug\DataAccess.dll
 E:\WORK\江智勇\WCF接口\DataAccess\obj\Debug\DataAccess.pdb
+E:\GitHub\jzycrm\wcfinterface\DataAccess\bin\Debug\DataAccess.dll
+E:\GitHub\jzycrm\wcfinterface\DataAccess\bin\Debug\DataAccess.pdb
+E:\GitHub\jzycrm\wcfinterface\DataAccess\obj\Debug\ResolveAssemblyReference.cache
+E:\GitHub\jzycrm\wcfinterface\DataAccess\obj\Debug\DataAccess.dll
+E:\GitHub\jzycrm\wcfinterface\DataAccess\obj\Debug\DataAccess.pdb

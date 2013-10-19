@@ -10,3 +10,9 @@ E:\WORK\江智勇\WCF接口\SMSWcfService\test\obj\x86\Debug\test.pdb
 E:\WORK\江智勇\WCF接口\SMSWcfService\test\bin\Debug\test.exe
 E:\WORK\江智勇\WCF接口\SMSWcfService\test\bin\Debug\test.pdb
 E:\WORK\江智勇\WCF接口\SMSWcfService\test\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\GitHub\jzycrm\wcfinterface\SMSWcfService\test\bin\Debug\test.exe.config
+E:\GitHub\jzycrm\wcfinterface\SMSWcfService\test\bin\Debug\test.exe
+E:\GitHub\jzycrm\wcfinterface\SMSWcfService\test\bin\Debug\test.pdb
+E:\GitHub\jzycrm\wcfinterface\SMSWcfService\test\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\GitHub\jzycrm\wcfinterface\SMSWcfService\test\obj\x86\Debug\test.exe
+E:\GitHub\jzycrm\wcfinterface\SMSWcfService\test\obj\x86\Debug\test.pdb

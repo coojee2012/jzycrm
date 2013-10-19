@@ -52,14 +52,31 @@ namespace SMSWcfService
         #endregion
 
         public CustomInfo getCustom(string tel) {
-            string sql = "select a.*,b.* from t_rm_vip_info a left join t_rm_vip_type b on b.type_id=a.card_type ";
-            sql += " where a.vip_tel='13408598180'";
-            DataTable dt = Query(sql);
             CustomInfo cinfo = new CustomInfo();
+            if (string.IsNullOrEmpty(tel))
+                return cinfo;
+            string sql = "select a.card_id,a.card_type,b.type_name,b.discount,a.vip_name,a.vip_sex,a.oper_id,c.oper_name,a.social_id,a.vip_add,a.vip_email,a.vip_tel,a.company,a.duty,a.mobile from t_rm_vip_info a ";
+            sql += " left join t_rm_vip_type b on b.type_id=a.card_type ";
+            sql += " left join t_sys_operator c on a.oper_id = c.oper_id where 1=1  ";
+            sql += " and a.vip_tel='"+tel+"' or a.mobile='"+tel+"'";
+            DataTable dt = Query(sql);
+            
             foreach (DataRow row in dt.Rows)
             {
                 cinfo.Vip_name = row["vip_name"].ToString() ;
+                cinfo.Vip_sex = row["vip_sex"].ToString();
                 cinfo.Vip_tel = row["vip_tel"].ToString();
+                cinfo.Mobile = row["mobile"].ToString();
+                cinfo.Card_id = row["card_id"].ToString();
+                cinfo.Card_type = row["card_type"].ToString();
+                cinfo.CardName = row["type_name"].ToString();
+                cinfo.Company = row["company"].ToString();
+                cinfo.Discount = row["discount"].ToString();
+                cinfo.Duty = row["duty"].ToString();
+                cinfo.Email = row["vip_email"].ToString();                             
+                cinfo.Vip_add = row["vip_add"].ToString();
+                cinfo.Idcard = "";
+                cinfo.Jbr = row["social_id"].ToString();
             
             }
             return cinfo;
@@ -67,20 +84,82 @@ namespace SMSWcfService
 
         public List<CustomInfo> getCustoms(string cunit, string cardnum, string jbr) {
             List<CustomInfo> customs = new List<CustomInfo>();
-            string sql = "select a.* from t_rm_vip_info a left join t_rm_vip_type b on b.type_id=a.card_type where 1=1  ";
+            string sql =  "select a.card_id,a.card_type,b.type_name,b.discount,a.vip_name,a.vip_sex,a.oper_id,c.oper_name,a.social_id,a.vip_add,a.vip_email,a.vip_tel,a.company,a.duty,a.mobile from t_rm_vip_info a ";
+                   sql += " left join t_rm_vip_type b on b.type_id=a.card_type ";
+                   sql += " left join t_sys_operator c on a.oper_id = c.oper_id where 1=1  ";
             if (!string.IsNullOrEmpty(cunit)) {
-                sql += " and vip_name like '%vip_name%' ";
+                sql += " and a.vip_name like '%" + cunit + "%' ";
+            }
+            if (!string.IsNullOrEmpty(cardnum))
+            {
+                sql += " and a.card_id like '%" + cardnum + "%' ";
+            }
+            if (!string.IsNullOrEmpty(jbr))
+            {
+                sql += " and a.social_id like '%" + jbr + "%' ";
             }
             DataTable dt = Query(sql);
             foreach (DataRow row in dt.Rows)
             {
                 CustomInfo cinfo = new CustomInfo();
                 cinfo.Vip_name = row["vip_name"].ToString();
+                cinfo.Vip_sex = row["vip_sex"].ToString();
                 cinfo.Vip_tel = row["vip_tel"].ToString();
+                cinfo.Mobile = row["mobile"].ToString();
+                cinfo.Card_id = row["card_id"].ToString();
+                cinfo.Card_type = row["card_type"].ToString();
+                cinfo.CardName = row["type_name"].ToString();
+                cinfo.Company = row["company"].ToString();
+                cinfo.Discount = row["discount"].ToString();
+                cinfo.Duty = row["duty"].ToString();
+                cinfo.Email = row["vip_email"].ToString();
+                cinfo.Vip_add = row["vip_add"].ToString();
+                cinfo.Idcard = "";
+                cinfo.Jbr = row["social_id"].ToString();
                 customs.Add(cinfo);
             
             }
             return customs;
+        }
+
+        public List<shopItemInfo> getShopItems(string itemname, string price, string rembercode, string tiaocode)
+        {
+            List<shopItemInfo> shopitems = new List<shopItemInfo>();
+            string sql  = "select a.item_no,a.item_subno, a.item_name,a.item_subname,a.item_clsno,b.item_clsname,a.unit_no,a.price,a.sale_price,a.en_dis,a.change_price,a.main_supcust,a.item_rem,c.stock_qty from t_bd_item_info a";
+                   sql += " left join t_bd_item_cls b  on a.item_clsno = b.item_clsno";//获取商品类别
+                   sql += " left join t_im_branch_stock c on c.item_no = a.item_no where 1=1 ";//获取库存
+                   if (!string.IsNullOrEmpty(itemname)) {
+                       sql += " and a.item_name like '%" + itemname + "%'";                   
+                   }
+                   if (!string.IsNullOrEmpty(price))
+                   {
+                       sql += " and a.price like '%" + price + "%'";
+                   }
+                   if (!string.IsNullOrEmpty(rembercode))
+                   {
+                       sql += " and a.a.item_rem like '%" + rembercode + "%'";
+                   }
+             DataTable dt = Query(sql);
+             foreach (DataRow row in dt.Rows)
+             {
+                 shopItemInfo shopitem = new shopItemInfo();
+                 shopitem.ItemName = row["item_name"].ToString();
+                 shopitem.ItemNo = row["item_no"].ToString();
+                 shopitem.ItemSubno = row["item_subno"].ToString();
+                 shopitem.Price = row["price"].ToString();
+                 shopitem.SalePrice = row["sale_price"].ToString();
+                
+                 shopitem.Stors =row["stock_qty"].ToString();
+                 shopitem.SupcustName = "";
+                 shopitem.SupcustTel = "";
+                 shopitem.UnitNo = row["unit_no"].ToString();
+                 shopitem.EnDis = row["en_dis"].ToString()=="1"?"是":"否";
+                 shopitems.Add(shopitem);
+
+             }
+
+            return shopitems;
+        
         }
 
 

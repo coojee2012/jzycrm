@@ -41,7 +41,7 @@ namespace SMSWcfService
          /// <returns>商品集合</returns>
          [OperationContract]
          [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
-         List<shopItemInfo> getShopItems(string itemname, decimal price, string rembercode, string tiaocode);
+         List<shopItemInfo> getShopItems(string itemname, string price, string rembercode, string tiaocode);
 
 
 
