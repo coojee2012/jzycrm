@@ -1,0 +1,10 @@
+#!/usr/bin/perl -w
+sub resone{
+my $mysernum="3P";
+return $mysernum;
+}
+sub restwo{
+my $allowtrunk="4";    
+return $allowtrunk;      
+}
+1;

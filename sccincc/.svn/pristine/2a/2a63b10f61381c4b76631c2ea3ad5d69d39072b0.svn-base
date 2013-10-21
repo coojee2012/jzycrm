@@ -1,0 +1,138 @@
+
+<div class="container-fluid"> 
+<%if(msg!=null){%>
+<div class="alert alert-block">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4>注意!</h4>
+  <%= util.inspect(msg,false,null)%>
+</div>
+<%}%>
+
+<div class="container-fluid"> 
+
+			<div class="row-fluid sortable"> 
+				<div class="box span12"> 
+					<div class="box-content"> 
+						<form class="form-horizontal" method="POST"> 
+						<div>
+						 <a href="/localnumber/" class="btn btn-small btn-primary">
+						 <i class="icon-chevron-left icon-white"></i>列表</a> 
+						 </div>
+						  <fieldset> 
+							<legend>本地号码</legend> 
+							
+							
+							
+							<div class="control-group <%if(msg!=null && msg.number!=null){%>error<%}%>"> 
+							<label class="control-label" for="number">号码 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="number" name="number" value="<% if(inst!=null){%><%= inst.number %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.number!=null){%><%= msg.number%><%}%></span>
+							
+							
+							
+							
+														
+														
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+							<div class="control-group <%if(msg!=null && msg.typeof!=null){%>error<%}%>"> 
+							<label class="control-label" for="typeof">类型 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="typeof" name="typeof" value="<% if(inst!=null){%><%= inst.typeof %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.typeof!=null){%><%= msg.typeof%><%}%></span>
+							
+							
+							
+							
+														
+														
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+							<div class="control-group <%if(msg!=null && msg.assign!=null){%>error<%}%>"> 
+							<label class="control-label" for="assign">标识 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="assign" name="assign" value="<% if(inst!=null){%><%= inst.assign %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.assign!=null){%><%= msg.assign%><%}%></span>
+							
+							
+							
+							
+														
+														
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+						
+							<div class="form-actions"> 
+							  <button type="submit" class="btn btn-primary">保存</button> 
+							  <button type="reset" class="btn">取消</button> 
+							</div> 
+						  </fieldset> 
+						</form>   
+ 
+					</div> 
+				</div><!--/span--> 
+ 
+			</div><!--/row--> 
+			</div><!-- div containt -->
+	
+	
+		<script type="text/javascript">
+
+
+</script>	
+
+<script type="text/javascript">
+
+
+</script>		
+	

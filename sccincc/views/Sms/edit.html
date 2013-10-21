@@ -1,0 +1,118 @@
+<div class="container-fluid"> 
+<%if(msg!=null){%>
+<div class="alert alert-block">
+  <button type="button" class="close" data-dismiss="alert">x</button>
+  <h4 class="alert-heading">注意!</h4>
+  <%= util.inspect(msg,false,null)%>
+</div>
+
+<%}%>
+
+<div class="container-fluid"> 
+
+			<div class="row-fluid sortable"> 
+				<div class="box span12"> 
+					<div class="box-content"> 
+						<form class="form-horizontal" method="POST"> 
+						<div>
+						 <a href="/Sms/" class="btn btn-small btn-primary">
+						 <i class="icon-chevron-left icon-white"></i>列表</a> 
+						  <a href="/Sms/create" class="btn btn-small btn-primary">
+						 <i class="icon-plus icon-white"></i>新增</a>  
+						 </div>
+						  <fieldset> 
+							<legend>短信</legend> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.mobile!=null){%>error<%}%>"> 
+							<label class="control-label" for="mobile">手机号 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="mobile" name="mobile" value="<% if(inst!=null){%><%= inst.mobile %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.mobile!=null){%><%= msg.mobile%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.content!=null){%>error<%}%>"> 
+							<label class="control-label" for="content">短信内容 </label> 
+							<div class="controls"> 
+							
+							
+							
+							
+							
+							
+							<textarea class="autogrow" id="content" name="content" ><% if(inst!=null){%><%= inst.content%><%}%></textarea> 
+							<span class="help-inline"><%if(msg!=null && msg.content!=null){%><%= msg.content%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+							
+						    <input type="hidden" id="id" name="id" value="<% if(inst!=null){%><%= inst.id %><% }%>" />
+							<div class="form-actions"> 
+							  <button type="submit" class="btn btn-primary">保存</button> 
+							  <button type="reset" class="btn">取消</button> 
+							</div> 
+						  </fieldset> 
+						</form>   
+ 
+					</div> 
+				</div><!--/span--> 
+ 
+			</div><!--/row--> 
+			</div><!-- div containt -->
+				<script type="text/javascript"><!--
+
+
+</script>
+
+<script type="text/javascript">
+
+
+</script>

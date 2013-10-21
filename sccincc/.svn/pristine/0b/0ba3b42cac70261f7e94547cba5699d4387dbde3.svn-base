@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title><%= locals.title%></title>
+<link rel="shortcut icon" href="/img/favicon.ico">
+<script src="/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+<link href="/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+<script src="/js/jquery-ui-1.8.21.custom.min.js" type="text/javascript"></script>
+
+<script src="/js/myLib.js" type="text/javascript"></script>
+<script type="text/javascript">
+        _USERID = <%= user.id%>;
+        _USERNAME = "<%= user.uName%>";
+        _USERLOGIN = "<%= user.uLogin%>";
+        _USERDEPT="<%= user.uDepId%>";
+        _USEREXTEN = "<%= exten.accountcode%>";
+        _EXTENTYPE = "<%= exten.deviceproto%>";
+        _USEROPT = "";
+        _PARKSTATUS = 0;
+        _DIDSTATUS = "<%= exten.dndinfo%>";
+        // _HOSTURL = "@ViewBag.URLHOST";
+        _HOSTURL = "";
+        _OUTPREX = "";
+    </script>
+<script type="text/javascript"><!--
+        $(function () {
+            if(_USERID=='')
+                location.href='/';
+            myLib.progressBar();
+        });
+        $.include([
+         '/themes/default/css/desktop.css', 
+         '/themes/base/jquery-smartMenu/css/smartMenu.css',  
+         '/js/jquery.winResize.js',
+         '/js/jquery-smartMenu/js/mini/jquery-smartMenu-min.js', 
+         '/js/mydesktop.js'
+          ]);
+        $(window).load(function () {
+            myLib.stopProgress();
+            var Lrdata, appData;
+            var deskIconData=<%= menmus%>;
+            //var geturl = '/home/getlrbar?userid=' + _USERID;
+            var lrBarIconData = {
+                'app0': {
+                    'title': '示忙',
+                    'url': '/asami/DadOn',
+                    'winWidth': 1100,
+                    'winHeight': 650,
+                    'apptype': 'didon',
+                    'postdata': { 'action': 'idleOrBusy', 'exten': _USEREXTEN }
+                },
+                'app1': {
+                    'title': '转接',
+                    'url': '#',
+                    'winWidth': 1100,
+                    'winHeight': 650,
+                    'apptype': 'dialog',
+                    'dialogname': 'transfer-confirm',
+                    'postdata': { 'a': 3, 'b': 24 }
+                },
+                'app2': {
+                    'title': '保持',
+                    'apptype': 'park',
+                    'url1': '/asami/packCall',
+                    'url2': '/asami/unPark',
+                    'postdata': { 'action': 'holdline', 'exten': _USEREXTEN, 'type': _EXTENTYPE },
+                    'winWidth': 1100,
+                    'winHeight': 650
+                },
+                'app3': {
+                    'title': '评分',
+                    'apptype': 'ajax',
+                    'url': '/asami/checkService',
+                    'postdata': { 'action': 'checkservice', 'exten': _USEREXTEN, 'type': _EXTENTYPE },
+                    'winWidth': 1100,
+                    'winHeight': 650
+                },
+                'app4': {
+                    'title': '挂机',
+                    'apptype': 'ajax',
+                    'url': '/asami/hangupexten',
+                    'postdata': { 'action': 'hungupcall', 'exten': _USEREXTEN, 'type': _EXTENTYPE },
+                    'winWidth': 1100,
+                    'winHeight': 650
+                }
+            };
+            //var starturl = '@Url.Content("~/home/getstart?userid=")' + _USERID;
+            var startMenmuData=<%= startmenmus %>;
+
+
+            var deskIconData11 = {
+
+        };
+
+        //存储桌面布局元素的jquery对象
+        myLib.desktop.desktopPanel();
+
+        //初始化桌面背景
+
+        myLib.desktop.wallpaper.init('/themes/default/images/blue_glow.jpg');
+
+        //初始化任务栏
+        myLib.desktop.taskBar.init();
+
+        //初始化桌面图标
+
+        myLib.desktop.deskIcon.init(deskIconData);
+
+        //初始化桌面导航栏
+        myLib.desktop.navBar.init();
+
+        <%if(user.isAgent==1){%>
+        //初始化侧边栏
+        myLib.desktop.lrBar.init(lrBarIconData);
+
+        //初始化开始菜单内容
+
+        myLib.desktop.lrBar.init(startMenmuData);
+        <%}%>
+        //欢迎窗口
+        myLib.desktop.win.newWin({
+            WindowTitle: '工作提醒',
+            iframSrc: '/RemindReacords/index?uid='+_USERID,
+            WindowsId: "welcome_RemindReacords",
+            WindowAnimation: 'none',
+            WindowWidth: 800,
+            WindowHeight: 600
+        });
+
+
+    });
+        //自定义对话框
+        $(function () {
+            $("#transfer-confirm").dialog({
+                autoOpen: false,
+                modal: true,
+                buttons: {
+                    "确认": function () {
+                        var extennumber = $("#extennumber").attr("value");
+                        var phonenumber = $("#phonenumber").attr("value");
+                        $("#extennumber").attr("value", "");
+                        $("#phonenumber").attr("value", "");
+                        $(this).dialog('close');
+                        var transfertype = 'transfer';
+                        var tonumber = extennumber;
+                        if (phonenumber != '') {
+                            transfertype = 'transfer2out';
+                            tonumber = phonenumber;
+                        }
+                        $.ajax(
+            {
+                url: '/asami/transfer',
+                dataType: 'json',
+                //jsonp: 'jsonpcallback',
+                type: 'POST',
+                async: false,
+                data: { 'extenfrom': _USEREXTEN, 'fromtype': _EXTENTYPE, 'extento': tonumber },
+                timeout: 300,
+                success: function (ajaxdata, textStatus) {
+                    if (ajaxdata.Response == "Success" || ajaxdata.response == "Success") {
+                        alert("转接成功，请挂机！");
+                    } else {
+
+                        alert("转接失败！");
+                    }
+
+                    
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert('服务器处理异常！请联系管理员');
+                }
+
+            }
+            );
+                    },
+                    "取消": function () { $(this).dialog('close'); }
+                }
+            });
+
+            //
+            setInterval("startRequest()", 30000);
+            // startRequest();
+            //setInterval这个函数会根据后面定义的1000既每隔1秒执行一次前面那个函数
+
+            //如果你用局部刷新，要用AJAX技术
+
+            //
+           // setInterval("workRemined()", 300000);
+        });
+
+        function workRemined() {
+            var obj = $("#myWin_welcome");
+                //alert(obj[0].id);
+                if (obj[0]!=null && obj[0].id == "myWin_welcome")
+                myLib.desktop.win.closeWin(obj);
+            else {
+                myLib.desktop.win.newWin({
+                    WindowTitle: '工作提醒',
+                    iframSrc: '/RemindReacords/index?uid=' + _USERID,
+                    WindowsId: "welcome",
+                    WindowAnimation: 'none',
+                    WindowWidth: 800,
+                    WindowHeight: 600
+                });
+            }
+        
+        }
+        function startRequest() {
+            $.ajax({
+                type: "POST",
+                url: '/asami/GetCallInfo',
+                dataType: "json",
+                data: { ajax: "1", time: "180000", 'fromexten': _USEREXTEN },
+                success: function (data, textStatus) {
+                    //成功  
+                   // data = eval('(' + data + ')');
+
+                    if (data.success == "1") {
+                        //客户端处理  
+                        //...  
+                        ///重新请求 
+                        //alert(data.unid);
+                        if (data.poptype == "999") {
+
+                        } else {
+                            myLib.desktop.win.newWin({
+                                WindowTitle: '来电号码：' + data.caller,
+                                iframSrc: '/screenpop/index?callid=' + data.callid + "&unid=" + data.unid + "&caller=" + data.caller + "&called=" + data.called + "&poptype=" + data.poptype,
+                                WindowsId: data.unid,
+                                WindowAnimation: 'none',
+                                WindowWidth: 960,
+                                WindowHeight: 660
+                            });
+                        }
+                        //  startRequest();
+                    }
+                    //超时  
+                    else if (data.success == "0") {
+
+                        // startRequest();
+
+                    }
+                    else {
+                        alert("PopScreen发生未知错误，请联系管理员！");
+                    }
+
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    if (XMLHttpRequest.readyState == "4") {
+                        //alert(XMLHttpRequest.responseText);
+                    }
+                    XMLHttpRequest = null;
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //$("#ajaxMessage").text($(this).text()+" out!")  
+
+                    // alert(XMLHttpRequest.status + "&" + XMLHttpRequest.readyState + "&" + textStatus);
+
+                    //if(textStatus=="timeout")  
+                    // startRequest();
+                }
+            });
+        }
+--></script>
+<script type="text/javascript">
+    $(function () { 
+    if(_DIDSTATUS==="on")
+    $("#app0img").attr("src", "/themes/default/icon/leftmenubtn1-1.png");
+    
+    });
+</script>
+</head>
+
+<body>
+<div><a href="#" class="powered_by">版权所有©中国电信，2008-2013</a>
+
+<div id="wallpapers"></div>
+
+<!-- 导航菜单开始 -->
+<div id="navBar"><a href="#" class="m1 currTab" title="客服平台">
+</a><a href="#" class="m2" title="短信平台"> </a><a href="#" class="m3"
+	title="知识库"> </a><a href="#" class="m4" title="统计分析"> </a><a href="#"
+	class="m5" title="综合设置"> </a><a href="#" class="m6" title="系统管理"></a></div>
+<!-- 导航菜单结束 --> <!-- 桌面开始 -->
+
+<div id="desktopPanel">
+
+<div id="desktopInnerPanel">
+
+<ul class="deskIcon currDesktop">
+	<% umenmus.forEach(function(item){%> <% if(item.mgID==1){%>
+
+	<li class="desktop_icon" id="menmu_<%= item.id%>"> <span
+		class="icon"> <img src="/themes/default/icon/<%=
+	item.iconName%>" alt="无图片"/></span>
+	<div class="text"><%= item.menName%><s></s></div>
+	</li>
+	<% }%> <%})%>
+
+
+
+</ul>
+
+<ul class="deskIcon">
+	<% umenmus.forEach(function(item){%> <% if(item.mgID==2){%>
+
+	<li class="desktop_icon" id="menmu_<%= item.id%>"> <span
+		class="icon"> <img src="/themes/default/icon/<%=
+	item.iconName%>" alt="无图片"/></span>
+	<div class="text"><%= item.menName%><s></s></div>
+	</li>
+	<% }%> <%})%>
+
+
+	
+
+</ul>
+
+<ul class="deskIcon">
+	<% umenmus.forEach(function(item){%> <% if(item.mgID==3){%>
+
+	<li class="desktop_icon" id="menmu_<%= item.id%>"> <span
+		class="icon"> <img src="/themes/default/icon/<%=
+	item.iconName%>" alt="无图片"/></span>
+	<div class="text"><%= item.menName%><s></s></div>
+	</li>
+	<% }%> <%})%>
+
+
+	
+
+</ul>
+
+<ul class="deskIcon">
+	<% umenmus.forEach(function(item){%> <% if(item.mgID==4){%>
+
+	<li class="desktop_icon" id="menmu_<%= item.id%>"> <span
+		class="icon"> <img src="/themes/default/icon/<%=
+	item.iconName%>" alt="无图片"/></span>
+	<div class="text"><%= item.menName%><s></s></div>
+	</li>
+	<% }%> <%})%>
+
+
+	
+
+</ul>
+
+<ul class="deskIcon">
+	<% umenmus.forEach(function(item){%> <% if(item.mgID==5){%>
+
+	<li class="desktop_icon" id="menmu_<%= item.id%>"> <span
+		class="icon"> <img src="/themes/default/icon/<%=
+	item.iconName%>" alt="无图片"/></span>
+	<div class="text"><%= item.menName%><s></s></div>
+	</li>
+	<% }%> <%})%>
+
+	
+
+</ul>
+
+<ul class="deskIcon">
+	<% umenmus.forEach(function(item){%> <% if(item.mgID==6){%>
+
+	<li class="desktop_icon" id="menmu_<%= item.id%>"> <span
+		class="icon"> <img src="/themes/default/icon/<%=
+	item.iconName%>" alt="无图片"/></span>
+	<div class="text"><%= item.menName%><s></s></div>
+	</li>
+	<% }%> <%})%>
+
+
+
+
+</ul>
+
+</div>
+
+</div>
+<!-- 桌面结束  --> <!-- 任务栏 开始-->
+
+<div id="taskBarWrap">
+
+<div id="taskBar">
+
+<div id="leftBtn"><a href="#" class="upBtn"></a></div>
+
+<div id="rightBtn"><a href="#" class="downBtn"></a></div>
+
+<div id="task_lb_wrap">
+<div id="task_lb"></div>
+</div>
+
+</div>
+
+</div>
+
+<%if(user.isAgent==1){%>
+<!--
+左侧栏目
+-->
+<% include index_left.html%>
+<%}%>
+
+
+
+</div>
+
+<div id="transfer-confirm" title="请输入要转接的分机号或外线号：" style="display: none">
+分机号：<input type="text" id="extennumber" value="" /><br />
+<br />
+或外线：<input type="text" id="phonenumber" value="" /></div>
+
+<!-- div id="httplongconect" style="display: none">
+<iframe src="@Url.Content("~/CallCenter/LongRequest")">
+</iframe>
+</div -->
+</body>
+</html>

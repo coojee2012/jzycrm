@@ -1,0 +1,207 @@
+<div class="container-fluid"> 
+<div class="container-fluid"> 
+			<div class="row-fluid sortable"> 
+				<div class="box span12"> 					
+					<div class="box-content"> 
+						<form class="form-horizontal" method="POST"> 
+						<div>
+						 <a href="/ivrmenu/" class="btn btn-small btn-primary">
+						 <i class="icon-chevron-left icon-white"></i>列表</a> 
+						  <a href="/ivrmenu/create" class="btn btn-small btn-primary">
+						 <i class="icon-plus icon-white"></i>新增</a> 
+						  <a href="/ivrmenu/edit?id=<%= inst['id']%>" class="btn btn-small btn-primary">
+						 <i class="icon-edit icon-white"></i>修改</a> 
+						 </div>
+						  <fieldset> 
+							<legend>IVR菜单</legend> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="ivrnumber">IVR号码 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['ivrnumber']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="ivrname">IVR名称 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['ivrname']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="description">描述 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['description']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="cretime">创建时间 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['cretime']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="isreadonly">系统只读 </label> 
+							<div class="controls"> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							<label class="radio"> 
+									<input type="radio" readonly="readonly" class="uneditable-input" id="isreadonly_0" name="isreadonly" value="1" <%if(inst.isreadonly=='1'){%>checked="checked"<%}%>  /> 
+									是 
+							</label> 
+							
+							<label class="radio"> 
+									<input type="radio" readonly="readonly" class="uneditable-input" id="isreadonly_1" name="isreadonly" value="0" <%if(inst.isreadonly=='0'){%>checked="checked"<%}%>  /> 
+									否 
+							</label> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="localnumber">本地号码 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['localnumber']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+						
+							
+						  </fieldset> 
+						</form>   
+ 
+					</div> 
+				</div><!--/span--> 
+ 
+			</div><!--/row--> 
+			</div><!-- div containt -->
+<script type="text/javascript">
+
+
+</script>
+<script type="text/javascript">
+
+
+</script>

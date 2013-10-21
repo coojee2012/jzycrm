@@ -1,0 +1,62 @@
+#-----------------------------------------------------------------
+#
+# 特殊的agi由queue请求,实现了记录谁接的电话
+#
+# syntax: agi://127.0.0.1/queue_answeragent
+# args:
+# saymember 1 yes / 0 no
+#
+#-----------------------------------------------------------------
+
+# 说明主函数
+sub queue_answeragent_gpl_license(){return("queue record who was answer");}
+
+
+# 主函数
+#
+sub queue_answeragent
+{
+my	$self = shift;
+my	$AGI = $self->{server}{agi};				#Asterisk::AGI object
+my	$INPUT = $self->{server}{input};			#Extension input
+my	$PARAM = $self->{server}{params};			#Call params
+my	$CONF = $self->{server}->{conf};	
+my	$DBH = $self->database_pconnect();			#DBI object
+
+	#in fact number
+my	$member = $AGI->get_variable('MEMBERINTERFACE');
+	$member =~ /\/([0-9]+)\@/;
+	$member = $1;
+
+	#create and get sessionid and set action
+#my	$MYSESSIONID= $self->_callsession('action=queue_answeragent','queue_answeragent='.$member);
+my	$MYSESS = $self->_callsession('queue_answeragent');
+my	$MYSESSIONID= $MYSESS->{'PBXSESSIONID'};
+	$self->_callsession_set($MYSESS->{ACTID},'member',$member);
+	
+my	$callernumber=$AGI->get_variable(ROUTER_PROCESS_CALLERIDNUM);
+my      $callednumber=$member;
+my      $sessionid=$MYSESSIONID;
+my      $routertype=1;
+
+$AGI->exec('noop',"来电队列弹屏");
+my $sql="update callevent set callernumber = '".$callernumber.
+	                      "',callednumber = '".$callednumber.
+			      "',uid = '".$sessionid.
+			      "',routerdype = '".$routertype.
+			      "',creattime = now() ,status = 'waite' where extensionnumber = '".$callednumber."'";
+$AGI->exec('noop',$sql);			   
+ 		$DBH->do("update callevent set callernumber = '".$callernumber.
+	                      "',callednumber = '".$callednumber.
+			      "',uid = '".$sessionid.
+			      "',routerdype = '".$routertype.
+			      "',creattime = now(),status = 'waite' where extensionnumber = '".$callednumber."'")
+			      or die $self->logfile(4, 'Database Error : '.$DBH->errstr);
+			      
+	if ($PARAM->{saymember} && $PARAM->{saymember} eq '1') {
+		$self->say_digit($member);
+		$AGI->exec('playback','mypbx/service');
+	}
+
+exit;
+}

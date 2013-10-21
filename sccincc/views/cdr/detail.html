@@ -1,0 +1,467 @@
+<div class="container-fluid"> 
+<div class="container-fluid"> 
+			<div class="row-fluid sortable"> 
+				<div class="box span12"> 					
+					<div class="box-content"> 
+						<form class="form-horizontal" method="POST"> 
+						<div>
+						 <a href="/cdr/" class="btn btn-small btn-primary">
+						 <i class="icon-chevron-left icon-white"></i>列表</a> 
+						  <a href="/cdr/create" class="btn btn-small btn-primary">
+						 <i class="icon-plus icon-white"></i>新增</a> 
+						  <a href="/cdr/edit?id=<%= inst['id']%>" class="btn btn-small btn-primary">
+						 <i class="icon-edit icon-white"></i>修改</a> 
+						 </div>
+						  <fieldset> 
+							<legend>通话记录</legend> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="calldate">呼叫时间 </label> 
+							<div class="controls"> 
+							
+							
+							
+							<span class="input-xlarge uneditable-input"><%= inst['calldate']%></span> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="clid">来电显示 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['clid']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="src">来源地址 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['src']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="dst">目的地址 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['dst']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="dcontext">上下文 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['dcontext']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="channel">源通道 </label> 
+							<div class="controls"> 
+							
+							
+							
+							<span class="input-xlarge uneditable-input"><%= inst['channel']%></span> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="dstchannel">目的通道 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['dstchannel']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="lastapp">最后应用 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['lastapp']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="lastdata">最后胡局 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['lastdata']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="duration">持续时间 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['duration']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="billsec">通话时长 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['billsec']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="disposition">呼叫状态 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['disposition']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="amaflags">管理标识 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['amaflags']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="accountcode">呼叫帐号 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['accountcode']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="userfield">用户区域 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['userfield']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="uniqueid">呼叫UID </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['uniqueid']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+						
+							
+						  </fieldset> 
+						</form>   
+ 
+					</div> 
+				</div><!--/span--> 
+ 
+			</div><!--/row--> 
+			</div><!-- div containt -->
+<script type="text/javascript">
+
+
+</script>
+<script type="text/javascript">
+
+
+</script>

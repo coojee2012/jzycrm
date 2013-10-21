@@ -1,0 +1,223 @@
+<div class="container-fluid"> 
+<%if(msg!=null){%>
+<div class="alert alert-block">
+  <button type="button" class="close" data-dismiss="alert">x</button>
+  <h4 class="alert-heading">注意!</h4>
+  <%= util.inspect(msg,false,null)%>
+</div>
+<%}%>
+<div class="container-fluid"> 
+			<div class="row-fluid sortable"> 
+				<div class="box span12"> 
+					<div class="box-content"> 
+						<form class="form-horizontal" method="POST"> 
+						<div>
+						 <a href="/UserInfo/" class="btn btn-small btn-primary">
+						 <i class="icon-chevron-left icon-white"></i>列表</a> 
+						  <a href="/UserInfo/create" class="btn btn-small btn-primary">
+						 <i class="icon-plus icon-white"></i>新增</a>  
+						 </div>
+						  <fieldset> 
+							<legend>管理和设置系统用户</legend> 
+							<div class="control-group <%if(msg!=null && msg.uName!=null){%>error<%}%>"> 
+							<label class="control-label" for="uName">姓名 </label> 
+							<div class="controls"> 
+							<input type="text" class="span6" id="uName" name="uName" value="<% if(inst!=null){%><%= inst.uName %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.uName!=null){%><%= msg.uName%><%}%></span>
+							 </div> 
+							</div> 
+							<div class="control-group <%if(msg!=null && msg.uCard!=null){%>error<%}%>"> 
+							<label class="control-label" for="uCard">身份证号 </label> 
+							<div class="controls"> 
+							<input type="text" class="span6" id="uCard" name="uCard" value="<% if(inst!=null){%><%= inst.uCard %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.uCard!=null){%><%= msg.uCard%><%}%></span>
+							 </div> 
+							</div> 
+							<div class="control-group <%if(msg!=null && msg.uSex!=null){%>error<%}%>"> 
+							<label class="control-label" for="uSex">性别 </label> 
+							<div class="controls"> 
+							<label class="radio"> 
+									<input type="radio" id="uSex_0" name="uSex" value="1"  <% if(inst!=null && inst.uSex=='1' ){%> checked='checked'   <% } else if(inst==null){%>   checked=true  <% }else{ %> <% }%> /> 
+									男
+							</label> 
+							<label class="radio"> 
+									<input type="radio" id="uSex_1" name="uSex" value="0"  <% if(inst!=null && inst.uSex=='0' ){%> checked='checked'   <% } else if(inst==null){%>    <% }else{ %> <% }%> /> 
+									女
+							</label> 
+							 </div> 
+							</div> 
+							<div class="control-group <%if(msg!=null && msg.uLogin!=null){%>error<%}%>"> 
+							<label class="control-label" for="uLogin">登录帐号 </label> 
+							<div class="controls"> 
+							<input type="text" class="span6" id="uLogin" name="uLogin" value="<% if(inst!=null){%><%= inst.uLogin %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.uLogin!=null){%><%= msg.uLogin%><%}%></span>
+							 </div> 
+							</div> 
+							
+							<div class="control-group <%if(msg!=null && msg.uPass!=null){%>error<%}%>"> 
+							<label class="control-label" for="uPass">登录密码 </label> 
+							<div class="controls"> 
+							
+							
+							<input type="password" class="span6" id="uPass" name="uPass" />
+							<span class="help-inline"><%if(msg!=null && msg.uPass!=null){%><%= msg.uPass%><%}else{%>密码不能少于8位<%}%></span>
+							<input type="password" class="span6" id="uPass_ag" name="uPass_ag" >
+							<span class="help-inline">密码输入确认</span>
+			 </div> 
+							</div> 
+							
+							<div class="control-group <%if(msg!=null && msg.uPhone!=null){%>error<%}%>"> 
+							<label class="control-label" for="uPhone">手机号 </label> 
+							<div class="controls"> 
+							<input type="text" class="span6" id="uPhone" name="uPhone" value="<% if(inst!=null){%><%= inst.uPhone %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.uPhone!=null){%><%= msg.uPhone%><%}%></span>
+							 </div> 
+							</div> 
+							<div class="control-group <%if(msg!=null && msg.uExten!=null){%>error<%}%>"> 
+							<label class="control-label" for="uExten">分机号码 </label> 
+							<div class="controls"> 
+							<input type="text" class="span6" id="uExten" name="uExten" value="<% if(inst!=null){%><%= inst.uExten %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.uExten!=null){%><%= msg.uExten%><%}%></span>
+							 </div> 
+							</div> 
+							<div class="control-group <%if(msg!=null && msg.uWorkid!=null){%>error<%}%>"> 
+							<label class="control-label" for="uWorkid">工号 </label> 
+							<div class="controls"> 
+							<input type="text" class="span6" id="uWorkid" name="uWorkid" value="<% if(inst!=null){%><%= inst.uWorkid %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.uWorkid!=null){%><%= msg.uWorkid%><%}%></span>
+							 </div> 
+							</div> 
+							<div class="control-group <%if(msg!=null && msg.uAddr!=null){%>error<%}%>"> 
+							<label class="control-label" for="uAddr">联系地址 </label> 
+							<div class="controls"> 
+							<input type="text" class="span6" id="uAddr" name="uAddr" value="<% if(inst!=null){%><%= inst.uAddr %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.uAddr!=null){%><%= msg.uAddr%><%}%></span>
+							 </div> 
+							</div> 
+							<div class="control-group <%if(msg!=null && msg.readOnly!=null){%>error<%}%>"> 
+							<label class="control-label" for="readOnly">系统默认 </label> 
+							<div class="controls"> 
+							<label class="radio"> 
+									<input type="radio" id="readOnly_0" name="readOnly" value="0"  <% if(inst!=null && inst.readOnly=='0' ){%> checked='checked'   <% } else if(inst==null){%>   checked=true   <% }else{ %> <% }%> /> 
+									否
+							</label> 
+							<label class="radio"> 
+									<input type="radio" id="readOnly_1" name="readOnly" value="1"  <% if(inst!=null && inst.readOnly=='1' ){%> checked='checked'   <% } else if(inst==null){%>    <% }else{ %> <% }%> /> 
+									是
+							</label> 
+							 </div> 
+							</div> 
+							<div class="control-group <%if(msg!=null && msg.isAgent!=null){%>error<%}%>"> 
+							<label class="control-label" for="isAgent">是否座席 </label> 
+							<div class="controls"> 
+							<label class="radio"> 
+									<input type="radio" id="isAgent_0" name="isAgent" value="0"  <% if(inst!=null && inst.isAgent=='0' ){%> checked='checked'   <% } else if(inst==null){%>   checked=true   <% }else{ %> <% }%> /> 
+									否
+							</label> 
+							<label class="radio"> 
+									<input type="radio" id="isAgent_1" name="isAgent" value="1"  <% if(inst!=null && inst.isAgent=='1' ){%> checked='checked'   <% } else if(inst==null){%>    <% }else{ %> <% }%> /> 
+									是
+							</label> 
+							 </div> 
+							</div> 
+							<div class="control-group <%if(msg!=null && msg.uDepId!=null){%>error<%}%>"> 
+							<label class="control-label" for="uDepId">所在部门 </label> 
+							<div class="controls"> 
+							 <select id="uDepId" name="uDepId" data-rel="chosen">
+							 </select> 
+							 </div> 
+							</div> 
+							<div class="control-group <%if(msg!=null && msg.uRolyId!=null){%>error<%}%>"> 
+							<label class="control-label" for="uRolyId">所属角色 </label> 
+							<div class="controls"> 
+							 <select id="uRolyId" name="uRolyId" data-rel="chosen">
+							 </select> 
+							 </div> 
+							</div> 
+						    <input type="hidden" id="id" name="id" value="<% if(inst!=null){%><%= inst.id %><% }%>" />
+							<div class="form-actions"> 
+							  <button type="submit" class="btn btn-primary">保存</button> 
+							  <button type="reset" class="btn">取消</button> 
+							</div> 
+						  </fieldset> 
+						</form>   
+					</div> 
+				</div><!--/span--> 
+			</div><!--/row--> 
+			</div><!-- div containt -->
+				<script type="text/javascript"><!--
+$(function(){
+	 $.ajax(
+	            {
+	                url: '/selectdb/',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{tbname:'crm/DepInfo',key:'id',value:'depName'},
+	                success: function (data, textStatus) {
+	                	if(data.success)
+                        {
+                        	for (var i = 0; i < data.data.length; i++) {
+                        		<%if(inst!=null){ %>
+	                        if(data.data[i].id==<%= inst.uDepId%>)
+	                        {
+	                        	$("<option value='" + data.data[i].id + "' selected='selected' >" + data.data[i].depName + "</option>").appendTo("#uDepId");	
+		                        }
+	                        <%}else{%>
+	                        if(false){}
+	                        <%}%>
+	                        else{
+                        	$("<option value='" + data.data[i].id + "'  >" + data.data[i].depName + "</option>").appendTo("#uDepId");	
+	                        }
+                        	}
+	                        }
+	                        else{
+	                        	alert(data.msg);
+		                        }
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('服务器访问发生异常！' + textStatus);
+	                    return;
+	                }
+	            }
+	            );	
+});
+$(function(){
+	 $.ajax(
+	            {
+	                url: '/selectdb/',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{tbname:'crm/UserRole',key:'id',value:'roleName'},
+	                success: function (data, textStatus) {
+	                	if(data.success)
+                        {
+                        	for (var i = 0; i < data.data.length; i++) {
+                        		<%if(inst!=null){ %>
+	                        if(data.data[i].id==<%= inst.uRolyId%>)
+	                        {
+	                        	$("<option value='" + data.data[i].id + "' selected='selected' >" + data.data[i].roleName + "</option>").appendTo("#uRolyId");	
+		                        }
+	                        <%}else{%>
+	                        if(false){}
+	                        <%}%>
+	                        else{
+                        	$("<option value='" + data.data[i].id + "'  >" + data.data[i].roleName + "</option>").appendTo("#uRolyId");	
+	                        }
+                        	}
+	                        }
+	                        else{
+	                        	alert(data.msg);
+		                        }
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('服务器访问发生异常！' + textStatus);
+	                    return;
+	                }
+	            }
+	            );	
+});
+</script>
+<script type="text/javascript">
+</script>

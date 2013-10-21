@@ -1,0 +1,214 @@
+#-----------------------------------------------------------------
+#
+#  syntax: agi://127.0.0.1/router?routerline=[?]&callednum=[?]
+#
+#-----------------------------------------------------------------
+
+# 说明主函数
+sub router_gpl_license(){return("little bits agi function");}
+
+
+# 主函数
+sub router
+{
+my	$self = shift;
+
+	# 从agispeedy中读出对象参数
+my	$AGI = $self->{server}{agi};				#Asterisk::AGI object
+my	$INPUT = $self->{server}{input};			#AGI参数
+my	$PARAM = $self->{server}{params};			#提交参数
+my	$CONF = $self->{server}->{conf};	
+my	$DBH = $self->database_pconnect();			#数据库资源
+
+	#create and get sessionid and set action
+#my	$MYSESSIONID = $self->_callsession('action=router');
+my	$MYSESS = $self->_callsession('router');
+my	$MYSESSIONID = $MYSESS->{'PBXSESSIONID'};
+
+	#variable of require
+my	$calleridnum = $INPUT->{callerid};
+my	$accountcode = $INPUT->{accountcode};
+my	$callednum = $PARAM->{callednum};
+	$callednum =~ s/\#$//; # auto remove # followed number because fxs will be send #.
+
+
+	#路由条件分析
+my	(@combind_rule,@standard_rule,@addional_rule);
+my	$sth = $DBH->prepare("select * from router where routerline = '".$PARAM->{routerline}."' order by proirety desc");
+	$sth->execute;
+	while (my $eachrule = $sth->fetchrow_hashref()) {
+		if ($eachrule->{createmode} ne '2') {
+			push(@standard_rule,$eachrule);
+		} else {
+			push(@addional_rule,$eachrule);
+		}
+	}
+	$sth->finish;
+	push(@combind_rule,@standard_rule,@addional_rule);
+
+
+	#路由规则匹配
+my	($matched_rule);
+	foreach my $rule (@combind_rule) {
+	my	($matchresult);
+
+		##主叫分组匹配(仅是主叫为内线用户时有效),当为外线的时候这个地方是主叫来自中继的中继trunkdevice匹配
+		if ($PARAM->{routerline} eq '1' && $rule->{match_callergroup} ne '') {
+
+			#取出这个用户当前所在的分组
+		my	$blmatchgroup=0;
+		my	$sth = $DBH->prepare("select groupid from extengroup_assign where accountcode = '".$accountcode."'");
+			$sth->execute;
+			while (my $row = $sth->fetchrow_arrayref()) {
+				if ($row->[0] eq $rule->{match_callergroup}) {
+					$blmatchgroup=1;
+					last;
+				}
+			}
+			$sth->finish;
+			if (!$blmatchgroup) {#如果不匹配就尝试下一条规则
+				$matchresult .= 'N';
+				next;
+			}
+			$matchresult .= 'M';
+
+		} elsif ($PARAM->{routerline} eq '2' && $rule->{match_callergroup} ne '') {
+			#取出这个外线是哪个外线的设置
+		my	$blmatchgroup=0;
+		my	$sth = $DBH->prepare("select id from trunk where trunkdevice = '".$accountcode."'");
+			$sth->execute;
+			while (my $row = $sth->fetchrow_arrayref()) {
+				if ($row->[0] eq $rule->{match_callergroup}) {
+					$blmatchgroup=1;
+					last;
+				}
+			}
+			$sth->finish;
+			if (!$blmatchgroup) {#如果不匹配就尝试下一条规则
+				$matchresult .= 'N';
+				next;
+			}
+			$matchresult .= 'M';
+
+		} else {
+			$matchresult .= 'I';
+		}
+
+		#主叫号码匹配
+		if ($rule->{match_callerid} ne '') {
+			my $tmp_type = 0;
+			foreach my $match_callerid (split /,/,$rule->{match_callerid}) 
+			       {if ($calleridnum =~ /^$match_callerid/) {$tmp_type = 1; last;}}
+			if  ($tmp_type){$matchresult .= 'M';}
+			else{$matchresult .= 'N'; next;}
+		} else {
+			$matchresult .= 'I';
+		}
+
+		#主叫号码长度匹配
+		if ($rule->{match_callerlen} ne '') {
+			if (length($calleridnum) == $rule->{match_callerlen}) {
+				$matchresult .= 'M';
+			} else {
+				$matchresult .= 'N';
+				next;
+			}
+		} else {
+			$matchresult .= 'I';
+		}
+
+		#被叫号码匹配
+		if ($rule->{match_callednum} ne '') {
+		my	$match_callednum = $rule->{match_callednum};
+			if ($callednum =~ /^$match_callednum/) {
+				$matchresult .= 'M';
+			} else {
+				$matchresult .= 'N';
+				next;
+			}
+		} else {
+			$matchresult .= 'I';
+		}
+
+		#被叫号码长度匹配
+		if ($rule->{match_calledlen} ne '') {
+			if (length($callednum) == $rule->{match_calledlen}) {
+				$matchresult .= 'M';
+			} else {
+				$matchresult .= 'N';
+				next;
+			}
+		} else {
+			$matchresult .= 'I';
+		}
+
+		#检测匹配结果
+		if ($matchresult =~ /M/ && $matchresult !~ /N/) {#包括M但不包括N表示成功
+			$matched_rule=$rule;
+			last;
+		}
+	}
+
+	#路由彻底失败
+	if (!defined$matched_rule) {
+		$AGI->exec('set','AGISTATUS=0');
+		exit;
+	}
+	
+	#logger rule
+	#$self->_callsession(undef,'rule_id='.$matched_rule->{id});
+	$self->_callsession_set($MYSESS->{ACTID},'rule_id',$matched_rule->{id});
+
+	#路由后期处理
+my	$ROUTER_PROCESS_EXTENSION = $callednum;
+my	$ROUTER_PROCESS_CALLERIDNUM = $calleridnum;
+
+	#主叫自动录音检测
+	$AGI->exec('AGI','agi://127.0.0.1/sysautomon?type=caller&number='.$accountcode);
+
+	#匹配后主叫替换
+	if ($matched_rule->{replace_callerid} ne '') {
+		$ROUTER_PROCESS_CALLERIDNUM = $matched_rule->{replace_callerid};
+	}
+	#匹配后删除被叫前几位
+	if ($matched_rule->{replace_calledtrim} ne '') {
+		$ROUTER_PROCESS_EXTENSION = substr($ROUTER_PROCESS_EXTENSION,$matched_rule->{replace_calledtrim},length($ROUTER_PROCESS_EXTENSION));
+	}
+	#匹配后补充被叫前几位
+	if ($matched_rule->{replace_calledappend} ne '') {
+		$ROUTER_PROCESS_EXTENSION = $matched_rule->{replace_calledappend}.$ROUTER_PROCESS_EXTENSION;
+	}
+
+$AGI->exec('noop','分机号码:'.$ROUTER_PROCESS_EXTENSION);
+$AGI->exec('noop','主叫号码:'.$ROUTER_PROCESS_CALLERIDNUM);
+	#本地处理
+	if ($matched_rule->{'process_mode'} eq '1') {
+                if($ROUTER_PROCESS_CALLERIDNUM =~/^9(\d+)/){
+		$ROUTER_PROCESS_CALLERIDNUM=$1;
+		}
+		$AGI->exec('set','PBXAGISTATUS=1');
+		$AGI->exec('set','ROUTER_PROCESS_MODE='.$matched_rule->{process_mode});
+		$AGI->exec('set','ROUTER_PROCESS_DEFINED='.$matched_rule->{process_defined});
+		$AGI->exec('set','ROUTER_PROCESS_EXTENSION='.$ROUTER_PROCESS_EXTENSION);
+		#$AGI->exec('set','ACCOUNTCODE='.$ROUTER_PROCESS_EXTENSION);
+		$AGI->exec('set','ROUTER_PROCESS_CALLERIDNUM='.$ROUTER_PROCESS_CALLERIDNUM);
+
+	#通路
+	} elsif ($matched_rule->{'process_mode'} eq '2') {
+
+		$AGI->exec('set','PBXAGISTATUS=1');
+		$AGI->exec('set','ROUTER_PROCESS_MODE='.$matched_rule->{process_mode});
+		$AGI->exec('set','ROUTER_PROCESS_DEFINED='.$matched_rule->{process_defined});
+		$AGI->exec('set','ROUTER_PROCESS_EXTENSION='.$ROUTER_PROCESS_EXTENSION);
+		$AGI->exec('set','ROUTER_PROCESS_CALLERIDNUM='.$ROUTER_PROCESS_CALLERIDNUM);
+
+	#其他(禁止)
+	} else {
+		$AGI->exec('set','PBXAGISTATUS=0');
+	}
+
+
+exit;
+}
+
+1;

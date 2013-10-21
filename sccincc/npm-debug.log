@@ -1,0 +1,171 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'D:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'D:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install' ]
+2 info using npm@1.2.15
+3 info using node@v0.10.1
+4 verbose node symlink D:\Program Files\nodejs\\node.exe
+5 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\package.json
+6 warn package.json application-name@0.0.1 No README.md file found!
+7 verbose readDependencies using package.json deps
+8 verbose install where, deps [ 'D:\\PanBaidu\\百度网盘\\proj\\sccincc',
+8 verbose install   [ 'express',
+8 verbose install     'ejs',
+8 verbose install     'express-partials',
+8 verbose install     'jugglingdb',
+8 verbose install     'jugglingdb-mysql',
+8 verbose install     'jugglingdb-mssql',
+8 verbose install     'nami',
+8 verbose install     'log4js',
+8 verbose install     'mysql',
+8 verbose install     'socket.io',
+8 verbose install     'xmlhttprequest',
+8 verbose install     'xml',
+8 verbose install     'urlencode',
+8 verbose install     'agi',
+8 verbose install     'moment',
+8 verbose install     'guid',
+8 verbose install     'xmldom',
+8 verbose install     'soap',
+8 verbose install     'connect-mysql-session',
+8 verbose install     'eventproxy',
+8 verbose install     'stylus' ] ]
+9 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\package.json
+10 info preinstall application-name@0.0.1
+11 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\agi\package.json
+12 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\connect-mysql-session\package.json
+13 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\easysoap\package.json
+14 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\ejs\package.json
+15 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\eventproxy\package.json
+16 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\express\package.json
+17 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\express-partials\package.json
+18 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\guid\package.json
+19 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\jugglingdb\package.json
+20 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\jugglingdb-mssql\package.json
+21 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\jugglingdb-mysql\package.json
+22 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\log4js\package.json
+23 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\moment\package.json
+24 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\msnodesql\package.json
+25 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\mysql\package.json
+26 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\nami\package.json
+27 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\soap\package.json
+28 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\socket.io\package.json
+29 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\stylus\package.json
+30 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\urlencode\package.json
+31 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\xml\package.json
+32 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\xmldom\package.json
+33 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\xmlhttprequest\package.json
+34 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\package.json
+35 verbose readDependencies using package.json deps
+36 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\agi\package.json
+37 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\connect-mysql-session\package.json
+38 verbose read json D:\PanBaidu\百度网盘\proj\sccincc\node_modules\easysoap\package.json
+39 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\ejs\package.json
+40 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\eventproxy\package.json
+41 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\express\package.json
+42 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\express-partials\package.json
+43 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\guid\package.json
+44 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\jugglingdb\package.json
+45 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\jugglingdb-mssql\package.json
+46 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\jugglingdb-mysql\package.json
+47 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\log4js\package.json
+48 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\moment\package.json
+49 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\msnodesql\package.json
+50 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\mysql\package.json
+51 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\nami\package.json
+52 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\soap\package.json
+53 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\socket.io\package.json
+54 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\stylus\package.json
+55 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\urlencode\package.json
+56 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\xml\package.json
+57 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\xmldom\package.json
+58 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\xmlhttprequest\package.json
+59 verbose already installed skipping soap@* D:\PanBaidu\百度网盘\proj\sccincc
+60 verbose already installed skipping connect-mysql-session@* D:\PanBaidu\百度网盘\proj\sccincc
+61 verbose already installed skipping jugglingdb-mssql@* D:\PanBaidu\百度网盘\proj\sccincc
+62 verbose already installed skipping nami@>=0.5 D:\PanBaidu\百度网盘\proj\sccincc
+63 verbose already installed skipping log4js@>=0.3 D:\PanBaidu\百度网盘\proj\sccincc
+64 verbose already installed skipping mysql@* D:\PanBaidu\百度网盘\proj\sccincc
+65 verbose already installed skipping socket.io@* D:\PanBaidu\百度网盘\proj\sccincc
+66 verbose already installed skipping xmlhttprequest@* D:\PanBaidu\百度网盘\proj\sccincc
+67 verbose already installed skipping xml@* D:\PanBaidu\百度网盘\proj\sccincc
+68 verbose already installed skipping urlencode@* D:\PanBaidu\百度网盘\proj\sccincc
+69 verbose already installed skipping agi@* D:\PanBaidu\百度网盘\proj\sccincc
+70 verbose already installed skipping moment@* D:\PanBaidu\百度网盘\proj\sccincc
+71 verbose already installed skipping guid@* D:\PanBaidu\百度网盘\proj\sccincc
+72 verbose already installed skipping xmldom@* D:\PanBaidu\百度网盘\proj\sccincc
+73 verbose already installed skipping eventproxy@* D:\PanBaidu\百度网盘\proj\sccincc
+74 verbose already installed skipping stylus@* D:\PanBaidu\百度网盘\proj\sccincc
+75 verbose already installed skipping express@3.2.3 D:\PanBaidu\百度网盘\proj\sccincc
+76 verbose already installed skipping ejs@* D:\PanBaidu\百度网盘\proj\sccincc
+77 verbose already installed skipping express-partials@* D:\PanBaidu\百度网盘\proj\sccincc
+78 verbose already installed skipping jugglingdb@* D:\PanBaidu\百度网盘\proj\sccincc
+79 verbose already installed skipping jugglingdb-mysql@* D:\PanBaidu\百度网盘\proj\sccincc
+80 silly resolved []
+81 info build D:\PanBaidu\百度网盘\proj\sccincc
+82 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\package.json
+83 verbose linkStuff [ false, false, false, 'D:\\PanBaidu\\百度网盘\\proj' ]
+84 info linkStuff application-name@0.0.1
+85 verbose linkBins application-name@0.0.1
+86 verbose linkMans application-name@0.0.1
+87 verbose rebuildBundles application-name@0.0.1
+88 verbose rebuildBundles [ '.bin',
+88 verbose rebuildBundles   '.svn',
+88 verbose rebuildBundles   'agi',
+88 verbose rebuildBundles   'connect-mysql-session',
+88 verbose rebuildBundles   'easysoap',
+88 verbose rebuildBundles   'ejs',
+88 verbose rebuildBundles   'eventproxy',
+88 verbose rebuildBundles   'express',
+88 verbose rebuildBundles   'express-partials',
+88 verbose rebuildBundles   'guid',
+88 verbose rebuildBundles   'jugglingdb',
+88 verbose rebuildBundles   'jugglingdb-mssql',
+88 verbose rebuildBundles   'jugglingdb-mysql',
+88 verbose rebuildBundles   'log4js',
+88 verbose rebuildBundles   'moment',
+88 verbose rebuildBundles   'msnodesql',
+88 verbose rebuildBundles   'mysql',
+88 verbose rebuildBundles   'nami',
+88 verbose rebuildBundles   'soap',
+88 verbose rebuildBundles   'socket.io',
+88 verbose rebuildBundles   'stylus',
+88 verbose rebuildBundles   'urlencode',
+88 verbose rebuildBundles   'xml',
+88 verbose rebuildBundles   'xmldom',
+88 verbose rebuildBundles   'xmlhttprequest' ]
+89 verbose rebuild bundle D:\PanBaidu\百度网盘\proj\sccincc\node_modules\easysoap
+90 verbose rebuild bundle D:\PanBaidu\百度网盘\proj\sccincc\node_modules\msnodesql
+91 info build D:\PanBaidu\百度网盘\proj\sccincc\node_modules\msnodesql
+92 verbose from cache D:\PanBaidu\百度网盘\proj\sccincc\node_modules\msnodesql\package.json
+93 info preinstall msnodesql@0.2.1
+94 verbose linkStuff [ false,
+94 verbose linkStuff   false,
+94 verbose linkStuff   false,
+94 verbose linkStuff   'D:\\PanBaidu\\百度网盘\\proj\\sccincc\\node_modules' ]
+95 info linkStuff msnodesql@0.2.1
+96 verbose linkBins msnodesql@0.2.1
+97 verbose linkMans msnodesql@0.2.1
+98 verbose rebuildBundles msnodesql@0.2.1
+99 info install msnodesql@0.2.1
+100 verbose unsafe-perm in lifecycle true
+101 silly exec cmd "/c" "node-gyp rebuild"
+102 silly cmd,/c,node-gyp rebuild,D:\PanBaidu\百度网盘\proj\sccincc\node_modules\msnodesql spawning
+103 info msnodesql@0.2.1 Failed to exec install script
+104 error msnodesql@0.2.1 install: `node-gyp rebuild`
+104 error `cmd "/c" "node-gyp rebuild"` failed with 1
+105 error Failed at the msnodesql@0.2.1 install script.
+105 error This is most likely a problem with the msnodesql package,
+105 error not with npm itself.
+105 error Tell the author that this fails on your system:
+105 error     node-gyp rebuild
+105 error You can get their info via:
+105 error     npm owner ls msnodesql
+105 error There is likely additional logging output above.
+106 error System Windows_NT 6.1.7601
+107 error command "D:\\Program Files\\nodejs\\\\node.exe" "D:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install"
+108 error cwd D:\PanBaidu\百度网盘\proj\sccincc
+109 error node -v v0.10.1
+110 error npm -v 1.2.15
+111 error code ELIFECYCLE
+112 verbose exit [ 1, true ]

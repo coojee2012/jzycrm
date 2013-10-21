@@ -1,0 +1,16 @@
+# 说明主函数
+sub consany_gpl_license(){return(" ivr menu system");}
+sub consany{
+my	$self = shift;
+my	$AGI = $self->{server}{agi};				#Asterisk::AGI object
+my	$INPUT = $self->{server}{input};			#Extension input
+my	$PARAM = $self->{server}{params};			#Call params
+my	$CONF = $self->{server}->{conf};	
+my      $callednum = $PARAM->{dialnum};
+#$AGI->exec('answer');
+$AGI->exec('dial','SIP/8258|20|D('.$callednum.')');
+#$AGI->exec('SendDTMF','1w2w3w4');
+exit;
+}
+
+

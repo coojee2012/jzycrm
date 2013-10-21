@@ -1,0 +1,49 @@
+;
+;! Automatically generated configuration file
+;! Filename: queues_list.conf (/etc/asterisk/queues_list.conf)
+;! Generator: Manager
+;! Creation Date: Fri Jul 12 16:05:24 2013
+;!
+
+[402]
+music = default
+announce = 
+strategy = rrmemory
+servicelevel = 0
+context = from-exten-queue
+timeout = 15
+retry = 0
+weight = 0
+wrapuptime = 0
+setinterfacevar = yes
+;periodic-announce = queue-periodic-announce11
+
+periodic-announce-frequency=10
+;announce-frequency=30
+;announce-holdtime=once;是否估计hold time，小于1分钟则不发出通知
+periodic-announce = queue-periodic-announce
+joinempty = yes
+member = LOCAL/8001@sub-queuefindnumber/n,0,8001
+member = LOCAL/8002@sub-queuefindnumber/n,1,8002
+member = LOCAL/8003@sub-queuefindnumber/n,2,8003
+member = LOCAL/8004@sub-queuefindnumber/n,3,8004
+[401]
+music = default
+announce = 
+strategy = rrmemory
+servicelevel = 0
+context = from-exten-queue
+timeout = 15
+retry = 0
+weight = 0
+wrapuptime = 0
+setinterfacevar = yes
+periodic-announce-frequency = 10
+;announce-frequency=30
+;announce-holdtime=once;是否估计hold time，小于1分钟则不发出通知
+periodic-announce = queue-periodic-announce
+joinempty = yes
+member = LOCAL/8001@sub-queuefindnumber/n,0,8001
+member = LOCAL/8002@sub-queuefindnumber/n,1,8002
+member = LOCAL/8003@sub-queuefindnumber/n,2,8003
+member = LOCAL/8004@sub-queuefindnumber/n,3,8004

@@ -1,0 +1,152 @@
+<div class="container-fluid"> 
+<div class="container-fluid"> 
+			<div class="row-fluid sortable"> 
+				<div class="box span12"> 					
+					<div class="box-content"> 
+						<form class="form-horizontal" method="POST"> 
+						<div>
+						 <a href="/AreaCode/" class="btn btn-small btn-primary">
+						 <i class="icon-chevron-left icon-white"></i>列表</a> 
+						  <a href="/AreaCode/create" class="btn btn-small btn-primary">
+						 <i class="icon-plus icon-white"></i>新增</a> 
+						  <a href="/AreaCode/edit?id=<%= inst['id']%>" class="btn btn-small btn-primary">
+						 <i class="icon-edit icon-white"></i>修改</a> 
+						 </div>
+						  <fieldset> 
+							<legend>街道/社区</legend> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="AreaName">街道/社区名称 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['AreaName']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="ParentID">上级行政 </label> 
+							<div class="controls"> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 <select readonly="readonly" id="ParentID" name="ParentID" data-rel="chosen">
+						     </select> 
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="Sequence">排序 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['Sequence']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+						
+							
+						  </fieldset> 
+						</form>   
+ 
+					</div> 
+				</div><!--/span--> 
+ 
+			</div><!--/row--> 
+			</div><!-- div containt -->
+<script type="text/javascript">
+
+$(function(){
+	 $.ajax(
+	            {
+	                url: '/selectdb/',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{tbname:'crm/AreaCodeTown',key:'id',value:'TownName'},
+	                success: function (data, textStatus) {
+	                        if(data.success)
+	                        {
+	                        	for (var i = 0; i < data.data.length; i++) {
+		                        if(data.data[i].id==<%= inst.id%>)
+		                        {
+		                        	$("<option value='" + data.data[i].id + "' selected='selected' >" + data.data[i].TownName + "</option>").appendTo("#ParentID");	
+			                        }
+		                        else{
+	                        	$("<option value='" + data.data[i].id + "'  >" + data.data[i].TownName + "</option>").appendTo("#ParentID");	
+		                        }
+	                        	}
+		                        }
+	                        else{
+	                        	alert(data.msg);
+		                        }
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('服务器访问发生异常！' + textStatus);
+	                    return;
+	                }
+
+	            }
+	            );	
+	
+});
+
+
+</script>
+<script type="text/javascript">
+
+
+</script>

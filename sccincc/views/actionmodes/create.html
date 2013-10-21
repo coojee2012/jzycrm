@@ -1,0 +1,168 @@
+
+<div class="container-fluid"> 
+<%if(msg!=null){%>
+<div class="alert alert-block">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4>注意!</h4>
+  <%= util.inspect(msg,false,null)%>
+</div>
+<%}%>
+
+<div class="container-fluid"> 
+
+			<div class="row-fluid sortable"> 
+				<div class="box span12"> 
+					<div class="box-content"> 
+						<form class="form-horizontal" method="POST"> 
+						<div>
+						 <a href="/actionmodes/" class="btn btn-small btn-primary">
+						 <i class="icon-chevron-left icon-white"></i>列表</a> 
+						 </div>
+						  <fieldset> 
+							<legend>IVR动作类型</legend> 
+							
+							
+							
+							<div class="control-group <%if(msg!=null && msg.name!=null){%>error<%}%>"> 
+							<label class="control-label" for="name">动作名称 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="name" name="name" value="<% if(inst!=null){%><%= inst.name %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.name!=null){%><%= msg.name%><%}%></span>
+							
+							
+							
+							
+														
+														
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+							<div class="control-group <%if(msg!=null && msg.url!=null){%>error<%}%>"> 
+							<label class="control-label" for="url">URL地址 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="url" name="url" value="<% if(inst!=null){%><%= inst.url %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.url!=null){%><%= msg.url%><%}%></span>
+							
+							
+							
+							
+														
+														
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+							<div class="control-group <%if(msg!=null && msg.iconame!=null){%>error<%}%>"> 
+							<label class="control-label" for="iconame">图标名称 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="iconame" name="iconame" value="<% if(inst!=null){%><%= inst.iconame %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.iconame!=null){%><%= msg.iconame%><%}%></span>
+							
+							
+							
+							
+														
+														
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+							<div class="control-group <%if(msg!=null && msg.memo!=null){%>error<%}%>"> 
+							<label class="control-label" for="memo">备注 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="memo" name="memo" value="<% if(inst!=null){%><%= inst.memo %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.memo!=null){%><%= msg.memo%><%}%></span>
+							
+							
+							
+							
+														
+														
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+						
+							<div class="form-actions"> 
+							  <button type="submit" class="btn btn-primary">保存</button> 
+							  <button type="reset" class="btn">取消</button> 
+							</div> 
+						  </fieldset> 
+						</form>   
+ 
+					</div> 
+				</div><!--/span--> 
+ 
+			</div><!--/row--> 
+			</div><!-- div containt -->
+	
+	
+		<script type="text/javascript">
+
+
+</script>	
+
+<script type="text/javascript">
+
+
+</script>		
+	

@@ -1,0 +1,41 @@
+{
+  "name": "easysoap",
+  "description": "A simple to use Soap Client for Node.js",
+  "author": {
+    "name": "Michael Röber",
+    "email": "moszeed@arcor.de"
+  },
+  "version": "0.4.3",
+  "main": "./index",
+  "dependencies": {
+    "deferred": ">=0.6.5",
+    "underscore": ">=1.4.3",
+    "xmldoc": "0.1.1"
+  },
+  "keywords": [
+    "soap",
+    "wsdl"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moszeed/easysoap.git"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://raw.github.com/moszeed/easysoap/master/LICENSE"
+  },
+  "contributors": [
+    {
+      "name": "Michael Röber",
+      "email": "moszeed@arcor.de"
+    }
+  ],
+  "readme": "## What ?\r\n`easySoap` is a WSDL SoapClient for Node.js.\r\n\r\n## How to get ?\r\n\r\n    npm install easysoap\r\n\r\n## How to use ?\r\n\r\n    var easySoap    = require('easySoap');\r\n\r\n    //soap client params\r\n    var clientParams = {\r\n\r\n        //set soap connection data (mandatory values)\r\n        host    : 'www.sample.com',\r\n        path    : '/dir/soap',\r\n        wsdl    : '/dir/wsdl',\r\n\r\n        //set soap header (optional)\r\n        header  : [{\r\n            'name'      : 'item_name',\r\n            'value'     : 'item_value',\r\n            'namespace' : 'item_namespace'\r\n        }]\r\n    };\r\n\r\n    //soap client options\r\n    var clientOptions = {\r\n        secure : true/false //is https or http\r\n    };\r\n\r\n    //create new soap client\r\n    var SoapClient = new easySoap.Client(clientParams, clientOptions);\r\n        SoapClient.once('initialized', function() {\r\n\r\n            //successful initialized\r\n            SoapClient.once('soapMethod', function(data, header) {\r\n                //soap response\r\n            });\r\n\r\n            SoapClient.call({\r\n                'method' : 'soapMethod',\r\n                'params' : {\r\n                    'test' : 1\r\n                }\r\n            });\r\n        });\r\n\r\n        //initialize soap client\r\n        SoapClient.init();",
+  "readmeFilename": "README.md",
+  "_id": "easysoap@0.4.3",
+  "dist": {
+    "shasum": "2337823041eccb0f39a5e9b18405dc3afdde3715"
+  },
+  "_from": "easysoap@*",
+  "_resolved": "https://registry.npmjs.org/easysoap/-/easysoap-0.4.3.tgz"
+}

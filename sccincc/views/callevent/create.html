@@ -1,0 +1,366 @@
+
+<div class="container-fluid"> 
+<%if(msg!=null){%>
+<div class="alert alert-block">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4>注意!</h4>
+  <%= util.inspect(msg,false,null)%>
+</div>
+<%}%>
+
+<div class="container-fluid"> 
+
+			<div class="row-fluid sortable"> 
+				<div class="box span12"> 
+					<div class="box-content"> 
+						<form class="form-horizontal" method="POST"> 
+						<div>
+						 <a href="/callevent/" class="btn btn-small btn-primary">
+						 <i class="icon-chevron-left icon-white"></i>列表</a> 
+						 </div>
+						  <fieldset> 
+							<legend>来电事件</legend> 
+							
+							
+							
+							<div class="control-group <%if(msg!=null && msg.extensionnumber!=null){%>error<%}%>"> 
+							<label class="control-label" for="extensionnumber">分机号 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="extensionnumber" name="extensionnumber" value="<% if(inst!=null){%><%= inst.extensionnumber %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.extensionnumber!=null){%><%= msg.extensionnumber%><%}%></span>
+							
+							
+							
+							
+														
+														
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+							<div class="control-group <%if(msg!=null && msg.callernumber!=null){%>error<%}%>"> 
+							<label class="control-label" for="callernumber">主角号码 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="callernumber" name="callernumber" value="<% if(inst!=null){%><%= inst.callernumber %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.callernumber!=null){%><%= msg.callernumber%><%}%></span>
+							
+							
+							
+							
+														
+														
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+							<div class="control-group <%if(msg!=null && msg.callednumber!=null){%>error<%}%>"> 
+							<label class="control-label" for="callednumber">被叫号码 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="callednumber" name="callednumber" value="<% if(inst!=null){%><%= inst.callednumber %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.callednumber!=null){%><%= msg.callednumber%><%}%></span>
+							
+							
+							
+							
+														
+														
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+							<div class="control-group <%if(msg!=null && msg.uid!=null){%>error<%}%>"> 
+							<label class="control-label" for="uid">呼叫编号 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="uid" name="uid" value="<% if(inst!=null){%><%= inst.uid %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.uid!=null){%><%= msg.uid%><%}%></span>
+							
+							
+							
+							
+														
+														
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+							<div class="control-group <%if(msg!=null && msg.callid!=null){%>error<%}%>"> 
+							<label class="control-label" for="callid">呼叫ID </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="callid" name="callid" value="<% if(inst!=null){%><%= inst.callid %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.callid!=null){%><%= msg.callid%><%}%></span>
+							
+							
+							
+							
+														
+														
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+							<div class="control-group <%if(msg!=null && msg.creattime!=null){%>error<%}%>"> 
+							<label class="control-label" for="creattime">呼叫时间 </label> 
+							<div class="controls"> 
+							
+							
+							
+							<input type="text" class="input-xlarge datepicker" id="creattime" name="creattime" value="<% if(inst!=null){%><%= inst.creattime %>   <% }%>" /> 
+							<span class="help-inline"><%if(msg!=null && msg.creattime!=null){%><%= msg.creattime%><%}%></span>
+							
+							
+														
+														
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+							<div class="control-group <%if(msg!=null && msg.status!=null){%>error<%}%>"> 
+							<label class="control-label" for="status">状态 </label> 
+							<div class="controls"> 
+							
+							
+							
+							
+														
+														
+							
+							
+							
+							
+							 <select id="status" name="status" data-rel="chosen">
+							
+							<option value="wait"  <% if(inst!=null && inst.status=='wait' ){%> selected='selected'   <% } else if(inst==null){%>   selected=&quot;selected&quot;  <% }else{ %> <% }%> >
+							 未弹出 
+							</option> 
+							
+							<option value="over"  <% if(inst!=null && inst.status=='over' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
+							 已弹出 
+							</option> 
+							
+								  </select> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+							<div class="control-group <%if(msg!=null && msg.routerdype!=null){%>error<%}%>"> 
+							<label class="control-label" for="routerdype">线路类型 </label> 
+							<div class="controls"> 
+							
+							
+							
+							
+														
+														
+							
+							
+							
+							
+							 <select id="routerdype" name="routerdype" data-rel="chosen">
+							
+							<option value="1"  <% if(inst!=null && inst.routerdype=='1' ){%> selected='selected'   <% } else if(inst==null){%>   selected=&quot;selected&quot;  <% }else{ %> <% }%> >
+							 外线 
+							</option> 
+							
+							<option value="2"  <% if(inst!=null && inst.routerdype=='2' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
+							 内线 
+							</option> 
+							
+								  </select> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+							<div class="control-group <%if(msg!=null && msg.parked!=null){%>error<%}%>"> 
+							<label class="control-label" for="parked">保持状态 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="parked" name="parked" value="<% if(inst!=null){%><%= inst.parked %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.parked!=null){%><%= msg.parked%><%}%></span>
+							
+							
+							
+							
+														
+														
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+							
+							<div class="control-group <%if(msg!=null && msg.poptype!=null){%>error<%}%>"> 
+							<label class="control-label" for="poptype">弹出类型 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="poptype" name="poptype" value="<% if(inst!=null){%><%= inst.poptype %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.poptype!=null){%><%= msg.poptype%><%}%></span>
+							
+							
+							
+							
+														
+														
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+						
+							<div class="form-actions"> 
+							  <button type="submit" class="btn btn-primary">保存</button> 
+							  <button type="reset" class="btn">取消</button> 
+							</div> 
+						  </fieldset> 
+						</form>   
+ 
+					</div> 
+				</div><!--/span--> 
+ 
+			</div><!--/row--> 
+			</div><!-- div containt -->
+	
+	
+		<script type="text/javascript">
+
+
+</script>	
+
+<script type="text/javascript">
+
+
+</script>		
+	

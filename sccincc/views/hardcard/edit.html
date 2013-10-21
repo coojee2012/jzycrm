@@ -1,0 +1,183 @@
+<div class="container-fluid"> 
+<%if(msg!=null){%>
+<div class="alert alert-block">
+  <button type="button" class="close" data-dismiss="alert">x</button>
+  <h4 class="alert-heading">注意!</h4>
+  <%= util.inspect(msg,false,null)%>
+</div>
+
+<%}%>
+
+<div class="container-fluid"> 
+
+			<div class="row-fluid sortable"> 
+				<div class="box span12"> 
+					<div class="box-content"> 
+						<form class="form-horizontal" method="POST"> 
+						<div>
+						 <a href="/hardcard/" class="btn btn-small btn-primary">
+						 <i class="icon-chevron-left icon-white"></i>列表</a> 
+						  <a href="/hardcard/create" class="btn btn-small btn-primary">
+						 <i class="icon-plus icon-white"></i>新增</a>  
+						 </div>
+						  <fieldset> 
+							<legend>外线语音卡</legend> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.linenumber!=null){%>error<%}%>"> 
+							<label class="control-label" for="linenumber">线路编号 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="linenumber" name="linenumber" value="<% if(inst!=null){%><%= inst.linenumber %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.linenumber!=null){%><%= msg.linenumber%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.lineproto!=null){%>error<%}%>"> 
+							<label class="control-label" for="lineproto">线路协议 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="lineproto" name="lineproto" value="<% if(inst!=null){%><%= inst.lineproto %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.lineproto!=null){%><%= msg.lineproto%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.linedriver!=null){%>error<%}%>"> 
+							<label class="control-label" for="linedriver">线路驱动 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="linedriver" name="linedriver" value="<% if(inst!=null){%><%= inst.linedriver %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.linedriver!=null){%><%= msg.linedriver%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.linegroup!=null){%>error<%}%>"> 
+							<label class="control-label" for="linegroup">线路分组 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="linegroup" name="linegroup" value="<% if(inst!=null){%><%= inst.linegroup %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.linegroup!=null){%><%= msg.linegroup%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+						    <input type="hidden" id="id" name="id" value="<% if(inst!=null){%><%= inst.id %><% }%>" />
+							<div class="form-actions"> 
+							  <button type="submit" class="btn btn-primary">保存</button> 
+							  <button type="reset" class="btn">取消</button> 
+							</div> 
+						  </fieldset> 
+						</form>   
+ 
+					</div> 
+				</div><!--/span--> 
+ 
+			</div><!--/row--> 
+			</div><!-- div containt -->
+				<script type="text/javascript"><!--
+
+
+</script>
+
+<script type="text/javascript">
+
+
+</script>

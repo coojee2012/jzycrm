@@ -1,0 +1,197 @@
+<div class="container-fluid"> 
+<div class="container-fluid"> 
+			<div class="row-fluid sortable"> 
+				<div class="box span12"> 					
+					<div class="box-content"> 
+						<form class="form-horizontal" method="POST"> 
+						<div>
+						 <a href="/forlostnum/" class="btn btn-small btn-primary">
+						 <i class="icon-chevron-left icon-white"></i>列表</a> 
+						  <a href="/forlostnum/create" class="btn btn-small btn-primary">
+						 <i class="icon-plus icon-white"></i>新增</a> 
+						  <a href="/forlostnum/edit?id=<%= inst['id']%>" class="btn btn-small btn-primary">
+						 <i class="icon-edit icon-white"></i>修改</a> 
+						 </div>
+						  <fieldset> 
+							<legend>未接来电</legend> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="extension">被叫号码 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['extension']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="lostnumber">未接号码 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['lostnumber']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="reback">是否回复 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['reback']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="whoback">回复分机 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['whoback']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="backtime">回复时间 </label> 
+							<div class="controls"> 
+							
+							
+							
+							<span class="input-xlarge uneditable-input"><%= inst['backtime']%></span> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="certime">来电时间 </label> 
+							<div class="controls"> 
+							
+							
+							
+							<span class="input-xlarge uneditable-input"><%= inst['certime']%></span> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+						
+							
+						  </fieldset> 
+						</form>   
+ 
+					</div> 
+				</div><!--/span--> 
+ 
+			</div><!--/row--> 
+			</div><!-- div containt -->
+<script type="text/javascript">
+
+
+</script>
+<script type="text/javascript">
+
+
+</script>

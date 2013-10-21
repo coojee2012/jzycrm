@@ -1,0 +1,200 @@
+#-----------------------------------------------------------------
+#
+# agi://127.0.0.1/sysautomon?type=[caller|callee|queuecallee]&number=[number]
+# args:
+# type try to match type
+# number which number will be?
+# number是传入的座席号
+#如果没有传入任何的type,程序将不录音而退出
+#-----------------------------------------------------------------
+
+# 说明主函数
+sub sysautomon_gpl_license(){return("system auto monitor");}
+
+
+# 主函数
+#
+# 用于检测当前是否需要启动系统自动录音
+#
+#
+sub sysautomon
+{
+my	$self = shift;
+my	$AGI = $self->{server}{agi};				#Asterisk::AGI object
+my	$CONF = $self->{server}->{conf};	
+my	$INPUT = $self->{server}{input};			#Extension input
+my	$PARAM = $self->{server}{params};			#Call params
+my	$DBH = $self->database_pconnect();			#DBI object
+
+#my	$MYSESSIONID = $self->_callsession('action=sysautomon','sysautomon='.$PARAM->{'type'});
+my	$MYSESS = $self->_callsession('sysautomon');
+my	$MYSESSIONID = $MYSESS->{'PBXSESSIONID'};
+	$self->_callsession_set($MYSESS->{ACTID},'monitor',$PARAM->{'type'});
+
+my	$CALLFROMWHERE = $AGI->get_variable('CALLFROMQUEUE');
+
+	#检测是否启动自动录音
+my	($matched_sysautomon,$sth);
+	if (defined$PARAM->{'type'} && $PARAM->{'type'} eq 'caller') {
+		$sth = $DBH->prepare("select * from sysautomontrigger where recordout = '1' order by cretime desc");
+	} elsif (defined$PARAM->{'type'} && $PARAM->{'type'} eq 'queuecallee' || (defined$CALLFROMWHERE && $CALLFROMWHERE  eq '1')) {
+		$sth = $DBH->prepare("select * from sysautomontrigger where recordqueue = '1' order by cretime desc");
+	} elsif (defined$PARAM->{'type'} && $PARAM->{'type'} eq 'callee') {
+		$sth = $DBH->prepare("select * from sysautomontrigger where recordin = '1' order by cretime desc");
+	} else {
+		exit;
+	}
+	$sth->execute;
+	while (my $row = $sth->fetchrow_hashref()) {
+		#解析所有members
+		foreach  (split(/\&/,$row->{'members'})) {
+			next if ($_ eq '');
+			if ($_ eq $PARAM->{'number'}) {
+				$matched_sysautomon=$row;
+				last;
+			}
+		}
+	}
+
+	#是否启动自动录音
+	if (defined $matched_sysautomon) {
+
+	my	(%ast_conf);
+		tie %ast_conf, 'Config::IniFiles', ( -file => $CONF->{general}{asterisketc}.'/asterisk.conf' );
+
+		#检测目录是否存在
+	my	$vmfpath = $ast_conf{directories}{astspooldir}.'/monitor/';
+		if (!-d$vmfpath) {
+			mkdir($vmfpath);
+			chmod(0777,$vmfpath);
+		}
+		$vmfpath .= $matched_sysautomon->{'id'};#录音的ID
+		if (!-d$vmfpath) {
+			mkdir($vmfpath);
+			chmod(0777,$vmfpath);
+		}
+
+
+		#如果是保存总量
+		if ($matched_sysautomon->{'keepfortype'} eq '0') {
+		my	$sth = $DBH->prepare("select count(*) from recordfiles where folder = '".
+				$matched_sysautomon->{'id'}."'");
+			$sth->execute;
+		my	$row = $sth->fetchrow_arrayref();
+			$sth->finish;
+
+			if ($row->[0] >= $matched_sysautomon->{'keepforargs'}) {
+				$sth = $DBH->prepare("select * from recordfiles where folder = '".$matched_sysautomon->{'id'}.
+					"' order by cretime asc limit ".
+					($row->[0] - $matched_sysautomon->{'keepforargs'}));
+				$sth->execute;
+				while (my $eachrow = $sth->fetchrow_hashref()) {
+					$DBH->do("delete from recordfiles where id = '".$eachrow->{'id'}."'") 
+						or die $self->logfile(4, 'Database Error : '.$DBH->errstr);
+					unlink("$vmfpath/".$eachrow->{'filename'}.'.'.$eachrow->{'extname'});
+				}
+			}
+
+		#如果是保存天数
+		} elsif ($matched_sysautomon->{'keepfortype'} eq '1') {
+		
+		my	$current = time();
+		my	$before = $current - (86400 * $matched_sysautomon->{'keepforargs'});
+		my	@datetime = localtime($before);
+			$datetime[5]+=1900;
+			$datetime[4]++;
+
+			$sth = $DBH->prepare("select * from recordfiles where folder = '".$matched_sysautomon->{'id'}.
+				"' and cretime <= '$datetime[5]-$datetime[4]-$datetime[3] $datetime[2]:$datetime[1]:$datetime[0]'");
+			$sth->execute;
+			while (my $eachrow = $sth->fetchrow_hashref()) {
+				$DBH->do("delete from recordfiles where id = '".$eachrow->{'id'}."'") 
+					or die $self->logfile(4, 'Database Error : '.$DBH->errstr);
+				unlink("$vmfpath/".$eachrow->{'filename'}.'.'.$eachrow->{'extname'});
+			}
+
+		#如果是永久保存,不做任何处理
+		}
+		
+	 system("rm -f $vmfpath/*\.wav");
+         #获取文件大小，并更新数据库
+	        opendir(DIR, $vmfpath) || die "Can't open directory $vmfpath";
+		my %hashfiles; 
+		my @dots = readdir(DIR);
+                 foreach  (@dots){
+		 #$AGI->exec('noop',"FILE:$_");
+		 my $name=$_;
+		 if($name=~/(\d+\_\d+\_\d+\_\d+).mp3/ ){
+		 $name=$1;
+		 my @fileinfo=stat($vmfpath."/".$name.".mp3");
+		 $hashfiles{$name}=$fileinfo[9];
+		 
+		#临时添加用于批量刷新以前没有的
+		#my $filesize=int($fileinfo[7]/1024);
+		#$AGI->exec('noop',"FILESIZE:$filesize,FILENAME:$name,PATH:$vmfpath");
+		#$DBH->do("update recordfiles set filesize=$filesize where filename='$name'") or die $self->logfile(4, 'Database Error : '.$DBH->errstr);
+		
+		 
+		 }
+                }
+                closedir DIR;
+		my $filenamelast="";
+		my $tmptime=0;
+		while (my($k, $v) = each %hashfiles) {
+		#$AGI->exec('noop',"FILE:$k , Time:$v");
+		if($v > $tmptime)
+		{
+		$tmptime=$v;
+		$filenamelast=$k;
+		
+		}
+		}
+		my @fileinfo1=stat($vmfpath."/".$filenamelast.".mp3");
+		my $filesize=int($fileinfo1[7]/1024);
+		$AGI->exec('noop',"FILESIZE:$filesize,FILENAME:$filenamelast,PATH:$vmfpath");
+		$DBH->do("update recordfiles set filesize=$filesize where filename='$filenamelast'") or die $self->logfile(4, 'Database Error : '.$DBH->errstr);
+		
+	#结束更新文件大小
+
+
+		#产生自动录音指令
+	my	$filename = $PARAM->{'number'}.'_'.$MYSESSIONID.'_'.time().'_'.int(rand(999));
+		#$self->_callsession(undef,'sysautomon_filename='.$filename);
+		$self->_callsession_set($MYSESS->{ACTID},'filename',$filename);
+        my  $ectenacount=$PARAM->{'number'};
+	my  $sqlexten="select * from extension where accountcode='".$ectenacount."'";
+	my  $sth=$DBH->prepare($sqlexten) or die $DBH->errstr;
+	    $sth->execute() or die $DBH->errstr;
+	 my $reslut=$sth->fetchrow_hashref;
+	 my $domicnum;
+	 if(defined$reslut->{'doymicaccount'} && $reslut->{'doymicaccount'} ne '')
+	 {
+		
+	$domicnum=$reslut->{'doymicaccount'};	
+	 }else{$domicnum=$PARAM->{'number'};}
+		#创建数据库记录
+		$DBH->do("insert into recordfiles set ".
+			"filename = '".$filename."',".
+			"extname = 'mp3',".
+			"folder = '".$matched_sysautomon->{'id'}."',".
+			"cretime = now(),".
+			"associate = '".$MYSESSIONID."',".
+                        "extennum  = '".$PARAM->{'number'}."',".
+			"doymicac = '".$domicnum."',".
+                        "calltype  = '".$PARAM->{'type'}."'")
+			or die $self->logfile(4, 'Database Error : '.$DBH->errstr);
+
+		#$AGI->exec('MixMonitor',"$vmfpath/$filename\.wav,ab,chmod 777 $vmfpath/$filename\.wav");
+		$AGI->exec('MixMonitor',"$vmfpath/$filename\.wav,ab,/usr/bin/lame  -V7 -B24 --tt $vmfpath/$filename\.wav --add-id3v2 $vmfpath/$filename\.wav $vmfpath/$filename\.mp3");
+		#my $wav2mp3="/usr/bin/lame  -V7 -B24 --tt $vmfpath/$filename\.wav --add-id3v2 $vmfpath/$filename\.wav $vmfpath/$filename\.mp3";
+		#`$wav2mp3`;
+		system("chmod 777 $vmfpath/*\.*");
+		#my $test="test -r $vmfpath/$filename\.mp3 && rm -f $vmfpath/$filename\.wav";
+		#`$test`;
+		
+		
+	}
+
+exit;
+}
+1;

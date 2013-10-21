@@ -1,0 +1,40 @@
+;!
+;! Automatically generated configuration file
+;! Filename: sip_trunk.conf (/etc/asterisk/sip_trunk.conf)
+;! Generator: Manager
+;! Creation Date: Thu Jul 11 20:09:17 2013
+;!
+[siptrunk]
+type = friend
+nat = yes
+context = from-trunk-sip
+accountcode = siptrunk
+host = 192.168.100.252
+port = 5060
+;username = admin
+;secret = admin
+callerid = 
+defaultexpiry = 60
+call-limit = 120
+insecure = port,invite
+progressinband = yes
+qualify = 2000
+disallow = all
+allow = gsm,ulaw,alaw,h263,h264
+[qcc]
+type = friend
+nat = yes
+context = from-trunk-sip
+accountcode = qcc
+host = dynamic 
+port = 5060
+username = qcc
+secret = qcc
+callerid = 
+defaultexpiry = 60
+call-limit = 120
+insecure = port,invite
+progressinband = yes
+qualify = 2000
+disallow = all
+allow = gsm,ulaw,alaw,h263,h264

@@ -1,0 +1,49 @@
+#-----------------------------------------------------------------
+#
+#  coojee <coojee@139.com>
+#
+# 电话银行查询IVR
+#
+# syntax: agi://127.0.0.1/autoivr?idcard=number&password=number
+# args:
+# idcard:numbers   password:numbers
+#
+#-----------------------------------------------------------------
+# 说明主函数
+sub ivrauto_gpl_license(){return("Telephone of the Bank,autoivr");}
+#主函数
+sub autoivr
+{
+my	$self = shift;
+my	$AGI = $self->{server}{agi};				#Asterisk::AGI object
+my	$INPUT = $self->{server}{input};			#Extension input
+my	$PARAM = $self->{server}{params};			#Call params
+my	$FRI2CONF = $self->{server}->{conf};	
+my	$DBH = $self->database_pconnect();
+
+	#进入IVR系统必须以answer模式工作
+	$AGI->exec('answer');
+
+#AGI playback music
+#wait input
+#AGI palyback music
+#wait input
+#connect dadabse
+#get the dbreslut true or false
+#playback
+#saynumber
+#playback,wait input
+#retrun last ivr
+
+
+
+
+
+
+
+
+
+
+
+}
+1;

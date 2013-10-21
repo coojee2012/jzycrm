@@ -1,0 +1,296 @@
+<div class="container-fluid"> 
+<div class="container-fluid"> 
+			<div class="row-fluid sortable"> 
+				<div class="box span12"> 					
+					<div class="box-content"> 
+						<form class="form-horizontal" method="POST"> 
+						<div>
+						 <a href="/wateruses/" class="btn btn-small btn-primary">
+						 <i class="icon-chevron-left icon-white"></i>列表</a> 
+						  <a href="/wateruses/create" class="btn btn-small btn-primary">
+						 <i class="icon-plus icon-white"></i>新增</a> 
+						  <a href="/wateruses/edit?id=<%= inst['id']%>" class="btn btn-small btn-primary">
+						 <i class="icon-edit icon-white"></i>修改</a> 
+						 </div>
+						  <fieldset> 
+							<legend>停水记录</legend> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="userID">抄表人员 </label> 
+							<div class="controls"> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 <select readonly="readonly" id="userID" name="userID" data-rel="chosen">
+						     </select> 
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="customID">用户名称 </label> 
+							<div class="controls"> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 <select readonly="readonly" id="customID" name="customID" data-rel="chosen">
+						     </select> 
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="stardu">起度 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['stardu']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="enddu">止度 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['enddu']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="cbtime">抄表时间 </label> 
+							<div class="controls"> 
+							
+							
+							
+							<span class="input-xlarge uneditable-input"><%= inst['cbtime']%></span> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="startime">起始时间 </label> 
+							<div class="controls"> 
+							
+							
+							
+							<span class="input-xlarge uneditable-input"><%= inst['startime']%></span> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="endtime">结束时间 </label> 
+							<div class="controls"> 
+							
+							
+							
+							<span class="input-xlarge uneditable-input"><%= inst['endtime']%></span> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+						
+							
+						  </fieldset> 
+						</form>   
+ 
+					</div> 
+				</div><!--/span--> 
+ 
+			</div><!--/row--> 
+			</div><!-- div containt -->
+<script type="text/javascript">
+
+$(function(){
+	 $.ajax(
+	            {
+	                url: '/selectdb/',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{tbname:'crm/UserInfo',key:'id',value:'uName'},
+	                success: function (data, textStatus) {
+	                        if(data.success)
+	                        {
+	                        	for (var i = 0; i < data.data.length; i++) {
+		                        if(data.data[i].id==<%= inst.id%>)
+		                        {
+		                        	$("<option value='" + data.data[i].id + "' selected='selected' >" + data.data[i].uName + "</option>").appendTo("#userID");	
+			                        }
+		                        else{
+	                        	$("<option value='" + data.data[i].id + "'  >" + data.data[i].uName + "</option>").appendTo("#userID");	
+		                        }
+	                        	}
+		                        }
+	                        else{
+	                        	alert(data.msg);
+		                        }
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('服务器访问发生异常！' + textStatus);
+	                    return;
+	                }
+
+	            }
+	            );	
+	
+});
+
+$(function(){
+	 $.ajax(
+	            {
+	                url: '/selectdb/',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{tbname:'crm/CustomInfo',key:'id',value:'cname'},
+	                success: function (data, textStatus) {
+	                        if(data.success)
+	                        {
+	                        	for (var i = 0; i < data.data.length; i++) {
+		                        if(data.data[i].id==<%= inst.id%>)
+		                        {
+		                        	$("<option value='" + data.data[i].id + "' selected='selected' >" + data.data[i].cname + "</option>").appendTo("#customID");	
+			                        }
+		                        else{
+	                        	$("<option value='" + data.data[i].id + "'  >" + data.data[i].cname + "</option>").appendTo("#customID");	
+		                        }
+	                        	}
+		                        }
+	                        else{
+	                        	alert(data.msg);
+		                        }
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('服务器访问发生异常！' + textStatus);
+	                    return;
+	                }
+
+	            }
+	            );	
+	
+});
+
+
+</script>
+<script type="text/javascript">
+
+
+</script>

@@ -1,0 +1,1120 @@
+<script type="text/javascript">
+$(document).ready(function() {
+var roleid=<%= roleid%>;
+var aoColumns=[
+               
+               { mData: "callUnitID", sClass: "center" },
+               
+               { mData: "OrderTypeid", sClass: "center" },
+               
+ //              { mData: "orderContent", sClass: "center" },
+               
+ //              { mData: "orderReslut", sClass: "center" },
+               { mData: "DepID", sClass: "center" },               
+  //             { mData: "dactorName", sClass: "center" },               
+  //             { mData: "serMan", sClass: "center" },               
+               { mData: "cID", sClass: "center" },
+               { mData: "OrderOptions", sClass: "center",bSearchable: false},
+   //            	{ mData: "recordTime", sClass: "center",bSearchable: false},
+               	{ mData: "orderTime", sClass: "center",bSearchable: false},
+               	
+                 { mData: "id", sClass: "center",bSearchable: false }
+                 
+             ];
+var where='';
+where+='cID:::::'+$('#cID').val();
+where+=',,,,,'+'serMan:::::'+$('#serMan').val();
+where+=',,,,,'+'DepID:::::'+$('#DepID').val();
+where+=',,,,,'+'dactorName:::::'+$('#dactorName').val();
+where+=',,,,,'+'orderReslut:::::'+$('#orderReslut').val();
+where+=',,,,,'+'orderContent:::::like|||||'+$('#orderContent').val();
+where+=',,,,,'+'OrderTypeid:::::'+$('#OrderTypeid').val();
+where+=',,,,,'+'callUnitID:::::like|||||'+$('#callUnitID').val();
+
+var daochu=[];
+for(var i=0;i<aoColumns.length-1;i++){
+	daochu[i]=i;	
+}
+$('#datatable').dataTable( {
+	sDom: " <'row-fluid'<'span4'l><'span4'f><'span4'T>r>t<'row-fluid'<'span4'i><'span8 center'p>>",
+	//sDom: 'T<"clear">lfrtip',
+	sPaginationType: "bootstrap",
+	//bDestroy:true,
+	oLanguage: {
+	sLengthMenu: "姣忛〉鏄剧ず _MENU_ 鏉¤褰�,
+    sZeroRecords: "瀵逛笉璧凤紝鏌ヨ涓嶅埌浠讳綍鐩稿叧鏁版嵁",
+    sInfo: "褰撳墠鏄剧ず _START_ 鍒�_END_ 鏉★紝鍏�_TOTAL_ 鏉¤褰�,
+    sInfoEmtpy: "鎵句笉鍒扮浉鍏虫暟鎹�,
+    //"sInfoFiltered": "鏁版嵁琛ㄤ腑鍏变负 _MAX_ 鏉¤褰�,  
+    sProcessing: "姝ｅ湪鍔犺浇涓�..",
+    sSearch: "鎼滅储",
+    sInfoEmpty: "鏄剧ず 0 鑷�0 鍏�0 椤�,
+   oPaginate: { "sFirst": "绗竴椤�, "sPrevious": "涓婁竴椤�", "sNext": "涓嬩竴椤�", "sLast": "鏈〉 " }
+	},
+    bProcessing: true,
+    bServerSide: true,
+    bSort: true,
+   // aaSorting: [[4, "asc"],[5,"desc"]],
+    bFilter:false,
+    sAjaxSource: "/selectdb/pagingsearch?dbname=crm/OrderRecords&cls=callUnitID___OrderTypeid___orderContent___orderReslut___DepID___dactorName___serMan___cID___OrderOptions___recordTime___orderTime___id&where="+where,
+    aoColumns:aoColumns ,
+    aoColumnDefs: [
+                   {
+                	   aTargets:[1],
+                	   mRender: function (data, type,full) {
+                       var str='';
+                       str+=data.typeName||'';
+                       
+                       return str;
+                	   }
+                       },
+                   {
+                	   aTargets:[2],
+                	   mRender: function (data, type,full) {
+                       var str='';
+                       str+=data.depName||'';
+                       return str;
+                	   }
+                       },
+                   {
+                	   aTargets:[3],
+                	   mRender: function (data, type,full) {
+                       var str='';
+                       str+="鐢ㄦ埛濮撳悕锛�+data.cname;
+                       str+="<br/>鐢ㄦ按鍦板潃锛�+data.lifeAddr;
+                       return str;
+                	   }
+                	   
+                       },
+                       {
+                	   aTargets:[4],
+                	   asSorting:["asc"]
+                	   },
+                	     {
+                	   aTargets:[5],
+                	   asSorting:["desc"]
+                	   },
+                	   
+                               {
+                            	   aTargets: [aoColumns.length-1],
+                            	//   mData : "id",
+                                   mRender: function (data, type,full) {
+                                var depid=full.DepID.id;
+                            	var str='<div class="btn-group"><button class="btn btn-small ">鎿嶄綔</button> ';
+						            str+='<button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>';
+						            str+='<ul class="dropdown-menu"> ';
+                                    str+='<li><a href="/OrderRecords/detail?id='+data+'" ><i class="icon-zoom-in icon-white"></i>鏌ョ湅</a></li>';
+                                    str+='<li><a href="/OrderRecords/edit?id='+data+'" ><i class="icon-edit icon-white"></i> 缂栬緫</a></li>';
+                                    if(roleid==8){
+                                    str+='<li><a href="javascript:paidan('+data+','+depid+');" ><i class="icon-trash icon-white"></i>娲惧崟 </a></li>';
+                                    str+='<li><a href="javascript:cdsms('+data+');" ><i class="icon-trash icon-white"></i> 鐭俊鍌崟</a></li>';
+                                    }
+                                    else{
+                                    str+='<li><a href="javascript:paidan2('+data+','+depid+');" ><i class="icon-trash icon-white"></i>鐗囧尯娲惧崟 </a></li>';                                   
+                                    str+='<li><a href="javascript:cdtel('+data+');" ><i class="icon-trash icon-white"></i>鐢佃瘽鍌崟 </a></li>';
+                                    str+='<li><a href="javascript:cdsms('+data+');" ><i class="icon-trash icon-white"></i> 鐭俊鍌崟</a></li>';
+                                    str+='<li><a href="javascript:huifang('+data+');" ><i class="icon-trash icon-white"></i>鍥炶 </a></li>';
+                                    }
+                                   // str+='<li><a href="javascript:deleterow('+data+');" ><i class="icon-trash icon-white"></i> 鍒犻櫎</a></li>';
+                                    str+='</ul></div>';
+                                      return str;
+                                   }
+                               },
+                               //{bVisible:false,aTargets: [4]}
+                              ],
+             oTableTools: {
+             sSwfPath: "/css/swf/copy_csv_xls_pdf.swf",
+             aButtons: [
+                                //  {
+                                 // "sExtends": "xls",
+                                //  "sButtonText": "瀵煎嚭excel",
+                                //  "mColumns": [0,1,2,3]
+                                // },
+                                {
+					"sExtends": "copy",
+					"sButtonText": "澶嶅埗"
+				},
+				  {
+					"sExtends": "print",
+					"sButtonText": "鎵撳嵃"
+				},
+                                 {
+                 					"sExtends":    "collection",
+                 					"sButtonText": '瀵煎嚭 <span class="caret" />',
+                 					"aButtons":    [ "csv", "xls", "pdf" ],
+                 					"mColumns": daochu
+                 				}
+                                
+                                                   
+                              ]
+	}
+  // "fnServerData": fnDataTablesPipeline
+} );
+} );
+
+function deleterow(data){
+	var oTable = $('#datatable').dataTable();
+	   
+	  // Immediately remove the first row
+	  //oTable.fnDeleteRow( data );
+	  
+	   $.ajax(
+	            {
+	                url: '/OrderRecords/del',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{ids:data},
+	                success: function (data, textStatus) {	                    
+		                    alert(data.msg);
+		                   // location.href='/UserInfo/';	
+		                    oTable.fnDraw();	                    
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    return;
+	                }
+	            }
+	            );	       
+	 }
+
+function cdtel(orderId){
+	getPhone(orderId,function(udata){
+        var phonenumber=udata.phone;
+		dialout(phonenumber);
+		});	
+}
+
+function dialout(phonenumber){
+	 if (phonenumber == "") {
+         alert("涓鸿兘鑾峰彇鍒版湁鏁堟墜鏈哄彿鐮侊紝鍛煎彨灏嗗け璐ワ紒");
+         return false;
+     }
+     if(parent._OUTPREX!=null)
+     phonenumber = parent._OUTPREX + phonenumber;
+   
+     $.ajax(
+     {
+         url: '/asami/dialout',
+         dataType: 'json',
+         type: 'POST',
+         async: false,
+         data: { outnumber: phonenumber, exten: parent._USEREXTEN, poptype: "" },
+         timeout: 300,
+         success: function (ajaxdata, textStatus) {
+             if (ajaxdata.Response == "Error") {
+                 alert("鎿嶄綔澶辫触");
+             } else {
+                 alert("姝ｅ湪寮�鍛煎彨:" + phonenumber + "锛岀郴缁熷皢鑷姩鎷ㄦ墦澶栫嚎,鐢佃瘽鍝嶉搩鍚庤鎽樻満锛�);
+             }
+
+         },
+         error: function (XMLHttpRequest, textStatus, errorThrown) {
+             alert('鏈嶅姟鍣ㄥ鐞嗗紓甯革紒璇疯仈绯荤鐞嗗憳');
+         }
+
+     }
+     );	
+}
+
+function cdsms(orderId){
+	getPhone(orderId,function(udata){
+		if (!udata || udata.phone == "") {
+            alert("涓鸿兘鑾峰彇鍒版湁鏁堟墜鏈哄彿鐮侊紝鍙戦�鐭俊灏嗗け璐ワ紒");
+            return false;
+        }
+		
+		$("#cusname").val(udata.name);
+        $("#phonenumber").val(udata.phone);
+        $('#sendsms').modal('show');
+		});
+}
+
+function paidan2(orderId,depid1){
+	var depid=depid1 || parent._USERDEPT;
+	var where={};
+	where.uDepId=depid;
+	 $.ajax(
+	            {
+	                url: '/selectdb/',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{tbname:'crm/UserInfo',key:'id',value:'uName',where:where},
+	                success: function (data, textStatus) {
+	                        if(data.success)
+	                        {
+	                        	
+	                        	
+	                        	dodddddd(0,data,orderId,'');
+	                        	
+		                        }
+	                        else{
+	                        	alert(data.msg);
+		                        }
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    return;
+	                }
+
+	            }
+	            );	
+     
+
+}
+
+function paidan(orderId,depid1){
+
+	getOrder(orderId,0,function(data){
+		if(data==null)
+		{
+			alert("宸ュ崟鏁版嵁鏈夎锛�);
+		return false;	
+		}
+		var content='';
+
+		content+=data.CustomInfo.lifeAddr;
+		content+='. '+data.CustomInfo.cname;
+		var phone=data.CustomInfo.phone||'';
+		    phone=phone.replace(/^0+/g,'');
+		content+='.  '+phone;
+		content+='.  '+data.orderContent;
+		content+='. ';
+
+		$("#danhao").val(data.callUnitID);
+		$("#smscontent2").val(content);
+		$("#shuoming").val(data.OrderType.typeName);
+		$('#paidan').modal('show');
+				});	
+	
+}
+
+function dodddddd(i,data,orderId,str){
+
+	
+	if(i<data.data.length){
+		str+="<option value='" + data.data[i].id + "'  >" + data.data[i].uName + "</option>";
+	//$("<option value='" + data.data[i].id + "'  >" + data.data[i].uName + "</option>").appendTo("#dactorName2");
+	
+	i++;
+	dodddddd(i,data,orderId,str);
+	}else{
+
+$("#dactorName2").html(str);
+		
+
+	 	getOrder(orderId,0,function(data){
+    		if(data==null)
+    		{
+    			alert("宸ュ崟鏁版嵁鏈夎锛�);
+    		return false;	
+    		}
+    		var content='';
+
+    		content+=data.CustomInfo.lifeAddr;
+    		content+='. '+data.CustomInfo.cname;
+    		var phone=data.CustomInfo.phone||'';
+    		    phone=phone.replace(/^0+/g,'');
+    		content+='.  '+phone;
+    		content+='.  '+data.orderContent;
+    		content+='. ';
+    	
+    		$("#danhao").val(data.callUnitID);
+    		$("#smscontent2").val(content);
+    		$("#shuoming").val(data.OrderType.typeName);
+    		$('#paidan').modal('show');
+    	
+    				});	
+
+
+		}
+    	
+	
+}
+
+function getOrder(orderId,huifang,fn){
+	  $.ajax(
+	            {
+	                url: '/OrderRecords/getOrder',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{id:orderId,huifang:huifang},
+	                success: function (data, textStatus) {
+		                if(data.success){	                    
+		                    fn(data.data);	                    
+		                }else{
+			                alert(data.msg);
+			                }
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    return;
+	                }
+	            }
+	            );		
+}
+
+function getPhone(orderId,fn){
+	  $.ajax(
+	            {
+	                url: '/OrderRecords/getPhone',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{id:orderId},
+	                success: function (data, textStatus) {
+		                if(data.success){	                    
+		                    fn(data.udata);	                    
+		                }else{
+			                alert(data.msg);
+			                }
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    return;
+	                }
+	            }
+	            );		
+}
+
+function smssend() {
+    var smscontent = $("#smscontent").val();
+    var phonenumber = $("#phonenumber").val();
+    $.ajax({
+        url: '/Sms/AddSmsInfo',
+        dataType: 'json',
+        type: 'POST',
+        data: { mobile: phonenumber, content: smscontent },
+        success: function (result) {
+            if (result.success) {
+                $("#sendsms").modal('hide');
+                alert("鍙戦�鎴愬姛锛�);
+            }
+            else {
+                alert(result.msg);
+            }
+        }
+    });
+
+}
+
+function dopaidan(){
+var orderid,manid,sms,paid;
+orderid=$("#danhao").val();
+manid=parent.USERID;
+sms=$("#smscontent2").val();
+paid=$("#dactorName2").val();
+var shuoming=$("#shuoming").val();
+$.ajax(
+        {
+            url: '/OrderRecords/paiDan',
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data:{id:orderid,manid:manid,sms:sms,shuoming:shuoming,paid:paid},
+            success: function (data, textStatus) {
+                if(data.success){	                    
+                    //fn(data.phone);	
+                    alert(data.msg);   
+                    $('#paidan').modal('hide');                
+                }else{
+	                alert(data.msg);
+	                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+                return;
+            }
+        }
+        );		
+}
+
+function huifang(orderId){
+	
+	getOrder(orderId,1,function(data){
+		if(data==null)
+		{
+			alert("宸ュ崟鏁版嵁鏈夎锛�);
+		return false;	
+		}
+		//alert(data.callUnitID);
+		
+		$("#danhao2").val(data.callUnitID);	
+		$("#guzhang").val(data.OrderType.typeName);		
+		$("#customname").val(data.CustomInfo.cname);
+		$("#customphone").val(data.CustomInfo.phone);
+		$('#huifang').modal('show');
+				});		
+}
+
+function dohuifang(){
+var orderid=$("#danhao2").val();
+var manid=parent._USERID;
+var content=$("#smscontent3").val();
+var options=$("input[name='OrderOptions3'][type='radio']:checked").val();
+if(options==1){
+alert("浠嶅湪澶勭悊涓殑宸ュ崟涓嶈兘淇濆瓨锛�);
+return false;
+}
+$.ajax(
+        {
+            url: '/OrderRecords/huiFang',
+            dataType: 'json',
+            type: 'POST',
+            async: false,
+            data:{id:orderid,manid:manid,content:content,options:options},
+            success: function (data, textStatus) {
+                if(data.success){	                    
+                    //fn(data.phone);	
+                    alert(data.msg);   
+                    $('#huifang').modal('hide');                
+                }else{
+	                alert(data.msg);
+	                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+                return;
+            }
+        }
+        );	
+
+}
+
+function dialouthuifang(){
+	var phone=$("#customphone").val();
+	dialout(phone);
+}
+</script>
+
+<script type="text/javascript">
+
+function get_OrderOptions(value){
+var tm=	{ name: '宸ュ崟鐘舵�',
+  input: { type: 'radios' },
+  search: false,
+  create: true,
+  table: true,
+  radios: 
+   [ { checked: ' selected=&quot;selected&quot;', value: 0, name: '鏈鐞� },
+     { checked: '', value: 1, name: '澶勭悊涓� },
+     { checked: '', value: 2, name: '宸插畬鎴� } ] }.radios;
+for(var tmtm in tm)
+	if(tm[tmtm].value==value){
+return tm[tmtm].name;
+		}
+}
+
+function delmut(){}
+function del(ids){
+	 $.ajax(
+	            {
+	                url: '/OrderRecords/del',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{ids:ids},
+	                success: function (data, textStatus) {	                    
+		                    alert(data.msg);
+		                    location.href='/OrderRecords/';		                    
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    return;
+	                }
+	            }
+	            );	
+}
+</script>
+<script type="text/javascript"><!--
+
+$(function(){
+	 $.ajax(
+	            {
+	                url: '/selectdb/',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{tbname:'crm/OrderType',key:'id',value:'typeName'},
+	                success: function (data, textStatus) {
+	                        if(data.success)
+	                        {
+	                        	$("<option value='-1'  >璇烽�鎷�/option>").appendTo("#OrderTypeid");	
+	                        	for (var i = 0; i < data.data.length; i++) {
+	                        		<%if(where!=null){ %>
+	    	                        if( data.data[i].id==<%= where.OrderTypeid%>)
+	    	                        {
+	    	                        	$("<option value='" + data.data[i].id + "' selected='selected' >" + data.data[i].typeName + "</option>").appendTo("#OrderTypeid");	
+	    		                        }
+	    	                        <%}else{%>
+	    	                        if(false){}
+	    	                        <%}%>
+	    	                        else{
+	                          	$("<option value='" + data.data[i].id + "'  >" + data.data[i].typeName + "</option>").appendTo("#OrderTypeid");	
+	    	                        }
+	    	                        
+	                        	//$("<option value='" + data.data[i].id + "'  >" + data.data[i].typeName + "</option>").appendTo("#OrderTypeid");	
+	                        	}
+		                        }
+	                        else{
+	                        	alert(data.msg);
+		                        }
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    return;
+	                }
+
+	            }
+	            );	
+	
+});
+
+$(function(){
+	 $.ajax(
+	            {
+	                url: '/selectdb/',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{tbname:'crm/UserInfo',key:'id',value:'uName'},
+	                success: function (data, textStatus) {
+	                        if(data.success)
+	                        {
+	                        	$("<option value='-1'  >璇烽�鎷�/option>").appendTo("#serMan");	
+	                        	for (var i = 0; i < data.data.length; i++) {
+
+	                        		<%if(where!=null){ %>
+	    	                        if( data.data[i].id==<%= where.serMan%>)
+	    	                        {
+	    	                        	$("<option value='" + data.data[i].id + "' selected='selected' >" + data.data[i].uName + "</option>").appendTo("#serMan");	
+	    		                        }
+	    	                        <%}else{%>
+	    	                        if(false){}
+	    	                        <%}%>
+	    	                        else{
+	                          	$("<option value='" + data.data[i].id + "'  >" + data.data[i].uName + "</option>").appendTo("#serMan");	
+	    	                        }
+	    	                        
+	                        //	$("<option value='" + data.data[i].id + "'  >" + data.data[i].uName + "</option>").appendTo("#serMan");	
+	                        	}
+		                        }
+	                        else{
+	                        	alert(data.msg);
+		                        }
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    return;
+	                }
+
+	            }
+	            );	
+	
+});
+
+
+$(function(){
+	var depid=parent._USERDEPT;
+	var where={};
+	where.uDepId=depid;
+	 $.ajax(
+	            {
+	                url: '/selectdb/',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{tbname:'crm/UserInfo',key:'id',value:'uName',where:where},
+	                success: function (data, textStatus) {
+	                        if(data.success)
+	                        {
+	                        	
+	                        	for (var i = 0; i < data.data.length; i++) {	                        		
+	                          	$("<option value='" + data.data[i].id + "'  >" + data.data[i].uName + "</option>").appendTo("#dactorName2");	
+	                        	}
+		                        }
+	                        else{
+	                        	alert(data.msg);
+		                        }
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    return;
+	                }
+
+	            }
+	            );	
+	
+});
+
+
+$(function(){
+	 $.ajax(
+	            {
+	                url: '/selectdb/',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{tbname:'crm/CustomInfo',key:'id',value:'cname'},
+	                success: function (data, textStatus) {
+	                        if(data.success)
+	                        {
+	                        	$("<option value='-1'  >璇烽�鎷�/option>").appendTo("#cID");	
+	                        	for (var i = 0; i < data.data.length; i++) {
+
+	                        		<%if(where!=null){ %>
+	    	                        if( data.data[i].id==<%= where.cID%>)
+	    	                        {
+	    	                        	$("<option value='" + data.data[i].id + "' selected='selected' >" + data.data[i].cname + "</option>").appendTo("#cID");	
+	    		                        }
+	    	                        <%}else{%>
+	    	                        if(false){}
+	    	                        <%}%>
+	    	                        else{
+	                          	$("<option value='" + data.data[i].id + "'  >" + data.data[i].cname + "</option>").appendTo("#cID");	
+	    	                        }
+
+		                        	
+	                        	//$("<option value='" + data.data[i].id + "'  >" + data.data[i].cname + "</option>").appendTo("#cID");	
+	                        	}
+		                        }
+	                        else{
+	                        	alert(data.msg);
+		                        }
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    return;
+	                }
+
+	            }
+	            );	
+	
+});
+
+
+$(function(){
+	 $.ajax(
+	            {
+	                url: '/selectdb/',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{tbname:'crm/DepInfo',key:'id',value:'depName'},
+	                success: function (data, textStatus) {
+	                	if(data.success)
+                      {
+	                	$("<option value='-1'  >璇烽�鎷�/option>").appendTo("#DepID");	
+	                		
+                      	for (var i = 0; i < data.data.length; i++) {
+                      		<%if(where!=null){ %>
+	                        if( data.data[i].id==<%= where.DepID%>)
+	                        {
+	                        	$("<option value='" + data.data[i].id + "' selected='selected' >" + data.data[i].depName + "</option>").appendTo("#DepID");	
+		                        }
+	                        <%}else{%>
+	                        if(false){}
+	                        <%}%>
+	                        else{
+                      	$("<option value='" + data.data[i].id + "'  >" + data.data[i].depName + "</option>").appendTo("#DepID");	
+	                        }
+                      	}
+	                        }
+	                        else{
+	                        	alert(data.msg);
+		                        }
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    return;
+	                }
+
+	            }
+	            );	
+	
+});
+
+</script>
+
+<script type="text/javascript">
+
+$(function(){
+	 $.ajax(
+	            {
+	                url: '/selectdb/',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{tbname:'crm/UserInfo',key:'id',value:'uName',groupby:'depName',groupdb:'DepInfo'},
+	                success: function (data, textStatus) {
+	                	if(data.success)
+                        {
+	                        var htmlappend='<option value="-1">璇烽�鎷�/option> ';	                     
+	                	
+		                		for(var key in data.data){
+		                	
+		                	htmlappend+="<optgroup label='"+key+"'> ";
+                        	for (var i = 0; i < data.data[key].length; i++) {
+                        	
+                        	
+                        	htmlappend+="<option value='" + data.data[key][i].id + "'  >" + data.data[key][i].uName + "</option>";
+ 	                        
+                        	}
+                        	
+                        	htmlappend+="</optgroup>";
+	                		}
+		                		$('#dactorName').html(htmlappend);
+	                		
+                        	
+	                        }
+	                        
+	                        else{
+	                        	alert(data.msg);
+		                        }
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    return;
+	                }
+
+	            }
+	            );	
+	
+});
+
+
+
+</script>
+<div class="container-fluid">
+<div id="mysearch" class="modal hide fade" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal"
+	aria-hidden="true">脳</button>
+<h3 id="myModalLabel">鎸夋潯浠舵悳绱�/h3>
+</div>
+<div class="modal-body">
+<div class="row-fluid sortable">
+<div class="box span12">
+<div class="box-content">
+<form class="form-horizontal" method="POST">
+<fieldset>
+<div class="control-group"><label class="control-label"
+	for="callUnitID">宸ュ崟缂栧彿 </label>
+<div class="controls">
+<input type="text" class="span6 typeahead" id="callUnitID" name="callUnitID" value="<%= where.callUnitID%>" /></div>
+</div>
+<div class="control-group"><label class="control-label" for="OrderTypeid">宸ュ崟绫诲瀷 </label>
+<div class="controls">
+<select id="OrderTypeid" name="OrderTypeid" >
+<option value='<%=where.OrderTypeid%>'  ></option>
+</select>
+</div>
+</div>
+
+
+
+<div class="control-group"><label class="control-label" for="orderContent">鍙楃悊鍐呭 </label>
+<div class="controls"><input type="text" class="span6 typeahead" id="orderContent" value="<%= where.orderContent%>" name="orderContent" /></div>
+</div>
+
+
+<div class="control-group"><label class="control-label" for="DepID">澶勭悊閮ㄩ棬 </label>
+<div class="controls">
+<select id="DepID" name="DepID">
+<option value='<%=where.DepID%>'  ></option>
+</select></div>
+</div>
+
+
+<div class="control-group"><label class="control-label" for="dactorName">澶勭悊浜哄憳 </label>
+<div class="controls"><select id="dactorName" name="dactorName">
+<option value='<%=where.dactorName%>'  ></option>
+</select></div>
+</div>
+
+<div class="control-group"><label class="control-label"
+	for="orderReslut">澶勭悊缁撴灉 </label>
+<div class="controls"><input type="text" class="span6 typeahead" id="orderReslut" name="orderReslut" value="<%=where.orderReslut%>" /></div>
+</div>
+
+
+<div class="control-group"><label class="control-label" for="serMan">鏈嶅姟搴у腑 </label>
+<div class="controls"><select id="serMan" name="serMan">
+<option value='<%=where.serMan%>'  ></option>
+</select></div>
+</div>
+
+
+
+<div class="control-group"><label class="control-label" for="cID">鐢ㄦ埛鍚嶇О
+</label>
+<div class="controls">
+<select id="cID" name="cID">
+<option value='-1'  >璇烽�鎷�/option>
+</select></div>
+</div>
+
+<div class="modal-footer">
+
+<button class="btn btn-small btn-danger" data-dismiss="modal"
+	aria-hidden="true">鍏抽棴</button>
+<button type="submit" class="btn btn-small btn-info">鎼滅储</button>
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+<div class="row-fluid sortable">
+<div class="box span12">
+<div class="box-content"><!--<a href="/OrderRecords/create" class="btn btn-small btn-primary">
+						 <i class="icon-chevron-left icon-white"></i>鏂板</a> 
+--><a href="#mysearch" role="button" class="btn btn-small btn-primary"
+	data-toggle="modal"> <i class="icon-search icon-white"></i>鏌ヨ</a></div>
+
+<div class="box-header well" data-original-title>
+<h2><i class="icon-user"></i> 宸ュ崟璁板綍鍒楄〃</h2>
+<div class="box-icon"><a href="#"
+	class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+
+</div>
+</div>
+<div class="box-content">
+<table
+	class="table table-striped table-bordered bootstrap-datatable datatable"
+	id="datatable">
+	<caption></caption>
+	<thead>
+		<tr>
+
+
+			<th>宸ュ崟缂栧彿</th>
+
+
+
+			<th>鏁呴殰绫诲埆</th><!--
+
+
+
+			<th>鍙楃悊鍐呭</th>
+
+
+
+			<th>澶勭悊缁撴灉</th>
+
+            
+            --><th>澶勭悊閮ㄩ棬</th><!--
+
+			
+			<th>澶勭悊浜哄憳</th>
+
+
+
+			<th>鏈嶅姟搴у腑</th>
+
+
+
+			--><th>鐢ㄦ埛淇℃伅</th>
+
+
+
+			<th>宸ュ崟鐘舵�</th>
+
+
+
+			<!--<th>澶勭悊鏃堕棿</th>
+
+
+
+			--><th>璁板綍鏃堕棿</th>
+
+
+			<th>鎿嶄綔</th>
+		</tr>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<div id="sendsms" class="modal hide fade" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal"
+	aria-hidden="true">脳</button>
+<h3 id="myModalLabel">鐭俊鍌崟</h3>
+</div>
+<div class="modal-body">
+<div class="row-fluid sortable">
+<div class="box span12">
+<div class="box-content">
+<form class="form-horizontal" method="get">
+<fieldset>
+<div class="control-group"><label class="control-label"
+	for="cusname">鐢ㄦ埛濮撳悕</label>
+<div class="controls"><input type="text" class="span6 typeahead"
+	id="cusname" name="cusname" readonly="readonly"></div>
+</div>
+
+<div class="control-group"><label class="control-label"
+	for="phonenumber">鎵嬫満鍙�/label>
+<div class="controls"><input type="text" class="span6 typeahead"
+	id="phonenumber" name="phonenumber" readonly="readonly"></div>
+</div>
+
+<div class="control-group"><label class="control-label"
+	for="smscontent">鍌崟鍐呭</label>
+<div class="controls"><textarea id="smscontent" name="smscontent"
+	class="autogrow"></textarea></div>
+</div>
+<div class="modal-footer">
+<button class="btn btn-small btn-danger" data-dismiss="modal"
+	aria-hidden="true">鍏抽棴</button>
+<button type="button" class="btn btn-small btn-info"
+	onclick="javascript:smssend();">鍙戦�</button>
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+<div id="paidan" class="modal hide fade" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal"
+	aria-hidden="true">脳</button>
+<h3 id="myModalLabel2">娲惧崟澶勭悊</h3>
+</div>
+<div class="modal-body">
+<div class="row-fluid sortable">
+<div class="box span12">
+<div class="box-content">
+<form class="form-horizontal" method="get">
+<fieldset>
+<div class="control-group"><label class="control-label"
+	for="danhao">宸ュ崟鍙�/label>
+<div class="controls"><input type="text" class="span6 typeahead"
+	id="danhao" name="danhao" readonly="readonly" />
+	<input type="hidden" id="shuoming" name="shuoming"/>
+	</div>
+</div>
+<div class="control-group"><label class="control-label"
+	for="dactorName2">澶勭悊浜哄憳 </label>
+<div class="controls"><select id="dactorName2" name="dactorName2"></select>
+</div>
+</div>
+<div class="control-group"><label class="control-label"
+	for="smscontent2">鐭俊鍐呭</label>
+<div class="controls"><textarea id="smscontent2" name="smscontent2"
+	class="autogrow"></textarea></div>
+</div>
+<div class="modal-footer">
+<button class="btn btn-small btn-danger" data-dismiss="modal"
+	aria-hidden="true">鍏抽棴</button>
+<button type="button" class="btn btn-small btn-info"
+	onclick="javascript:dopaidan();">纭畾</button>
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+<div id="paidan2" class="modal hide fade" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel1" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal"
+	aria-hidden="true">脳</button>
+<h3 id="myModalLabel21">鐗囧尯娲惧崟</h3>
+</div>
+<div class="modal-body">
+</div>
+</div>
+
+<div id="huifang" class="modal hide fade" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal"
+	aria-hidden="true">脳</button>
+<h3 id="myModalLabel3">鐢ㄦ埛鍥炶</h3>
+</div>
+<div class="modal-body">
+<div class="row-fluid sortable">
+<div class="box span12">
+<div class="box-content">
+<form class="form-horizontal" method="get">
+<fieldset>
+<div class="control-group"><label class="control-label"
+	for="danhao2">宸ュ崟鍙�/label>
+<div class="controls"><input type="text" class="span6 typeahead"
+	id="danhao2" name="danhao2" readonly="readonly" /></div>
+</div>
+
+<div class="control-group"><label class="control-label"
+	for="guzhang">鏁呴殰绫诲埆</label>
+<div class="controls"><input type="text" class="span6 typeahead"
+	id="guzhang" name="guzhang" readonly="readonly" /></div>
+</div>
+
+<div class="control-group"><label class="control-label"
+	for="customname">瀹㈡埛濮撳悕</label>
+<div class="controls"><input type="text" class="span6 typeahead"
+	id="customname" name="customname" readonly="readonly" /></div>
+</div>
+
+<div class="control-group"><label class="control-label"
+	for="customphone">鎵嬫満鍙�/label>
+<div class="controls"><input type="text" class="span6 typeahead"
+	id="customphone" name="customphone" readonly="readonly" />
+	<input type="button" class="btn btn-small" onclick="javascript:dialouthuifang();" value="鎷ㄦ墦"/>
+	</div>
+</div>
+
+<div class="control-group"><label class="control-label"
+	for="smscontent3">澶勭悊缁撴灉</label>
+<div class="controls"><textarea id="smscontent3" name="smscontent3"
+	class="autogrow"></textarea></div>
+</div>
+<div class="control-group"> <label class="control-label" for="OrderOptions3">宸ュ崟鐘舵� </label>
+<div class="controls">
+<label class="radio"> <input type="radio"
+	id="OrderOptions_1" checked="checked" name="OrderOptions3" value="1" /> 澶勭悊涓�</label> 
+	<label class="radio">
+<input type="radio" id="OrderOptions_2" name="OrderOptions3" value="2" /> 宸插畬鎴�</label></div>
+</div>
+
+<div class="modal-footer">
+<button class="btn btn-small btn-danger" data-dismiss="modal"
+	aria-hidden="true">鍏抽棴</button>
+<button type="button" class="btn btn-small btn-info"
+	onclick="javascript:dohuifang();">纭畾</button>
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+

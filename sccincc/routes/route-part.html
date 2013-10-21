@@ -1,0 +1,6 @@
+<% for(var ii in mod.cloums){%> <%
+if(mod.cloums[ii].input.type=='radios'||mod.cloums[ii].input.type=='selects'||mod.cloums[ii].input.type=='checkboxes'){%>
+,get_<%= ii%>:function(v){var t=<%=
+util.inspect(mod.cloums[ii],false,null)%>.<%=
+mod.cloums[ii].input.type%>; for(var k in t){ if(t[k].value==v) return
+t[k].name; } } <%}%> <%}%>

@@ -1,0 +1,48 @@
+[Thu Oct 17 2013 22:20:32 GMT+0800 (中国标准时间)] /img/glyphicons-halflings-white.png
+Error: read ECONNRESET
+    at errnoException (net.js:878:11)
+    at TCP.onread (net.js:539:19)
+[Fri Oct 18 2013 15:50:32 GMT+0800 (中国标准时间)] /OrderRecords
+ReferenceError: D:\PanBaidu\百度网盘\proj\sccincc\views\OrderRecords\index.html:3
+    1| <script type="text/javascript">
+    2| $(document).ready(function() {
+ >> 3| var roleid=<%= roleid%>;
+    4| var aoColumns=[
+    5|                
+    6|                { mData: "callUnitID", sClass: "center" },
+
+roleid is not defined
+    at eval (eval at <anonymous> (D:\PanBaidu\百度网盘\proj\sccincc\node_modules\ejs\lib\ejs.js:236:14), <anonymous>:29:118)
+    at eval (eval at <anonymous> (D:\PanBaidu\百度网盘\proj\sccincc\node_modules\ejs\lib\ejs.js:236:14), <anonymous>:29:37226)
+    at D:\PanBaidu\百度网盘\proj\sccincc\node_modules\ejs\lib\ejs.js:249:15
+    at Object.exports.render (D:\PanBaidu\百度网盘\proj\sccincc\node_modules\ejs\lib\ejs.js:287:13)
+    at View.exports.renderFile [as engine] (D:\PanBaidu\百度网盘\proj\sccincc\node_modules\ejs\lib\ejs.js:317:20)
+    at View.render (D:\PanBaidu\百度网盘\proj\sccincc\node_modules\express\lib\view.js:75:8)
+    at Function.app.render (D:\PanBaidu\百度网盘\proj\sccincc\node_modules\express\lib\application.js:506:10)
+    at ServerResponse.res.render [as partial] (D:\PanBaidu\百度网盘\proj\sccincc\node_modules\express\lib\response.js:756:7)
+    at ServerResponse.res.render (D:\PanBaidu\百度网盘\proj\sccincc\node_modules\express-partials\index.js:55:9)
+    at exports.post (D:\PanBaidu\百度网盘\proj\sccincc\routes\OrderRecords.js:45:5)
+[Fri Oct 18 2013 15:51:53 GMT+0800 (中国标准时间)] /OrderRecords
+ReferenceError: D:\PanBaidu\百度网盘\proj\sccincc\views\OrderRecords\index.html:3
+    1| <script type="text/javascript">
+    2| $(document).ready(function() {
+ >> 3| var roleid=<%= roleid%>;
+    4| var aoColumns=[
+    5|                
+    6|                { mData: "callUnitID", sClass: "center" },
+
+roleid is not defined
+    at eval (eval at <anonymous> (D:\PanBaidu\百度网盘\proj\sccincc\node_modules\ejs\lib\ejs.js:236:14), <anonymous>:29:118)
+    at eval (eval at <anonymous> (D:\PanBaidu\百度网盘\proj\sccincc\node_modules\ejs\lib\ejs.js:236:14), <anonymous>:29:37226)
+    at D:\PanBaidu\百度网盘\proj\sccincc\node_modules\ejs\lib\ejs.js:249:15
+    at Object.exports.render (D:\PanBaidu\百度网盘\proj\sccincc\node_modules\ejs\lib\ejs.js:287:13)
+    at View.exports.renderFile [as engine] (D:\PanBaidu\百度网盘\proj\sccincc\node_modules\ejs\lib\ejs.js:317:20)
+    at View.render (D:\PanBaidu\百度网盘\proj\sccincc\node_modules\express\lib\view.js:75:8)
+    at Function.app.render (D:\PanBaidu\百度网盘\proj\sccincc\node_modules\express\lib\application.js:506:10)
+    at ServerResponse.res.render [as partial] (D:\PanBaidu\百度网盘\proj\sccincc\node_modules\express\lib\response.js:756:7)
+    at ServerResponse.res.render (D:\PanBaidu\百度网盘\proj\sccincc\node_modules\express-partials\index.js:55:9)
+    at exports.post (D:\PanBaidu\百度网盘\proj\sccincc\routes\OrderRecords.js:45:5)
+[Fri Oct 18 2013 16:23:56 GMT+0800 (中国标准时间)] /img/border.png
+Error: read ECONNRESET
+    at errnoException (net.js:878:11)
+    at TCP.onread (net.js:539:19)

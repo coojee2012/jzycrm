@@ -1,0 +1,523 @@
+<div class="container-fluid"> 
+<%if(msg!=null){%>
+<div class="alert alert-block">
+  <button type="button" class="close" data-dismiss="alert">x</button>
+  <h4 class="alert-heading">注意!</h4>
+  <%= util.inspect(msg,false,null)%>
+</div>
+
+<%}%>
+
+<div class="container-fluid"> 
+
+			<div class="row-fluid sortable"> 
+				<div class="box span12"> 
+					<div class="box-content"> 
+						<form class="form-horizontal" method="POST"> 
+						<div>
+						 <a href="/callsession_acts/" class="btn btn-small btn-primary">
+						 <i class="icon-chevron-left icon-white"></i>列表</a> 
+						  <a href="/callsession_acts/create" class="btn btn-small btn-primary">
+						 <i class="icon-plus icon-white"></i>新增</a>  
+						 </div>
+						  <fieldset> 
+							<legend>呼叫动作记录</legend> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.actid!=null){%>error<%}%>"> 
+							<label class="control-label" for="actid">记录编号 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="actid" name="actid" value="<% if(inst!=null){%><%= inst.actid %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.actid!=null){%><%= msg.actid%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.callsessionid!=null){%>error<%}%>"> 
+							<label class="control-label" for="callsessionid">会话编号 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="callsessionid" name="callsessionid" value="<% if(inst!=null){%><%= inst.callsessionid %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.callsessionid!=null){%><%= msg.callsessionid%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.cdruniqueid!=null){%>error<%}%>"> 
+							<label class="control-label" for="cdruniqueid">CDR编号 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="cdruniqueid" name="cdruniqueid" value="<% if(inst!=null){%><%= inst.cdruniqueid %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.cdruniqueid!=null){%><%= msg.cdruniqueid%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.acttime!=null){%>error<%}%>"> 
+							<label class="control-label" for="acttime">发生时间 </label> 
+							<div class="controls"> 
+							
+							
+							
+							<input type="text" class="input-xlarge datepicker" id="acttime" name="acttime" value="<% if(inst!=null){%><%= inst.acttime %><% }%>" /> 
+							<span class="help-inline"><%if(msg!=null && msg.acttime!=null){%><%= msg.acttime%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.func_tion!=null){%>error<%}%>"> 
+							<label class="control-label" for="func_tion">执行方法 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="func_tion" name="func_tion" value="<% if(inst!=null){%><%= inst.func_tion %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.func_tion!=null){%><%= msg.func_tion%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.var0key!=null){%>error<%}%>"> 
+							<label class="control-label" for="var0key">第一变量键 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="var0key" name="var0key" value="<% if(inst!=null){%><%= inst.var0key %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.var0key!=null){%><%= msg.var0key%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.var0value!=null){%>error<%}%>"> 
+							<label class="control-label" for="var0value">第一变量值 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="var0value" name="var0value" value="<% if(inst!=null){%><%= inst.var0value %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.var0value!=null){%><%= msg.var0value%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.var1key!=null){%>error<%}%>"> 
+							<label class="control-label" for="var1key">第二变量键 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="var1key" name="var1key" value="<% if(inst!=null){%><%= inst.var1key %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.var1key!=null){%><%= msg.var1key%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.var1value!=null){%>error<%}%>"> 
+							<label class="control-label" for="var1value">第二变量值 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="var1value" name="var1value" value="<% if(inst!=null){%><%= inst.var1value %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.var1value!=null){%><%= msg.var1value%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.var2key!=null){%>error<%}%>"> 
+							<label class="control-label" for="var2key">第三变量键 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="var2key" name="var2key" value="<% if(inst!=null){%><%= inst.var2key %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.var2key!=null){%><%= msg.var2key%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.var2value!=null){%>error<%}%>"> 
+							<label class="control-label" for="var2value">第三变量值 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="var2value" name="var2value" value="<% if(inst!=null){%><%= inst.var2value %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.var2value!=null){%><%= msg.var2value%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.var3key!=null){%>error<%}%>"> 
+							<label class="control-label" for="var3key">第四变量键 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="var3key" name="var3key" value="<% if(inst!=null){%><%= inst.var3key %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.var3key!=null){%><%= msg.var3key%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.var3value!=null){%>error<%}%>"> 
+							<label class="control-label" for="var3value">第四变量值 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="var3value" name="var3value" value="<% if(inst!=null){%><%= inst.var3value %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.var3value!=null){%><%= msg.var3value%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							
+														
+							<div class="control-group <%if(msg!=null && msg.extradata!=null){%>error<%}%>"> 
+							<label class="control-label" for="extradata">其他数据 </label> 
+							<div class="controls"> 
+							
+							<input type="text" class="span6" id="extradata" name="extradata" value="<% if(inst!=null){%><%= inst.extradata %><% }%>" />
+							<span class="help-inline"><%if(msg!=null && msg.extradata!=null){%><%= msg.extradata%><%}%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+						    <input type="hidden" id="id" name="id" value="<% if(inst!=null){%><%= inst.id %><% }%>" />
+							<div class="form-actions"> 
+							  <button type="submit" class="btn btn-primary">保存</button> 
+							  <button type="reset" class="btn">取消</button> 
+							</div> 
+						  </fieldset> 
+						</form>   
+ 
+					</div> 
+				</div><!--/span--> 
+ 
+			</div><!--/row--> 
+			</div><!-- div containt -->
+				<script type="text/javascript"><!--
+
+
+</script>
+
+<script type="text/javascript">
+
+
+</script>

@@ -1,0 +1,280 @@
+<div class="container-fluid"> 
+<div class="container-fluid"> 
+			<div class="row-fluid sortable"> 
+				<div class="box span12"> 					
+					<div class="box-content"> 
+						<form class="form-horizontal" method="POST"> 
+						<div>
+						 <a href="/ivruserinput/" class="btn btn-small btn-primary">
+						 <i class="icon-chevron-left icon-white"></i>列表</a> 
+						  <a href="/ivruserinput/create" class="btn btn-small btn-primary">
+						 <i class="icon-plus icon-white"></i>新增</a> 
+						  <a href="/ivruserinput/edit?id=<%= inst['id']%>" class="btn btn-small btn-primary">
+						 <i class="icon-edit icon-white"></i>修改</a> 
+						 </div>
+						  <fieldset> 
+							<legend>IVR输入</legend> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="ivrnumber">IVR号码 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['ivrnumber']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="input">用户输入 </label> 
+							<div class="controls"> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 <select readonly="readonly" id="input" name="input" data-rel="chosen">
+							
+							<option  value="0"  <%if(inst.input=='0'){%>selected="selected"<%}%> >
+							 0 
+							</option> 
+							
+							<option  value="1"  <%if(inst.input=='1'){%>selected="selected"<%}%> >
+							 1 
+							</option> 
+							
+							<option  value="2"  <%if(inst.input=='2'){%>selected="selected"<%}%> >
+							 2 
+							</option> 
+							
+							<option  value="3"  <%if(inst.input=='3'){%>selected="selected"<%}%> >
+							 3 
+							</option> 
+							
+							<option  value="4"  <%if(inst.input=='4'){%>selected="selected"<%}%> >
+							 4 
+							</option> 
+							
+							<option  value="5"  <%if(inst.input=='5'){%>selected="selected"<%}%> >
+							 5 
+							</option> 
+							
+							<option  value="6"  <%if(inst.input=='6'){%>selected="selected"<%}%> >
+							 6 
+							</option> 
+							
+							<option  value="7"  <%if(inst.input=='7'){%>selected="selected"<%}%> >
+							 7 
+							</option> 
+							
+							<option  value="8"  <%if(inst.input=='8'){%>selected="selected"<%}%> >
+							 8 
+							</option> 
+							
+							<option  value="9"  <%if(inst.input=='9'){%>selected="selected"<%}%> >
+							 9 
+							</option> 
+							
+							<option  value="*"  <%if(inst.input=='*'){%>selected="selected"<%}%> >
+							 * 
+							</option> 
+							
+								  </select> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="general_type">只读类型 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['general_type']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="general_args">只读参数 </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['general_args']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="general">系统只读 </label> 
+							<div class="controls"> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							<label class="radio"> 
+									<input type="radio" readonly="readonly" class="uneditable-input" id="general_0" name="general" value="1" <%if(inst.general=='1'){%>checked="checked"<%}%>  /> 
+									是 
+							</label> 
+							
+							<label class="radio"> 
+									<input type="radio" readonly="readonly" class="uneditable-input" id="general_1" name="general" value="0" <%if(inst.general=='0'){%>checked="checked"<%}%>  /> 
+									否 
+							</label> 
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="gotoivrnumber">跳转IVR </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['gotoivrnumber']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+							<div class="control-group"> 
+							<label class="control-label" for="gotoivractid">跳转action </label> 
+							<div class="controls"> 
+							
+							<span class="input-xlarge uneditable-input"><%= inst['gotoivractid']%></span>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							 </div> 
+							</div> 
+							
+						
+							
+						  </fieldset> 
+						</form>   
+ 
+					</div> 
+				</div><!--/span--> 
+ 
+			</div><!--/row--> 
+			</div><!-- div containt -->
+<script type="text/javascript">
+
+
+</script>
+<script type="text/javascript">
+
+
+</script>

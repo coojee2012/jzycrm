@@ -1,0 +1,14 @@
+@charset "utf-8";
+/* CSS Document */
+html{height:100%}
+body{padding:0; margin:0; background: url(../images/loginbg.jpg) #ccc no-repeat bottom center; height:100%}
+#loginbox{ width:488px; height:351px; position:absolute; top:50%; left:50%; margin-top:-175px; margin-left:-244px; background:url(../images/login.png)}
+#loginbox .account{height:20px; width:200px; position:absolute; top:137px; left:165px; border:0;}
+#loginbox .pwd{height:20px; width:200px; position:absolute; top:190px; left:165px; border:0;}
+#loginbox .exten{height:20px; width:200px; position:absolute; top:220px; left:165px; border:0;}
+#loginbox .loginbtn{width:73px; height:35px; position:absolute; top:244px; left:306px; border:0; background:url(../images/loginbtn.png); cursor:pointer }
+#loginbox .remember{width:200px;  position:absolute; top:254px; left:100px; font-size:12px;  }
+.remembe span{line-height:14px;}
+#loginbox .validation-summary-errors span{display:none}
+#loginbox .remember ul{padding:0;margin:0; list-style:none}
+#loginbox .field-validation-error{font-size:12px;color:red;display:block;padding:340px 0 0 20px;float:left}
