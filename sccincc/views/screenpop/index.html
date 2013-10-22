@@ -182,9 +182,7 @@
 <div class="control-group<%if(error!=null &&
 error.cname!=null){%>error<%}%>"> <label class="control-label"
 	for="cname">用户姓名 </label>
-<div class="controls"><input type="text" class="span12" id="cname"
-	name="cname" value="<% if(inst!=null && inst.cname!=null){%><%=
-inst.cname %><% }%>" /> <span class="help-inline"><%if(error!=null
+<div class="controls"><input type="text" class="span12" id="cname" name="cname" value="<% if(inst!=null && inst.cname!=null){%><%=inst.cname %><% }else{%>无<%}%>" /> <span class="help-inline"><%if(error!=null
 && error.cname!=null){%><%= error.cname%><%}%></span></div>
 </div>
 <div class="control-group<%if(error!=null &&
@@ -229,11 +227,9 @@ inst.cage %><% }%>" /> <span class="help-inline"><%if(error!=null
 error.csex!=null){%>error<%}%>"> <label class="control-label" for="csex">用水情况
 </label>
 <div class="controls"><label class="radio"> <input
-	type="radio" id="csex_0" name="csex" value="1"<% if(inst!=null
-&& inst.csex=='1' ){%> checked='checked' <% } else if(inst==null){%>
-selected=&quot;selected&quot; <% }else{ %> <% }%> /> 正常用水 </label> <label
-	class="radio"> <input type="radio" id="csex_1" name="csex"
-	value="0"<% if(inst!=null && inst.csex=='0' ){%>
+	type="radio" id="csex_0" name="csex" value="1" <% if(inst!=null
+&& inst.csex=='1' ){%> checked='checked' <% } else if(inst==null){%>checked='checked' <% }else{ %> <% }%> /> 正常用水 </label> <label
+	class="radio"> <input type="radio" id="csex_1" name="csex" value="0"<% if(inst!=null && inst.csex=='0' ){%>
 checked='checked' <% } else if(inst==null){%> <% }else{ %> <% }%> />
 欠费停水 </label></div>
 </div>

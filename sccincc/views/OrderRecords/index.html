@@ -41,20 +41,20 @@ $('#datatable').dataTable( {
 	sPaginationType: "bootstrap",
 	//bDestroy:true,
 	oLanguage: {
-	sLengthMenu: "姣忛〉鏄剧ず _MENU_ 鏉¤褰�,
-    sZeroRecords: "瀵逛笉璧凤紝鏌ヨ涓嶅埌浠讳綍鐩稿叧鏁版嵁",
-    sInfo: "褰撳墠鏄剧ず _START_ 鍒�_END_ 鏉★紝鍏�_TOTAL_ 鏉¤褰�,
-    sInfoEmtpy: "鎵句笉鍒扮浉鍏虫暟鎹�,
-    //"sInfoFiltered": "鏁版嵁琛ㄤ腑鍏变负 _MAX_ 鏉¤褰�,  
-    sProcessing: "姝ｅ湪鍔犺浇涓�..",
-    sSearch: "鎼滅储",
-    sInfoEmpty: "鏄剧ず 0 鑷�0 鍏�0 椤�,
-   oPaginate: { "sFirst": "绗竴椤�, "sPrevious": "涓婁竴椤�", "sNext": "涓嬩竴椤�", "sLast": "鏈〉 " }
+	sLengthMenu: "每页显示 _MENU_ 条记录",
+    sZeroRecords: "对不起，查询不到任何相关数据",
+    sInfo: "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
+    sInfoEmtpy: "找不到相关数据",
+    //"sInfoFiltered": "数据表中共为 _MAX_ 条记录",  
+    sProcessing: "正在加载中...",
+    sSearch: "搜索",
+    sInfoEmpty: "显示 0 至 0 共 0 项",
+   oPaginate: { "sFirst": "第一页", "sPrevious": "上一页 ", "sNext": "下一页 ", "sLast": "末页 " }
 	},
     bProcessing: true,
     bServerSide: true,
-    bSort: true,
-   // aaSorting: [[4, "asc"],[5,"desc"]],
+    bSort: false,
+//    aaSorting: [[4, "asc"],[5,"desc"]],
     bFilter:false,
     sAjaxSource: "/selectdb/pagingsearch?dbname=crm/OrderRecords&cls=callUnitID___OrderTypeid___orderContent___orderReslut___DepID___dactorName___serMan___cID___OrderOptions___recordTime___orderTime___id&where="+where,
     aoColumns:aoColumns ,
@@ -80,42 +80,37 @@ $('#datatable').dataTable( {
                 	   aTargets:[3],
                 	   mRender: function (data, type,full) {
                        var str='';
-                       str+="鐢ㄦ埛濮撳悕锛�+data.cname;
-                       str+="<br/>鐢ㄦ按鍦板潃锛�+data.lifeAddr;
+                       str+="用户姓名："+data.cname;
+                       str+="<br/>用水地址："+data.lifeAddr;
+                       str+="<br/>电话："+data.phone;
                        return str;
                 	   }
-                	   
                        },
-                       {
-                	   aTargets:[4],
-                	   asSorting:["asc"]
-                	   },
                 	     {
                 	   aTargets:[5],
                 	   asSorting:["desc"]
                 	   },
-                	   
                                {
                             	   aTargets: [aoColumns.length-1],
                             	//   mData : "id",
                                    mRender: function (data, type,full) {
                                 var depid=full.DepID.id;
-                            	var str='<div class="btn-group"><button class="btn btn-small ">鎿嶄綔</button> ';
+                            	var str='<div class="btn-group"><button class="btn btn-small ">操作</button> ';
 						            str+='<button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>';
 						            str+='<ul class="dropdown-menu"> ';
-                                    str+='<li><a href="/OrderRecords/detail?id='+data+'" ><i class="icon-zoom-in icon-white"></i>鏌ョ湅</a></li>';
-                                    str+='<li><a href="/OrderRecords/edit?id='+data+'" ><i class="icon-edit icon-white"></i> 缂栬緫</a></li>';
+                                    str+='<li><a href="/OrderRecords/detail?id='+data+'" ><i class="icon-zoom-in icon-white"></i>查看</a></li>';
+                                    str+='<li><a href="/OrderRecords/edit?id='+data+'" ><i class="icon-edit icon-white"></i> 编辑</a></li>';
                                     if(roleid==8){
-                                    str+='<li><a href="javascript:paidan('+data+','+depid+');" ><i class="icon-trash icon-white"></i>娲惧崟 </a></li>';
-                                    str+='<li><a href="javascript:cdsms('+data+');" ><i class="icon-trash icon-white"></i> 鐭俊鍌崟</a></li>';
+                                    str+='<li><a href="javascript:paidan('+data+','+depid+');" ><i class="icon-trash icon-white"></i>派单 </a></li>';
+                                    str+='<li><a href="javascript:cdsms('+data+');" ><i class="icon-trash icon-white"></i> 短信催单</a></li>';
                                     }
                                     else{
-                                    str+='<li><a href="javascript:paidan2('+data+','+depid+');" ><i class="icon-trash icon-white"></i>鐗囧尯娲惧崟 </a></li>';                                   
-                                    str+='<li><a href="javascript:cdtel('+data+');" ><i class="icon-trash icon-white"></i>鐢佃瘽鍌崟 </a></li>';
-                                    str+='<li><a href="javascript:cdsms('+data+');" ><i class="icon-trash icon-white"></i> 鐭俊鍌崟</a></li>';
-                                    str+='<li><a href="javascript:huifang('+data+');" ><i class="icon-trash icon-white"></i>鍥炶 </a></li>';
+                                    str+='<li><a href="javascript:paidan2('+data+','+depid+');" ><i class="icon-trash icon-white"></i>片区派单 </a></li>';                                   
+                                    str+='<li><a href="javascript:cdtel('+data+');" ><i class="icon-trash icon-white"></i>电话催单 </a></li>';
+                                    str+='<li><a href="javascript:cdsms('+data+');" ><i class="icon-trash icon-white"></i> 短信催单</a></li>';
+                                    str+='<li><a href="javascript:huifang('+data+');" ><i class="icon-trash icon-white"></i>回访 </a></li>';
                                     }
-                                   // str+='<li><a href="javascript:deleterow('+data+');" ><i class="icon-trash icon-white"></i> 鍒犻櫎</a></li>';
+                                   // str+='<li><a href="javascript:deleterow('+data+');" ><i class="icon-trash icon-white"></i> 删除</a></li>';
                                     str+='</ul></div>';
                                       return str;
                                    }
@@ -127,20 +122,20 @@ $('#datatable').dataTable( {
              aButtons: [
                                 //  {
                                  // "sExtends": "xls",
-                                //  "sButtonText": "瀵煎嚭excel",
+                                //  "sButtonText": "导出excel",
                                 //  "mColumns": [0,1,2,3]
                                 // },
                                 {
 					"sExtends": "copy",
-					"sButtonText": "澶嶅埗"
+					"sButtonText": "复制"
 				},
 				  {
 					"sExtends": "print",
-					"sButtonText": "鎵撳嵃"
+					"sButtonText": "打印"
 				},
                                  {
                  					"sExtends":    "collection",
-                 					"sButtonText": '瀵煎嚭 <span class="caret" />',
+                 					"sButtonText": '导出 <span class="caret" />',
                  					"aButtons":    [ "csv", "xls", "pdf" ],
                  					"mColumns": daochu
                  				}
@@ -171,7 +166,7 @@ function deleterow(data){
 		                    oTable.fnDraw();	                    
 	                },
 	                error: function (XMLHttpRequest, textStatus, errorThrown) {
-	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    alert('服务器访问发生异常！' + textStatus);
 	                    return;
 	                }
 	            }
@@ -187,7 +182,7 @@ function cdtel(orderId){
 
 function dialout(phonenumber){
 	 if (phonenumber == "") {
-         alert("涓鸿兘鑾峰彇鍒版湁鏁堟墜鏈哄彿鐮侊紝鍛煎彨灏嗗け璐ワ紒");
+         alert("为能获取到有效手机号码，呼叫将失败！");
          return false;
      }
      if(parent._OUTPREX!=null)
@@ -203,14 +198,14 @@ function dialout(phonenumber){
          timeout: 300,
          success: function (ajaxdata, textStatus) {
              if (ajaxdata.Response == "Error") {
-                 alert("鎿嶄綔澶辫触");
+                 alert("操作失败");
              } else {
-                 alert("姝ｅ湪寮�鍛煎彨:" + phonenumber + "锛岀郴缁熷皢鑷姩鎷ㄦ墦澶栫嚎,鐢佃瘽鍝嶉搩鍚庤鎽樻満锛�);
+                 alert("正在开始呼叫:" + phonenumber + "，系统将自动拨打外线,电话响铃后请摘机！");
              }
 
          },
          error: function (XMLHttpRequest, textStatus, errorThrown) {
-             alert('鏈嶅姟鍣ㄥ鐞嗗紓甯革紒璇疯仈绯荤鐞嗗憳');
+             alert('服务器处理异常！请联系管理员');
          }
 
      }
@@ -220,7 +215,7 @@ function dialout(phonenumber){
 function cdsms(orderId){
 	getPhone(orderId,function(udata){
 		if (!udata || udata.phone == "") {
-            alert("涓鸿兘鑾峰彇鍒版湁鏁堟墜鏈哄彿鐮侊紝鍙戦�鐭俊灏嗗け璐ワ紒");
+            alert("为能获取到有效手机号码，发送短信将失败！");
             return false;
         }
 		
@@ -254,7 +249,7 @@ function paidan2(orderId,depid1){
 		                        }
 	                },
 	                error: function (XMLHttpRequest, textStatus, errorThrown) {
-	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    alert('服务器访问发生异常！' + textStatus);
 	                    return;
 	                }
 
@@ -269,7 +264,7 @@ function paidan(orderId,depid1){
 	getOrder(orderId,0,function(data){
 		if(data==null)
 		{
-			alert("宸ュ崟鏁版嵁鏈夎锛�);
+			alert("工单数据有误！");
 		return false;	
 		}
 		var content='';
@@ -307,7 +302,7 @@ $("#dactorName2").html(str);
 	 	getOrder(orderId,0,function(data){
     		if(data==null)
     		{
-    			alert("宸ュ崟鏁版嵁鏈夎锛�);
+    			alert("工单数据有误！");
     		return false;	
     		}
     		var content='';
@@ -349,7 +344,7 @@ function getOrder(orderId,huifang,fn){
 			                }
 	                },
 	                error: function (XMLHttpRequest, textStatus, errorThrown) {
-	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    alert('服务器访问发生异常！' + textStatus);
 	                    return;
 	                }
 	            }
@@ -372,7 +367,7 @@ function getPhone(orderId,fn){
 			                }
 	                },
 	                error: function (XMLHttpRequest, textStatus, errorThrown) {
-	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    alert('服务器访问发生异常！' + textStatus);
 	                    return;
 	                }
 	            }
@@ -390,7 +385,7 @@ function smssend() {
         success: function (result) {
             if (result.success) {
                 $("#sendsms").modal('hide');
-                alert("鍙戦�鎴愬姛锛�);
+                alert("发送成功！");
             }
             else {
                 alert(result.msg);
@@ -424,7 +419,7 @@ $.ajax(
 	                }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+                alert('服务器访问发生异常！' + textStatus);
                 return;
             }
         }
@@ -436,7 +431,7 @@ function huifang(orderId){
 	getOrder(orderId,1,function(data){
 		if(data==null)
 		{
-			alert("宸ュ崟鏁版嵁鏈夎锛�);
+			alert("工单数据有误！");
 		return false;	
 		}
 		//alert(data.callUnitID);
@@ -455,7 +450,7 @@ var manid=parent._USERID;
 var content=$("#smscontent3").val();
 var options=$("input[name='OrderOptions3'][type='radio']:checked").val();
 if(options==1){
-alert("浠嶅湪澶勭悊涓殑宸ュ崟涓嶈兘淇濆瓨锛�);
+alert("仍在处理中的工单不能保存！");
 return false;
 }
 $.ajax(
@@ -475,7 +470,7 @@ $.ajax(
 	                }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+                alert('服务器访问发生异常！' + textStatus);
                 return;
             }
         }
@@ -492,15 +487,15 @@ function dialouthuifang(){
 <script type="text/javascript">
 
 function get_OrderOptions(value){
-var tm=	{ name: '宸ュ崟鐘舵�',
+var tm=	{ name: '工单状态',
   input: { type: 'radios' },
   search: false,
   create: true,
   table: true,
   radios: 
-   [ { checked: ' selected=&quot;selected&quot;', value: 0, name: '鏈鐞� },
-     { checked: '', value: 1, name: '澶勭悊涓� },
-     { checked: '', value: 2, name: '宸插畬鎴� } ] }.radios;
+   [ { checked: ' selected=&quot;selected&quot;', value: 0, name: '未处理' },
+     { checked: '', value: 1, name: '处理中' },
+     { checked: '', value: 2, name: '已完成' } ] }.radios;
 for(var tmtm in tm)
 	if(tm[tmtm].value==value){
 return tm[tmtm].name;
@@ -521,7 +516,7 @@ function del(ids){
 		                    location.href='/OrderRecords/';		                    
 	                },
 	                error: function (XMLHttpRequest, textStatus, errorThrown) {
-	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    alert('服务器访问发生异常！' + textStatus);
 	                    return;
 	                }
 	            }
@@ -541,7 +536,7 @@ $(function(){
 	                success: function (data, textStatus) {
 	                        if(data.success)
 	                        {
-	                        	$("<option value='-1'  >璇烽�鎷�/option>").appendTo("#OrderTypeid");	
+	                        	$("<option value='-1'  >请选择</option>").appendTo("#OrderTypeid");	
 	                        	for (var i = 0; i < data.data.length; i++) {
 	                        		<%if(where!=null){ %>
 	    	                        if( data.data[i].id==<%= where.OrderTypeid%>)
@@ -563,7 +558,7 @@ $(function(){
 		                        }
 	                },
 	                error: function (XMLHttpRequest, textStatus, errorThrown) {
-	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    alert('服务器访问发生异常！' + textStatus);
 	                    return;
 	                }
 
@@ -583,7 +578,7 @@ $(function(){
 	                success: function (data, textStatus) {
 	                        if(data.success)
 	                        {
-	                        	$("<option value='-1'  >璇烽�鎷�/option>").appendTo("#serMan");	
+	                        	$("<option value='-1'  >请选择</option>").appendTo("#serMan");	
 	                        	for (var i = 0; i < data.data.length; i++) {
 
 	                        		<%if(where!=null){ %>
@@ -606,7 +601,7 @@ $(function(){
 		                        }
 	                },
 	                error: function (XMLHttpRequest, textStatus, errorThrown) {
-	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    alert('服务器访问发生异常！' + textStatus);
 	                    return;
 	                }
 
@@ -640,7 +635,7 @@ $(function(){
 		                        }
 	                },
 	                error: function (XMLHttpRequest, textStatus, errorThrown) {
-	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    alert('服务器访问发生异常！' + textStatus);
 	                    return;
 	                }
 
@@ -661,7 +656,7 @@ $(function(){
 	                success: function (data, textStatus) {
 	                        if(data.success)
 	                        {
-	                        	$("<option value='-1'  >璇烽�鎷�/option>").appendTo("#cID");	
+	                        	$("<option value='-1'  >请选择</option>").appendTo("#cID");	
 	                        	for (var i = 0; i < data.data.length; i++) {
 
 	                        		<%if(where!=null){ %>
@@ -685,7 +680,7 @@ $(function(){
 		                        }
 	                },
 	                error: function (XMLHttpRequest, textStatus, errorThrown) {
-	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    alert('服务器访问发生异常！' + textStatus);
 	                    return;
 	                }
 
@@ -706,7 +701,7 @@ $(function(){
 	                success: function (data, textStatus) {
 	                	if(data.success)
                       {
-	                	$("<option value='-1'  >璇烽�鎷�/option>").appendTo("#DepID");	
+	                	$("<option value='-1'  >请选择</option>").appendTo("#DepID");	
 	                		
                       	for (var i = 0; i < data.data.length; i++) {
                       		<%if(where!=null){ %>
@@ -727,7 +722,7 @@ $(function(){
 		                        }
 	                },
 	                error: function (XMLHttpRequest, textStatus, errorThrown) {
-	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    alert('服务器访问发生异常！' + textStatus);
 	                    return;
 	                }
 
@@ -751,7 +746,7 @@ $(function(){
 	                success: function (data, textStatus) {
 	                	if(data.success)
                         {
-	                        var htmlappend='<option value="-1">璇烽�鎷�/option> ';	                     
+	                        var htmlappend='<option value="-1">请选择</option> ';	                     
 	                	
 		                		for(var key in data.data){
 		                	
@@ -775,7 +770,7 @@ $(function(){
 		                        }
 	                },
 	                error: function (XMLHttpRequest, textStatus, errorThrown) {
-	                    alert('鏈嶅姟鍣ㄨ闂彂鐢熷紓甯革紒' + textStatus);
+	                    alert('服务器访问发生异常！' + textStatus);
 	                    return;
 	                }
 
@@ -792,8 +787,8 @@ $(function(){
 	aria-labelledby="myModalLabel" aria-hidden="true">
 <div class="modal-header">
 <button type="button" class="close" data-dismiss="modal"
-	aria-hidden="true">脳</button>
-<h3 id="myModalLabel">鎸夋潯浠舵悳绱�/h3>
+	aria-hidden="true">×</button>
+<h3 id="myModalLabel">按条件搜索</h3>
 </div>
 <div class="modal-body">
 <div class="row-fluid sortable">
@@ -802,11 +797,11 @@ $(function(){
 <form class="form-horizontal" method="POST">
 <fieldset>
 <div class="control-group"><label class="control-label"
-	for="callUnitID">宸ュ崟缂栧彿 </label>
+	for="callUnitID">工单编号 </label>
 <div class="controls">
 <input type="text" class="span6 typeahead" id="callUnitID" name="callUnitID" value="<%= where.callUnitID%>" /></div>
 </div>
-<div class="control-group"><label class="control-label" for="OrderTypeid">宸ュ崟绫诲瀷 </label>
+<div class="control-group"><label class="control-label" for="OrderTypeid">工单类型 </label>
 <div class="controls">
 <select id="OrderTypeid" name="OrderTypeid" >
 <option value='<%=where.OrderTypeid%>'  ></option>
@@ -816,12 +811,12 @@ $(function(){
 
 
 
-<div class="control-group"><label class="control-label" for="orderContent">鍙楃悊鍐呭 </label>
+<div class="control-group"><label class="control-label" for="orderContent">受理内容 </label>
 <div class="controls"><input type="text" class="span6 typeahead" id="orderContent" value="<%= where.orderContent%>" name="orderContent" /></div>
 </div>
 
 
-<div class="control-group"><label class="control-label" for="DepID">澶勭悊閮ㄩ棬 </label>
+<div class="control-group"><label class="control-label" for="DepID">处理部门 </label>
 <div class="controls">
 <select id="DepID" name="DepID">
 <option value='<%=where.DepID%>'  ></option>
@@ -829,19 +824,19 @@ $(function(){
 </div>
 
 
-<div class="control-group"><label class="control-label" for="dactorName">澶勭悊浜哄憳 </label>
+<div class="control-group"><label class="control-label" for="dactorName">处理人员 </label>
 <div class="controls"><select id="dactorName" name="dactorName">
 <option value='<%=where.dactorName%>'  ></option>
 </select></div>
 </div>
 
 <div class="control-group"><label class="control-label"
-	for="orderReslut">澶勭悊缁撴灉 </label>
+	for="orderReslut">处理结果 </label>
 <div class="controls"><input type="text" class="span6 typeahead" id="orderReslut" name="orderReslut" value="<%=where.orderReslut%>" /></div>
 </div>
 
 
-<div class="control-group"><label class="control-label" for="serMan">鏈嶅姟搴у腑 </label>
+<div class="control-group"><label class="control-label" for="serMan">服务座席 </label>
 <div class="controls"><select id="serMan" name="serMan">
 <option value='<%=where.serMan%>'  ></option>
 </select></div>
@@ -849,19 +844,19 @@ $(function(){
 
 
 
-<div class="control-group"><label class="control-label" for="cID">鐢ㄦ埛鍚嶇О
+<div class="control-group"><label class="control-label" for="cID">用户名称
 </label>
 <div class="controls">
 <select id="cID" name="cID">
-<option value='-1'  >璇烽�鎷�/option>
+<option value='-1'  >请选择</option>
 </select></div>
 </div>
 
 <div class="modal-footer">
 
 <button class="btn btn-small btn-danger" data-dismiss="modal"
-	aria-hidden="true">鍏抽棴</button>
-<button type="submit" class="btn btn-small btn-info">鎼滅储</button>
+	aria-hidden="true">关闭</button>
+<button type="submit" class="btn btn-small btn-info">搜索</button>
 </div>
 </fieldset>
 </form>
@@ -876,12 +871,12 @@ $(function(){
 <div class="row-fluid sortable">
 <div class="box span12">
 <div class="box-content"><!--<a href="/OrderRecords/create" class="btn btn-small btn-primary">
-						 <i class="icon-chevron-left icon-white"></i>鏂板</a> 
+						 <i class="icon-chevron-left icon-white"></i>新增</a> 
 --><a href="#mysearch" role="button" class="btn btn-small btn-primary"
-	data-toggle="modal"> <i class="icon-search icon-white"></i>鏌ヨ</a></div>
+	data-toggle="modal"> <i class="icon-search icon-white"></i>查询</a></div>
 
 <div class="box-header well" data-original-title>
-<h2><i class="icon-user"></i> 宸ュ崟璁板綍鍒楄〃</h2>
+<h2><i class="icon-user"></i> 工单记录列表</h2>
 <div class="box-icon"><a href="#"
 	class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
 
@@ -896,48 +891,48 @@ $(function(){
 		<tr>
 
 
-			<th>宸ュ崟缂栧彿</th>
+			<th>工单编号</th>
 
 
 
-			<th>鏁呴殰绫诲埆</th><!--
+			<th>故障类别</th><!--
 
 
 
-			<th>鍙楃悊鍐呭</th>
+			<th>受理内容</th>
 
 
 
-			<th>澶勭悊缁撴灉</th>
+			<th>处理结果</th>
 
             
-            --><th>澶勭悊閮ㄩ棬</th><!--
+            --><th>处理部门</th><!--
 
 			
-			<th>澶勭悊浜哄憳</th>
+			<th>处理人员</th>
 
 
 
-			<th>鏈嶅姟搴у腑</th>
+			<th>服务座席</th>
 
 
 
-			--><th>鐢ㄦ埛淇℃伅</th>
+			--><th>用户信息</th>
 
 
 
-			<th>宸ュ崟鐘舵�</th>
+			<th>工单状态</th>
 
 
 
-			<!--<th>澶勭悊鏃堕棿</th>
+			<!--<th>处理时间</th>
 
 
 
-			--><th>璁板綍鏃堕棿</th>
+			--><th>记录时间</th>
 
 
-			<th>鎿嶄綔</th>
+			<th>操作</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -952,8 +947,8 @@ $(function(){
 	aria-labelledby="myModalLabel" aria-hidden="true">
 <div class="modal-header">
 <button type="button" class="close" data-dismiss="modal"
-	aria-hidden="true">脳</button>
-<h3 id="myModalLabel">鐭俊鍌崟</h3>
+	aria-hidden="true">×</button>
+<h3 id="myModalLabel">短信催单</h3>
 </div>
 <div class="modal-body">
 <div class="row-fluid sortable">
@@ -962,27 +957,27 @@ $(function(){
 <form class="form-horizontal" method="get">
 <fieldset>
 <div class="control-group"><label class="control-label"
-	for="cusname">鐢ㄦ埛濮撳悕</label>
+	for="cusname">用户姓名</label>
 <div class="controls"><input type="text" class="span6 typeahead"
 	id="cusname" name="cusname" readonly="readonly"></div>
 </div>
 
 <div class="control-group"><label class="control-label"
-	for="phonenumber">鎵嬫満鍙�/label>
+	for="phonenumber">手机号</label>
 <div class="controls"><input type="text" class="span6 typeahead"
 	id="phonenumber" name="phonenumber" readonly="readonly"></div>
 </div>
 
 <div class="control-group"><label class="control-label"
-	for="smscontent">鍌崟鍐呭</label>
+	for="smscontent">催单内容</label>
 <div class="controls"><textarea id="smscontent" name="smscontent"
 	class="autogrow"></textarea></div>
 </div>
 <div class="modal-footer">
 <button class="btn btn-small btn-danger" data-dismiss="modal"
-	aria-hidden="true">鍏抽棴</button>
+	aria-hidden="true">关闭</button>
 <button type="button" class="btn btn-small btn-info"
-	onclick="javascript:smssend();">鍙戦�</button>
+	onclick="javascript:smssend();">发送</button>
 </div>
 </fieldset>
 </form>
@@ -998,8 +993,8 @@ $(function(){
 	aria-labelledby="myModalLabel" aria-hidden="true">
 <div class="modal-header">
 <button type="button" class="close" data-dismiss="modal"
-	aria-hidden="true">脳</button>
-<h3 id="myModalLabel2">娲惧崟澶勭悊</h3>
+	aria-hidden="true">×</button>
+<h3 id="myModalLabel2">派单处理</h3>
 </div>
 <div class="modal-body">
 <div class="row-fluid sortable">
@@ -1008,27 +1003,27 @@ $(function(){
 <form class="form-horizontal" method="get">
 <fieldset>
 <div class="control-group"><label class="control-label"
-	for="danhao">宸ュ崟鍙�/label>
+	for="danhao">工单号</label>
 <div class="controls"><input type="text" class="span6 typeahead"
 	id="danhao" name="danhao" readonly="readonly" />
 	<input type="hidden" id="shuoming" name="shuoming"/>
 	</div>
 </div>
 <div class="control-group"><label class="control-label"
-	for="dactorName2">澶勭悊浜哄憳 </label>
+	for="dactorName2">处理人员 </label>
 <div class="controls"><select id="dactorName2" name="dactorName2"></select>
 </div>
 </div>
 <div class="control-group"><label class="control-label"
-	for="smscontent2">鐭俊鍐呭</label>
+	for="smscontent2">短信内容</label>
 <div class="controls"><textarea id="smscontent2" name="smscontent2"
 	class="autogrow"></textarea></div>
 </div>
 <div class="modal-footer">
 <button class="btn btn-small btn-danger" data-dismiss="modal"
-	aria-hidden="true">鍏抽棴</button>
+	aria-hidden="true">关闭</button>
 <button type="button" class="btn btn-small btn-info"
-	onclick="javascript:dopaidan();">纭畾</button>
+	onclick="javascript:dopaidan();">确定</button>
 </div>
 </fieldset>
 </form>
@@ -1044,8 +1039,8 @@ $(function(){
 	aria-labelledby="myModalLabel1" aria-hidden="true">
 <div class="modal-header">
 <button type="button" class="close" data-dismiss="modal"
-	aria-hidden="true">脳</button>
-<h3 id="myModalLabel21">鐗囧尯娲惧崟</h3>
+	aria-hidden="true">×</button>
+<h3 id="myModalLabel21">片区派单</h3>
 </div>
 <div class="modal-body">
 </div>
@@ -1055,8 +1050,8 @@ $(function(){
 	aria-labelledby="myModalLabel" aria-hidden="true">
 <div class="modal-header">
 <button type="button" class="close" data-dismiss="modal"
-	aria-hidden="true">脳</button>
-<h3 id="myModalLabel3">鐢ㄦ埛鍥炶</h3>
+	aria-hidden="true">×</button>
+<h3 id="myModalLabel3">用户回访</h3>
 </div>
 <div class="modal-body">
 <div class="row-fluid sortable">
@@ -1065,49 +1060,49 @@ $(function(){
 <form class="form-horizontal" method="get">
 <fieldset>
 <div class="control-group"><label class="control-label"
-	for="danhao2">宸ュ崟鍙�/label>
+	for="danhao2">工单号</label>
 <div class="controls"><input type="text" class="span6 typeahead"
 	id="danhao2" name="danhao2" readonly="readonly" /></div>
 </div>
 
 <div class="control-group"><label class="control-label"
-	for="guzhang">鏁呴殰绫诲埆</label>
+	for="guzhang">故障类别</label>
 <div class="controls"><input type="text" class="span6 typeahead"
 	id="guzhang" name="guzhang" readonly="readonly" /></div>
 </div>
 
 <div class="control-group"><label class="control-label"
-	for="customname">瀹㈡埛濮撳悕</label>
+	for="customname">客户姓名</label>
 <div class="controls"><input type="text" class="span6 typeahead"
 	id="customname" name="customname" readonly="readonly" /></div>
 </div>
 
 <div class="control-group"><label class="control-label"
-	for="customphone">鎵嬫満鍙�/label>
+	for="customphone">手机号</label>
 <div class="controls"><input type="text" class="span6 typeahead"
 	id="customphone" name="customphone" readonly="readonly" />
-	<input type="button" class="btn btn-small" onclick="javascript:dialouthuifang();" value="鎷ㄦ墦"/>
+	<input type="button" class="btn btn-small" onclick="javascript:dialouthuifang();" value="拨打"/>
 	</div>
 </div>
 
 <div class="control-group"><label class="control-label"
-	for="smscontent3">澶勭悊缁撴灉</label>
+	for="smscontent3">处理结果</label>
 <div class="controls"><textarea id="smscontent3" name="smscontent3"
 	class="autogrow"></textarea></div>
 </div>
-<div class="control-group"> <label class="control-label" for="OrderOptions3">宸ュ崟鐘舵� </label>
+<div class="control-group"> <label class="control-label" for="OrderOptions3">工单状态 </label>
 <div class="controls">
 <label class="radio"> <input type="radio"
-	id="OrderOptions_1" checked="checked" name="OrderOptions3" value="1" /> 澶勭悊涓�</label> 
+	id="OrderOptions_1" checked="checked" name="OrderOptions3" value="1" /> 处理中 </label> 
 	<label class="radio">
-<input type="radio" id="OrderOptions_2" name="OrderOptions3" value="2" /> 宸插畬鎴�</label></div>
+<input type="radio" id="OrderOptions_2" name="OrderOptions3" value="2" /> 已完成 </label></div>
 </div>
 
 <div class="modal-footer">
 <button class="btn btn-small btn-danger" data-dismiss="modal"
-	aria-hidden="true">鍏抽棴</button>
+	aria-hidden="true">关闭</button>
 <button type="button" class="btn btn-small btn-info"
-	onclick="javascript:dohuifang();">纭畾</button>
+	onclick="javascript:dohuifang();">确定</button>
 </div>
 </fieldset>
 </form>

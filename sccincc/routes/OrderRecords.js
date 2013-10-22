@@ -62,6 +62,14 @@ res.render('OrderRecords/create.html', { title: '新增工单记录',inst:inst,m
 };
 
 exports.createpost=function(req,res){
+	DbMode.findOne({where:{callUnitID:req.body["callUnitID"]}}, function(err,inst0){
+	if(err0){res.render('OrderRecords/create.html', { title: '新增工单记录',inst:null,msg:err0,util:util});}
+	if(inst0.length>0){
+		res.render('OrderRecords/create.html', { title: '新增工单记录',inst:inst0,msg:"已经添加过该工单！",util:util});	
+		
+	}
+	
+	else{
 	var OrderRecords_mod=new DbMode();
 	for(var key in req.body){
 		//console.log(key);
@@ -91,10 +99,11 @@ exports.createpost=function(req,res){
 	    			res.redirect('/OrderRecords?cID='+inst.cID); 
 	    		}else{
 	    			for(var i5=0;i5<users.length;i5++){
+	    				if(users[i5].uRolyId==8){
 	    				var sms2=require('../modules/crm/Sms');
 	    				var Sms_mod=new sms2();
 	    				Sms_mod.mobile=users[i5].uPhone;
-	    				Sms_mod.content="您有新的工单需要处理，请及时处理！";
+	    				Sms_mod.content="您有新的工单:"+inst.callUnitID+"，请及时处理！";
 	    				Sms_mod.shuoming="1111";
 	    				Sms_mod.save(function(err,instsms){
 	    		    		if(err){
@@ -103,6 +112,7 @@ exports.createpost=function(req,res){
 	    		    			
 	    		    		}
 	    		    	});	
+	    		    		}
 	    			}
 	    			
 	    			res.redirect('/OrderRecords?cID='+inst.cID); 
@@ -113,6 +123,8 @@ exports.createpost=function(req,res){
 	    	});	
 	    }
 	});
+	    		    		}
+	    		    		}
 
 }
 

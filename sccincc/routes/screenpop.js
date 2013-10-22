@@ -25,6 +25,7 @@ try{
 	{
 		inst=new CustomInfo();
 		inst.phone=caller;
+		inst.csex=0;
 	}
 	
 	res.render('screenpop/index.html',{inst:inst,error:null,callmsg:callmsg});
