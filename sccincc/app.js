@@ -41,8 +41,10 @@ app.use(express.session(
     secret: "keyboard cat"
 }
 		));
-app.use(app.router);
+
 app.use(require('stylus').middleware(__dirname + '/public'));
+app.use(app.router);
+
 app.use(express.logger( {
 	stream : accessLogfile
 }));
@@ -138,11 +140,11 @@ for ( var i in routings) {
 
 
 
-/*app.get('*', function(req, res){
+app.get('*', function(req, res){
  res.render('404', {
  title: 'No Found'
  })
- });*/
+ });
 
 /*
  * http.createServer(app).listen(app.get('port'), function(){

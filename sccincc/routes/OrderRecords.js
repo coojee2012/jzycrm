@@ -124,7 +124,7 @@ exports.createpost=function(req,res){
 	    }
 	});
 	    		    		}
-	    		    		}
+	    		    		});
 
 }
 
