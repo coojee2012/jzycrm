@@ -180,15 +180,21 @@ var channel="LOCAL/"+outnumber+"@sub-outgoing";
 var Context='sub-outgoing-callback';
 var action=new AsAction.Originate();
 action.Channel=channel;
-action.Timeout=3000;
+action.Timeout=30;
 action.Async=true;
 action.Account = exten;
 action.Context = Context;
 action.Exten = exten;
-
+console.log(nami);
+if(nami.connected){
 nami.send(action,function(response){
 	res.send(response);			
 });	
+}
+else{
+	res.send({Response:'NotConnected'});	
+	
+}
 	
 }
 

@@ -17,9 +17,18 @@ var aoColumns=[
              ];
 var where='';
 
-
-where+=',,,,,'+'cretime:::::gte|||||'+$('#cretime_from').val();
-where+=',,,,,'+'cretime:::::lte|||||'+$('#cretime_to').val();
+var crtimefrom=$('#cretime_from').val();
+    if(crtimefrom=='')
+    	crtimefrom='2001-01-01 00:00:00';
+    else
+    	crtimefrom+=' 00:00:00';
+var crtimeto=$('#cretime_to').val();
+    if(crtimeto=='')
+    	crtimeto='2099-12-31 23:59:59';
+    	else
+    	crtimeto+=' 23:59:59';
+where+=',,,,,'+'cretime:::::between|||||'+crtimefrom+ '=====' + crtimeto;
+//where+=',,,,,'+'cretime:::::lte|||||'+$('#cretime_to').val();
 
 
 where+=',,,,,'+'extennum:::::like|||||'+$('#extennum').val();
@@ -54,32 +63,18 @@ $('#datatable').dataTable( {
     sAjaxSource: "/selectdb/pagingsearch?dbname=ippbx/recordfiles&cls=filename___extname___filesize___associate___calltype___cretime___extennum___doymicac___id&where="+where,
     aoColumns:aoColumns ,
     aoColumnDefs: [
-                   {
-                	   aTargets: [0], 
-                	   mRender: function (data, type,full) {
-                	   var str='<div class="btn-group"><button class="btn btn-small ">'+data+'</button> ';
-			            str+='<button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>';
-			            str+='<ul class="dropdown-menu"> ';
-			            str+='<li><a href="javascript:play(\''+data+'\');"><i class="icon-zoom-in icon-white"></i>播放</a></li>';
-			            str+='</ul></div>';
-			            return str;
-                	   }
-                       },
-                               {
+                   
+                	  {
                             	   aTargets: [aoColumns.length-1],
-                            	//   mData : "id",
+                            	
                                    mRender: function (data, type,full) {
-                                //    return 100;
-                                var str='<div class="btn-group"><button class="btn btn-small ">操作</button> ';
-						            str+='<button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>';
-						            str+='<ul class="dropdown-menu"> ';
-                                    str+='<li><a href="/recordfiles/detail?id='+data+'"><i class="icon-zoom-in icon-white"></i>查看</a></li>';
-                                    //str+='<li><a href="/recordfiles/edit?id='+data+'"><i class="icon-edit icon-white"></i> 编辑</a></li> ';
-                                    //str+='<li><a href="javascript:deleterow('+data+');"><i class="icon-trash icon-white"></i> 删除</a></li> ';
-                                    str+='</ul></div>';
-                                      return str;
-                                   }
-                               },
+                                	 var str='';            			           
+               			            str+='<a href="javascript:play(\''+full.filename+'\');"><i class="icon-zoom-in icon-white"></i>播放</a>';
+               			           
+               			            return str;
+                              
+                               }
+                	  }
                                //{bVisible:false,aTargets: [4]}
                               ],
              oTableTools: {
@@ -183,14 +178,20 @@ function del(ids){
 <div class="box-content">
 <form class="form-horizontal" method="POST">
 <fieldset>           
-<div class="control-group"><label class="control-label" for="cretime">记录时间 </label>
+<div class="control-group">
+<label class="control-label" for="cretime">记录时间  从</label>
 <div class="controls">
- 从<input type="text"
-	class="input-xlarge datepicker" id="cretime_from" name="cretime_from" value="<%= where.cretime_from%>"> 到<input
-	type="text" class="input-xlarge datepicker" id="cretime_to"
-name="cretime_to" value="<%= where.cretime_to%>">
+ <input type="text" class="input-xlarge datepicker" id="cretime_from" name="cretime_from" value="<%= where.cretime_from%>"> 
      </div>
 </div>
+
+<div class="control-group">
+<label class="control-label" for="cretime">到</label>
+<div class="controls">
+<input type="text" class="input-xlarge datepicker" id="cretime_to" name="cretime_to" value="<%= where.cretime_to%>">
+     </div>
+</div>
+
   
 <div class="control-group"><label class="control-label" for="extennum">分机号 </label>
 <div class="controls"> <input type="text" class="span6 typeahead" id="extennum"
@@ -216,9 +217,7 @@ data-provide="typeahead" data-items="4" data-source='["Alabama"]'>
 
 <div class="row-fluid sortable">
 <div class="box span12">
-<div class="box-content"><a href="/recordfiles/create"
-class="btn btn-small btn-primary"> <i
-	class="icon-chevron-left icon-white"></i>新增</a> <a href="#mysearch"
+<div class="box-content"> <a href="#mysearch"
 	role="button" class="btn btn-small btn-primary" data-toggle="modal">
 <i class="icon-search icon-white"></i>查询</a></div>
 

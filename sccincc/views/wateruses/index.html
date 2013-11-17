@@ -59,7 +59,22 @@ $('#datatable').dataTable( {
     bFilter:false,
     sAjaxSource: "/selectdb/pagingsearch?dbname=crm/wateruses&cls=userID___customID___stardu___enddu___cbtime___startime___endtime___id&where="+where,
     aoColumns:aoColumns ,
-    aoColumnDefs: [
+    aoColumnDefs: [{
+    	aTargets:[0],
+    	mRender:function(data,type,full){
+    		if(data!=null)
+    		return data.uName;
+    		return '--';
+    	}
+    	
+    },{
+    	aTargets:[1],
+    	mRender:function(data,type,full){
+    		if(data!=null)
+    		return data.cname;
+    		return '--';
+    	}
+    },
                                {
                             	   aTargets: [aoColumns.length-1],
                             	//   mData : "id",

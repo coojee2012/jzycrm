@@ -3,14 +3,14 @@ var schema = require('../../dbconfig').schema;
 var Inputs = require('../../autoinput/autoinput');
 var moment = require('moment');
 var SysLog = schema.define('SysLog', {
-	content:      {type:String,limit:200},
-	errorpage:    {type:String,limit:50},
+	content:      {type:String,limit:600},
+	errorpage:    {type:String,limit:80},
 	controller:   {type:String,limit:50},
 	crttime:     {type: Date, default: function () { return moment().format("YYYY-MM-DD HH:mm:ss"); }}
 }, {
-    restPath: '/syslog' // tell WebService adapter which path use as API endpoint
+    restPath: '/SysLog' // tell WebService adapter which path use as API endpoint
 });
-SysLog.autotpl=true;
+SysLog.autotpl=false;
 SysLog.cloums={
 		content:   {name:"错误内容",input:Inputs.Text,search:false,create:true,table:true},
 		errorpage:   {name:"页面",input:Inputs.Text,search:false,create:true,table:true},

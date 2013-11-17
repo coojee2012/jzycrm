@@ -25,6 +25,7 @@
     "soap":"*",  
     "connect-mysql-session":"*",
     "eventproxy":"*",
+    "formidable":"*",
     "stylus":"*"
   }
 }

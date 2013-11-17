@@ -250,15 +250,6 @@ error.phone!=null){%>error<%}%>"> <label class="control-label"
 inst.phone %><% }%>" /> <span class="help-inline"><%if(error!=null
 && error.phone!=null){%><%= error.phone%><%}%></span></div>
 </div>
-<div class="control-group<%if(error!=null &&
-error.crtTime!=null){%>error<%}%>"> <label class="control-label"
-	for="crtTime">创建时间 </label>
-<div class="controls"><input type="text"
-	class="span12 input-xlarge datepicker" id="crtTime" name="crtTime"
-	value="<% if(inst!=null && inst.crtTime!=null){%><%=
-inst.crtTime %><% }%>" /> <span class="help-inline"><%if(error!=null
-&& error.crtTime!=null){%><%= error.crtTime%><%}%></span></div>
-</div>
 </div>
 <div class="form-actions">
 <button type="button" class="btn btn-primary" id="submit" name="submit">保存</button>

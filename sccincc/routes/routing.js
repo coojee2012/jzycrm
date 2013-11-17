@@ -265,7 +265,9 @@ routes.WarterStopInfo=[
  {urlreg:'/WarterStopInfo/detail',file:'/routes/WarterStopInfo',method:'get',fn:'detail'},
  {urlreg:'/WarterStopInfo/del',file:'/routes/WarterStopInfo',method:'post',fn:'del'},
  {urlreg:'/WarterStopInfo/create',file:'/routes/WarterStopInfo',method:'post',fn:'createpost'},
- {urlreg:'/WarterStopInfo/create',file:'/routes/WarterStopInfo',method:'get',fn:'createget'}];
+ {urlreg:'/WarterStopInfo/create',file:'/routes/WarterStopInfo',method:'get',fn:'createget'},
+ {urlreg:'/WarterStopInfo/huifu',file:'/routes/WarterStopInfo',method:'post',fn:'huifu'}];
+
 //自动添加于：2013-07-17 18:46:17
 routes.wateruses=[
  {urlreg:'/wateruses',file:'/routes/wateruses',method:'get',fn:'get'},

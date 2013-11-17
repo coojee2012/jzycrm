@@ -4,7 +4,7 @@ exports.SoundPlayer=function(req,res){
     var exten=req.query['exten'] ||	req.body['exten'];
     
     var where={associate:filename,extennum:exten};
-    var hostname=req.protocol+'://'+req.ip;
+    var hostname=req.protocol+'://'+req.host;
     var port=req.app.get('port');
     
     recordfiles.findOne({where:where},function(err,db){

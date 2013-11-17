@@ -1,3 +1,5 @@
+var syslog=require('../common/syslog');
+
 exports.all = function(req, res){
 var tbname=req.query['tbname'] || req.body['tbname'];
 var groupby=req.query['groupby'] || req.body['groupby'];
@@ -12,6 +14,7 @@ for(var key in TB.relations){
 }
 TB.all({include:inld,where:where},function(err,dbs){
 	if(err){
+		syslog.add(req,res,'sql',err);
 		res.send({success:false,msg:err,dbs:[]});	
 	}else{
 		
@@ -148,9 +151,18 @@ exports.pagingsearch=function(req,res){
 		else{
 			where[tmp1[0]]=tmp2[0];
 		}
-		}else{
+		}
+	
+		else{
 	where[tmp1[0]]={};
+	if(tmp2[0]=='between'){
+		
+	     console.log(tmp2[1]);
+		where[tmp1[0]][tmp2[0]]=tmp2[1].split('=====');	
+	}
+	else	
 	where[tmp1[0]][tmp2[0]]=tmp2[1];
+	
 		}
 	}
 	}
@@ -163,13 +175,11 @@ exports.pagingsearch=function(req,res){
 		inld.push(key);
 	}
 	console.log('WHERE:',where);
-	searchDb.all(
-		{
-			where:where
-			
-		}
-			,function(err,counts){
-			var count=counts.length;
+	searchDb.count({where:where},
+		function(err,counts){
+			if(err)
+				syslog.add(req,res,'sql',err);
+			var count=counts;//counts.length;
 			  //console.log("COUNT:");
 			  //console.log(count);
 				if(count<1){
@@ -187,6 +197,10 @@ exports.pagingsearch=function(req,res){
 						skip:iDisplayStart,
 						limit:iDisplayLength
 						},function(err,dbs){
+							
+						if(err)
+							syslog.add(req,res,'sql',err);
+						
 						output.iTotalRecords=count;
 						output.sEcho=req.query['sEcho'] || req.body['sEcho'];
 						output.iTotalDisplayRecords=count;
@@ -256,7 +270,8 @@ exports.pagingsearch=function(req,res){
 						}		
 				);
 				}
-			});
+			}//count
+				);
 			
 
 }

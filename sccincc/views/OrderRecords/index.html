@@ -3,17 +3,18 @@ $(document).ready(function() {
 var roleid=<%= roleid%>;
 var aoColumns=[
                
-               { mData: "callUnitID", sClass: "center" },
+               { mData: "id", sClass: "center",bSearchable: false },
                
-               { mData: "OrderTypeid", sClass: "center" },
+ //              { mData: "OrderTypeid", sClass: "center" },
                
- //              { mData: "orderContent", sClass: "center" },
+               { mData: "orderContent", sClass: "center" },
                
  //              { mData: "orderReslut", sClass: "center" },
                { mData: "DepID", sClass: "center" },               
-  //             { mData: "dactorName", sClass: "center" },               
-  //             { mData: "serMan", sClass: "center" },               
-               { mData: "cID", sClass: "center" },
+  //             { mData: "dactorName", sClass: "center" },  
+                { mData: "cID", sClass: "center" },             
+                { mData: "serMan", sClass: "center" },               
+               
                { mData: "OrderOptions", sClass: "center",bSearchable: false},
    //            	{ mData: "recordTime", sClass: "center",bSearchable: false},
                	{ mData: "orderTime", sClass: "center",bSearchable: false},
@@ -22,14 +23,13 @@ var aoColumns=[
                  
              ];
 var where='';
-where+='cID:::::'+$('#cID').val();
 where+=',,,,,'+'serMan:::::'+$('#serMan').val();
 where+=',,,,,'+'DepID:::::'+$('#DepID').val();
 where+=',,,,,'+'dactorName:::::'+$('#dactorName').val();
 where+=',,,,,'+'orderReslut:::::'+$('#orderReslut').val();
 where+=',,,,,'+'orderContent:::::like|||||'+$('#orderContent').val();
-where+=',,,,,'+'OrderTypeid:::::'+$('#OrderTypeid').val();
-where+=',,,,,'+'callUnitID:::::like|||||'+$('#callUnitID').val();
+//where+=',,,,,'+'OrderTypeid:::::'+$('#OrderTypeid').val();
+where+=',,,,,'+'id:::::'+$('#id').val();
 
 var daochu=[];
 for(var i=0;i<aoColumns.length-1;i++){
@@ -56,18 +56,18 @@ $('#datatable').dataTable( {
     bSort: false,
 //    aaSorting: [[4, "asc"],[5,"desc"]],
     bFilter:false,
-    sAjaxSource: "/selectdb/pagingsearch?dbname=crm/OrderRecords&cls=callUnitID___OrderTypeid___orderContent___orderReslut___DepID___dactorName___serMan___cID___OrderOptions___recordTime___orderTime___id&where="+where,
+    sAjaxSource: "/selectdb/pagingsearch?dbname=crm/OrderRecords&cls=id___OrderTypeid___orderContent___orderReslut___DepID___dactorName___serMan___cID___OrderOptions___recordTime___orderTime___id&where="+where,
     aoColumns:aoColumns ,
     aoColumnDefs: [
-                   {
-                	   aTargets:[1],
-                	   mRender: function (data, type,full) {
-                       var str='';
-                       str+=data.typeName||'';
+                  // {
+                	//   aTargets:[1],
+                	//   mRender: function (data, type,full) {
+                    //   var str='';
+                    //   str+=data.typeName||'';
                        
-                       return str;
-                	   }
-                       },
+                     //  return str;
+                	//   }
+                    //   },
                    {
                 	   aTargets:[2],
                 	   mRender: function (data, type,full) {
@@ -83,6 +83,15 @@ $('#datatable').dataTable( {
                        str+="用户姓名："+data.cname;
                        str+="<br/>用水地址："+data.lifeAddr;
                        str+="<br/>电话："+data.phone;
+                       return str;
+                	   }
+                       },
+                        {
+                	   aTargets:[4],
+                	   mRender: function (data, type,full) {
+                       var str="--";
+                      if(data!=null)
+                      str=data.uName;
                        return str;
                 	   }
                        },
@@ -195,11 +204,15 @@ function dialout(phonenumber){
          type: 'POST',
          async: false,
          data: { outnumber: phonenumber, exten: parent._USEREXTEN, poptype: "" },
-         timeout: 300,
+         timeout: 10,
          success: function (ajaxdata, textStatus) {
              if (ajaxdata.Response == "Error") {
                  alert("操作失败");
-             } else {
+             }
+             else if(ajaxdata.Response == "NotConnected"){
+             alert("语音服务器出现问题！");
+             }
+              else {
                  alert("正在开始呼叫:" + phonenumber + "，系统将自动拨打外线,电话响铃后请摘机！");
              }
 
@@ -267,17 +280,20 @@ function paidan(orderId,depid1){
 			alert("工单数据有误！");
 		return false;	
 		}
-		var content='';
+		var content='用水地址:';
 
 		content+=data.CustomInfo.lifeAddr;
-		content+='. '+data.CustomInfo.cname;
+		content+='.姓名:'+data.CustomInfo.cname;
 		var phone=data.CustomInfo.phone||'';
 		    phone=phone.replace(/^0+/g,'');
-		content+='.  '+phone;
-		content+='.  '+data.orderContent;
-		content+='. ';
+		content+='.电话:'+phone;
+		content+='.故障:'+data.orderContent;
+		content+='.表号:'+data.CustomInfo.idcard || '';
+		content+='.用户号:'+data.CustomInfo.work || '';
+		content+='.备注:'+data.memo || '';
+		content+='.';
 
-		$("#danhao").val(data.callUnitID);
+		$("#danhao").val(data.id);
 		$("#smscontent2").val(content);
 		$("#shuoming").val(data.OrderType.typeName);
 		$('#paidan').modal('show');
@@ -305,15 +321,18 @@ $("#dactorName2").html(str);
     			alert("工单数据有误！");
     		return false;	
     		}
-    		var content='';
+    		var content='用水地址:';
 
-    		content+=data.CustomInfo.lifeAddr;
-    		content+='. '+data.CustomInfo.cname;
-    		var phone=data.CustomInfo.phone||'';
-    		    phone=phone.replace(/^0+/g,'');
-    		content+='.  '+phone;
-    		content+='.  '+data.orderContent;
-    		content+='. ';
+		content+=data.CustomInfo.lifeAddr;
+		content+='.姓名:'+data.CustomInfo.cname;
+		var phone=data.CustomInfo.phone||'';
+		    phone=phone.replace(/^0+/g,'');
+		content+='.电话:'+phone;
+		content+='.故障:'+data.orderContent;
+		content+='.表号:'+data.CustomInfo.idcard || '';
+		content+='.用户号:'+data.CustomInfo.work || '';
+		content+='.备注:'+data.memo || '';
+		content+='.';
     	
     		$("#danhao").val(data.callUnitID);
     		$("#smscontent2").val(content);
@@ -797,17 +816,11 @@ $(function(){
 <form class="form-horizontal" method="POST">
 <fieldset>
 <div class="control-group"><label class="control-label"
-	for="callUnitID">工单编号 </label>
+	for="id">工单编号 </label>
 <div class="controls">
-<input type="text" class="span6 typeahead" id="callUnitID" name="callUnitID" value="<%= where.callUnitID%>" /></div>
+<input type="text" class="span6 typeahead" id="id" name="id" value="<%= where.id%>" /></div>
 </div>
-<div class="control-group"><label class="control-label" for="OrderTypeid">工单类型 </label>
-<div class="controls">
-<select id="OrderTypeid" name="OrderTypeid" >
-<option value='<%=where.OrderTypeid%>'  ></option>
-</select>
-</div>
-</div>
+
 
 
 
@@ -824,11 +837,7 @@ $(function(){
 </div>
 
 
-<div class="control-group"><label class="control-label" for="dactorName">处理人员 </label>
-<div class="controls"><select id="dactorName" name="dactorName">
-<option value='<%=where.dactorName%>'  ></option>
-</select></div>
-</div>
+
 
 <div class="control-group"><label class="control-label"
 	for="orderReslut">处理结果 </label>
@@ -844,13 +853,6 @@ $(function(){
 
 
 
-<div class="control-group"><label class="control-label" for="cID">用户名称
-</label>
-<div class="controls">
-<select id="cID" name="cID">
-<option value='-1'  >请选择</option>
-</select></div>
-</div>
 
 <div class="modal-footer">
 
@@ -895,7 +897,8 @@ $(function(){
 
 
 
-			<th>故障类别</th><!--
+			<th>故障现象</th>
+			<!--
 
 
 
@@ -906,18 +909,22 @@ $(function(){
 			<th>处理结果</th>
 
             
-            --><th>处理部门</th><!--
+            -->
+            <th>处理部门</th>
+            <!--
 
 			
 			<th>处理人员</th>
 
 
+-->
+            <th>用户信息</th>
 
 			<th>服务座席</th>
 
 
 
-			--><th>用户信息</th>
+			
 
 
 
@@ -1003,7 +1010,7 @@ $(function(){
 <form class="form-horizontal" method="get">
 <fieldset>
 <div class="control-group"><label class="control-label"
-	for="danhao">工单号</label>
+	for="danhao">工单编号</label>
 <div class="controls"><input type="text" class="span6 typeahead"
 	id="danhao" name="danhao" readonly="readonly" />
 	<input type="hidden" id="shuoming" name="shuoming"/>

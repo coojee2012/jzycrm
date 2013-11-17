@@ -46,3 +46,101 @@ roleid is not defined
 Error: read ECONNRESET
     at errnoException (net.js:878:11)
     at TCP.onread (net.js:539:19)
+[Wed Oct 23 2013 13:38:32 GMT+0800 (中国标准时间)] /login
+undefined
+[Wed Oct 23 2013 13:38:53 GMT+0800 (中国标准时间)] /
+undefined
+[Fri Nov 08 2013 22:11:35 GMT+0800 (中国标准时间)] /login
+undefined
+[Fri Nov 08 2013 22:12:38 GMT+0800 (中国标准时间)] /login
+undefined
+[Fri Nov 08 2013 22:14:30 GMT+0800 (中国标准时间)] /
+undefined
+[Fri Nov 08 2013 22:24:10 GMT+0800 (中国标准时间)] /login
+undefined
+[Sat Nov 09 2013 10:02:11 GMT+0800 (中国标准时间)] /login
+undefined
+[Sat Nov 09 2013 10:22:56 GMT+0800 (中国标准时间)] /img/favicon.ico
+Error: read ECONNRESET
+    at errnoException (net.js:878:11)
+    at TCP.onread (net.js:539:19)
+[Sat Nov 09 2013 15:44:38 GMT+0800 (中国标准时间)] /css/bootstrap-cerulean.css
+Error: read ECONNRESET
+    at errnoException (net.js:878:11)
+    at TCP.onread (net.js:539:19)
+[Sat Nov 09 2013 17:02:59 GMT+0800 (中国标准时间)] /css/bootstrap-cerulean.css
+Error: read ECONNRESET
+    at errnoException (net.js:878:11)
+    at TCP.onread (net.js:539:19)
+[Sat Nov 09 2013 18:03:56 GMT+0800 (中国标准时间)] /OrderRecords/create?unid=-1&customid=100
+Error: read ECONNRESET
+    at errnoException (net.js:878:11)
+    at TCP.onread (net.js:539:19)
+[Sun Nov 10 2013 22:29:38 GMT+0800 (中国标准时间)] /img/border.png
+Error: read ECONNRESET
+    at errnoException (net.js:878:11)
+    at TCP.onread (net.js:539:19)
+[Sun Nov 10 2013 22:59:05 GMT+0800 (中国标准时间)] /WarterStopInfo/create
+TypeError: Cannot read property 'fileInput' of undefined
+    at exports.createpost (E:\GitHub\jzycrm\sccincc\routes\WarterStopInfo.js:68:23)
+    at callbacks (E:\GitHub\jzycrm\sccincc\node_modules\express\lib\router\index.js:161:37)
+    at param (E:\GitHub\jzycrm\sccincc\node_modules\express\lib\router\index.js:135:11)
+    at pass (E:\GitHub\jzycrm\sccincc\node_modules\express\lib\router\index.js:142:5)
+    at Router._dispatch (E:\GitHub\jzycrm\sccincc\node_modules\express\lib\router\index.js:170:5)
+    at Object.router (E:\GitHub\jzycrm\sccincc\node_modules\express\lib\router\index.js:33:10)
+    at next (E:\GitHub\jzycrm\sccincc\node_modules\express\node_modules\connect\lib\proto.js:190:15)
+    at Object.stylus (E:\GitHub\jzycrm\sccincc\node_modules\stylus\lib\middleware.js:109:61)
+    at next (E:\GitHub\jzycrm\sccincc\node_modules\express\node_modules\connect\lib\proto.js:190:15)
+    at next (E:\GitHub\jzycrm\sccincc\node_modules\express\node_modules\connect\lib\middleware\session.js:313:9)
+[Sun Nov 10 2013 23:01:06 GMT+0800 (中国标准时间)] /WarterStopInfo/create
+TypeError: Cannot read property 'fileInput' of undefined
+    at exports.createpost (E:\GitHub\jzycrm\sccincc\routes\WarterStopInfo.js:68:23)
+    at callbacks (E:\GitHub\jzycrm\sccincc\node_modules\express\lib\router\index.js:161:37)
+    at param (E:\GitHub\jzycrm\sccincc\node_modules\express\lib\router\index.js:135:11)
+    at pass (E:\GitHub\jzycrm\sccincc\node_modules\express\lib\router\index.js:142:5)
+    at Router._dispatch (E:\GitHub\jzycrm\sccincc\node_modules\express\lib\router\index.js:170:5)
+    at Object.router (E:\GitHub\jzycrm\sccincc\node_modules\express\lib\router\index.js:33:10)
+    at next (E:\GitHub\jzycrm\sccincc\node_modules\express\node_modules\connect\lib\proto.js:190:15)
+    at Object.stylus (E:\GitHub\jzycrm\sccincc\node_modules\stylus\lib\middleware.js:109:61)
+    at next (E:\GitHub\jzycrm\sccincc\node_modules\express\node_modules\connect\lib\proto.js:190:15)
+    at next (E:\GitHub\jzycrm\sccincc\node_modules\express\node_modules\connect\lib\middleware\session.js:313:9)
+[Sun Nov 10 2013 23:29:43 GMT+0800 (中国标准时间)] /WarterStopInfo/create
+ReferenceError: formidable is not defined
+    at exports.createpost (E:\GitHub\jzycrm\sccincc\routes\WarterStopInfo.js:81:16)
+    at callbacks (E:\GitHub\jzycrm\sccincc\node_modules\express\lib\router\index.js:161:37)
+    at param (E:\GitHub\jzycrm\sccincc\node_modules\express\lib\router\index.js:135:11)
+    at pass (E:\GitHub\jzycrm\sccincc\node_modules\express\lib\router\index.js:142:5)
+    at Router._dispatch (E:\GitHub\jzycrm\sccincc\node_modules\express\lib\router\index.js:170:5)
+    at Object.router (E:\GitHub\jzycrm\sccincc\node_modules\express\lib\router\index.js:33:10)
+    at next (E:\GitHub\jzycrm\sccincc\node_modules\express\node_modules\connect\lib\proto.js:190:15)
+    at Object.stylus (E:\GitHub\jzycrm\sccincc\node_modules\stylus\lib\middleware.js:109:61)
+    at next (E:\GitHub\jzycrm\sccincc\node_modules\express\node_modules\connect\lib\proto.js:190:15)
+    at next (E:\GitHub\jzycrm\sccincc\node_modules\express\node_modules\connect\lib\middleware\session.js:313:9)
+[Mon Nov 11 2013 20:01:13 GMT+0800 (中国标准时间)] /js/jquery-1.7.2.min.js
+Error: read ECONNRESET
+    at errnoException (net.js:878:11)
+    at TCP.onread (net.js:539:19)
+[Mon Nov 11 2013 20:28:30 GMT+0800 (中国标准时间)] /asami/GetCallInfo
+Error: read ECONNRESET
+    at errnoException (net.js:878:11)
+    at TCP.onread (net.js:539:19)
+[Mon Nov 11 2013 20:28:51 GMT+0800 (中国标准时间)] /asami/GetCallInfo
+Error: read ECONNRESET
+    at errnoException (net.js:878:11)
+    at TCP.onread (net.js:539:19)
+[Mon Nov 11 2013 20:36:20 GMT+0800 (中国标准时间)] /asami/GetCallInfo
+Error: read ECONNRESET
+    at errnoException (net.js:878:11)
+    at TCP.onread (net.js:539:19)
+[Mon Nov 11 2013 21:34:49 GMT+0800 (中国标准时间)] /css/bootstrap-cerulean.css
+Error: read ECONNRESET
+    at errnoException (net.js:878:11)
+    at TCP.onread (net.js:539:19)
+[Mon Nov 11 2013 22:15:09 GMT+0800 (中国标准时间)] /asami/GetCallInfo
+Error: read ECONNRESET
+    at errnoException (net.js:878:11)
+    at TCP.onread (net.js:539:19)
+[Mon Nov 11 2013 22:38:33 GMT+0800 (中国标准时间)] /js/jquery-1.7.2.min.js
+Error: read ECONNRESET
+    at errnoException (net.js:878:11)
+    at TCP.onread (net.js:539:19)

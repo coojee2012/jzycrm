@@ -29,13 +29,14 @@ app.engine('html', require('ejs').renderFile);
 app.use(partials());
 app.use(express.favicon());
 app.use(express.logger('dev'));
-app.use(express.bodyParser());
+//app.use(express.bodyParser());
+app.use(express.bodyParser({uploadDir:'./uploads'}));
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session(
 		{
     store: new MySQLSessionStore("callcenter", "root", "12345678", {
-        host:'192.168.0.144',
+        host:'127.0.0.1',
         port:3306
     }),
     secret: "keyboard cat"
@@ -43,17 +44,31 @@ app.use(express.session(
 		));
 
 app.use(require('stylus').middleware(__dirname + '/public'));
+
 app.use(app.router);
 
 app.use(express.logger( {
 	stream : accessLogfile
 }));
 
-/*
- * app.configure('production', function(){ app.error(function (err, req, res,
- * next) { var meta = '[' + new Date() + '] ' + req.url + '\n';
- * errorLogfile.write(meta + err.stack + '\n'); next(); }); });
- */
+
+app.configure('production', function() {
+  app.use(function(err, req, res, next){
+	  console.log('在文件记录错误日志：');
+    var meta = '[' + new Date() + '] ' + req.url + '\n';
+    errorLogfile.write(meta + err.stack + '\n');
+    next();
+  });
+});
+ 
+//for 2.x
+//app.configure('production', function() {
+//  app.error(function(err, req, res, next){
+//    var meta = '['+new Date()+']' + req.url + '\n';
+//    errLogfile.write(meta + err.stack + '\n');
+//    next();
+//  });
+//});
 
 app.use( function(req, res, next) {
 //	console.log("用来判断用户是否已经登录：",req.session);
@@ -67,8 +82,8 @@ app.use( function(req, res, next) {
 	});
 
 app.use(logErrors);
-app.use(clientErrorHandler);
-app.use(errorHandler);
+//app.use(clientErrorHandler);
+//app.use(errorHandler);
 
 app.locals( {
 	title : '四川建设网客户服务系统',
@@ -77,29 +92,30 @@ app.locals( {
 });
 
 function logErrors(err, req, res, next) {
+	console.log('在屏幕输出错误日志：');
 	console.error(err.stack);
 
 	next(err);
 }
 
-function clientErrorHandler(err, req, res, next) {
-	if (req.xhr) {
-		res.send(500, {
-			error : '服务器内部错误!'
-		});
-	} else {
-		next(err);
-	}
-}
+//function clientErrorHandler(err, req, res, next) {
+//	if (req.xhr) {
+//		res.send(500, {
+//			error : '服务器内部错误!'
+//		});
+//	} else {
+//		next(err);
+//	}
+//}
 
-function errorHandler(err, req, res, next) {
-	var meta = '[' + new Date() + '] ' + req.url + '\n';
-	errorLogfile.write(meta + err.stack + '\n');
-	next();
-
-	// res.status(500);
-	// res.render('error', { error: err });
-}
+//function errorHandler(err, req, res, next) {
+//	var meta = '[' + new Date() + '] ' + req.url + '\n';
+//	errorLogfile.write(meta + err.stack + '\n');
+//	next();
+//
+//	// res.status(500);
+//	// res.render('error', { error: err });
+//}
 
 // development only
 if ('development' == app.get('env')) {
@@ -118,7 +134,7 @@ if ('production' == app.get('env')) {
 	app.use(express.static(__dirname + '/public', {
 		maxAge : oneYear
 	}));
-	app.use(express.errorHandler());
+	//app.use(express.errorHandler());
 	
 }
 
@@ -139,12 +155,13 @@ for ( var i in routings) {
 
 
 
-
+/**
 app.get('*', function(req, res){
  res.render('404', {
  title: 'No Found'
  })
  });
+ **/
 
 /*
  * http.createServer(app).listen(app.get('port'), function(){

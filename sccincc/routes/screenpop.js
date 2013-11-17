@@ -1,5 +1,6 @@
 var util=require('util');
 var CustomInfo=require('../modules/crm/CustomInfo');
+var syslog=require('../common/syslog');
 
 exports.get=function(req,res){
 var callid=req.body['callid']||req.query['callid'];	
@@ -9,11 +10,11 @@ var called=req.body['called']||req.query['called'];
 var poptype=req.body['poptype']||req.query['poptype'];
 var callmsg={};
 callmsg.callid=callid;
-callmsg.unid=unid;
+callmsg.unid=unid || -1;
 callmsg.caller=caller;
 callmsg.called=called;
 callmsg.poptype=poptype;
-console.log(callmsg);
+
 try{
 
 	CustomInfo.findOne({where:{phone:caller}},function(err,inst){
@@ -23,9 +24,9 @@ try{
 	}
 	if(inst==null)
 	{
-		inst=new CustomInfo();
-		inst.phone=caller;
-		inst.csex=0;
+		//inst=new CustomInfo();
+		//inst.phone=caller;
+		//inst.csex=0;
 	}
 	
 	res.render('screenpop/index.html',{inst:inst,error:null,callmsg:callmsg});
@@ -39,11 +40,39 @@ catch(e){
 }
 
 exports.post=function(req,res){
-var id=req.body['id']||	req.query['id'];
+var phone=req.body['phone']||	req.query['phone'];
 
-CustomInfo.findOne({where:{id:id}}, function(err,custom){
+CustomInfo.all({where:{phone:phone}}, function(err,customs){
+	
+var custom=null;
 
-if(custom==null)
+if(customs!=null && customs.length>0)
+{
+	
+	custom=customs[0];
+	console.log(custom);
+	for(var key in req.body){
+		if(key=='id')
+			continue;
+	custom[key]=req.body[key];
+}
+	console.log(custom);
+CustomInfo.upsert(custom,function(err,inst){
+	if(err){
+		syslog.add(req,res,'sql',err);
+		//res.render('screenpop/index.html', { title: '新增系统外线',inst:inst,error:err});
+		res.send({success:false,error:err});
+	}else{
+		//res.render('screenpop/index.html',{inst:inst,error:null});
+		//console.log(inst);
+		res.send({success:true,id:inst.id,error:null});
+	}	
+	
+});
+	
+	}
+	
+else{
 custom=new CustomInfo();
 	
 for(var key in req.body){	
@@ -59,7 +88,7 @@ custom.isValid(function (valid) {
     }else{
     	CustomInfo.updateOrCreate(custom,function(err,inst){
     		if(err){
-    			console.log(err);
+    			syslog.add(req,res,'sql',err);
     			//res.render('screenpop/index.html', { title: '新增系统外线',inst:inst,error:err});
     			res.send({success:false,error:err});
     		}else{
@@ -72,5 +101,6 @@ custom.isValid(function (valid) {
     
     }
 });//结束验证
+    			}
 });//查询有无
 }

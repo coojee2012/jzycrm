@@ -6,12 +6,12 @@ var aoColumns=[
                
                { mData: "smsTell", sClass: "center" },
                
-               { mData: "areaID", sClass: "center" },
+             //  { mData: "areaID", sClass: "center" },
                
-               { mData: "isres", sClass: "center" },
+             //  { mData: "isres", sClass: "center" },
                { mData: "startTime", sClass: "center",bSearchable: false},
                	{ mData: "endTime", sClass: "center",bSearchable: false},
-               	{ mData: "resTime", sClass: "center",bSearchable: false},
+              // 	{ mData: "resTime", sClass: "center",bSearchable: false},
                	
                  { mData: "id", sClass: "center",bSearchable: false }
                  
@@ -25,10 +25,10 @@ where+=',,,,,'+'stopReson:::::like|||||'+$('#stopReson').val();
 where+=',,,,,'+'smsTell:::::like|||||'+$('#smsTell').val();
 
 
-where+=',,,,,'+'areaID:::::'+$('#areaID').val();
+//where+=',,,,,'+'areaID:::::'+$('#areaID').val();
 
 
-where+=',,,,,'+'isres:::::'+$('#isres').val();
+//where+=',,,,,'+'isres:::::'+$('#isres').val();
 
 if(where!=='')
 	where=where.replace(/^\,{5}/,'');
@@ -57,9 +57,18 @@ $('#datatable').dataTable( {
     bServerSide: true,
     bSort: true,
     bFilter:false,
-    sAjaxSource: "/selectdb/pagingsearch?dbname=crm/WarterStopInfo&cls=stopReson___smsTell___areaID___isres___startTime___endTime___resTime___id&where="+where,
+    sAjaxSource: "/selectdb/pagingsearch?dbname=crm/WarterStopInfo&cls=stopReson___smsTell___startTime___endTime___id&where="+where,
     aoColumns:aoColumns ,
-    aoColumnDefs: [
+    aoColumnDefs: [{
+    	
+    	 aTargets: [aoColumns.length-2],
+    	 mRender:function(data,type,full){
+    		 if(data && data!=='')
+    			 return data;
+    		 else
+    			 return '--';
+    	 }
+    },
                                {
                             	   aTargets: [aoColumns.length-1],
                             	//   mData : "id",
@@ -68,9 +77,9 @@ $('#datatable').dataTable( {
                                 var str='<div class="btn-group"><button class="btn btn-small ">操作</button> ';
 						            str+='<button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>';
 						            str+='<ul class="dropdown-menu"> ';
-                                    str+='<li><a href="/WarterStopInfo/detail?id='+data+'"><i class="icon-zoom-in icon-white"></i>查看</a></li>';
-                                    str+='<li><a href="/WarterStopInfo/edit?id='+data+'"><i class="icon-edit icon-white"></i> 编辑</a></li> ';
-                                    str+='<li><a href="javascript:deleterow('+data+');"><i class="icon-trash icon-white"></i> 删除</a></li> ';
+                                   // str+='<li><a href="/WarterStopInfo/huifu?id='+data+'"><i class="icon-zoom-in icon-white"></i>恢复</a></li>';
+                                   // str+='<li><a href="/WarterStopInfo/edit?id='+data+'"><i class="icon-edit icon-white"></i> 编辑</a></li> ';
+                                    str+='<li><a href="javascript:huifu('+data+');"><i class="icon-trash icon-white"></i> 恢复</a></li> ';
                                     str+='</ul></div>';
                                       return str;
                                    }
@@ -115,6 +124,31 @@ function deleterow(data){
 	                type: 'POST',
 	                async: false,
 	                data:{ids:data},
+	                success: function (data, textStatus) {	                    
+		                    alert(data.msg);
+		                   // location.href='/UserInfo/';	
+		                    oTable.fnDraw();	                    
+	                },
+	                error: function (XMLHttpRequest, textStatus, errorThrown) {
+	                    alert('服务器访问发生异常！' + textStatus);
+	                    return;
+	                }
+	            }
+	            );	       
+	 }
+function huifu(id){
+	var oTable = $('#datatable').dataTable();
+	   
+	  // Immediately remove the first row
+	  //oTable.fnDeleteRow( data );
+	  
+	   $.ajax(
+	            {
+	                url: '/WarterStopInfo/huifu',
+	                dataType: 'json',
+	                type: 'POST',
+	                async: false,
+	                data:{id:id},
 	                success: function (data, textStatus) {	                    
 		                    alert(data.msg);
 		                   // location.href='/UserInfo/';	
@@ -184,7 +218,7 @@ function del(ids){
 </script>
 <script type="text/javascript">
 
-$(function(){
+/* $(function(){
 	 $.ajax(
 	            {
 	                url: '/selectdb/',
@@ -211,7 +245,7 @@ $(function(){
 	            }
 	            );	
 	
-});
+}); */
 
 </script>
 
@@ -247,24 +281,7 @@ data-provide="typeahead" data-items="4" data-source='["Alabama"]'>
      </div>
 </div>
   
-<div class="control-group"><label class="control-label" for="areaID">停水区域 </label>
-<div class="controls">
-     <select id="
-	areaID" name="areaID" data-rel="chosen">
-	<option value="<%= where.areaID%>"></option>
-							 </select>  </div>
-</div>
-  
-<div class="control-group"><label class="control-label" for="isres">恢复供水 </label>
-<div class="controls">
-    <label class="radio"> <input
-	type="radio" id="isres_0" name="isres"
-value="<%= where.isres%>" > 未恢复 </label>  <label class="radio"> <input
-	type="radio" id="isres_1" name="isres"
-value="<%= where.isres%>" > 处理中 </label>  <label class="radio"> <input
-	type="radio" id="isres_2" name="isres"
-value="<%= where.isres%>" > 已恢复 </label>     </div>
-</div>
+
        
 <div class="modal-footer">
 <button class="btn btn-small btn-danger" data-dismiss="modal"
@@ -308,15 +325,15 @@ class="btn btn-small btn-primary"> <i
 			  
 			<th>短信内容</th>
 			  
-			<th>停水区域</th>
+			<!-- <th>停水区域</th> -->
 			  
-			<th>恢复供水</th>
+			<!-- <th>恢复供水</th> -->
 			  
 			<th>开始时间</th>
 			  
-			<th>预计结束时间</th>
+			<th>结束时间</th>
 			  
-			<th>恢复时间</th>
+			<!-- <th>恢复时间</th> -->
 			 
 			<th>操作</th>
 		</tr>

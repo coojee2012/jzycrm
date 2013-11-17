@@ -3,6 +3,8 @@
         //播放录音开始
         $("#jquery_jplayer_1").jPlayer({
             ready: function (event) {
+            	var str="<%= hostname%>:<%= port%>/sounds/<%= myfilename%>.mp3";
+            	alert(str);
                 $(this).jPlayer("setMedia", { mp3: "<%= hostname%>:<%= port%>/sounds/<%= myfilename%>.mp3" });
               
             //  $(this).jPlayer("setMedia", { mp4: "http://192.168.0.69:2344/1.mp4" });

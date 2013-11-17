@@ -30,14 +30,7 @@ $('#datatable').dataTable( {
                   
               ],
     aoColumnDefs: [
-{
-	   aTargets: [4],
-    mRender: function (data, type,full) {
- var str='--';
-  return str;
-    }
-},
-                               {
+                             {
                             	   aTargets: [2],
                             	//   mData : "id",
                                    mRender: function (data, type,full) {
@@ -47,7 +40,7 @@ $('#datatable').dataTable( {
 						            str+='<ul class="dropdown-menu"> ';
                                    // str+='<li><a href="/UserInfo/detail?id='+data+'" class="btn btn-small btn-success"><i class="icon-zoom-in icon-white"></i>拨打分机</a></li>';
                                    // str+='<li><a href="/UserInfo/edit?id='+data+'" class="btn btn-small btn-info"><i class="icon-edit icon-white"></i> 拨打手机</a></li>';
-                                    str+='<li><a href="javascript:dialexten(\''+data+'\');"><i class="icon-trash icon-white"></i> 发送短信</a></li>';
+                                    str+='<li><a href="javascript:dialexten(\''+data+'\');"><i class="icon-trash icon-white"></i> 拨打分机</a></li>';
                                     str+='</ul></div>';
                                        return str;
                                    }
@@ -64,6 +57,11 @@ $('#datatable').dataTable( {
 
                                        return str;
                                    }
+                               },{
+                            	   aTargets: [3], 
+                            	   mRender:function(data,type,full){
+                            		  return data.depName; 
+                            	   }
                                }
                               ],
              oTableTools: {
@@ -413,7 +411,7 @@ $(function(){
 			<th>手机号</th>
 			<th>分机号码</th>
 			<th>所在部门</th>
-			<th>操作</th>
+			<th>编号</th>
 		</tr>
 	</thead>
 	<tbody></tbody>
