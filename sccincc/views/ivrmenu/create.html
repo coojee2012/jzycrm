@@ -20,138 +20,40 @@
 						 </div>
 						  <fieldset> 
 							<legend>IVR菜单</legend> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.ivrnumber!=null){%>error<%}%>"> 
 							<label class="control-label" for="ivrnumber">IVR号码 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="ivrnumber" name="ivrnumber" value="<% if(inst!=null){%><%= inst.ivrnumber %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.ivrnumber!=null){%><%= msg.ivrnumber%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.ivrname!=null){%>error<%}%>"> 
 							<label class="control-label" for="ivrname">IVR名称 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="ivrname" name="ivrname" value="<% if(inst!=null){%><%= inst.ivrname %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.ivrname!=null){%><%= msg.ivrname%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.description!=null){%>error<%}%>"> 
 							<label class="control-label" for="description">描述 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="description" name="description" value="<% if(inst!=null){%><%= inst.description %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.description!=null){%><%= msg.description%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.isreadonly!=null){%>error<%}%>"> 
 							<label class="control-label" for="isreadonly">系统只读 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							<label class="radio"> 
+																					<label class="radio"> 
 									<input type="radio" id="isreadonly_0" name="isreadonly" value="1" <% if(inst!=null && inst.isreadonly=='1' ){%> checked='checked'   <% } else if(inst==null){%>   checked=&quot;checked&quot;  <% }else{ %> <% }%> /> 
 									是 
 							</label> 
-							
 							<label class="radio"> 
 									<input type="radio" id="isreadonly_1" name="isreadonly" value="0" <% if(inst!=null && inst.isreadonly=='0' ){%> checked='checked'   <% } else if(inst==null){%>     <% }else{ %> <% }%> /> 
 									否 
 							</label> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
 						
 							<div class="form-actions"> 
 							  <button type="submit" class="btn btn-primary">保存</button> 

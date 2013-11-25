@@ -13,13 +13,27 @@
 <div class="box-content">
 <form class="form-horizontal" method="POST">
 <div><a href="/OrderRecords/" class="btn btn-small btn-primary">
-<i class="icon-chevron-left icon-white"></i>列表</a><!-- 
-						  <a href="/OrderRecords/create" class="btn btn-small btn-primary">
-						 <i class="icon-plus icon-white"></i>新增</a>  
-						 --></div>
-<fieldset><legend>订单记录</legend> <input type="hidden"
-	id="undefined" name="undefined" value="<% if(inst!=null){%><%=
-inst.undefined %><% }%>" />
+<i class="icon-chevron-left icon-white"></i>列表</a></div>
+<fieldset><legend>修改工单</legend> 
+
+
+<div class="control-group<%if(msg!=null &&
+msg.uphone!=null){%>error<%}%>"> <label class="control-label"
+	for="uphone">联系电话 </label>
+<div class="controls"><textarea class="autogrow" id="uphone"
+	name="uphone"><% if(inst!=null){%><%= inst.uphone%><%}%></textarea>
+<span class="help-inline"><%if(msg!=null &&
+msg.uphone!=null){%><%= msg.uphone%><%}%></span></div>
+</div>
+
+<div class="control-group<%if(msg!=null &&
+msg.uaddr!=null){%>error<%}%>"> <label class="control-label"
+	for="uaddr">联系地址 </label>
+<div class="controls"><textarea class="autogrow" id="uaddr"
+	name="uaddr"><% if(inst!=null){%><%= inst.uaddr%><%}%></textarea>
+<span class="help-inline"><%if(msg!=null &&
+msg.uaddr!=null){%><%= msg.uaddr%><%}%></span></div>
+</div>
 
 
 

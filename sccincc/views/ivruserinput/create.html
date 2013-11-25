@@ -20,271 +20,94 @@
 						 </div>
 						  <fieldset> 
 							<legend>IVR输入</legend> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.ivrnumber!=null){%>error<%}%>"> 
 							<label class="control-label" for="ivrnumber">IVR号码 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="ivrnumber" name="ivrnumber" value="<% if(inst!=null){%><%= inst.ivrnumber %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.ivrnumber!=null){%><%= msg.ivrnumber%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.input!=null){%>error<%}%>"> 
 							<label class="control-label" for="input">用户输入 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							 <select id="input" name="input" data-rel="chosen">
-							
+																					 <select id="input" name="input" data-rel="chosen">
 							<option value="0"  <% if(inst!=null && inst.input=='0' ){%> selected='selected'   <% } else if(inst==null){%>   selected=&quot;selected&quot;  <% }else{ %> <% }%> >
 							 0 
 							</option> 
-							
 							<option value="1"  <% if(inst!=null && inst.input=='1' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 1 
 							</option> 
-							
 							<option value="2"  <% if(inst!=null && inst.input=='2' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 2 
 							</option> 
-							
 							<option value="3"  <% if(inst!=null && inst.input=='3' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 3 
 							</option> 
-							
 							<option value="4"  <% if(inst!=null && inst.input=='4' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 4 
 							</option> 
-							
 							<option value="5"  <% if(inst!=null && inst.input=='5' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 5 
 							</option> 
-							
 							<option value="6"  <% if(inst!=null && inst.input=='6' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 6 
 							</option> 
-							
 							<option value="7"  <% if(inst!=null && inst.input=='7' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 7 
 							</option> 
-							
 							<option value="8"  <% if(inst!=null && inst.input=='8' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 8 
 							</option> 
-							
 							<option value="9"  <% if(inst!=null && inst.input=='9' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 9 
 							</option> 
-							
 							<option value="*"  <% if(inst!=null && inst.input=='*' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 * 
 							</option> 
-							
 								  </select> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.general_type!=null){%>error<%}%>"> 
 							<label class="control-label" for="general_type">只读类型 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="general_type" name="general_type" value="<% if(inst!=null){%><%= inst.general_type %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.general_type!=null){%><%= msg.general_type%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.general_args!=null){%>error<%}%>"> 
 							<label class="control-label" for="general_args">只读参数 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="general_args" name="general_args" value="<% if(inst!=null){%><%= inst.general_args %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.general_args!=null){%><%= msg.general_args%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.general!=null){%>error<%}%>"> 
 							<label class="control-label" for="general">系统只读 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							<label class="radio"> 
+																					<label class="radio"> 
 									<input type="radio" id="general_0" name="general" value="1" <% if(inst!=null && inst.general=='1' ){%> checked='checked'   <% } else if(inst==null){%>   checked=&quot;checked&quot;  <% }else{ %> <% }%> /> 
 									是 
 							</label> 
-							
 							<label class="radio"> 
 									<input type="radio" id="general_1" name="general" value="0" <% if(inst!=null && inst.general=='0' ){%> checked='checked'   <% } else if(inst==null){%>     <% }else{ %> <% }%> /> 
 									否 
 							</label> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.gotoivrnumber!=null){%>error<%}%>"> 
 							<label class="control-label" for="gotoivrnumber">跳转IVR </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="gotoivrnumber" name="gotoivrnumber" value="<% if(inst!=null){%><%= inst.gotoivrnumber %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.gotoivrnumber!=null){%><%= msg.gotoivrnumber%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.gotoivractid!=null){%>error<%}%>"> 
 							<label class="control-label" for="gotoivractid">跳转action </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="gotoivractid" name="gotoivractid" value="<% if(inst!=null){%><%= inst.gotoivractid %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.gotoivractid!=null){%><%= msg.gotoivractid%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
 						
 							<div class="form-actions"> 
 							  <button type="submit" class="btn btn-primary">保存</button> 

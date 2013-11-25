@@ -54,26 +54,46 @@ $('#datatable').dataTable( {
 	},
     bProcessing: true,
     bServerSide: true,
-    bSort: true,
+    bSort: false,
     bFilter:false,
+    aaSorting: [[ 4, "desc" ]],
     sAjaxSource: "/selectdb/pagingsearch?dbname=ippbx/callsession&cls=accountcode___callernumber___extension___routerline___cretime___hanguptime___id&where="+where,
     aoColumns:aoColumns ,
     aoColumnDefs: [
+                   {
+                	   aTargets: [3],
+                	   mRender: function (data, type,full) {
+                		   if(data==2)
+                			   return '呼入';
+                		   else
+                			   return '呼出';
+                	   }
+                	   
+                   },
                                {
                             	   aTargets: [aoColumns.length-1],
                             	//   mData : "id",
+                            	   asSorting:["desc"],
                                    mRender: function (data, type,full) {
                                 //    return 100;
+                                var caller,called;
+                                if(full.routerline==2){
+                                	caller=full.callernumber;
+                                	called=full.extension;
+                                }else{
+                                	called=full.callernumber;
+                                	caller=full.extension;
+                                }
                                 var str='<div class="btn-group"><button class="btn btn-small ">操作</button> ';
 						            str+='<button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>';
 						            str+='<ul class="dropdown-menu"> ';
                                     str+='<li><a href="/callsession/detail?id='+data+'"><i class="icon-zoom-in icon-white"></i>查看</a></li>';
-                                    str+='<li><a href="/callsession/edit?id='+data+'"><i class="icon-edit icon-white"></i> 编辑</a></li> ';
-                                    str+='<li><a href="javascript:deleterow('+data+');"><i class="icon-trash icon-white"></i> 删除</a></li> ';
+                                    str+='<li><a href="/screenpop/index?callid=?'+data+'&unid=&caller='+caller+'&called='+called+'&poptype="><i class="icon-edit icon-white"></i> 补单</a></li> ';
+                                  //  str+='<li><a href="javascript:deleterow('+data+');"><i class="icon-trash icon-white"></i> 删除</a></li> ';
                                     str+='</ul></div>';
                                       return str;
                                    }
-                               },
+                               }
                                //{bVisible:false,aTargets: [4]}
                               ],
              oTableTools: {
@@ -227,7 +247,6 @@ name="accountcode" value="<%= where.accountcode%>" />
 							<option value="2"  >
 							 呼入 
 							</option> 
-							
 								  </select>   </div>
 </div>
        
@@ -248,9 +267,7 @@ name="accountcode" value="<%= where.accountcode%>" />
 
 <div class="row-fluid sortable">
 <div class="box span12">
-<div class="box-content"><a href="/callsession/create"
-class="btn btn-small btn-primary"> <i
-	class="icon-chevron-left icon-white"></i>新增</a> <a href="#mysearch"
+<div class="box-content"> <a href="#mysearch"
 	role="button" class="btn btn-small btn-primary" data-toggle="modal">
 <i class="icon-search icon-white"></i>查询</a></div>
 

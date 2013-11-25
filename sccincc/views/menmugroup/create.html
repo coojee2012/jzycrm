@@ -20,133 +20,51 @@
 						 </div>
 						  <fieldset> 
 							<legend>管理和设置系统菜单组</legend> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.mgName!=null){%>error<%}%>"> 
 							<label class="control-label" for="mgName">分组名称 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="mgName" name="mgName" value="<% if(inst!=null){%><%= inst.mgName %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.mgName!=null){%><%= msg.mgName%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.mgMemo!=null){%>error<%}%>"> 
 							<label class="control-label" for="mgMemo">备注 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="mgMemo" name="mgMemo" value="<% if(inst!=null){%><%= inst.mgMemo %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.mgMemo!=null){%><%= msg.mgMemo%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.mgType!=null){%>error<%}%>"> 
 							<label class="control-label" for="mgType">分组类型 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							 <select id="mgType" name="mgType" data-rel="chosen">
-							
+																					 <select id="mgType" name="mgType" data-rel="chosen">
 							<option value="1"  <% if(inst!=null && inst.mgType=='1' ){%> selected='selected'   <% } else if(inst==null){%>   selected=&quot;selected&quot;  <% }else{ %> <% }%> >
 							 客服平台 
 							</option> 
-							
 							<option value="2"  <% if(inst!=null && inst.mgType=='2' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 短信平台 
 							</option> 
-							
 							<option value="3"  <% if(inst!=null && inst.mgType=='3' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 知识库 
 							</option> 
-							
 							<option value="4"  <% if(inst!=null && inst.mgType=='4' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 统计分析 
 							</option> 
-							
 							<option value="5"  <% if(inst!=null && inst.mgType=='5' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 综合设置 
 							</option> 
-							
 							<option value="6"  <% if(inst!=null && inst.mgType=='6' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 系统管理 
 							</option> 
-							
 							<option value="7"  <% if(inst!=null && inst.mgType=='7' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 系统设置 
 							</option> 
-							
 							<option value="8"  <% if(inst!=null && inst.mgType=='8' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 PBX设置 
 							</option> 
-							
 								  </select> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-							
-							
 						
 							<div class="form-actions"> 
 							  <button type="submit" class="btn btn-primary">保存</button> 

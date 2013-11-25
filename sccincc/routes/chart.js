@@ -145,3 +145,19 @@ exports.callsessiondatetimes = function(req, res){
 	
 	//res.render('chart/callsession.html', { title: '联系人',items:null});	
 }
+//GET工单统计页面
+exports.orderchartsget=function(req,res){
+	res.render('chart/ordercharts.html', { title: '',dataurl:'',tjtype:''});	
+}
+//POST工单统计页面
+exports.orderchartspost=function(req,res){
+	res.render('chart/ordercharts.html', { title: '',dataurl:'',tjtype:''});	
+}
+//GET派单统计页面
+exports.paidanchartsget=function(req,res){
+	res.render('chart/paidancharts.html', { title: '',dataurl:'',tjtype:''});	
+}
+//POST派单统计页面
+exports.paidanchartspost=function(req,res){
+	res.render('chart/paidancharts.html', { title: '',dataurl:'',tjtype:''});	
+}

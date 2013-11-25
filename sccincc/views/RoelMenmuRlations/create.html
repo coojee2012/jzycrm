@@ -20,106 +20,33 @@
 						 </div>
 						  <fieldset> 
 							<legend>角色菜单管理</legend> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.roleID!=null){%>error<%}%>"> 
 							<label class="control-label" for="roleID">操作角色 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							 <select id="roleID" name="roleID" data-rel="chosen">
+																					 <select id="roleID" name="roleID" data-rel="chosen">
 						     </select> 
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.menmuID!=null){%>error<%}%>"> 
 							<label class="control-label" for="menmuID">菜单名称 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							 <select id="menmuID" name="menmuID" data-rel="chosen">
+																					 <select id="menmuID" name="menmuID" data-rel="chosen">
 						     </select> 
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.isUse!=null){%>error<%}%>"> 
 							<label class="control-label" for="isUse">是否可用 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							 <select id="isUse" name="isUse" data-rel="chosen">
-							
+																					 <select id="isUse" name="isUse" data-rel="chosen">
 							<option value="1"  <% if(inst!=null && inst.isUse=='1' ){%> selected='selected'   <% } else if(inst==null){%>   selected=&quot;selected&quot;  <% }else{ %> <% }%> >
 							 是 
 							</option> 
-							
 							<option value="0"  <% if(inst!=null && inst.isUse=='0' ){%> selected='selected'   <% } else if(inst==null){%>    <% }else{ %> <% }%> >
 							 否 
 							</option> 
-							
 								  </select> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 						
 							<div class="form-actions"> 
 							  <button type="submit" class="btn btn-primary">保存</button> 

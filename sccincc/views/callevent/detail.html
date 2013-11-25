@@ -14,299 +14,81 @@
 						 </div>
 						  <fieldset> 
 							<legend>来电事件</legend> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="extensionnumber">分机号 </label> 
 							<div class="controls"> 
-							
 							<span class="input-xlarge uneditable-input"><%= inst['extensionnumber']%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="callernumber">主角号码 </label> 
 							<div class="controls"> 
-							
 							<span class="input-xlarge uneditable-input"><%= inst['callernumber']%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="callednumber">被叫号码 </label> 
 							<div class="controls"> 
-							
 							<span class="input-xlarge uneditable-input"><%= inst['callednumber']%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="uid">呼叫编号 </label> 
 							<div class="controls"> 
-							
 							<span class="input-xlarge uneditable-input"><%= inst['uid']%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="callid">呼叫ID </label> 
 							<div class="controls"> 
-							
 							<span class="input-xlarge uneditable-input"><%= inst['callid']%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="creattime">呼叫时间 </label> 
 							<div class="controls"> 
-							
-							
-							
 							<span class="input-xlarge uneditable-input"><%= inst['creattime']%></span> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="status">状态 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 <select readonly="readonly" id="status" name="status" data-rel="chosen">
-							
 							<option  value="wait"  <%if(inst.status=='wait'){%>selected="selected"<%}%> >
 							 未弹出 
 							</option> 
-							
 							<option  value="over"  <%if(inst.status=='over'){%>selected="selected"<%}%> >
 							 已弹出 
 							</option> 
-							
 								  </select> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="routerdype">线路类型 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 <select readonly="readonly" id="routerdype" name="routerdype" data-rel="chosen">
-							
 							<option  value="1"  <%if(inst.routerdype=='1'){%>selected="selected"<%}%> >
 							 外线 
 							</option> 
-							
 							<option  value="2"  <%if(inst.routerdype=='2'){%>selected="selected"<%}%> >
 							 内线 
 							</option> 
-							
 								  </select> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="parked">保持状态 </label> 
 							<div class="controls"> 
-							
 							<span class="input-xlarge uneditable-input"><%= inst['parked']%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="poptype">弹出类型 </label> 
 							<div class="controls"> 
-							
 							<span class="input-xlarge uneditable-input"><%= inst['poptype']%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 						
-							
 						  </fieldset> 
 						</form>   
  

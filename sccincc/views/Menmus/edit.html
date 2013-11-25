@@ -22,246 +22,55 @@
 						 </div>
 						  <fieldset> 
 							<legend>管理和设置系统菜单</legend> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.menName!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.menName!=null){%>error<%}%>"> 
 							<label class="control-label" for="menName">菜单名称 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="menName" name="menName" value="<% if(inst!=null){%><%= inst.menName %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.menName!=null){%><%= msg.menName%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.menURL!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.menURL!=null){%>error<%}%>"> 
 							<label class="control-label" for="menURL">菜单地址 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="menURL" name="menURL" value="<% if(inst!=null){%><%= inst.menURL %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.menURL!=null){%><%= msg.menURL%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.iconName!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.iconName!=null){%>error<%}%>"> 
 							<label class="control-label" for="iconName">图标名称 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="iconName" name="iconName" value="<% if(inst!=null){%><%= inst.iconName %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.iconName!=null){%><%= msg.iconName%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.mgID!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.mgID!=null){%>error<%}%>"> 
 							<label class="control-label" for="mgID">菜单组 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 <select id="mgID" name="mgID" data-rel="chosen">
 							 </select> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.width!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.width!=null){%>error<%}%>"> 
 							<label class="control-label" for="width">窗口宽度 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="width" name="width" value="<% if(inst!=null){%><%= inst.width %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.width!=null){%><%= msg.width%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.height!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.height!=null){%>error<%}%>"> 
 							<label class="control-label" for="height">窗口高度 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="height" name="height" value="<% if(inst!=null){%><%= inst.height %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.height!=null){%><%= msg.height%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.ordernum!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.ordernum!=null){%>error<%}%>"> 
 							<label class="control-label" for="ordernum">窗口排序 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="ordernum" name="ordernum" value="<% if(inst!=null){%><%= inst.ordernum %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.ordernum!=null){%><%= msg.ordernum%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
 						    <input type="hidden" id="id" name="id" value="<% if(inst!=null){%><%= inst.id %><% }%>" />
 							<div class="form-actions"> 
 							  <button type="submit" class="btn btn-primary">保存</button> 

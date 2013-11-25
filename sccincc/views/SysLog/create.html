@@ -20,98 +20,27 @@
 						 </div>
 						  <fieldset> 
 							<legend>系统日志</legend> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.content!=null){%>error<%}%>"> 
 							<label class="control-label" for="content">错误内容 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="content" name="content" value="<% if(inst!=null){%><%= inst.content %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.content!=null){%><%= msg.content%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.errorpage!=null){%>error<%}%>"> 
 							<label class="control-label" for="errorpage">页面 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="errorpage" name="errorpage" value="<% if(inst!=null){%><%= inst.errorpage %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.errorpage!=null){%><%= msg.errorpage%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.controller!=null){%>error<%}%>"> 
 							<label class="control-label" for="controller">控制器 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="controller" name="controller" value="<% if(inst!=null){%><%= inst.controller %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.controller!=null){%><%= msg.controller%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
 						
 							<div class="form-actions"> 
 							  <button type="submit" class="btn btn-primary">保存</button> 

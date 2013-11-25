@@ -20,288 +20,75 @@
 						 </div>
 						  <fieldset> 
 							<legend>用户信息</legend> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.cname!=null){%>error<%}%>"> 
 							<label class="control-label" for="cname">用户姓名 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="cname" name="cname" value="<% if(inst!=null){%><%= inst.cname %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.cname!=null){%><%= msg.cname%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.idcard!=null){%>error<%}%>"> 
 							<label class="control-label" for="idcard">用户号 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="idcard" name="idcard" value="<% if(inst!=null){%><%= inst.idcard %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.idcard!=null){%><%= msg.idcard%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.lifeAddr!=null){%>error<%}%>"> 
 							<label class="control-label" for="lifeAddr">用水地址 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-							
 							<textarea class="autogrow" id="lifeAddr" name="lifeAddr" ><% if(inst!=null){%><%= inst.lifeAddr%><%}%></textarea> 
 							<span class="help-inline"><%if(msg!=null && msg.lifeAddr!=null){%><%= msg.lifeAddr%><%}%></span>
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.cage!=null){%>error<%}%>"> 
 							<label class="control-label" for="cage">用水性质 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="cage" name="cage" value="<% if(inst!=null){%><%= inst.cage %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.cage!=null){%><%= msg.cage%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.phone!=null){%>error<%}%>"> 
 							<label class="control-label" for="phone">联系电话 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="phone" name="phone" value="<% if(inst!=null){%><%= inst.phone %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.phone!=null){%><%= msg.phone%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.workunit!=null){%>error<%}%>"> 
 							<label class="control-label" for="workunit">水表口径 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="workunit" name="workunit" value="<% if(inst!=null){%><%= inst.workunit %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.workunit!=null){%><%= msg.workunit%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.work!=null){%>error<%}%>"> 
 							<label class="control-label" for="work">水表号 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="work" name="work" value="<% if(inst!=null){%><%= inst.work %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.work!=null){%><%= msg.work%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div>
 							<div class="control-group <%if(msg!=null && msg.csex!=null){%>error<%}%>"> 
 							<label class="control-label" for="csex">用水情况 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							<label class="radio"> 
+																					<label class="radio"> 
 									<input type="radio" id="csex_0" name="csex" value="1" <% if(inst!=null && inst.csex=='1' ){%> checked='checked'   <% } else if(inst==null){%>   selected=&quot;selected&quot;  <% }else{ %> <% }%> /> 
 									正常用水 
 							</label> 
-							
 							<label class="radio"> 
 									<input type="radio" id="csex_1" name="csex" value="0" <% if(inst!=null && inst.csex=='0' ){%> checked='checked'   <% } else if(inst==null){%>    <% }else{ %> <% }%> /> 
 									欠费停水 
 							</label> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.crtTime!=null){%>error<%}%>"> 
 							<label class="control-label" for="crtTime">创建时间 </label> 
 							<div class="controls"> 
-							
-							
-							
 							<input type="text" class="input-xlarge datepicker" id="crtTime" name="crtTime" value="<% if(inst!=null){%><%= inst.crtTime %>   <% }%>" /> 
 							<span class="help-inline"><%if(msg!=null && msg.crtTime!=null){%><%= msg.crtTime%><%}%></span>
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 						
 							<div class="form-actions"> 
 							  <button type="submit" class="btn btn-primary">保存</button> 

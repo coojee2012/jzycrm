@@ -16,6 +16,7 @@ var aoColumns=[
                  { mData: "id", sClass: "center",bSearchable: false }
                  
              ];
+ var vKeys=["stopReson","smsTell","startTime","endTime","id"];
 var where='';
 
 
@@ -95,14 +96,20 @@ $('#datatable').dataTable( {
 				},
 				  {
 					"sExtends": "print",
-					"sButtonText": "打印"
+					"sButtonText": "打印",
+					"bShowAll": false,
+                    "mColumns": daochu,
+                    "sMessage": 'Click print or cancel <button>打印</button>',
+                    "fnClick": function (nButton, oConfig, oFlash) {}
+					
 				},
-                                 {
-                 					"sExtends":    "collection",
-                 					"sButtonText": '导出 <span class="caret" />',
-                 					"aButtons":    [ "csv", "xls", "pdf" ],
-                 					"mColumns": daochu
-                 				}
+     { 
+      "sExtends": "ext-xls", 
+      "sAjaxUrl": "/selectdb/pagingsearch?dbname=crm/WarterStopInfo&cls=stopReson___smsTell___startTime___endTime___id&where="+where,
+    //  "sParameters": parameters, 
+      "sKeys": vKeys, 
+      "sButtonText": "导出Excel" 
+     } 
                                 
                                                    
                               ]

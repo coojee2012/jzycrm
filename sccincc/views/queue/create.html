@@ -20,533 +20,162 @@
 						 </div>
 						  <fieldset> 
 							<legend>系统分机</legend> 
-							
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.queuenumber!=null){%>error<%}%>"> 
 							<label class="control-label" for="queuenumber">队列号码 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="queuenumber" name="queuenumber" value="<% if(inst!=null){%><%= inst.queuenumber %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.queuenumber!=null){%><%= msg.queuenumber%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.queuename!=null){%>error<%}%>"> 
 							<label class="control-label" for="queuename">队列名称 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="queuename" name="queuename" value="<% if(inst!=null){%><%= inst.queuename %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.queuename!=null){%><%= msg.queuename%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.announce!=null){%>error<%}%>"> 
 							<label class="control-label" for="announce">语音通知 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							<label class="radio"> 
+																					<label class="radio"> 
 									<input type="radio" id="announce_0" name="announce" value="0" <% if(inst!=null && inst.announce=='0' ){%> checked='checked'   <% } else if(inst==null){%>   selected=&quot;selected&quot;  <% }else{ %> <% }%> /> 
 									否 
 							</label> 
-							
 							<label class="radio"> 
 									<input type="radio" id="announce_1" name="announce" value="1" <% if(inst!=null && inst.announce=='1' ){%> checked='checked'   <% } else if(inst==null){%>     <% }else{ %> <% }%> /> 
 									是 
 							</label> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.playring!=null){%>error<%}%>"> 
 							<label class="control-label" for="playring">背景音乐 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							<label class="radio"> 
+																					<label class="radio"> 
 									<input type="radio" id="playring_0" name="playring" value="0" <% if(inst!=null && inst.playring=='0' ){%> checked='checked'   <% } else if(inst==null){%>   selected=&quot;selected&quot;  <% }else{ %> <% }%> /> 
 									否 
 							</label> 
-							
 							<label class="radio"> 
 									<input type="radio" id="playring_1" name="playring" value="1" <% if(inst!=null && inst.playring=='1' ){%> checked='checked'   <% } else if(inst==null){%>     <% }else{ %> <% }%> /> 
 									是 
 							</label> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.saymember!=null){%>error<%}%>"> 
 							<label class="control-label" for="saymember">播放工号 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							<label class="radio"> 
+																					<label class="radio"> 
 									<input type="radio" id="saymember_0" name="saymember" value="0" <% if(inst!=null && inst.saymember=='0' ){%> checked='checked'   <% } else if(inst==null){%>   selected=&quot;selected&quot;  <% }else{ %> <% }%> /> 
 									否 
 							</label> 
-							
 							<label class="radio"> 
 									<input type="radio" id="saymember_1" name="saymember" value="1" <% if(inst!=null && inst.saymember=='1' ){%> checked='checked'   <% } else if(inst==null){%>     <% }else{ %> <% }%> /> 
 									是 
 							</label> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.queuetimeout!=null){%>error<%}%>"> 
 							<label class="control-label" for="queuetimeout">等待超时 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="queuetimeout" name="queuetimeout" value="<% if(inst!=null){%><%= inst.queuetimeout %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.queuetimeout!=null){%><%= msg.queuetimeout%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.failedon!=null){%>error<%}%>"> 
 							<label class="control-label" for="failedon">失败处理 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="failedon" name="failedon" value="<% if(inst!=null){%><%= inst.failedon %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.failedon!=null){%><%= msg.failedon%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.members!=null){%>error<%}%>"> 
 							<label class="control-label" for="members">队列成员 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							 <select id="members" name="members" data-rel="chosen">
-							
+																					 <select id="members" name="members" data-rel="chosen">
 							<option value="dodefault"  <% if(inst!=null && inst.members=='dodefault' ){%> selected='selected'   <% } else if(inst==null){%>   selected=&quot;selected&quot;  <% }else{ %> <% }%> >
 							 系统默认 
 							</option> 
-							
 							<option value="ivr"  <% if(inst!=null && inst.members=='ivr' ){%> selected='selected'   <% } else if(inst==null){%>     <% }else{ %> <% }%> >
 							 跳转自动语音 
 							</option> 
-							
 							<option value="voicemail"  <% if(inst!=null && inst.members=='voicemail' ){%> selected='selected'   <% } else if(inst==null){%>     <% }else{ %> <% }%> >
 							 语音留言 
 							</option> 
-							
 								  </select> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.strategy!=null){%>error<%}%>"> 
 							<label class="control-label" for="strategy">振铃策略 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							 <select id="strategy" name="strategy" data-rel="chosen">
-							
+																					 <select id="strategy" name="strategy" data-rel="chosen">
 							<option value="rrmemory"  <% if(inst!=null && inst.strategy=='rrmemory' ){%> selected='selected'   <% } else if(inst==null){%>   selected=&quot;selected&quot;  <% }else{ %> <% }%> >
 							 记忆轮巡 
 							</option> 
-							
 							<option value="ringall"  <% if(inst!=null && inst.strategy=='ringall' ){%> selected='selected'   <% } else if(inst==null){%>     <% }else{ %> <% }%> >
 							 坐席全呼 
 							</option> 
-							
 							<option value="roundrobin"  <% if(inst!=null && inst.strategy=='roundrobin' ){%> selected='selected'   <% } else if(inst==null){%>     <% }else{ %> <% }%> >
 							 轮流呼叫 
 							</option> 
-							
 							<option value="leastrecent"  <% if(inst!=null && inst.strategy=='leastrecent' ){%> selected='selected'   <% } else if(inst==null){%>     <% }else{ %> <% }%> >
 							 最近接听最少 
 							</option> 
-							
 							<option value="fewestcalls"  <% if(inst!=null && inst.strategy=='fewestcalls' ){%> selected='selected'   <% } else if(inst==null){%>     <% }else{ %> <% }%> >
 							 完成呼叫最少 
 							</option> 
-							
 							<option value="random"  <% if(inst!=null && inst.strategy=='random' ){%> selected='selected'   <% } else if(inst==null){%>     <% }else{ %> <% }%> >
 							 随机 
 							</option> 
-							
 								  </select> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.wrapuptime!=null){%>error<%}%>"> 
 							<label class="control-label" for="wrapuptime">循环通知 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="wrapuptime" name="wrapuptime" value="<% if(inst!=null){%><%= inst.wrapuptime %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.wrapuptime!=null){%><%= msg.wrapuptime%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.timeout!=null){%>error<%}%>"> 
 							<label class="control-label" for="timeout">呼叫超时 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="timeout" name="timeout" value="<% if(inst!=null){%><%= inst.timeout %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.timeout!=null){%><%= msg.timeout%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.musicclass!=null){%>error<%}%>"> 
 							<label class="control-label" for="musicclass">背景音乐 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="musicclass" name="musicclass" value="<% if(inst!=null){%><%= inst.musicclass %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.musicclass!=null){%><%= msg.musicclass%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.retry!=null){%>error<%}%>"> 
 							<label class="control-label" for="retry">呼叫重试 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="retry" name="retry" value="<% if(inst!=null){%><%= inst.retry %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.retry!=null){%><%= msg.retry%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.joinempty!=null){%>error<%}%>"> 
 							<label class="control-label" for="joinempty">加入空队列 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							<label class="radio"> 
+																					<label class="radio"> 
 									<input type="radio" id="joinempty_0" name="joinempty" value="0" <% if(inst!=null && inst.joinempty=='0' ){%> checked='checked'   <% } else if(inst==null){%>   selected=&quot;selected&quot;  <% }else{ %> <% }%> /> 
 									否 
 							</label> 
-							
 							<label class="radio"> 
 									<input type="radio" id="joinempty_1" name="joinempty" value="1" <% if(inst!=null && inst.joinempty=='1' ){%> checked='checked'   <% } else if(inst==null){%>     <% }else{ %> <% }%> /> 
 									是 
 							</label> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.frequency!=null){%>error<%}%>"> 
 							<label class="control-label" for="frequency">通知频率 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="frequency" name="frequency" value="<% if(inst!=null){%><%= inst.frequency %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.frequency!=null){%><%= msg.frequency%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
 						
 							<div class="form-actions"> 
 							  <button type="submit" class="btn btn-primary">保存</button> 

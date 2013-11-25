@@ -14,321 +14,97 @@
 						 </div>
 						  <fieldset> 
 							<legend>语音文件</legend> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="filename">文件名 </label> 
 							<div class="controls"> 
-							
 							<span class="input-xlarge uneditable-input"><%= inst['filename']%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="extname">扩展名 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 <select readonly="readonly" id="extname" name="extname" data-rel="chosen">
-							
 							<option  value="sip"  <%if(inst.extname=='sip'){%>selected="selected"<%}%> >
 							 SIP外线 
 							</option> 
-							
 							<option  value="iax"  <%if(inst.extname=='iax'){%>selected="selected"<%}%> >
 							 IAX2外线 
 							</option> 
-							
 							<option  value="fxo"  <%if(inst.extname=='fxo'){%>selected="selected"<%}%> >
 							 FXO外线 
 							</option> 
-							
 							<option  value="pri"  <%if(inst.extname=='pri'){%>selected="selected"<%}%> >
 							 PRI外线 
 							</option> 
-							
 							<option  value="custom"  <%if(inst.extname=='custom'){%>selected="selected"<%}%> >
 							 自定义 
 							</option> 
-							
 								  </select> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="folder">文件夹 </label> 
 							<div class="controls"> 
-							
 							<span class="input-xlarge uneditable-input"><%= inst['folder']%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="description">描述 </label> 
 							<div class="controls"> 
-							
 							<span class="input-xlarge uneditable-input"><%= inst['description']%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="label">标签 </label> 
 							<div class="controls"> 
-							
 							<span class="input-xlarge uneditable-input"><%= inst['label']%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="associate">关联 </label> 
 							<div class="controls"> 
-							
 							<span class="input-xlarge uneditable-input"><%= inst['associate']%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="isreadonly">系统只读 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							<label class="radio"> 
 									<input type="radio" readonly="readonly" class="uneditable-input" id="isreadonly_0" name="isreadonly" value="0" <%if(inst.isreadonly=='0'){%>checked="checked"<%}%>  /> 
 									否 
 							</label> 
-							
 							<label class="radio"> 
 									<input type="radio" readonly="readonly" class="uneditable-input" id="isreadonly_1" name="isreadonly" value="1" <%if(inst.isreadonly=='1'){%>checked="checked"<%}%>  /> 
 									是 
 							</label> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="mailprocessed">邮件推送 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							<label class="radio"> 
 									<input type="radio" readonly="readonly" class="uneditable-input" id="mailprocessed_0" name="mailprocessed" value="0" <%if(inst.mailprocessed=='0'){%>checked="checked"<%}%>  /> 
 									否 
 							</label> 
-							
 							<label class="radio"> 
 									<input type="radio" readonly="readonly" class="uneditable-input" id="mailprocessed_1" name="mailprocessed" value="1" <%if(inst.mailprocessed=='1'){%>checked="checked"<%}%>  /> 
 									是 
 							</label> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="cretime">创建时间 </label> 
 							<div class="controls"> 
-							
-							
-							
 							<span class="input-xlarge uneditable-input"><%= inst['cretime']%></span> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 							<div class="control-group"> 
 							<label class="control-label" for="args">参数 </label> 
 							<div class="controls"> 
-							
 							<span class="input-xlarge uneditable-input"><%= inst['args']%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 						
-							
 						  </fieldset> 
 						</form>   
  

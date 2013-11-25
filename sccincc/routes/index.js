@@ -161,7 +161,6 @@ exports.post = function(req, res){
 								 }; 	 
 								 
 							 }
-							
 						}
 						else{
 						usermenmus["menmu_"+dbs2[menmu].id]={
@@ -169,8 +168,7 @@ exports.post = function(req, res){
 								url:dbs2[menmu].menURL,
 								winWidth:dbs2[menmu].width,
 								winHeight:dbs2[menmu].height
-								
-						}	
+							}	
 						}
 					}
 					//console.log(usermenmus);

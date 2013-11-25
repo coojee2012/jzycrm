@@ -12,7 +12,9 @@ var aoColumns=[
  //              { mData: "orderReslut", sClass: "center" },
                { mData: "DepID", sClass: "center" },               
   //             { mData: "dactorName", sClass: "center" },  
-                { mData: "cID", sClass: "center" },             
+                { mData: "cID", sClass: "center" },
+                { mData: "uphone", sClass: "center" },  
+                { mData: "uaddr", sClass: "center" },               
                 { mData: "serMan", sClass: "center" },               
                
                { mData: "OrderOptions", sClass: "center",bSearchable: false},
@@ -22,19 +24,34 @@ var aoColumns=[
                  { mData: "id", sClass: "center",bSearchable: false }
                  
              ];
+var vKeys=["id","orderContent","DepID.depName","cID.idcard","uphone","uaddr","serMan.uName","OrderOptions","orderTime","id"];
 var where='';
 where+=',,,,,'+'serMan:::::'+$('#serMan').val();
 where+=',,,,,'+'DepID:::::'+$('#DepID').val();
 where+=',,,,,'+'dactorName:::::'+$('#dactorName').val();
 where+=',,,,,'+'orderReslut:::::'+$('#orderReslut').val();
 where+=',,,,,'+'orderContent:::::like|||||'+$('#orderContent').val();
-//where+=',,,,,'+'OrderTypeid:::::'+$('#OrderTypeid').val();
+where+=',,,,,'+'uphone:::::like|||||'+$('#uphone').val();
+where+=',,,,,'+'uaddr:::::like|||||'+$('#uaddr').val();
+if($('#orderTime_from').val()!='' && $('#orderTime_to').val()!=''){
+where+=',,,,,'+'orderTime:::::between|||||'+$('#orderTime_from').val()+' 00:00:00====='+$('#orderTime_to').val()+' 23:59:59';
+}
+if($('#orderTime_from').val()!='' && $('#orderTime_to').val()==''){
+  where+=',,,,,'+'orderTime:::::gte|||||'+$('#orderTime_from').val()+' 00:00:00';
+}
+if($('#orderTime_from').val()=='' && $('#orderTime_to').val()!=''){
+  where+=',,,,,'+'orderTime:::::lte|||||'+$('#orderTime_to').val()+' 23:59:59';
+}
+
 where+=',,,,,'+'id:::::'+$('#id').val();
 
 var daochu=[];
 for(var i=0;i<aoColumns.length-1;i++){
 	daochu[i]=i;	
 }
+
+var geturl="/selectdb/pagingsearch?dbname=crm/OrderRecords&cls=id___OrderTypeid___orderContent___uphone___uaddr___orderReslut___DepID___dactorName___serMan___cID___OrderOptions___recordTime___orderTime___id&where="+where;
+
 $('#datatable').dataTable( {
 	sDom: " <'row-fluid'<'span4'l><'span4'f><'span4'T>r>t<'row-fluid'<'span4'i><'span8 center'p>>",
 	//sDom: 'T<"clear">lfrtip',
@@ -54,9 +71,9 @@ $('#datatable').dataTable( {
     bProcessing: true,
     bServerSide: true,
     bSort: false,
-//    aaSorting: [[4, "asc"],[5,"desc"]],
+    aaSorting: [[7, "desc"],[8,"desc"]],
     bFilter:false,
-    sAjaxSource: "/selectdb/pagingsearch?dbname=crm/OrderRecords&cls=id___OrderTypeid___orderContent___orderReslut___DepID___dactorName___serMan___cID___OrderOptions___recordTime___orderTime___id&where="+where,
+    sAjaxSource: geturl,
     aoColumns:aoColumns ,
     aoColumnDefs: [
                   // {
@@ -80,14 +97,14 @@ $('#datatable').dataTable( {
                 	   aTargets:[3],
                 	   mRender: function (data, type,full) {
                        var str='';
-                       str+="用户姓名："+data.cname;
-                       str+="<br/>用水地址："+data.lifeAddr;
-                       str+="<br/>电话："+data.phone;
+                       str+=""+data.idcard || '';
+                       //str+="<br/>用水地址："+data.lifeAddr;
+                       //str+="<br/>电话："+data.phone;
                        return str;
                 	   }
                        },
                         {
-                	   aTargets:[4],
+                	   aTargets:[6],
                 	   mRender: function (data, type,full) {
                        var str="--";
                       if(data!=null)
@@ -96,7 +113,7 @@ $('#datatable').dataTable( {
                 	   }
                        },
                 	     {
-                	   aTargets:[5],
+                	   aTargets:[7],
                 	   asSorting:["desc"]
                 	   },
                                {
@@ -129,25 +146,22 @@ $('#datatable').dataTable( {
              oTableTools: {
              sSwfPath: "/css/swf/copy_csv_xls_pdf.swf",
              aButtons: [
-                                //  {
-                                 // "sExtends": "xls",
-                                //  "sButtonText": "导出excel",
-                                //  "mColumns": [0,1,2,3]
-                                // },
+                         
                                 {
 					"sExtends": "copy",
 					"sButtonText": "复制"
 				},
-				  {
-					"sExtends": "print",
-					"sButtonText": "打印"
-				},
-                                 {
-                 					"sExtends":    "collection",
-                 					"sButtonText": '导出 <span class="caret" />',
-                 					"aButtons":    [ "csv", "xls", "pdf" ],
-                 					"mColumns": daochu
-                 				}
+                {
+                  "sExtends": "xls",
+                    "sButtonText": "导出该页"  
+                },
+     { 
+      "sExtends": "ext-xls", 
+      "sAjaxUrl": geturl,
+    //  "sParameters": parameters, 
+      "sKeys": vKeys, 
+      "sButtonText": "导出全部" 
+     } 
                                 
                                                    
                               ]
@@ -213,7 +227,7 @@ function dialout(phonenumber){
              alert("语音服务器出现问题！");
              }
               else {
-                 alert("正在开始呼叫:" + phonenumber + "，系统将自动拨打外线,电话响铃后请摘机！");
+                 alert("正在开始呼叫:" + phonenumber + "，系统将自动拨打外线,电话响铃后请摘机！响铃分机："+ parent._USEREXTEN);
              }
 
          },
@@ -280,17 +294,18 @@ function paidan(orderId,depid1){
 			alert("工单数据有误！");
 		return false;	
 		}
-		var content='用水地址:';
-
-		content+=data.CustomInfo.lifeAddr;
-		content+='.姓名:'+data.CustomInfo.cname;
+		var content='户号:';
+    content+=''+data.CustomInfo.idcard || '';
+		content+='.地址:'+data.CustomInfo.lifeAddr;
+		//content+='.姓名:'+data.CustomInfo.cname;
+    content+='.故障:'+data.orderContent;
 		var phone=data.CustomInfo.phone||'';
 		    phone=phone.replace(/^0+/g,'');
 		content+='.电话:'+phone;
-		content+='.故障:'+data.orderContent;
-		content+='.表号:'+data.CustomInfo.idcard || '';
-		content+='.用户号:'+data.CustomInfo.work || '';
-		content+='.备注:'+data.memo || '';
+		
+		//content+='.表号:'+data.CustomInfo.work || '';
+		
+		//content+='.备注:'+data.memo || '';
 		content+='.';
 
 		$("#danhao").val(data.id);
@@ -321,20 +336,22 @@ $("#dactorName2").html(str);
     			alert("工单数据有误！");
     		return false;	
     		}
-    		var content='用水地址:';
 
-		content+=data.CustomInfo.lifeAddr;
-		content+='.姓名:'+data.CustomInfo.cname;
-		var phone=data.CustomInfo.phone||'';
-		    phone=phone.replace(/^0+/g,'');
-		content+='.电话:'+phone;
-		content+='.故障:'+data.orderContent;
-		content+='.表号:'+data.CustomInfo.idcard || '';
-		content+='.用户号:'+data.CustomInfo.work || '';
-		content+='.备注:'+data.memo || '';
-		content+='.';
+    var content='户号:';
+    content+=''+data.CustomInfo.idcard || '';
+    content+='.地址:'+data.CustomInfo.lifeAddr;
+    //content+='.姓名:'+data.CustomInfo.cname;
+    content+='.故障:'+data.orderContent;
+    var phone=data.CustomInfo.phone||'';
+        phone=phone.replace(/^0+/g,'');
+    content+='.电话:'+phone;
+    
+    //content+='.表号:'+data.CustomInfo.work || '';
+    
+    //content+='.备注:'+data.memo || '';
+    content+='.';
     	
-    		$("#danhao").val(data.callUnitID);
+    		$("#danhao").val(data.id);
     		$("#smscontent2").val(content);
     		$("#shuoming").val(data.OrderType.typeName);
     		$('#paidan').modal('show');
@@ -415,6 +432,7 @@ function smssend() {
 }
 
 function dopaidan(){
+var oTable = $('#datatable').dataTable();
 var orderid,manid,sms,paid;
 orderid=$("#danhao").val();
 manid=parent.USERID;
@@ -432,7 +450,8 @@ $.ajax(
                 if(data.success){	                    
                     //fn(data.phone);	
                     alert(data.msg);   
-                    $('#paidan').modal('hide');                
+                    $('#paidan').modal('hide'); 
+                    oTable.fnDraw();	               
                 }else{
 	                alert(data.msg);
 	                }
@@ -455,7 +474,7 @@ function huifang(orderId){
 		}
 		//alert(data.callUnitID);
 		
-		$("#danhao2").val(data.callUnitID);	
+		$("#danhao2").val(data.id);	
 		$("#guzhang").val(data.OrderType.typeName);		
 		$("#customname").val(data.CustomInfo.cname);
 		$("#customphone").val(data.CustomInfo.phone);
@@ -464,13 +483,14 @@ function huifang(orderId){
 }
 
 function dohuifang(){
+var oTable = $('#datatable').dataTable();
 var orderid=$("#danhao2").val();
 var manid=parent._USERID;
 var content=$("#smscontent3").val();
 var options=$("input[name='OrderOptions3'][type='radio']:checked").val();
 if(options==1){
-alert("仍在处理中的工单不能保存！");
-return false;
+//alert("仍在处理中的工单不能保存！");
+//return false;
 }
 $.ajax(
         {
@@ -483,7 +503,8 @@ $.ajax(
                 if(data.success){	                    
                     //fn(data.phone);	
                     alert(data.msg);   
-                    $('#huifang').modal('hide');                
+                    $('#huifang').modal('hide');  
+                    oTable.fnDraw();	              
                 }else{
 	                alert(data.msg);
 	                }
@@ -822,6 +843,13 @@ $(function(){
 </div>
 
 
+<div class="control-group"><label class="control-label" for="uphone">联系电话 </label>
+<div class="controls"><input type="text" class="span6 typeahead" id="uphone" value="<%= where.uphone%>" name="uphone" /></div>
+</div>
+
+<div class="control-group"><label class="control-label" for="uaddr">联系地址 </label>
+<div class="controls"><input type="text" class="span6 typeahead" id="uaddr" value="<%= where.uaddr%>" name="uaddr" /></div>
+</div>
 
 
 <div class="control-group"><label class="control-label" for="orderContent">受理内容 </label>
@@ -851,7 +879,17 @@ $(function(){
 </select></div>
 </div>
 
+<div class="control-group"><label class="control-label" for="orderTime_from">记录时间 从</label>
+<div class="controls">
+ <input type="text" class="input-xlarge datepicker" id="orderTime_from" name="orderTime_from" value="<%= where.orderTime_from%>"> 
+     </div>
+</div>
 
+<div class="control-group"><label class="control-label" for="orderTime_to">到</label>
+<div class="controls">
+<input type="text" class="input-xlarge datepicker" id="orderTime_to" name="orderTime_to" value="<%= where.orderTime_to%>">
+     </div>
+</div>
 
 
 <div class="modal-footer">
@@ -891,55 +929,16 @@ $(function(){
 	<caption></caption>
 	<thead>
 		<tr>
-
-
-			<th>工单编号</th>
-
-
-
+			<th style="width:80px;">工单编号</th>
 			<th>故障现象</th>
-			<!--
-
-
-
-			<th>受理内容</th>
-
-
-
-			<th>处理结果</th>
-
-            
-            -->
-            <th>处理部门</th>
-            <!--
-
-			
-			<th>处理人员</th>
-
-
--->
-            <th>用户信息</th>
-
-			<th>服务座席</th>
-
-
-
-			
-
-
-
+      <th>处理部门</th>
+            <th style="width:40px;">用户户号</th>
+             <th>联系电话</th>
+<th>联系地址</th>
+			<th style="width:60px;">服务座席</th>
 			<th>工单状态</th>
-
-
-
-			<!--<th>处理时间</th>
-
-
-
-			--><th>记录时间</th>
-
-
-			<th>操作</th>
+			<th>记录时间</th>
+			<th style="width:60px;">操作</th>
 		</tr>
 	</thead>
 	<tbody>

@@ -23,7 +23,8 @@
     "guid":"*",
     "xmldom":"*",
     "soap":"*",  
-    "connect-mysql-session":"*",
+    "connect-mysql":"*",
+    "connect-jugglingdb":"*",
     "eventproxy":"*",
     "formidable":"*",
     "stylus":"*"

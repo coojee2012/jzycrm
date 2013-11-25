@@ -8,6 +8,7 @@ var unid=req.body['unid']||req.query['unid'];
 var caller=req.body['caller']||req.query['caller'];	
 var called=req.body['called']||req.query['called'];	
 var poptype=req.body['poptype']||req.query['poptype'];
+var phone=caller || called || '';
 var callmsg={};
 callmsg.callid=callid;
 callmsg.unid=unid || -1;
@@ -17,7 +18,7 @@ callmsg.poptype=poptype;
 
 try{
 
-	CustomInfo.findOne({where:{phone:caller}},function(err,inst){
+	CustomInfo.findOne({where:{phone:phone}},function(err,inst){
 	if(err)
 	{
 	throw err;
@@ -29,7 +30,7 @@ try{
 		//inst.csex=0;
 	}
 	
-	res.render('screenpop/index.html',{inst:inst,error:null,callmsg:callmsg});
+	res.render('screenpop/index.html',{inst:inst,phone:phone,error:null,callmsg:callmsg});
 	});	
 }
 catch(e){

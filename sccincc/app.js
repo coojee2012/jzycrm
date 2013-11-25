@@ -8,21 +8,43 @@ routes = require('./routes'),
 user = require('./routes/user'),
 http = require('http'), 
 path = require('path');
-var MySQLSessionStore = require('connect-mysql-session')(express);
-var fs = require('fs');
-var accessLogfile = fs.createWriteStream('access.log', {
-	flags : 'a'
-});
-var errorLogfile = fs.createWriteStream('error.log', {
-	flags : 'a'
-});
+var log4js = require('log4js');
 
+var log4js = require('log4js');
+log4js.configure({
+  appenders: [
+    { type: 'console' }, //控制台输出
+    {
+      type: 'file', //文件输出
+      filename: 'web.log', 
+      maxLogSize: 10240000,
+      backups:3,
+      category: 'normal' 
+    }
+  ],
+replaceConsole: true
+});
+var logger = log4js.getLogger('normal');
+logger.setLevel('INFO');
+
+//var MySQLSessionStore = require('connect-mysql-session')(express);
+
+var fs = require('fs');
+//var accessLogfile = fs.createWriteStream('access.log', {
+//	flags : 'a'
+//});
+//var errorLogfile = fs.createWriteStream('error.log', {
+//	flags : 'a'
+//});
+
+var mysql = require('mysql').createConnection({ user: 'root', password: '12345678', database: 'callcenter' }),
+    MySQLStore = require('connect-mysql')(express);
 
 
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 80);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
@@ -33,30 +55,33 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser({uploadDir:'./uploads'}));
 app.use(express.methodOverride());
 app.use(express.cookieParser());
+
+//app.use(express.session({ secret: "keyboard cat" }));
 app.use(express.session(
-		{
-    store: new MySQLSessionStore("callcenter", "root", "12345678", {
-        host:'127.0.0.1',
-        port:3306
-    }),
-    secret: "keyboard cat"
-}
-		));
+	{ 
+		secret: 'supersecretkeygoeshere', 
+		store: new MySQLStore({ client: mysql })
+	}));
+
+
+
 
 app.use(require('stylus').middleware(__dirname + '/public'));
 
+app.use(log4js.connectLogger(logger, {level: 'auto', format:':method :url'}));
+
 app.use(app.router);
 
-app.use(express.logger( {
-	stream : accessLogfile
-}));
+//app.use(express.logger( {
+//	stream : accessLogfile
+//}));
 
 
 app.configure('production', function() {
   app.use(function(err, req, res, next){
-	  console.log('在文件记录错误日志：');
-    var meta = '[' + new Date() + '] ' + req.url + '\n';
-    errorLogfile.write(meta + err.stack + '\n');
+	  console.log('在文件记录错误日志：',err);
+   // var meta = '[' + new Date() + '] ' + req.url + '\n';
+   // errorLogfile.write(meta + err.stack + '\n');
     next();
   });
 });
@@ -81,12 +106,12 @@ app.use( function(req, res, next) {
 		next();
 	});
 
-app.use(logErrors);
+//app.use(logErrors);
 //app.use(clientErrorHandler);
 //app.use(errorHandler);
 
 app.locals( {
-	title : '四川建设网客户服务系统',
+	title : '宜宾市清源水务客户服务系统',
 	phone : '1-250-858-9990',
 	email : 'me@myapp.com'
 });
@@ -121,10 +146,10 @@ function logErrors(err, req, res, next) {
 if ('development' == app.get('env')) {
 	console.log("当前程序运行于开发环境");
 	app.use(express.static(__dirname + '/public'));
-	app.use(express.errorHandler( {
-		dumpExceptions : true,
-		showStack : true
-	}));
+	//app.use(express.errorHandler( {
+	//	dumpExceptions : true,
+	//	showStack : true
+	//}));
 }
 
 //只用于生产环境
@@ -144,7 +169,10 @@ for ( var i in routings) {
 	for ( var r in routings[i]) {
 		var pf = require(__dirname + routings[i][r].file)[routings[i][r].fn];
 		if (routings[i][r].method == 'get')
+		{
+			//console.log(routings[i][r].urlreg,pf);
 			app.get(routings[i][r].urlreg, pf);
+		}
 		else if (routings[i][r].method == 'post')
 			app.post(routings[i][r].urlreg, pf);
 		else
@@ -169,7 +197,7 @@ app.get('*', function(req, res){
  */
 
 if (!module.parent) {
-	app.listen(3000);
+	app.listen(80);
 	console.log("Express server listening on port %d in %s mode", app
 			.get('port'), app.settings.env);
 }

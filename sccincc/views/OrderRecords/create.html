@@ -11,16 +11,33 @@
 <div class="row-fluid sortable">
 <div class="box span12">
 <div class="box-content">
-<form class="form-horizontal" method="POST"><!--  div>
-						 <a href="/OrderRecords/" class="btn btn-small btn-primary">
-						 <i class="icon-chevron-left icon-white"></i>列表</a> 
-						 </div -->
-<fieldset><legend>订单记录</legend> <input type="hidden"
+<form class="form-horizontal" method="POST">
+<fieldset><legend>新建工单</legend> <input type="hidden"
 	id="callUnitID" name="callUnitID" value="<%
 if(inst!=null){%><%= inst.callUnitID %><% }%>" /> <input type="hidden"
 	id="cID" name="cID" value="<% if(inst!=null){%><%= inst.cID
 %><% }%>" /> <input type="hidden" id="serMan" name="serMan" value="<%
 if(inst!=null){%><%= inst.serMan %><% }%>" />
+
+
+<div class="control-group<%if(msg!=null &&
+msg.uphone!=null){%>error<%}%>"> <label class="control-label"
+	for="uphone">联系电话 </label>
+<div class="controls"><textarea class="autogrow" id="uphone"
+	name="uphone"><% if(inst!=null){%><%= inst.uphone%><%}%></textarea>
+<span class="help-inline"><%if(msg!=null &&
+msg.uphone!=null){%><%= msg.uphone%><%}%></span></div>
+</div>
+
+<div class="control-group<%if(msg!=null &&
+msg.uaddr!=null){%>error<%}%>"> <label class="control-label"
+	for="uaddr">联系地址 </label>
+<div class="controls"><textarea class="autogrow" id="uaddr"
+	name="uaddr"><% if(inst!=null){%><%= inst.uaddr%><%}%></textarea>
+<span class="help-inline"><%if(msg!=null &&
+msg.uaddr!=null){%><%= msg.uaddr%><%}%></span></div>
+</div>
+
 
 <div class="control-group<%if(msg!=null &&
 msg.OrderTypeid!=null){%>error<%}%>"> <label class="control-label"

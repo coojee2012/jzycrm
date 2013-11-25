@@ -192,6 +192,7 @@ $AGI->exec('noop','主叫号码:'.$ROUTER_PROCESS_CALLERIDNUM);
 		$AGI->exec('set','ROUTER_PROCESS_EXTENSION='.$ROUTER_PROCESS_EXTENSION);
 		#$AGI->exec('set','ACCOUNTCODE='.$ROUTER_PROCESS_EXTENSION);
 		$AGI->exec('set','ROUTER_PROCESS_CALLERIDNUM='.$ROUTER_PROCESS_CALLERIDNUM);
+		$AGI->exec('noop','本地处理');
 
 	#通路
 	} elsif ($matched_rule->{'process_mode'} eq '2') {
@@ -201,10 +202,12 @@ $AGI->exec('noop','主叫号码:'.$ROUTER_PROCESS_CALLERIDNUM);
 		$AGI->exec('set','ROUTER_PROCESS_DEFINED='.$matched_rule->{process_defined});
 		$AGI->exec('set','ROUTER_PROCESS_EXTENSION='.$ROUTER_PROCESS_EXTENSION);
 		$AGI->exec('set','ROUTER_PROCESS_CALLERIDNUM='.$ROUTER_PROCESS_CALLERIDNUM);
+		$AGI->exec('noop','通路');
 
 	#其他(禁止)
 	} else {
 		$AGI->exec('set','PBXAGISTATUS=0');
+		$AGI->exec('noop','禁止');
 	}
 
 

@@ -12,10 +12,15 @@ var aoColumns=[
              ];
 var where='';
 
-
-where+=',,,,,'+'crttime:::::gte|||||'+$('#crttime_from').val();
-where+=',,,,,'+'crttime:::::lte|||||'+$('#crttime_to').val();
-
+if($('#crttime_from').val()!='' && $('#crttime_to').val()==''){
+where+=',,,,,'+'crttime:::::gte|||||'+$('#crttime_from').val()+' 00:00:00';
+}
+if($('#crttime_from').val()=='' && $('#crttime_to').val()!=''){
+where+=',,,,,'+'crttime:::::lte|||||'+$('#crttime_to').val()+' 23:59:59';
+}
+if($('#crttime_from').val()!='' && $('#crttime_to').val()!=''){
+where+=',,,,,'+'crttime:::::between|||||'+$('#crttime_from').val()+' 00:00:00====='+$('#crttime_to').val()+' 23:59:59';
+}
 if(where!=='')
 	where=where.replace(/^\,{5}/,'');
 
@@ -116,15 +121,6 @@ function deleterow(data){
 </script>
 
 <script type="text/javascript">
-
-
-
-
-
-
-
-
-
 function delmut(){}
 function del(ids){
 	 $.ajax(
@@ -168,15 +164,21 @@ function del(ids){
 <div class="box-content">
 <form class="form-horizontal" method="POST">
 <fieldset>       
-<div class="control-group"><label class="control-label" for="crttime">记录时间 </label>
+<div class="control-group"><label class="control-label" for="crttime_from">记录时间 从</label>
 <div class="controls">
- 从<input type="text"
-	class="input-xlarge datepicker" id="crttime_from" name="crttime_from" value="<%= where.crttime_from%>"> 到<input
+ <input type="text"
+	class="input-xlarge datepicker" id="crttime_from" name="crttime_from" value="<%= where.crttime_from%>"> 
+     </div>
+</div>
+ 
+<div class="control-group"><label class="control-label" for="crttime_to">到 </label>
+<div class="controls">
+<input
 	type="text" class="input-xlarge datepicker" id="crttime_to"
 name="crttime_to" value="<%= where.crttime_to%>">
      </div>
 </div>
- 
+
 <div class="modal-footer">
 <button class="btn btn-small btn-danger" data-dismiss="modal"
 	aria-hidden="true">关闭</button>
@@ -194,9 +196,7 @@ name="crttime_to" value="<%= where.crttime_to%>">
 
 <div class="row-fluid sortable">
 <div class="box span12">
-<div class="box-content"><a href="/SysLog/create"
-class="btn btn-small btn-primary"> <i
-	class="icon-chevron-left icon-white"></i>新增</a> <a href="#mysearch"
+<div class="box-content"><a href="#mysearch"
 	role="button" class="btn btn-small btn-primary" data-toggle="modal">
 <i class="icon-search icon-white"></i>查询</a></div>
 

@@ -22,245 +22,55 @@
 						 </div>
 						  <fieldset> 
 							<legend>停水记录</legend> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.userID!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.userID!=null){%>error<%}%>"> 
 							<label class="control-label" for="userID">抄表人员 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 <select id="userID" name="userID" data-rel="chosen">
 							 </select> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.customID!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.customID!=null){%>error<%}%>"> 
 							<label class="control-label" for="customID">用户名称 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 <select id="customID" name="customID" data-rel="chosen">
 							 </select> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.stardu!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.stardu!=null){%>error<%}%>"> 
 							<label class="control-label" for="stardu">起度 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="stardu" name="stardu" value="<% if(inst!=null){%><%= inst.stardu %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.stardu!=null){%><%= msg.stardu%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.enddu!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.enddu!=null){%>error<%}%>"> 
 							<label class="control-label" for="enddu">止度 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="enddu" name="enddu" value="<% if(inst!=null){%><%= inst.enddu %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.enddu!=null){%><%= msg.enddu%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.cbtime!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.cbtime!=null){%>error<%}%>"> 
 							<label class="control-label" for="cbtime">抄表时间 </label> 
 							<div class="controls"> 
-							
-							
-							
 							<input type="text" class="input-xlarge datepicker" id="cbtime" name="cbtime" value="<% if(inst!=null){%><%= inst.cbtime %><% }%>" /> 
 							<span class="help-inline"><%if(msg!=null && msg.cbtime!=null){%><%= msg.cbtime%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.startime!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.startime!=null){%>error<%}%>"> 
 							<label class="control-label" for="startime">起始时间 </label> 
 							<div class="controls"> 
-							
-							
-							
 							<input type="text" class="input-xlarge datepicker" id="startime" name="startime" value="<% if(inst!=null){%><%= inst.startime %><% }%>" /> 
 							<span class="help-inline"><%if(msg!=null && msg.startime!=null){%><%= msg.startime%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.endtime!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.endtime!=null){%>error<%}%>"> 
 							<label class="control-label" for="endtime">结束时间 </label> 
 							<div class="controls"> 
-							
-							
-							
 							<input type="text" class="input-xlarge datepicker" id="endtime" name="endtime" value="<% if(inst!=null){%><%= inst.endtime %><% }%>" /> 
 							<span class="help-inline"><%if(msg!=null && msg.endtime!=null){%><%= msg.endtime%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 						    <input type="hidden" id="id" name="id" value="<% if(inst!=null){%><%= inst.id %><% }%>" />
 							<div class="form-actions"> 
 							  <button type="submit" class="btn btn-primary">保存</button> 

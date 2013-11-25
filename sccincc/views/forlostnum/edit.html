@@ -22,211 +22,48 @@
 						 </div>
 						  <fieldset> 
 							<legend>未接来电</legend> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.extension!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.extension!=null){%>error<%}%>"> 
 							<label class="control-label" for="extension">被叫号码 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="extension" name="extension" value="<% if(inst!=null){%><%= inst.extension %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.extension!=null){%><%= msg.extension%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.lostnumber!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.lostnumber!=null){%>error<%}%>"> 
 							<label class="control-label" for="lostnumber">未接号码 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="lostnumber" name="lostnumber" value="<% if(inst!=null){%><%= inst.lostnumber %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.lostnumber!=null){%><%= msg.lostnumber%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.reback!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.reback!=null){%>error<%}%>"> 
 							<label class="control-label" for="reback">是否回复 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="reback" name="reback" value="<% if(inst!=null){%><%= inst.reback %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.reback!=null){%><%= msg.reback%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.whoback!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.whoback!=null){%>error<%}%>"> 
 							<label class="control-label" for="whoback">回复分机 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="whoback" name="whoback" value="<% if(inst!=null){%><%= inst.whoback %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.whoback!=null){%><%= msg.whoback%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.backtime!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.backtime!=null){%>error<%}%>"> 
 							<label class="control-label" for="backtime">回复时间 </label> 
 							<div class="controls"> 
-							
-							
-							
 							<input type="text" class="input-xlarge datepicker" id="backtime" name="backtime" value="<% if(inst!=null){%><%= inst.backtime %><% }%>" /> 
 							<span class="help-inline"><%if(msg!=null && msg.backtime!=null){%><%= msg.backtime%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.certime!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.certime!=null){%>error<%}%>"> 
 							<label class="control-label" for="certime">来电时间 </label> 
 							<div class="controls"> 
-							
-							
-							
 							<input type="text" class="input-xlarge datepicker" id="certime" name="certime" value="<% if(inst!=null){%><%= inst.certime %><% }%>" /> 
 							<span class="help-inline"><%if(msg!=null && msg.certime!=null){%><%= msg.certime%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 						    <input type="hidden" id="id" name="id" value="<% if(inst!=null){%><%= inst.id %><% }%>" />
 							<div class="form-actions"> 
 							  <button type="submit" class="btn btn-primary">保存</button> 

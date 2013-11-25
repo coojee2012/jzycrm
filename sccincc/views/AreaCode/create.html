@@ -20,97 +20,27 @@
 						 </div>
 						  <fieldset> 
 							<legend>街道/社区</legend> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.AreaName!=null){%>error<%}%>"> 
 							<label class="control-label" for="AreaName">街道/社区名称 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="AreaName" name="AreaName" value="<% if(inst!=null){%><%= inst.AreaName %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.AreaName!=null){%><%= msg.AreaName%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.ParentID!=null){%>error<%}%>"> 
 							<label class="control-label" for="ParentID">上级行政 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							 <select id="ParentID" name="ParentID" data-rel="chosen">
+																					 <select id="ParentID" name="ParentID" data-rel="chosen">
 						     </select> 
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.Sequence!=null){%>error<%}%>"> 
 							<label class="control-label" for="Sequence">排序 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="Sequence" name="Sequence" value="<% if(inst!=null){%><%= inst.Sequence %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.Sequence!=null){%><%= msg.Sequence%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
 						
 							<div class="form-actions"> 
 							  <button type="submit" class="btn btn-primary">保存</button> 

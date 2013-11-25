@@ -18,9 +18,7 @@ var aoColumns=[
              ];
 var where='';
 
-
 where+=',,,,,'+'accountcode:::::like|||||'+$('#accountcode').val();
-
 
 where+=',,,,,'+'deviceproto:::::'+$('#deviceproto').val();
 
@@ -125,11 +123,6 @@ function deleterow(data){
 
 <script type="text/javascript">
 
-
-
-
-
-
 function get_deviceproto(value){
 var tm=	{ name: '注册协议',
   input: { type: 'selects', ops: [] },
@@ -146,12 +139,6 @@ return tm[tmtm].name;
 		}
 }
 
-
-
-
-
-
-
 function get_fristchecked(value){
 var tm=	{ name: '首次验证',
   input: { type: 'selects', ops: [] },
@@ -166,12 +153,6 @@ for(var tmtm in tm)
 return tm[tmtm].name;
 		}
 }
-
-
-
-
-
-
 
 function get_diallocal_failed(value){
 var tm=	{ name: '失败处理',
@@ -190,21 +171,6 @@ for(var tmtm in tm)
 return tm[tmtm].name;
 		}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function delmut(){}
 function del(ids){
@@ -232,7 +198,6 @@ function del(ids){
 </script>
 
 <script type="text/javascript">
-
 
 </script>
 <div class="container-fluid">
@@ -264,17 +229,14 @@ data-provide="typeahead" data-items="4" data-source='["Alabama"]'>
 							<option value="SIP"  selected=&quot;selected&quot; >
 							 SIP协议 
 							</option> 
-							
 	<option value="<%= where.deviceproto%>"></option>
 							<option value="IAX2"   >
 							 IAX2协议 
 							</option> 
-							
 	<option value="<%= where.deviceproto%>"></option>
 							<option value="DAHADI"   >
 							 座席卡 
 							</option> 
-							
 								  </select>   </div>
 </div>
                            
@@ -291,7 +253,6 @@ data-provide="typeahead" data-items="4" data-source='["Alabama"]'>
 </div>
 
 </div>
-
 
 <div class="row-fluid sortable">
 <div class="box span12">

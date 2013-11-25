@@ -84,6 +84,8 @@
 
     function historyts() {
         var customid = $("#id").val();
+        var uphone=$("#phone").val();
+        var uaddr=$("#lifeAddr").val();
         if (customid == "") {
             alert("请先保存来电者信息！");
             return false;
@@ -116,13 +118,16 @@
     }
     function addorder() {
         var customid = $("#id").val();
+        var uphone=$("#phone").val();
+        var uaddr=$("#lifeAddr").val();
+
         if (customid == "") {
             alert("请先保存来电者信息！");
             return false;
         }
         parent.myLib.desktop.win.newWin({
             WindowTitle: '新增来电：<%= callmsg.caller%>的工单记录',
-            iframSrc: '/OrderRecords/create?unid=<%= callmsg.unid%>&customid=' + customid,
+            iframSrc: '/OrderRecords/create?unid=<%= callmsg.unid%>&customid=' + customid+'&uphone='+uphone+'&uaddr='+uaddr,
             WindowsId: "工单记录_<%= callmsg.unid%>",
             WindowAnimation: 'none',
             WindowWidth: 960,
@@ -246,9 +251,7 @@ inst.work %><% }%>" /> <span class="help-inline"><%if(error!=null
 error.phone!=null){%>error<%}%>"> <label class="control-label"
 	for="phone">联系电话</label>
 <div class="controls"><input type="text" class="span12" id="phone"
-	name="phone" value="<% if(inst!=null && inst.phone!=null){%><%=
-inst.phone %><% }%>" /> <span class="help-inline"><%if(error!=null
-&& error.phone!=null){%><%= error.phone%><%}%></span></div>
+	name="phone" value="<% if(phone!=''){%><%= phone %><% }%>" /> <span class="help-inline"><%if(error!=null && error.phone!=null){%><%= error.phone%><%}%></span></div>
 </div>
 </div>
 <div class="form-actions">

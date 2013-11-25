@@ -22,143 +22,34 @@
 						 </div>
 						  <fieldset> 
 							<legend>IVR执行</legend> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.ivrnumber!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.ivrnumber!=null){%>error<%}%>"> 
 							<label class="control-label" for="ivrnumber">IVR号码 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="ivrnumber" name="ivrnumber" value="<% if(inst!=null){%><%= inst.ivrnumber %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.ivrnumber!=null){%><%= msg.ivrnumber%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.ordinal!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.ordinal!=null){%>error<%}%>"> 
 							<label class="control-label" for="ordinal">执行编号 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="ordinal" name="ordinal" value="<% if(inst!=null){%><%= inst.ordinal %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.ordinal!=null){%><%= msg.ordinal%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.actmode!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.actmode!=null){%>error<%}%>"> 
 							<label class="control-label" for="actmode">执行动作 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 <select id="actmode" name="actmode" data-rel="chosen">
 							 </select> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.args!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.args!=null){%>error<%}%>"> 
 							<label class="control-label" for="args">执行参数 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="args" name="args" value="<% if(inst!=null){%><%= inst.args %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.args!=null){%><%= msg.args%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 						    <input type="hidden" id="id" name="id" value="<% if(inst!=null){%><%= inst.id %><% }%>" />
 							<div class="form-actions"> 
 							  <button type="submit" class="btn btn-primary">保存</button> 

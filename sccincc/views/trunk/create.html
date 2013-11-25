@@ -20,180 +20,56 @@
 						 </div>
 						  <fieldset> 
 							<legend>系统外线</legend> 
-							
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.trunkproto!=null){%>error<%}%>"> 
 							<label class="control-label" for="trunkproto">线路协议 </label> 
 							<div class="controls"> 
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							 <select id="trunkproto" name="trunkproto" data-rel="chosen">
-							
+																					 <select id="trunkproto" name="trunkproto" data-rel="chosen">
 							<option value="sip"  <% if(inst!=null && inst.trunkproto=='sip' ){%> selected='selected'   <% } else if(inst==null){%>   selected=&quot;selected&quot;  <% }else{ %> <% }%> >
 							 SIP外线 
 							</option> 
-							
 							<option value="iax"  <% if(inst!=null && inst.trunkproto=='iax' ){%> selected='selected'   <% } else if(inst==null){%>     <% }else{ %> <% }%> >
 							 IAX2外线 
 							</option> 
-							
 							<option value="fxo"  <% if(inst!=null && inst.trunkproto=='fxo' ){%> selected='selected'   <% } else if(inst==null){%>     <% }else{ %> <% }%> >
 							 FXO外线 
 							</option> 
-							
 							<option value="pri"  <% if(inst!=null && inst.trunkproto=='pri' ){%> selected='selected'   <% } else if(inst==null){%>     <% }else{ %> <% }%> >
 							 PRI外线 
 							</option> 
-							
 							<option value="custom"  <% if(inst!=null && inst.trunkproto=='custom' ){%> selected='selected'   <% } else if(inst==null){%>     <% }else{ %> <% }%> >
 							 自定义 
 							</option> 
-							
 								  </select> 
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.trunkdevice!=null){%>error<%}%>"> 
 							<label class="control-label" for="trunkdevice">线路设备 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="trunkdevice" name="trunkdevice" value="<% if(inst!=null){%><%= inst.trunkdevice %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.trunkdevice!=null){%><%= msg.trunkdevice%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.trunkremark!=null){%>error<%}%>"> 
 							<label class="control-label" for="trunkremark">线路备注 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="trunkremark" name="trunkremark" value="<% if(inst!=null){%><%= inst.trunkremark %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.trunkremark!=null){%><%= msg.trunkremark%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.cretime!=null){%>error<%}%>"> 
 							<label class="control-label" for="cretime">创建时间 </label> 
 							<div class="controls"> 
-							
-							
-							
 							<input type="text" class="input-xlarge datepicker" id="cretime" name="cretime" value="<% if(inst!=null){%><%= inst.cretime %>   <% }%>" /> 
 							<span class="help-inline"><%if(msg!=null && msg.cretime!=null){%><%= msg.cretime%><%}%></span>
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
-							
-							
 							<div class="control-group <%if(msg!=null && msg.args!=null){%>error<%}%>"> 
 							<label class="control-label" for="args">线路参数 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="args" name="args" value="<% if(inst!=null){%><%= inst.args %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.args!=null){%><%= msg.args%><%}%></span>
-							
-							
-							
-							
-														
-														
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							 </div> 
+																					 </div> 
 							</div> 
-							
 						
 							<div class="form-actions"> 
 							  <button type="submit" class="btn btn-primary">保存</button> 

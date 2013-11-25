@@ -22,148 +22,34 @@
 						 </div>
 						  <fieldset> 
 							<legend>录音记录</legend> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.filename!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.filename!=null){%>error<%}%>"> 
 							<label class="control-label" for="filename">文件名 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="filename" name="filename" value="<% if(inst!=null){%><%= inst.filename %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.filename!=null){%><%= msg.filename%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.extname!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.extname!=null){%>error<%}%>"> 
 							<label class="control-label" for="extname">扩展名 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="extname" name="extname" value="<% if(inst!=null){%><%= inst.extname %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.extname!=null){%><%= msg.extname%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.associate!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.associate!=null){%>error<%}%>"> 
 							<label class="control-label" for="associate">关联编号 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="associate" name="associate" value="<% if(inst!=null){%><%= inst.associate %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.associate!=null){%><%= msg.associate%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.extennum!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.extennum!=null){%>error<%}%>"> 
 							<label class="control-label" for="extennum">分机号 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="extennum" name="extennum" value="<% if(inst!=null){%><%= inst.extennum %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.extennum!=null){%><%= msg.extennum%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
-							
-							
 						    <input type="hidden" id="id" name="id" value="<% if(inst!=null){%><%= inst.id %><% }%>" />
 							<div class="form-actions"> 
 							  <button type="submit" class="btn btn-primary">保存</button> 

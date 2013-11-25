@@ -25,29 +25,20 @@
 							<span class="help-inline"><%if(msg!=null && msg.uName!=null){%><%= msg.uName%><%}%></span>
 							 </div> 
 							</div> 
- 							
-														
-							<div class="control-group <%if(msg!=null && msg.uPhone!=null){%>error<%}%>"> 
+ 														<div class="control-group <%if(msg!=null && msg.uPhone!=null){%>error<%}%>"> 
 							<label class="control-label" for="uPhone">手机号 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="uPhone" name="uPhone" value="<% if(inst!=null){%><%= inst.uPhone %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.uPhone!=null){%><%= msg.uPhone%><%}%></span>
-														
-							 </div> 
+														 </div> 
 							</div> 
-							
 							<div class="control-group <%if(msg!=null && msg.uAddr!=null){%>error<%}%>"> 
 							<label class="control-label" for="uMemo">备注 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="uMemo" name="uMemo" value="<% if(inst!=null){%><%= inst.uMemo %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.uMemo!=null){%><%= msg.uMemo%><%}%></span>
-														
-							 </div> 
-							</div> 																																									
-							 						  																																		
-							<div class="form-actions"> 
+														 </div> 
+							</div> 																																									 						  																																		<div class="form-actions"> 
 							  <button type="submit" class="btn btn-primary">保存</button> 
 							  <button type="reset" class="btn">取消</button> 
 							</div> 

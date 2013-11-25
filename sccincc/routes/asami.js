@@ -178,14 +178,16 @@ var exten=req.body['exten']||req.query['exten'];
 var Variable="CHANNEL(language)=cn,FRI2_OUTGOING_MEMBERID=1,POPTYPE="+variable;	
 var channel="LOCAL/"+outnumber+"@sub-outgoing";
 var Context='sub-outgoing-callback';
+//var Context='app-exten';
 var action=new AsAction.Originate();
 action.Channel=channel;
-action.Timeout=30;
+//action.Timeout=30;
 action.Async=true;
 action.Account = exten;
+action.CallerID=exten;
 action.Context = Context;
 action.Exten = exten;
-console.log(nami);
+console.log(action);
 if(nami.connected){
 nami.send(action,function(response){
 	res.send(response);			

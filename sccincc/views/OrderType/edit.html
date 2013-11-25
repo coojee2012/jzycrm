@@ -22,41 +22,13 @@
 						 </div>
 						  <fieldset> 
 							<legend>工单类别</legend> 
-							
-							
-														
-							<div class="control-group <%if(msg!=null && msg.typeName!=null){%>error<%}%>"> 
+														<div class="control-group <%if(msg!=null && msg.typeName!=null){%>error<%}%>"> 
 							<label class="control-label" for="typeName">工单类别 </label> 
 							<div class="controls"> 
-							
 							<input type="text" class="span6" id="typeName" name="typeName" value="<% if(inst!=null){%><%= inst.typeName %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.typeName!=null){%><%= msg.typeName%><%}%></span>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							 </div> 
 							</div> 
-							
 						    <input type="hidden" id="id" name="id" value="<% if(inst!=null){%><%= inst.id %><% }%>" />
 							<div class="form-actions"> 
 							  <button type="submit" class="btn btn-primary">保存</button> 
