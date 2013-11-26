@@ -64,8 +64,7 @@ routes.selectdb = [{
 		file: '/routes/selectdb',
 		method: 'all',
 		fn: 'paidanchart'
-	},
-	{
+	}, {
 		urlreg: '/selectdb/pagingsearch',
 		file: '/routes/selectdb',
 		method: 'all',
@@ -202,6 +201,23 @@ routes.asami = [
 	}
 
 ];
+routes.jzycustominfo = [{
+	urlreg: '/jzy/custominfo',
+	file: '/routes/jzycustominfo',
+	method: 'get',
+	fn: 'get'
+}, {
+	urlreg: '/jzy/custominfo',
+	file: '/routes/jzycustominfo',
+	method: 'post',
+	fn: 'post'
+},{
+	urlreg: '/jzy/getCustoms',
+	file: '/routes/jzycustominfo',
+	method: 'all',
+	fn: 'getCustoms'
+}];
+
 routes.chart = [
 
 	{

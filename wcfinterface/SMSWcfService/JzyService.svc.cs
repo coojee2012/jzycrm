@@ -84,7 +84,7 @@ namespace SMSWcfService
 
         public List<CustomInfo> getCustoms(string cunit, string cardnum, string jbr) {
             List<CustomInfo> customs = new List<CustomInfo>();
-            string sql =  "select a.card_id,a.card_type,b.type_name,b.discount,a.vip_name,a.vip_sex,a.oper_id,c.oper_name,a.social_id,a.vip_add,a.vip_email,a.vip_tel,a.company,a.duty,a.mobile from t_rm_vip_info a ";
+            string sql =  "select top 10  a.card_id,a.card_type,b.type_name,b.discount,a.vip_name,a.vip_sex,a.oper_id,c.oper_name,a.social_id,a.vip_add,a.vip_email,a.vip_tel,a.company,a.duty,a.mobile from t_rm_vip_info a ";
                    sql += " left join t_rm_vip_type b on b.type_id=a.card_type ";
                    sql += " left join t_sys_operator c on a.oper_id = c.oper_id where 1=1  ";
             if (!string.IsNullOrEmpty(cunit)) {
