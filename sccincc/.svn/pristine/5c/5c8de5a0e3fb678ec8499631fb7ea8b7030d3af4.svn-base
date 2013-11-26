@@ -1,4 +1,0 @@
-[general]
-;audiobuffers=32
-[rooms]
-; Usage is conf => confno[,pin][,adminpin]	

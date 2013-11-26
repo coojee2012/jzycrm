@@ -1,6 +1,0 @@
-[general]
-rtpstart=10000
-rtpend=20000
-;rtpchecksums=no
-;dtmftimeout=3000
-;rtcpinterval = 5000

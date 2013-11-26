@@ -1,4 +1,0 @@
-[general]
-persistentmembers = yes
-autofill = yes
-#include queues_list.conf

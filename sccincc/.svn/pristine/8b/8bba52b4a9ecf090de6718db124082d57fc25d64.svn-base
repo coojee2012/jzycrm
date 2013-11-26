@@ -1,6 +1,0 @@
-[monitor]
-exten => s,1,Answer()
-exten => s,n,AGI(monitor.php)
-;exten => s,n,Hangup()
-
-exten => h,1,NoOp("DIAL MONITOR PHONE HANGUP")
