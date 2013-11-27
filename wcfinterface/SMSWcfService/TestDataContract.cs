@@ -252,6 +252,16 @@ namespace SMSWcfService
             set { _supcust_tel = value; }
         }
 
+        //助记码
+        private string _item_rem;
+        [DataMember]
+        public string Itemrem
+        {
+            get { return _item_rem; }
+            set { _item_rem = value; }
+        }
+
+
 
     }
 }

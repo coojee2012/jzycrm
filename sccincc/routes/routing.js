@@ -216,6 +216,21 @@ routes.jzycustominfo = [{
 	file: '/routes/jzycustominfo',
 	method: 'all',
 	fn: 'getCustoms'
+},{
+	urlreg: '/jzy/shopinfo',
+	file: '/routes/jzycustominfo',
+	method: 'get',
+	fn: 'getShop'
+}, {
+	urlreg: '/jzy/shopinfo',
+	file: '/routes/jzycustominfo',
+	method: 'post',
+	fn: 'postShop'
+},{
+	urlreg: '/jzy/getShopItems',
+	file: '/routes/jzycustominfo',
+	method: 'all',
+	fn: 'getShopItems'
 }];
 
 routes.chart = [

@@ -1,31 +1,32 @@
+
 <script type="text/javascript">
 $(document).ready(function() {
 var aoColumns=[
                
-               { mData: "CardName", sClass: "center" },
+               { mData: "ItemName", sClass: "center" },
                
-               { mData: "Card_id", sClass: "center" },
-               { mData: "Card_type", sClass: "center",bSearchable: false},
-               	{ mData: "Vip_name", sClass: "center",bSearchable: false},              	
-               { mData: "Vip_sex", sClass: "center" },
-               { mData: "Vip_tel", sClass: "center",bSearchable: false},              	
-               { mData: "Company", sClass: "center" },                          
-               { mData: "Discount", sClass: "center",bSearchable: false},
-               	{ mData: "Mobile", sClass: "center",bSearchable: false},
+               { mData: "ItemNo", sClass: "center" },
+               { mData: "ItemSubno", sClass: "center",bSearchable: false},
+               	{ mData: "Price", sClass: "center",bSearchable: false},              	
+               { mData: "SalePrice", sClass: "center" },
+               { mData: "LowSalePrice", sClass: "center",bSearchable: false},              	
+               { mData: "Stors", sClass: "center" },                          
+               { mData: "UnitNo", sClass: "center",bSearchable: false},
+               	{ mData: "SupcustName", sClass: "center",bSearchable: false},
                	
-                 { mData: "Jbr", sClass: "center",bSearchable: false }
+                 { mData: "SupcustTel", sClass: "center",bSearchable: false }
                  
              ];
 var where='';
 
 
-where+='Vip_name='+$('#Vip_name').val();
+where+='ItemName='+$('#ItemName').val();
 
 
-where+='&'+'Card_id'+$('#Card_id').val();
+where+='&'+'Price'+$('#Price').val();
 
 
-where+='&'+'Jbr'+$('#Jbr').val();
+where+='&'+'Itemrem'+$('#Itemrem').val();
 
 
 var daochu=[];
@@ -55,7 +56,7 @@ $('#datatable').dataTable( {
     bPaginate:false,
     bFilter:false,
     bInfo:false,
-    sAjaxSource: "/jzy/getCustoms?"+where,
+    sAjaxSource: "/jzy/getShopItems?"+where,
     aoColumns:aoColumns ,
     aoColumnDefs: [
                                {
@@ -145,23 +146,23 @@ function del(ids){
 <div class="box-content">
 <form class="form-horizontal" method="POST">
 <fieldset> 
-<div class="control-group"><label class="control-label" for="Vip_name">用户姓名 </label>
-<div class="controls"> <input type="text" class="span6 typeahead" id="Vip_name"
-name="Vip_name" value="<%= where.Vip_name%>"> 
+<div class="control-group"><label class="control-label" for="ItemName">商品名称 </label>
+<div class="controls"> <input type="text" class="span6 typeahead" id="ItemName"
+name="ItemName" value="<%= where.ItemName%>"> 
      </div>
 </div>
   
-<div class="control-group"><label class="control-label" for="Card_id">会员号 </label>
-<div class="controls"> <input type="text" class="span6 typeahead" id="Card_id"
-name="Card_id" value="<%= where.Card_id%>"> 
+<div class="control-group"><label class="control-label" for="Price">价格 </label>
+<div class="controls"> <input type="text" class="span6 typeahead" id="Price"
+name="Price" value="<%= where.Price%>"> 
      </div>
 </div>
           
 
     
-<div class="control-group"><label class="control-label" for="Jbr">经办人 </label>
-<div class="controls"> <input type="text" class="span6 typeahead" id="Jbr"
-name="Jbr" value="<%= where.Jbr%>"> 
+<div class="control-group"><label class="control-label" for="Itemrem">助记码 </label>
+<div class="controls"> <input type="text" class="span6 typeahead" id="Itemrem"
+name="Itemrem" value="<%= where.Itemrem%>"> 
      </div>
 </div>
           
@@ -204,25 +205,25 @@ class="btn btn-small btn-primary"> <i
 	<thead>
 		<tr>
 			 
-			<th>卡名</th>
+			<th>商品名称</th>
 			  
-			<th>卡号</th>
+			<th>货号</th>
 			  
-			<th>卡类别</th>
+			<th>子编码</th>
 			  
-			<th>客户姓名</th>
+			<th>进价</th>
 			      
-			<th>性别</th>
+			<th>零售价</th>
 			  
-			<th>电话</th>
+			<th>最低零售价</th>
 			  
-			<th>单位</th>			          
+			<th>库存</th>			          
 			  
-			<th>折扣</th>
+			<th>单位</th>
 			    
-			<th>手机</th>
+			<th>供应商名称</th>
 			     
-			<th>经办人</th>
+			<th>供应商电话</th>
 		</tr>
 	</thead>
 	<tbody>

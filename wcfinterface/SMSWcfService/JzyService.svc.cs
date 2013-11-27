@@ -125,7 +125,7 @@ namespace SMSWcfService
         public List<shopItemInfo> getShopItems(string itemname, string price, string rembercode, string tiaocode)
         {
             List<shopItemInfo> shopitems = new List<shopItemInfo>();
-            string sql  = "select a.item_no,a.item_subno, a.item_name,a.item_subname,a.item_clsno,b.item_clsname,a.unit_no,a.price,a.sale_price,a.en_dis,a.change_price,a.main_supcust,a.item_rem,c.stock_qty from t_bd_item_info a";
+            string sql  = "select top 10 a.item_no,a.item_subno, a.item_name,a.item_subname,a.item_clsno,b.item_clsname,a.unit_no,a.price,a.sale_price,a.en_dis,a.change_price,a.main_supcust,a.item_rem,c.stock_qty from t_bd_item_info a";
                    sql += " left join t_bd_item_cls b  on a.item_clsno = b.item_clsno";//获取商品类别
                    sql += " left join t_im_branch_stock c on c.item_no = a.item_no where 1=1 ";//获取库存
                    if (!string.IsNullOrEmpty(itemname)) {
@@ -154,6 +154,7 @@ namespace SMSWcfService
                  shopitem.SupcustTel = "";
                  shopitem.UnitNo = row["unit_no"].ToString();
                  shopitem.EnDis = row["en_dis"].ToString()=="1"?"是":"否";
+                 shopitem.Itemrem = row["item_rem"].ToString();
                  shopitems.Add(shopitem);
 
              }
