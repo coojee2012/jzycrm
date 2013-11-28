@@ -28,7 +28,8 @@
 
                  
 
-              });  
+              });
+
             $('#submit').click(function(){
                // alert(11);
                 $('#form1').submit();
@@ -69,13 +70,13 @@
     function historyyy() {
         var customid = $("#id").val();
         if (customid == "") {
-            alert("请先保存来电者信息！");
-            return false;
+           // alert("请先保存来电者信息！");
+            //return false;
         }
         parent.myLib.desktop.win.newWin({
-            WindowTitle: '历史工单',
-            iframSrc: '/OrderRecords?cID=' + customid,
-            WindowsId: customid + "_历史工单",
+            WindowTitle: '商品档案',
+            iframSrc: '/jzy/shopinfo',
+            WindowsId: "dddd" + "_商品档案",
             WindowAnimation: 'none',
             WindowWidth: 960,
             WindowHeight: 540
@@ -162,8 +163,6 @@
 	class="btn btn-small btn-primary"> <i class=" icon-edit icon-white"></i>历史来电</a>
 <a href="javascript:historyyy();" role="button"
 	class="btn btn-small btn-primary"> <i class="icon-tasks icon-white"></i>商品档案</a>
-<a href="javascript:historyts();" role="button"
-	class="btn btn-small btn-primary"> <i class="icon-tasks icon-white"></i>历史投诉</a>
 </div>
 <div class="row-fluid sortable">
 <div class="box span12">
@@ -176,64 +175,67 @@
 </div>
 <form class="form-horizontal" method="post" id="form1" name="form1">
 <div class="box-content span6">
-<div class="control-group"> <label class="control-label" for="cname">客户姓名 </label>
-<div class="controls"><input type="text" class="span12" id="cname" name="cname" value="<% if(inst!=null && inst.cname!=null){%><%=inst.cname %><% }else{%><%}%>" /></div>
+<div class="control-group"> <label class="control-label" for="Vip_name">客户姓名 </label>
+<div class="controls"><input type="text" class="span12" id="Vip_name" name="Vip_name" value="<% if(inst!=null && typeof(inst.Vip_name)!=='object'){%><%=inst.Vip_name %><% }else{%><%}%>" /></div>
 </div>
 <div class="control-group"> <label class="control-label"
-	for="idcard">性别 </label>
+	for="Vip_sex">性别 </label>
 <div class="controls"><input type="text" class="span12"
-	id="idcard" name="idcard" value="<% if(inst!=null &&
-inst.idcard!=null){%><%= inst.idcard %><% }%>" /> </div>
+	id="Vip_sex" name="Vip_sex" value="<% if(inst!=null && typeof(inst.Vip_sex)!=='object'){%><%= inst.Vip_sex %><% }%>" /> </div>
 </div>
 <div class="control-group"> <label class="control-label"
-	for="workunit">单位名称 </label>
+	for="Company">单位名称 </label>
 <div class="controls"><input type="text" class="span12"
-	id="workunit" name="workunit" value="<% if(inst!=null &&
-inst.workunit!=null){%><%= inst.workunit %><% }%>" /> </div>
+	id="Company" name="Company" value="<% if(inst!=null && typeof(inst.Company)!=='object'){%><%= inst.Company %><% }%>" /> </div>
 </div>
 
 <div class="control-group"> <label class="control-label"
-	for="lifeAddr">联系手机 </label>
-<div class="controls"><textarea class="span12 autogrow"
-	id="lifeAddr" name="lifeAddr"><% if(inst!=null && inst.lifeAddr!=null){%><%= inst.lifeAddr %>   <% }%></textarea>
+    for="phone">联系电话</label>
+<div class="controls"><input type="text" class="span12" id="phone"
+    name="phone" value="<% if(phone!=''){%><%= phone %><% }%>" /> </div>
 </div>
-</div>
+
+
 
 </div>
 <div class="box-content span6">
-<div class="control-group"> <label class="control-label" for="cage">会员卡号</label>
-<div class="controls"><input type="text" class="span12" id="cage"
-	name="cage" value="<% if(inst!=null && inst.cage!=null){%><%=
-inst.cage %><% }%>" /> </div>
-</div>
-<div class="control-group"> <label class="control-label" for="csex">折扣
-</label>
-<div class="controls"><label class="radio"> <input
-	type="radio" id="csex_0" name="csex" value="1" <% if(inst!=null
-&& inst.csex=='1' ){%> checked='checked' <% } else if(inst==null){%>checked='checked' <% }else{ %> <% }%> /> 卡类别 </label> <label
-	class="radio"> <input type="radio" id="csex_1" name="csex" value="0"<% if(inst!=null && inst.csex=='0' ){%>
-checked='checked' <% } else if(inst==null){%> <% }else{ %> <% }%> />
-欠费停水 </label></div>
-</div>
-<div class="control-group"> <label class="control-label" for="work">联系电话
-</label>
-<div class="controls"><input type="text" class="span12" id="work"
-	name="work" value="<% if(inst!=null && inst.work!=null){%><%=
-inst.work %><% }%>" /> </div>
+<div class="control-group"> <label class="control-label" for="Card_id">会员卡号</label>
+<div class="controls"><input type="text" class="span12" id="Card_id"
+    name="Card_id" value="<% if(inst!=null && typeof(inst.Card_id)!=='object'){%><%=
+inst.Card_id %><% }%>" /> </div>
 </div>
 
-<div class="control-group"> <label class="control-label"
-	for="phone">经办人</label>
-<div class="controls"><input type="text" class="span12" id="phone"
-	name="phone" value="<% if(phone!=''){%><%= phone %><% }%>" /> </div>
+
+
+<div class="control-group"> <label class="control-label" for="CardName">卡名称
+</label>
+<div class="controls"><input type="text" class="span12" id="CardName"
+	name="CardName" value="<% if(inst!=null && typeof(inst.CardName)!=='object'){%><%=
+inst.CardName %><% }%>" /> </div>
 </div>
+
+<div class="control-group"> <label class="control-label" for="Discount">折扣
+</label>
+<div class="controls"><input type="text" class="span12" id="Discount"
+    name="Discount" value="<% if(inst!=null && typeof(inst.Discount)!=='object'){%><%=
+inst.Discount %><% }%>" /> </div>
+</div>
+
+
+<div class="control-group"> <label class="control-label"
+    for="Jbr">经办人 </label>
+<div class="controls"><textarea class="span12 autogrow"
+    id="Jbr" name="Jbr"><% if(inst!=null && typeof(inst.Jbr)!=='object'){%><%= inst.Jbr %>   <% }%></textarea>
+</div>
+</div>
+
 </div>
 <div class="form-actions">
 <button type="button" class="btn btn-primary" id="submit" name="submit">保存</button>
 <button type="reset" class="btn">取消</button>
+<button type="button" class="btn btn-primary" id="addyy" name="addyy">添加已有</button>
 </div>
-<input type="hidden" id="id" name="id" value="<% if(inst!=null
-&& inst.id !=null){%><%= inst.id %><% }%>" /></form>
+</form>
 <div style="display: none">
 <button id="savesuccess" name="savesuccess" class="btn btn-primary noty"
 	data-noty-options='{"text":"保存成功！","layout":"topCenter","type":"success","animateOpen": {"opacity": "show"}}'>
@@ -244,56 +246,18 @@ inst.work %><% }%>" /> </div>
 </div>
 </div>
 <div class="box-content"><a href="javascript:addconsult();"
-	class="btn btn-small btn-primary"> <i class="icon-edit icon-white"></i>新建咨询</a>
+	class="btn btn-small btn-primary"> <i class="icon-edit icon-white"></i>新建来电</a>
+    <!--
 <a href="javascript:addorder();" role="button"
 	class="btn btn-small btn-primary" data-toggle="modal"> <i
 	class="icon-tasks icon-white"></i>新建工单</a> <a href="javascript:addts();"
 	role="button" class="btn btn-small btn-primary" data-toggle="modal">
-<i class="icon-leaf icon-white"></i>投诉建议</a></div>
+<i class="icon-leaf icon-white"></i>投诉建议</a>
+-->
+</div>
 </div>
 </div>
 <script type="text/javascript">
-
-$(function(){
-	 $.ajax(
-	            {
-	                url: '/selectdb/',
-	                dataType: 'json',
-	                type: 'POST',
-	                async: false,
-	                data:{tbname:'crm/UserInfo',key:'id',value:'uName'},
-	                success: function (data, textStatus) {
-	                	if(data.success)
-                        {
-                        	for (var i = 0; i < data.data.length; i++) {
-                        		<%if(inst!=null){ %>
-	                        if( data.data[i].id==<%= inst.id%>)
-	                        {
-	                        	$("<option value='" + data.data[i].id + "' selected='selected' >" + data.data[i].uName + "</option>").appendTo("#optionMan");	
-		                        }
-	                        <%}else{%>
-	                        if(false){}
-	                        <%}%>
-	                        else{
-                        	$("<option value='" + data.data[i].id + "'  >" + data.data[i].uName + "</option>").appendTo("#optionMan");	
-	                        }
-                        	}
-	                        }
-	                        else{
-	                        	alert(data.msg);
-		                        }
-	                },
-	                error: function (XMLHttpRequest, textStatus, errorThrown) {
-	                    alert('服务器访问发生异常！' + textStatus);
-	                    return;
-	                }
-
-	            }
-	            );	
-	
-});
-
-
 </script>
 
 
