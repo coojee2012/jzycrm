@@ -52,8 +52,8 @@
       else{
       client.getCustoms({
         cunit: cunit,
-        cardnum: "",
-        jbr: ""
+        cardnum: cardnum,
+        jbr: jbr
       }, function(err, result, body) {
         //client.getCustom({tel:"13699012676"},function(err, result,body){
         if (err) {
