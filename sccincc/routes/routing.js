@@ -231,6 +231,16 @@ routes.jzycustominfo = [{
 	file: '/routes/jzycustominfo',
 	method: 'all',
 	fn: 'getShopItems'
+}, {
+	urlreg: '/jzy/screenpop',
+	file: '/routes/jzycustominfo',
+	method: 'get',
+	fn: 'screenPopGet'
+},{
+	urlreg: '/jzy/screenpop',
+	file: '/routes/jzycustominfo',
+	method: 'post',
+	fn: 'screenPopPost'
 }];
 
 routes.chart = [

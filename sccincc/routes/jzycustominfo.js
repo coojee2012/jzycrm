@@ -111,7 +111,10 @@
 
   //获取商品档案
   exports.getShopItems = function(req, res) {
-var itemname=req.body["itemname"]||req.query["itemname"]||"";
+var ItemName=req.body["ItemName"]||req.query["ItemName"]||"";
+var Price=req.body["Price"]||req.query["Price"]||"";
+var Itemrem=req.body["Itemrem"]||req.query["Itemrem"]||"";
+var tiaocode=req.body["tiaocode"]||req.query["tiaocode"]||"";
 var jieguo = {};
     jieguo.iTotalRecords = 10;
     jieguo.sEcho = req.query['sEcho'] || req.body['sEcho'];
@@ -128,10 +131,10 @@ var jieguo = {};
       }
       else{
       client.getShopItems({
-        itemname: "",
-        price: "",
-        rembercode: "",
-        tiaocode:""
+        itemname: ItemName,
+        price: Price,
+        rembercode: Itemrem,
+        tiaocode:tiaocode
       }, function(err, result, body) {
         //client.getCustom({tel:"13699012676"},function(err, result,body){
         if (err) {
@@ -155,3 +158,54 @@ var jieguo = {};
     });
 
   }
+
+
+exports.screenPopGet=function(req,res){
+var callid=req.body['callid']||req.query['callid']; 
+var unid=req.body['unid']||req.query['unid']; 
+var caller=req.body['caller']||req.query['caller']; 
+var called=req.body['called']||req.query['called']; 
+var poptype=req.body['poptype']||req.query['poptype'];
+var phone=caller || called || '';
+var callmsg={};
+callmsg.callid=callid;
+callmsg.unid=unid || -1;
+callmsg.caller=caller;
+callmsg.called=called;
+callmsg.poptype=poptype;
+ soap.createClient(wcfurl, function(err, client) {
+      if (err) {
+        console.log("连接服务发生异常！", err);
+        res.send("连接服务发生异常！", util.inspect(err, null, null));
+      }
+
+      if (!client) {
+        console.log("无法正常连接服务！");
+        res.send("无法正常连接服务！");
+      }
+      client.getCustom({
+        telnum: phone
+      }, function(err, result, body) {
+        //client.getCustom({tel:"13699012676"},function(err, result,body){
+        if (err) {
+          console.log("getCustom err:", util.inspect(err, null, null));
+         res.render('jzycustominfo/screenpop.html',{inst:null,phone:phone,error:err,callmsg:callmsg});
+        } else {
+          console.log("getCustom:", result['getCustomResult']);
+          res.render('jzycustominfo/screenpop.html',{inst:result['getCustomResult'],phone:phone,error:null,callmsg:callmsg});
+
+        }
+
+
+      });
+
+    });
+
+
+  }
+
+  exports.screenPopPost=function(req,res){
+
+
+  }
+
