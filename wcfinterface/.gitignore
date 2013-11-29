@@ -1,0 +1,10 @@
+.externalToolBuilders
+.settings
+*.log
+web.log*
+*.dll
+*.exe
+SMSWcfService/bin
+SMSWcfService/obj
+DataAccess/bin
+DataAccess/obj
