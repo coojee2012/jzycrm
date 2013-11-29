@@ -49,6 +49,7 @@
         console.log("无法正常连接服务！");
         res.send("无法正常连接服务！");
       }
+      else{
       client.getCustoms({
         cunit: cunit,
         cardnum: "",
@@ -71,8 +72,10 @@
 
 
       });
+       }
 
     });
+
 
 
   }
@@ -123,6 +126,7 @@ var jieguo = {};
         console.log("无法正常连接服务！");
         res.send("无法正常连接服务！");
       }
+      else{
       client.getShopItems({
         itemname: "",
         price: "",
@@ -146,6 +150,7 @@ var jieguo = {};
 
 
       });
+    }
 
     });
 
