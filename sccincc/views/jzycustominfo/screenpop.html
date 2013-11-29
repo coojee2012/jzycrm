@@ -233,7 +233,7 @@ inst.Discount %><% }%>" /> </div>
 <div class="form-actions">
 <button type="button" class="btn btn-primary" id="submit" name="submit">保存</button>
 <button type="reset" class="btn">取消</button>
-<button type="button" class="btn btn-primary" id="addyy" name="addyy">添加已有</button>
+<button type="button" class="btn btn-primary" id="addyy" name="addyy" onclick="javascript:addyy();">添加已有</button>
 </div>
 </form>
 <div style="display: none">
@@ -257,7 +257,75 @@ inst.Discount %><% }%>" /> </div>
 </div>
 </div>
 </div>
+
+<div id="mysearch" class="modal hide fade" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+</div>
+<div class="modal-body">
+<div class="row-fluid sortable">
+<div class="box span12">
+<div class="box-content">
+<h3>符合条件的客户档案列表</h3>
+<table id='selectcustom'> 
+</table>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
 <script type="text/javascript">
+function addyy(){
+var where='';
+where+='Vip_name='+$('#Vip_name').val();
+where+='&'+'Card_id'+$('#Card_id').val();
+where+='&'+'Jbr'+$('#Jbr').val();
+   $.ajax(
+                {
+                    url: '/jzy/getCustoms?'+where,
+                    dataType: 'json',
+                    type: 'POST',
+                    async: false,
+                    data:{ids:ids},
+                    success: function (data, textStatus) {                      
+                            alert(data.aaData);
+                            if(data.aaData.length>0){
+                                $("#selectcustom").html('');
+                                var str="<th>客户姓名</th><th>会员卡号</th><th>工作单位</th><th>操作</th>";
+                                for(var i=0;i<data.aaData.length;i++){
+                                    str+="<td>"+data.aaData[i].Vip_name+"</td>";
+                                    str+="<td>"+data.aaData[i].Card_id+"</td>";
+                                    str+="<td>"+data.aaData[i].Company+"</td>";
+                                    str+="<td>"+<a href="javascript:setselect(var cus="+data.aaData[i]+");"></a>data.aaData[i].Vip_name+"</td>";
+
+                                if(i==data.aaData.length){
+                                   $("#selectcustom").html(str); 
+                                   $('#mysearch').modal('show');
+                                }
+
+                                }
+
+
+                            }
+                            else{
+                               alert("没有找到适合的客户档案。"); 
+                            }                          
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert('服务器访问发生异常！' + textStatus);
+                        return;
+                    }
+                }
+                );    
+}
+
+function setselect(data){
+alert(data);
+}
 </script>
 
 

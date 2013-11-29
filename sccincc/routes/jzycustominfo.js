@@ -49,10 +49,11 @@
         console.log("无法正常连接服务！");
         res.send("无法正常连接服务！");
       }
+      else{
       client.getCustoms({
         cunit: cunit,
-        cardnum: "",
-        jbr: ""
+        cardnum: cardnum,
+        jbr: jbr
       }, function(err, result, body) {
         //client.getCustom({tel:"13699012676"},function(err, result,body){
         if (err) {
@@ -71,8 +72,10 @@
 
 
       });
+       }
 
     });
+
 
 
   }
@@ -126,6 +129,7 @@ var jieguo = {};
         console.log("无法正常连接服务！");
         res.send("无法正常连接服务！");
       }
+      else{
       client.getShopItems({
         itemname: ItemName,
         price: Price,
@@ -149,6 +153,7 @@ var jieguo = {};
 
 
       });
+    }
 
     });
 

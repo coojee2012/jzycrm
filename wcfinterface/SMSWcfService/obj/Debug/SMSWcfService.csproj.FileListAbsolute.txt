@@ -19,3 +19,10 @@ E:\GitHub\jzycrm\wcfinterface\SMSWcfService\bin\SMSWcfService.dll
 E:\GitHub\jzycrm\wcfinterface\SMSWcfService\bin\SMSWcfService.pdb
 E:\GitHub\jzycrm\wcfinterface\SMSWcfService\bin\DataAccess.dll
 E:\GitHub\jzycrm\wcfinterface\SMSWcfService\bin\DataAccess.pdb
+C:\Users\liny-pc\Documents\GitHub\jzycrm\wcfinterface\SMSWcfService\bin\SMSWcfService.dll
+C:\Users\liny-pc\Documents\GitHub\jzycrm\wcfinterface\SMSWcfService\bin\SMSWcfService.pdb
+C:\Users\liny-pc\Documents\GitHub\jzycrm\wcfinterface\SMSWcfService\bin\DataAccess.dll
+C:\Users\liny-pc\Documents\GitHub\jzycrm\wcfinterface\SMSWcfService\bin\DataAccess.pdb
+C:\Users\liny-pc\Documents\GitHub\jzycrm\wcfinterface\SMSWcfService\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\liny-pc\Documents\GitHub\jzycrm\wcfinterface\SMSWcfService\obj\Debug\SMSWcfService.dll
+C:\Users\liny-pc\Documents\GitHub\jzycrm\wcfinterface\SMSWcfService\obj\Debug\SMSWcfService.pdb

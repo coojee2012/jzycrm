@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <publishData>
   <publishProfile publishUrl="D:\web\wcftest" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="配置文件1" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
-    <file relUrl="bin/SMSWcfService.pdb" publishTime="11/27/2013 21:35:29" />
-    <file relUrl="JzyService.svc" publishTime="11/26/2013 11:08:51" />
-    <file relUrl="Web.config" publishTime="11/26/2013 11:08:51" />
-    <file relUrl="bin/DataAccess.pdb" publishTime="11/26/2013 11:08:51" />
-    <file relUrl="SMSService.svc" publishTime="10/18/2013 20:29:41" />
-    <file relUrl="bin/DataAccess.dll" publishTime="11/26/2013 11:08:51" />
-    <file relUrl="bin/SMSWcfService.dll" publishTime="11/27/2013 21:35:29" />
+    <file relUrl="bin/SMSWcfService.pdb" publishTime="11/28/2013 08:41:08" />
+    <file relUrl="JzyService.svc" publishTime="11/26/2013 11:48:49" />
+    <file relUrl="Web.config" publishTime="11/26/2013 11:48:49" />
+    <file relUrl="bin/DataAccess.pdb" publishTime="11/26/2013 11:48:49" />
+    <file relUrl="SMSService.svc" publishTime="10/16/2013 21:27:04" />
+    <file relUrl="bin/DataAccess.dll" publishTime="11/26/2013 11:48:49" />
+    <file relUrl="bin/SMSWcfService.dll" publishTime="11/28/2013 08:41:08" />
   </publishProfile>
 </publishData>

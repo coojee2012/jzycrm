@@ -16,7 +16,7 @@ log4js.configure({
     { type: 'console' }, //控制台输出
     {
       type: 'file', //文件输出
-      filename: 'web.log', 
+      filename: 'c:/web.log', 
       maxLogSize: 10240000,
       backups:3,
       category: 'normal' 
@@ -37,14 +37,14 @@ var fs = require('fs');
 //	flags : 'a'
 //});
 
-var mysql = require('mysql').createConnection({ user: 'root', password: '12345678', database: 'callcenter' }),
+var mysql = require('mysql').createConnection({ host:'192.168.0.144',user: 'root', password: '12345678', database: 'callcenter' }),
     MySQLStore = require('connect-mysql')(express);
 
 
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 80);
+app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
@@ -197,7 +197,7 @@ app.get('*', function(req, res){
  */
 
 if (!module.parent) {
-	app.listen(80);
+	app.listen(3000);
 	console.log("Express server listening on port %d in %s mode", app
 			.get('port'), app.settings.env);
 }
