@@ -1,0 +1,7 @@
+.externalToolBuilders
+.settings
+*.log
+web.log*
+*.dll
+*.exe
+node_modules/
