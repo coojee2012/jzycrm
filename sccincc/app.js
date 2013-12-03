@@ -16,7 +16,7 @@ log4js.configure({
     { type: 'console' }, //控制台输出
     {
       type: 'file', //文件输出
-      filename: 'c:/web.log', 
+      filename: 'web.log', 
       maxLogSize: 10240000,
       backups:3,
       category: 'normal' 
