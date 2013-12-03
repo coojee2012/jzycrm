@@ -264,4 +264,25 @@ namespace SMSWcfService
 
 
     }
+
+    [DataContract]
+    public class boolReturn {
+        public boolReturn() { }
+        private string _message;//消息
+        [DataMember]
+        public string Message
+        {
+            get { return _message; }
+            set { _message = value; }
+          
+        }
+        private int _code;//错误代码
+        [DataMember]
+        public int Code
+        {
+            get { return _code; }
+            set { _code = value; }
+
+        }
+    }
 }
