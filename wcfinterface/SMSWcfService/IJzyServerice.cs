@@ -56,7 +56,7 @@ namespace SMSWcfService
          /// <returns></returns>
          [OperationContract]
          [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
-         boolReturn insertCustom(string Vip_name, string Card_id, string Vip_sex, string Vip_tel, string Mobile, string Company, string Vip_add);
+         boolReturn insertCustom(string Vip_name, string Card_id, string Vip_sex,string Card_type, string Vip_tel, string Mobile, string Company, string Vip_add);
          /// <summary>
          /// 更新客户档案信息
          /// </summary>
@@ -70,7 +70,7 @@ namespace SMSWcfService
          /// <returns></returns>
          [OperationContract]
          [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
-         boolReturn updateCustom(string Vip_name, string Card_id, string Vip_sex, string Vip_tel, string Mobile, string Company, string Vip_add);
+         boolReturn updateCustom(string Vip_name, string Card_id, string Vip_sex, string Card_type, string Vip_tel, string Mobile, string Company, string Vip_add);
 
     }
 }

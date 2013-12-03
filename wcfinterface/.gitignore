@@ -4,6 +4,7 @@
 web.log*
 *.dll
 *.exe
+*.pdb
 SMSWcfService/bin
 SMSWcfService/obj
 DataAccess/bin

@@ -207,11 +207,20 @@ inst.Card_id %><% }%>" /> </div>
 
 
 
-<div class="control-group"> <label class="control-label" for="CardName">卡名称
+<div class="control-group"> <label class="control-label" for="Card_type">卡类型
 </label>
-<div class="controls"><input type="text" class="span12" id="CardName"
-	name="CardName" value="<% if(inst!=null && typeof(inst.CardName)!=='object'){%><%=
-inst.CardName %><% }%>" /> </div>
+<div class="controls">
+<select id="Card_type" name="Card_type">
+    <option value=0  <% if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type === 0){%>
+        selected="selected" <%}%>>会员卡</option>  
+     <option value=1  <% if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type === 1){%>
+        selected="selected" <%}%>>单位88</option>
+     <option value=2  <% if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type === 2){%>
+        selected="selected" <%}%>>单位85</option>
+        <option value=3 <% if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type === 3){%>
+        selected="selected" <%}%>>单位82</option>
+</select>
+</div>
 </div>
 
 <div class="control-group"> <label class="control-label" for="Discount">折扣
@@ -232,8 +241,8 @@ inst.Discount %><% }%>" /> </div>
 </div>
 <div class="form-actions">
 <button type="button" class="btn btn-primary" id="submit" name="submit">保存</button>
-<button type="reset" class="btn">取消</button>
-<button type="button" class="btn btn-primary" id="addyy" name="addyy" onclick="javascript:addyy();">添加已有</button>
+<!--button type="reset" class="btn">取消</button-->
+<button type="button" class="btn btn-primary" id="addyy" name="addyy" onclick="javascript:addyy2();">已有</button>
 </div>
 </form>
 <div style="display: none">
@@ -279,7 +288,10 @@ inst.Discount %><% }%>" /> </div>
 
 
 <script type="text/javascript">
-function addyy(){
+function addyy1(){
+    alert(1);
+}
+function addyy2(){
 var where='';
 where+='Vip_name='+$('#Vip_name').val();
 where+='&'+'Card_id'+$('#Card_id').val();
@@ -290,25 +302,51 @@ where+='&'+'Jbr'+$('#Jbr').val();
                     dataType: 'json',
                     type: 'POST',
                     async: false,
-                    data:{ids:ids},
+                   // data:{ids:ids},
                     success: function (data, textStatus) {                      
                             alert(data.aaData);
-                            if(data.aaData.length>0){
+                            if(typeof(data.aaData)==='object' && typeof(data.aaData[0])!=='object' &&　data.aaData!=null){
                                 $("#selectcustom").html('');
-                                var str="<th>客户姓名</th><th>会员卡号</th><th>工作单位</th><th>操作</th>";
+                                var str="<tr><th>客户姓名</th><th>会员卡号</th><th>工作单位</th><th>操作</th></tr>";
+                                //for(var iii in data.aaData){
+                                    //alert(iii);
+                                    str+="<tr>";
+                                    str+="<td>"+data.aaData.Vip_name+"</td>";
+                                    str+="<td>"+data.aaData.Card_id+"</td>";
+                                    str+="<td>"+data.aaData.Company+"</td>";
+                                    str+="<td><a href=javascript:setselect("+data.aaData.Card_id+");></a>"+data.aaData.Vip_name+"</td>";
+                                     str+="</tr>";
+
+                                if(data.aaData.Vip_name==""){
+                                  
+                                }
+
+                                //}
+                                 $("#selectcustom").html(str); 
+                                 $('#mysearch').modal('show');
+
+
+                            }
+                            else if(typeof(data.aaData[0])==='object' && data.aaData[0]!=null) {
+                                 $("#selectcustom").html('');
+                                var str="<tr><th>客户姓名</th><th>会员卡号</th><th>工作单位</th><th>操作</th></tr>";
                                 for(var i=0;i<data.aaData.length;i++){
+                                    
+                                    str+="<tr>";
                                     str+="<td>"+data.aaData[i].Vip_name+"</td>";
                                     str+="<td>"+data.aaData[i].Card_id+"</td>";
                                     str+="<td>"+data.aaData[i].Company+"</td>";
-                                    str+="<td>"+<a href="javascript:setselect(var cus="+data.aaData[i]+");"></a>data.aaData[i].Vip_name+"</td>";
+                                    str+="<td><a href=javascript:setselect("+data.aaData[i].Card_id+");></a>"+data.aaData[i].Vip_name+"</td>";
+                                     str+="</tr>";
 
                                 if(i==data.aaData.length){
-                                   $("#selectcustom").html(str); 
-                                   $('#mysearch').modal('show');
+                                 $("#selectcustom").html(str); 
+                                 $('#mysearch').modal('show');
+                                  
                                 }
 
                                 }
-
+                                 
 
                             }
                             else{

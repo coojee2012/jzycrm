@@ -164,7 +164,7 @@ namespace SMSWcfService
         }
 
         //更新客户档案信息
-        public boolReturn updateCustom(string Vip_name,string Card_id , string Vip_sex, string Vip_tel,string Mobile, string Company, string Vip_add)
+        public boolReturn updateCustom(string Vip_name, string Card_id, string Vip_sex, string Card_type, string Vip_tel, string Mobile, string Company, string Vip_add)
         {
             if (string.IsNullOrEmpty(Card_id))
             {
@@ -180,8 +180,9 @@ namespace SMSWcfService
 
                 if (!string.IsNullOrEmpty(Vip_sex))
                     str += "',vip_sex='" + SafePramas(Vip_sex);
+                str += "',card_type=" + SafePramas(Card_type);
                 if (!string.IsNullOrEmpty(Vip_tel))
-                    str += "',vip_tel='" + SafePramas(Vip_tel);
+                    str += ",vip_tel='" + SafePramas(Vip_tel);
                 if (!string.IsNullOrEmpty(Mobile))
                     str += "',mobile='" + SafePramas(Mobile);
                 if (!string.IsNullOrEmpty(Company))
@@ -195,7 +196,7 @@ namespace SMSWcfService
         }
 
         //更新客户档案信息
-        public boolReturn insertCustom(string Vip_name, string Card_id, string Vip_sex, string Vip_tel, string Mobile, string Company, string Vip_add)
+        public boolReturn insertCustom(string Vip_name, string Card_id, string Vip_sex,string Card_type,  string Vip_tel, string Mobile, string Company, string Vip_add)
         {
             if (string.IsNullOrEmpty(Card_id))
             {
@@ -206,13 +207,14 @@ namespace SMSWcfService
             }
             else
             {
-                string str = "insert into t_rm_vip_info (vip_name,card_id,vip_sex,vip_tel,mobile,company,vip_add) values('" + SafePramas(Vip_name);
+                string str = "insert into t_rm_vip_info (vip_name,card_id,vip_sex,card_type,oper_id,oper_date,vip_tel,mobile,company,vip_add) values('" + SafePramas(Vip_name);
 
                 str += "','" + SafePramas(Card_id);
 
                 str += "','" + SafePramas(Vip_sex);
+                str += "'," + SafePramas(Card_type);
 
-                str += "','" + SafePramas(Vip_tel);
+                str += ",'2001',GETDATE(),'" + SafePramas(Vip_tel);
 
                 str += "','" + SafePramas(Mobile);
 
@@ -233,7 +235,7 @@ namespace SMSWcfService
                 //string pwd = DataAccess.EncAndDec.Decrypt("KJLCYyh2D0/4A4X+NGtOgg==", "SICHUANEXPERT", System.Text.Encoding.Default);
                 string pwd = "123";
                 string connetstring = "data source=127.0.0.1\\SQLEXPRESS;persist security info=True;initial catalog=hbpos7;user id=sa;password=" + pwd;
-                connetstring = System.Configuration.ConfigurationManager.AppSettings["DBConnection"];
+                //connetstring = System.Configuration.ConfigurationManager.AppSettings["DBConnection"];
                 if (sqlConnection == null)
                 {
                     sqlConnection = new SqlConnection();
