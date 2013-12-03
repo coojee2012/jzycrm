@@ -43,7 +43,34 @@ namespace SMSWcfService
          [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
          List<shopItemInfo> getShopItems(string itemname, string price, string rembercode, string tiaocode);
 
-
+         /// <summary>
+         /// 保存新的客户档案
+         /// </summary>
+         /// <param name="Vip_name"></param>
+         /// <param name="Card_id"></param>
+         /// <param name="Vip_sex"></param>
+         /// <param name="Vip_tel"></param>
+         /// <param name="Mobile"></param>
+         /// <param name="Company"></param>
+         /// <param name="Vip_add"></param>
+         /// <returns></returns>
+         [OperationContract]
+         [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+         boolReturn insertCustom(string Vip_name, string Card_id, string Vip_sex, string Vip_tel, string Mobile, string Company, string Vip_add);
+         /// <summary>
+         /// 更新客户档案信息
+         /// </summary>
+         /// <param name="Vip_name"></param>
+         /// <param name="Card_id"></param>
+         /// <param name="Vip_sex"></param>
+         /// <param name="Vip_tel"></param>
+         /// <param name="Mobile"></param>
+         /// <param name="Company"></param>
+         /// <param name="Vip_add"></param>
+         /// <returns></returns>
+         [OperationContract]
+         [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+         boolReturn updateCustom(string Vip_name, string Card_id, string Vip_sex, string Vip_tel, string Mobile, string Company, string Vip_add);
 
     }
 }

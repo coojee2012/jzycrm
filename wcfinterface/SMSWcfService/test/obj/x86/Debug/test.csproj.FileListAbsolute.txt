@@ -16,3 +16,9 @@ E:\GitHub\jzycrm\wcfinterface\SMSWcfService\test\bin\Debug\test.pdb
 E:\GitHub\jzycrm\wcfinterface\SMSWcfService\test\obj\x86\Debug\ResolveAssemblyReference.cache
 E:\GitHub\jzycrm\wcfinterface\SMSWcfService\test\obj\x86\Debug\test.exe
 E:\GitHub\jzycrm\wcfinterface\SMSWcfService\test\obj\x86\Debug\test.pdb
+C:\Users\liny-pc\Documents\GitHub\jzycrm\wcfinterface\SMSWcfService\test\bin\Debug\test.exe.config
+C:\Users\liny-pc\Documents\GitHub\jzycrm\wcfinterface\SMSWcfService\test\bin\Debug\test.exe
+C:\Users\liny-pc\Documents\GitHub\jzycrm\wcfinterface\SMSWcfService\test\bin\Debug\test.pdb
+C:\Users\liny-pc\Documents\GitHub\jzycrm\wcfinterface\SMSWcfService\test\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\liny-pc\Documents\GitHub\jzycrm\wcfinterface\SMSWcfService\test\obj\x86\Debug\test.exe
+C:\Users\liny-pc\Documents\GitHub\jzycrm\wcfinterface\SMSWcfService\test\obj\x86\Debug\test.pdb

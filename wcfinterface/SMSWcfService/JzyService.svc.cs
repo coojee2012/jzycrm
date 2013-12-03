@@ -88,15 +88,15 @@ namespace SMSWcfService
                    sql += " left join t_rm_vip_type b on b.type_id=a.card_type ";
                    sql += " left join t_sys_operator c on a.oper_id = c.oper_id where 1=1  ";
             if (!string.IsNullOrEmpty(cunit)) {
-                sql += " and a.vip_name like '%" + cunit + "%' ";
+                sql += " and a.vip_name like '%" + SafePramas(cunit) + "%' ";
             }
             if (!string.IsNullOrEmpty(cardnum))
             {
-                sql += " and a.card_id like '%" + cardnum + "%' ";
+                sql += " and a.card_id like '%" + SafePramas(cardnum) + "%' ";
             }
             if (!string.IsNullOrEmpty(jbr))
             {
-                sql += " and a.social_id like '%" + jbr + "%' ";
+                sql += " and a.social_id like '%" + SafePramas(jbr) + "%' ";
             }
             DataTable dt = Query(sql);
             foreach (DataRow row in dt.Rows)
@@ -129,15 +129,15 @@ namespace SMSWcfService
                    sql += " left join t_bd_item_cls b  on a.item_clsno = b.item_clsno";//获取商品类别
                    sql += " left join t_im_branch_stock c on c.item_no = a.item_no where 1=1 ";//获取库存
                    if (!string.IsNullOrEmpty(itemname)) {
-                       sql += " and a.item_name like '%" + itemname + "%'";                   
+                       sql += " and a.item_name like '%" + SafePramas(itemname) + "%'";                   
                    }
                    if (!string.IsNullOrEmpty(price))
                    {
-                       sql += " and a.price like '%" + price + "%'";
+                       sql += " and a.price like '%" + SafePramas(price) + "%'";
                    }
                    if (!string.IsNullOrEmpty(rembercode))
                    {
-                       sql += " and a.a.item_rem like '%" + rembercode + "%'";
+                       sql += " and a.a.item_rem like '%" + SafePramas(rembercode) + "%'";
                    }
              DataTable dt = Query(sql);
              foreach (DataRow row in dt.Rows)
@@ -163,6 +163,67 @@ namespace SMSWcfService
         
         }
 
+        //更新客户档案信息
+        public boolReturn updateCustom(string Vip_name,string Card_id , string Vip_sex, string Vip_tel,string Mobile, string Company, string Vip_add)
+        {
+            if (string.IsNullOrEmpty(Card_id))
+            {
+                boolReturn br = new boolReturn();
+                br.Code = -1;
+                br.Message = "会员卡号不对！没有找到该条客户档案记录！";
+                return br;
+            }
+            else
+            {
+                string str = "update t_rm_vip_info set vip_name='" + SafePramas(Vip_name);
+
+
+                if (!string.IsNullOrEmpty(Vip_sex))
+                    str += "',vip_sex='" + SafePramas(Vip_sex);
+                if (!string.IsNullOrEmpty(Vip_tel))
+                    str += "',vip_tel='" + SafePramas(Vip_tel);
+                if (!string.IsNullOrEmpty(Mobile))
+                    str += "',mobile='" + SafePramas(Mobile);
+                if (!string.IsNullOrEmpty(Company))
+                    str += "',company='" + SafePramas(Company);
+                if (!string.IsNullOrEmpty(Vip_add))
+                    str += "',vip_add='" + SafePramas(Vip_add);
+
+                str += "' where card_id='" + SafePramas(Card_id) + "'";
+                return NoneQuery(str);
+            }
+        }
+
+        //更新客户档案信息
+        public boolReturn insertCustom(string Vip_name, string Card_id, string Vip_sex, string Vip_tel, string Mobile, string Company, string Vip_add)
+        {
+            if (string.IsNullOrEmpty(Card_id))
+            {
+                boolReturn br = new boolReturn();
+                br.Code = -1;
+                br.Message = "请输入会员卡号，确保其唯一性！";
+                return br;
+            }
+            else
+            {
+                string str = "insert into t_rm_vip_info (vip_name,card_id,vip_sex,vip_tel,mobile,company,vip_add) values('" + SafePramas(Vip_name);
+
+                str += "','" + SafePramas(Card_id);
+
+                str += "','" + SafePramas(Vip_sex);
+
+                str += "','" + SafePramas(Vip_tel);
+
+                str += "','" + SafePramas(Mobile);
+
+                str += "','" + SafePramas(Company);
+
+                str += "','" + SafePramas(Vip_add);
+
+                str += "')";
+                return NoneQuery(str);
+            }
+        }
 
         #region 连接到数据库
         private void connectDB()
@@ -172,6 +233,7 @@ namespace SMSWcfService
                 //string pwd = DataAccess.EncAndDec.Decrypt("KJLCYyh2D0/4A4X+NGtOgg==", "SICHUANEXPERT", System.Text.Encoding.Default);
                 string pwd = "123";
                 string connetstring = "data source=127.0.0.1\\SQLEXPRESS;persist security info=True;initial catalog=hbpos7;user id=sa;password=" + pwd;
+                connetstring = System.Configuration.ConfigurationManager.AppSettings["DBConnection"];
                 if (sqlConnection == null)
                 {
                     sqlConnection = new SqlConnection();
@@ -224,5 +286,54 @@ namespace SMSWcfService
             }
         }
         #endregion
+
+
+        #region 无返回列表结果查询
+        private boolReturn NoneQuery(string str) {
+            boolReturn br = new boolReturn ();
+            try
+            {
+                connectDB();
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.CommandText = str;
+                br.Code = sqlCommand.ExecuteNonQuery();
+                br.Message = "执行成功";
+                return br;
+                
+            }
+            catch (Exception ex)
+            {
+                br.Code = -1;
+                br.Message = ex.Message;
+                return br;
+            }
+            finally
+            {
+                if (sqlConnection != null && sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();//
+                }
+            }
+           
+        }
+        #endregion
+
+        #region sql参数安全
+        private string SafePramas(string str) {
+            if (str == null)
+                return "";
+            else
+            {
+                str.Replace('\'', '’');
+                str.Replace('"', '”');
+                str.Replace('%', '%');
+                str.Replace('!', '！');
+                str.Replace('@', '@');
+                str.Replace(';', '；');
+                return str;
+            }
+        }
+        #endregion
+
     }
 }
