@@ -305,7 +305,7 @@ where+='&'+'Jbr'+$('#Jbr').val();
                    // data:{ids:ids},
                     success: function (data, textStatus) {                      
                             alert(data.aaData);
-                            if(typeof(data.aaData)==='object' && typeof(data.aaData[0])!=='object' &&　data.aaData!=null){
+                            if(typeof(data.aaData)==='object' && Object.prototype.toString.call(data.aaData) !== '[object Array]' &&　data.aaData!=null){
                                 $("#selectcustom").html('');
                                 var str="<tr><th>客户姓名</th><th>会员卡号</th><th>工作单位</th><th>操作</th></tr>";
                                 //for(var iii in data.aaData){
@@ -327,7 +327,7 @@ where+='&'+'Jbr'+$('#Jbr').val();
 
 
                             }
-                            else if(typeof(data.aaData[0])==='object' && data.aaData[0]!=null) {
+                            else if(Object.prototype.toString.call(data.aaData) === '[object Array]') {
                                  $("#selectcustom").html('');
                                 var str="<tr><th>客户姓名</th><th>会员卡号</th><th>工作单位</th><th>操作</th></tr>";
                                 for(var i=0;i<data.aaData.length;i++){
@@ -335,11 +335,17 @@ where+='&'+'Jbr'+$('#Jbr').val();
                                     str+="<tr>";
                                     str+="<td>"+data.aaData[i].Vip_name+"</td>";
                                     str+="<td>"+data.aaData[i].Card_id+"</td>";
-                                    str+="<td>"+data.aaData[i].Company+"</td>";
-                                    str+="<td><a href=javascript:setselect("+data.aaData[i].Card_id+");></a>"+data.aaData[i].Vip_name+"</td>";
+                                    if(typeof(data.aaData[i].Company)==='object'){
+    str+="<td>————</td>";
+
+}else{
+str+="<td>"+data.aaData[i].Company+"</td>";
+}
+                                    
+                                    str+="<td><a href=javascript:setselect('"+data.aaData[i].Card_id+"');>选择</a></td>";
                                      str+="</tr>";
 
-                                if(i==data.aaData.length){
+                                if(i==data.aaData.length-1){
                                  $("#selectcustom").html(str); 
                                  $('#mysearch').modal('show');
                                   
