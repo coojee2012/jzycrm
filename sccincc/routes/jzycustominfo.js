@@ -48,31 +48,30 @@
       if (!client) {
         console.log("无法正常连接服务！");
         res.send("无法正常连接服务！");
+      } else {
+        client.getCustoms({
+          cunit: cunit,
+          cardnum: cardnum,
+          jbr: jbr
+        }, function(err, result, body) {
+          //client.getCustom({tel:"13699012676"},function(err, result,body){
+          if (err) {
+            console.log("getCustoms err", util.inspect(err, null, null));
+            res.send("getCustoms err:" + util.inspect(err, null, null));
+          } else {
+            console.log("getCustoms", result['getCustomsResult']);
+
+            if (result['getCustomsResult'].CustomInfo)
+              jieguo.aaData = result['getCustomsResult'].CustomInfo;
+            else
+              jieguo.aaData = [];
+            res.send(jieguo);
+
+          }
+
+
+        });
       }
-      else{
-      client.getCustoms({
-        cunit: cunit,
-        cardnum: cardnum,
-        jbr: jbr
-      }, function(err, result, body) {
-        //client.getCustom({tel:"13699012676"},function(err, result,body){
-        if (err) {
-          console.log("getCustoms err", util.inspect(err, null, null));
-          res.send("getCustoms err:" + util.inspect(err, null, null));
-        } else {
-          console.log("getCustoms", result['getCustomsResult']);
-
-          if (result['getCustomsResult'].CustomInfo)
-            jieguo.aaData = result['getCustomsResult'].CustomInfo;
-          else
-            jieguo.aaData = [];
-          res.send(jieguo);
-
-        }
-
-
-      });
-       }
 
     });
 
@@ -80,7 +79,40 @@
 
   }
 
- //获取商品档案列表
+  //根据会员卡号获取客户信息，唯一的
+  exports.getCustomById = function(req, res) {
+    var card_id = req.body["id"] || req.query['id'] || '';
+
+    soap.createClient(wcfurl, function(err, client) {
+      if (err) {
+        console.log("连接服务发生异常！", err);
+        res.send("连接服务发生异常！", util.inspect(err, null, null));
+      }
+
+      if (!client) {
+        console.log("无法正常连接服务！");
+        res.send("无法正常连接服务！");
+      }
+      client.getCustomById({
+        cardid: card_id
+      }, function(err, result, body) {
+
+        if (err) {
+          console.log("getCustom err:", util.inspect(err, null, null));
+          res.send({});
+
+        } else {
+          console.log("getCustom:", result['getCustomByIdResult']);
+          res.send(result['getCustomByIdResult']);
+        }
+
+
+      });
+
+    });
+  }
+
+  //获取商品档案列表
   exports.getShop = function(req, res) {
     var ItemName = req.body["ItemName"] || req.query["ItemName"] || "";
     var Price = req.body["Price"] || req.query["Price"] || "";
@@ -111,15 +143,15 @@
 
   //获取商品档案
   exports.getShopItems = function(req, res) {
-var ItemName=req.body["ItemName"]||req.query["ItemName"]||"";
-var Price=req.body["Price"]||req.query["Price"]||"";
-var Itemrem=req.body["Itemrem"]||req.query["Itemrem"]||"";
-var tiaocode=req.body["tiaocode"]||req.query["tiaocode"]||"";
-var jieguo = {};
+    var ItemName = req.body["ItemName"] || req.query["ItemName"] || "";
+    var Price = req.body["Price"] || req.query["Price"] || "";
+    var Itemrem = req.body["Itemrem"] || req.query["Itemrem"] || "";
+    var tiaocode = req.body["tiaocode"] || req.query["tiaocode"] || "";
+    var jieguo = {};
     jieguo.iTotalRecords = 10;
     jieguo.sEcho = req.query['sEcho'] || req.body['sEcho'];
     jieguo.iTotalDisplayRecords = 10;
-     soap.createClient(wcfurl, function(err, client) {
+    soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);
         res.send("连接服务发生异常！", util.inspect(err, null, null));
@@ -128,52 +160,51 @@ var jieguo = {};
       if (!client) {
         console.log("无法正常连接服务！");
         res.send("无法正常连接服务！");
+      } else {
+        client.getShopItems({
+          itemname: ItemName,
+          price: Price,
+          rembercode: Itemrem,
+          tiaocode: tiaocode
+        }, function(err, result, body) {
+          //client.getCustom({tel:"13699012676"},function(err, result,body){
+          if (err) {
+            console.log("getShopItems err", util.inspect(err, null, null));
+            res.send("getShopItems err:" + util.inspect(err, null, null));
+          } else {
+            console.log("getShopItems", result['getShopItemsResult']);
+
+            if (result['getShopItemsResult'].shopItemInfo)
+              jieguo.aaData = result['getShopItemsResult'].shopItemInfo;
+            else
+              jieguo.aaData = [];
+            res.send(jieguo);
+
+          }
+
+
+        });
       }
-      else{
-      client.getShopItems({
-        itemname: ItemName,
-        price: Price,
-        rembercode: Itemrem,
-        tiaocode:tiaocode
-      }, function(err, result, body) {
-        //client.getCustom({tel:"13699012676"},function(err, result,body){
-        if (err) {
-          console.log("getShopItems err", util.inspect(err, null, null));
-          res.send("getShopItems err:" + util.inspect(err, null, null));
-        } else {
-          console.log("getShopItems", result['getShopItemsResult']);
-
-          if (result['getShopItemsResult'].shopItemInfo)
-            jieguo.aaData = result['getShopItemsResult'].shopItemInfo;
-          else
-            jieguo.aaData = [];
-          res.send(jieguo);
-
-        }
-
-
-      });
-    }
 
     });
 
   }
 
 
-exports.screenPopGet=function(req,res){
-var callid=req.body['callid']||req.query['callid']; 
-var unid=req.body['unid']||req.query['unid']; 
-var caller=req.body['caller']||req.query['caller']; 
-var called=req.body['called']||req.query['called']; 
-var poptype=req.body['poptype']||req.query['poptype'];
-var phone=caller || called || '';
-var callmsg={};
-callmsg.callid=callid;
-callmsg.unid=unid || -1;
-callmsg.caller=caller;
-callmsg.called=called;
-callmsg.poptype=poptype;
- soap.createClient(wcfurl, function(err, client) {
+  exports.screenPopGet = function(req, res) {
+    var callid = req.body['callid'] || req.query['callid'];
+    var unid = req.body['unid'] || req.query['unid'];
+    var caller = req.body['caller'] || req.query['caller'];
+    var called = req.body['called'] || req.query['called'];
+    var poptype = req.body['poptype'] || req.query['poptype'];
+    var phone = caller || called || '';
+    var callmsg = {};
+    callmsg.callid = callid;
+    callmsg.unid = unid || -1;
+    callmsg.caller = caller;
+    callmsg.called = called;
+    callmsg.poptype = poptype;
+    soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);
         res.send("连接服务发生异常！", util.inspect(err, null, null));
@@ -189,10 +220,20 @@ callmsg.poptype=poptype;
         //client.getCustom({tel:"13699012676"},function(err, result,body){
         if (err) {
           console.log("getCustom err:", util.inspect(err, null, null));
-         res.render('jzycustominfo/screenpop.html',{inst:null,phone:phone,error:err,callmsg:callmsg});
+          res.render('jzycustominfo/screenpop.html', {
+            inst: null,
+            phone: phone,
+            error: err,
+            callmsg: callmsg
+          });
         } else {
           console.log("getCustom:", result['getCustomResult']);
-          res.render('jzycustominfo/screenpop.html',{inst:result['getCustomResult'],phone:phone,error:null,callmsg:callmsg});
+          res.render('jzycustominfo/screenpop.html', {
+            inst: result['getCustomResult'],
+            phone: phone,
+            error: null,
+            callmsg: callmsg
+          });
 
         }
 
@@ -204,8 +245,11 @@ callmsg.poptype=poptype;
 
   }
 
-  exports.screenPopPost=function(req,res){
+  exports.screenPopInsert = function(req, res) {
 
 
   }
+  exports.screenPopUpdate = function(req, res) {
 
+
+  }

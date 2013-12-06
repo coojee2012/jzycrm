@@ -9,25 +9,27 @@
               $('#form1').submit(function()//提交表单
               {
                   //alert("ddd");
+                  var cdid=$("#cdid").val();
+                  var url="/jzy/screenPopInsert";
+                  if(cdid!="")
+                    url="/jzy/screenPopUpdate";
                   var options = { 
                 //  target:'#Tip', //后台将把传递过来的值赋给该元素
-                  url:'index', //提交给哪个执行
+                  url:url, //提交给哪个执行
                   type:'POST', 
                   success: function(result,status){
                       if(result.success)
                       {
                       $("#savesuccess").click();
-                      $("#id").val(result.id);
+                      $("#cdid").val(result.Card_id);
+                      //$("#id").val(result.id);
                       }
                       else
                       $("#saveerror").click();
                       } //显示操作提示
                   }; 
                   $('#form1').ajaxSubmit(options); 
-                  return false; //为了不刷新页面,返回false，反正都已经在后台执行完了，没事！
-
-                 
-
+                  return false; //为了不刷新页面,返回false，反正都已经在后台执行完了，没事！                
               });
 
             $('#submit').click(function(){
@@ -174,6 +176,7 @@
 </div>
 </div>
 <form class="form-horizontal" method="post" id="form1" name="form1">
+<input type="hidden" id="cdid" value="<%if(inst!=null && typeof(inst.Card_id)!=='object'){%><%= inst.Card_id%><%}%>"/>
 <div class="box-content span6">
 <div class="control-group"> <label class="control-label" for="Vip_name">客户姓名 </label>
 <div class="controls"><input type="text" class="span12" id="Vip_name" name="Vip_name" value="<% if(inst!=null && typeof(inst.Vip_name)!=='object'){%><%=inst.Vip_name %><% }else{%><%}%>" /></div>
@@ -181,18 +184,18 @@
 <div class="control-group"> <label class="control-label"
 	for="Vip_sex">性别 </label>
 <div class="controls"><input type="text" class="span12"
-	id="Vip_sex" name="Vip_sex" value="<% if(inst!=null && typeof(inst.Vip_sex)!=='object'){%><%= inst.Vip_sex %><% }%>" /> </div>
+	id="Vip_sex" name="Vip_sex" value="<% if(inst!=null && typeof(inst.Vip_sex)!=='object'){%><%= inst.Vip_sex%><%}%>" /> </div>
 </div>
 <div class="control-group"> <label class="control-label"
 	for="Company">单位名称 </label>
 <div class="controls"><input type="text" class="span12"
-	id="Company" name="Company" value="<% if(inst!=null && typeof(inst.Company)!=='object'){%><%= inst.Company %><% }%>" /> </div>
+	id="Company" name="Company" value="<% if(inst!=null && typeof(inst.Company)!=='object'){%><%= inst.Company%><%}%>" /> </div>
 </div>
 
 <div class="control-group"> <label class="control-label"
     for="phone">联系电话</label>
 <div class="controls"><input type="text" class="span12" id="phone"
-    name="phone" value="<% if(phone!=''){%><%= phone %><% }%>" /> </div>
+    name="phone" value="<%if(phone!=''){%><%= phone %><%}%>" /> </div>
 </div>
 
 
@@ -201,8 +204,7 @@
 <div class="box-content span6">
 <div class="control-group"> <label class="control-label" for="Card_id">会员卡号</label>
 <div class="controls"><input type="text" class="span12" id="Card_id"
-    name="Card_id" value="<% if(inst!=null && typeof(inst.Card_id)!=='object'){%><%=
-inst.Card_id %><% }%>" /> </div>
+    name="Card_id" value="<%if(inst!=null && typeof(inst.Card_id)!=='object'){%><%= inst.Card_id%><%}%>" /> </div>
 </div>
 
 
@@ -304,7 +306,7 @@ where+='&'+'Jbr'+$('#Jbr').val();
                     async: false,
                    // data:{ids:ids},
                     success: function (data, textStatus) {                      
-                            alert(data.aaData);
+                            //alert(data.aaData);
                             if(typeof(data.aaData)==='object' && Object.prototype.toString.call(data.aaData) !== '[object Array]' &&　data.aaData!=null){
                                 $("#selectcustom").html('');
                                 var str="<tr><th>客户姓名</th><th>会员卡号</th><th>工作单位</th><th>操作</th></tr>";
@@ -367,9 +369,39 @@ str+="<td>"+data.aaData[i].Company+"</td>";
                 );    
 }
 
-function setselect(data){
-alert(data);
+function setselect(card_id){
+ $.ajax(
+                {
+                    url: '/jzy/getCustomById',
+                    dataType: 'json',
+                    type: 'POST',
+                    async: false,
+                    data:{id:card_id},
+                    success: function (data, textStatus) {  
+                    if(data!=null) {
+                       $('#Vip_name').val(data.Vip_name);
+                       $('#Card_id').val(data.Card_id);
+                       $('#Vip_sex').val(data.Vip_sex); 
+                       $('#Jbr').val(data.Jbr); 
+                       $('#Card_type').val(data.Card_type);
+                       $('#Company').val(data.Company);
+
+                    }
+                    else{
+                        alert("通过会员卡号重新绑定客户档案失败！");
+                    }                   
+                                                  
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert('服务器访问发生异常！' + textStatus);
+                        return;
+                    }
+                }
+                );   
 }
+
+
+
 </script>
 
 

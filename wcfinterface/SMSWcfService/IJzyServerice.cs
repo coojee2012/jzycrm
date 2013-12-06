@@ -19,6 +19,10 @@ namespace SMSWcfService
          [OperationContract]
          [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
          CustomInfo getCustom(string telnum);
+         
+         [OperationContract]
+         [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+         CustomInfo getCustomById(string cardid);
 
          /// <summary>
          /// 用于查询客户档案
