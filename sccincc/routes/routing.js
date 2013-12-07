@@ -237,10 +237,20 @@ routes.jzycustominfo = [{
 	method: 'get',
 	fn: 'screenPopGet'
 },{
-	urlreg: '/jzy/screenpop',
+	urlreg: '/jzy/screenPopInsert',
 	file: '/routes/jzycustominfo',
 	method: 'post',
-	fn: 'screenPopPost'
+	fn: 'screenPopInsert'
+},{
+	urlreg: '/jzy/screenPopUpdate',
+	file: '/routes/jzycustominfo',
+	method: 'post',
+	fn: 'screenPopUpdate'
+},{
+	urlreg: '/jzy/getCustomById',
+	file: '/routes/jzycustominfo',
+	method: 'post',
+	fn: 'getCustomById'
 }];
 
 routes.chart = [

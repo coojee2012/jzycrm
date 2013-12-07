@@ -18,14 +18,16 @@
                   url:url, //提交给哪个执行
                   type:'POST', 
                   success: function(result,status){
-                      if(result.success)
+                      if(result.Code!=-1)
                       {
-                      $("#savesuccess").click();
+                      //$("#savesuccess").click();
                       $("#cdid").val(result.Card_id);
+                      alert(result.Message);
                       //$("#id").val(result.id);
                       }
                       else
-                      $("#saveerror").click();
+                      //$("#saveerror").click();
+                       alert(result.Message);
                       } //显示操作提示
                   }; 
                   $('#form1').ajaxSubmit(options); 
@@ -53,7 +55,7 @@
     }
     
     function historyzx() {
-        var customid = $("#id").val();
+        var customid = $("#cdid").val();
         if (customid == "") {
             alert("请先保存来电者信息！");
             return false;
@@ -70,7 +72,7 @@
     }
 
     function historyyy() {
-        var customid = $("#id").val();
+        var customid = $("#cdid").val();
         if (customid == "") {
            // alert("请先保存来电者信息！");
             //return false;
@@ -85,78 +87,25 @@
         });
     }
 
-    function historyts() {
-        var customid = $("#id").val();
-        var uphone=$("#phone").val();
-        var uaddr=$("#lifeAddr").val();
-        if (customid == "") {
-            alert("请先保存来电者信息！");
-            return false;
-        }
-        parent.myLib.desktop.win.newWin({
-            WindowTitle: '历史投诉',
-            iframSrc: '/ComplaintRecords?CustomID=' + customid,
-            WindowsId: customid + "_历史投诉",
-            WindowAnimation: 'none',
-            WindowWidth: 960,
-            WindowHeight: 540
-        });
 
-    }
 
     function addconsult(){
-        var customid = $("#id").val();
+        var customid = $("#cdid").val();
         if (customid == "") {
             alert("请先保存来电者信息！");
             return false;
         }
         parent.myLib.desktop.win.newWin({
-            WindowTitle: '新增来电：<%= callmsg.caller%>的咨询记录',
-            iframSrc: '/ConsultRecords/create?unid=<%= callmsg.unid%>&customid=' + customid,
-            WindowsId: "咨询记录_<%= callmsg.unid%>",
+            WindowTitle: '新增来电：<%= callmsg.caller%>的通话记录',
+            iframSrc: '/jzy/createThjl?unid=<%= callmsg.unid%>&customid=' + customid,
+            WindowsId: "通话记录_<%= callmsg.unid%>",
             WindowAnimation: 'none',
             WindowWidth: 960,
             WindowHeight: 540
         });
     }
-    function addorder() {
-        var customid = $("#id").val();
-        var uphone=$("#phone").val();
-        var uaddr=$("#lifeAddr").val();
+   
 
-        if (customid == "") {
-            alert("请先保存来电者信息！");
-            return false;
-        }
-        parent.myLib.desktop.win.newWin({
-            WindowTitle: '新增来电：<%= callmsg.caller%>的工单记录',
-            iframSrc: '/OrderRecords/create?unid=<%= callmsg.unid%>&customid=' + customid+'&uphone='+uphone+'&uaddr='+uaddr,
-            WindowsId: "工单记录_<%= callmsg.unid%>",
-            WindowAnimation: 'none',
-            WindowWidth: 960,
-            WindowHeight: 540
-        });
-
-    }
-
-    function addts() {
-        var customid = $("#id").val();
-        if (customid == "") {
-            alert("请先保存来电者信息！");
-            return false;
-        }
-        parent.myLib.desktop.win.newWin({
-            WindowTitle: '新增来电：<%= callmsg.caller%>的投诉建议记录',
-            iframSrc: '/ComplaintRecords/create?unid=<%= callmsg.unid%>&customid=' + customid,
-            WindowsId: "投诉建议记录_<%= callmsg.unid%>",
-            WindowAnimation: 'none',
-            WindowWidth: 960,
-            WindowHeight: 540
-                });
-
-     
-
-    }
 </script>
 
 <div class="row-fluid sortable">
@@ -176,7 +125,7 @@
 </div>
 </div>
 <form class="form-horizontal" method="post" id="form1" name="form1">
-<input type="hidden" id="cdid" value="<%if(inst!=null && typeof(inst.Card_id)!=='object'){%><%= inst.Card_id%><%}%>"/>
+
 <div class="box-content span6">
 <div class="control-group"> <label class="control-label" for="Vip_name">客户姓名 </label>
 <div class="controls"><input type="text" class="span12" id="Vip_name" name="Vip_name" value="<% if(inst!=null && typeof(inst.Vip_name)!=='object'){%><%=inst.Vip_name %><% }else{%><%}%>" /></div>
@@ -193,12 +142,16 @@
 </div>
 
 <div class="control-group"> <label class="control-label"
-    for="phone">联系电话</label>
-<div class="controls"><input type="text" class="span12" id="phone"
-    name="phone" value="<%if(phone!=''){%><%= phone %><%}%>" /> </div>
+    for="Vip_tel">联系电话一</label>
+<div class="controls"><input type="text" class="span12" id="Vip_tel"
+    name="Vip_tel" value="<% if(inst!=null && typeof(inst.Vip_tel)!=='object'){%><%= inst.Vip_tel%><%}else{%><%= phone%><%}%>" /> </div>
 </div>
 
-
+<div class="control-group"> <label class="control-label"
+    for="Mobile">联系电话二</label>
+<div class="controls"><input type="text" class="span12" id="Mobile"
+    name="Mobile" value="<% if(inst!=null && typeof(inst.Mobile)!=='object'){%><%= inst.Mobile%><%}%>" /> </div>
+</div>
 
 </div>
 <div class="box-content span6">
@@ -213,14 +166,14 @@
 </label>
 <div class="controls">
 <select id="Card_type" name="Card_type">
-    <option value=0  <% if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type === 0){%>
-        selected="selected" <%}%>>会员卡</option>  
-     <option value=1  <% if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type === 1){%>
-        selected="selected" <%}%>>单位88</option>
-     <option value=2  <% if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type === 2){%>
-        selected="selected" <%}%>>单位85</option>
-        <option value=3 <% if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type === 3){%>
-        selected="selected" <%}%>>单位82</option>
+    <option value=0  <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 0){%>
+        selected="selected"<%}%>>会员卡</option>  
+     <option value=1  <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 1){%>
+        selected="selected"<%}%>>单位88</option>
+     <option value=2  <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 2){%>
+        selected="selected"<%}%>>单位85</option>
+        <option value=3 <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 3){%>
+        selected="selected"<%}%>>单位82</option>
 </select>
 </div>
 </div>
@@ -230,6 +183,12 @@
 <div class="controls"><input type="text" class="span12" id="Discount"
     name="Discount" value="<% if(inst!=null && typeof(inst.Discount)!=='object'){%><%=
 inst.Discount %><% }%>" /> </div>
+</div>
+
+<div class="control-group"> <label class="control-label"
+    for="Vip_add">联系地址</label>
+<div class="controls"><input type="text" class="span12" id="Vip_add"
+    name="Vip_add" value="<% if(inst!=null && typeof(inst.Vip_add)!=='object'){%><%= inst.Vip_add%><%}%>" /> </div>
 </div>
 
 
@@ -242,6 +201,7 @@ inst.Discount %><% }%>" /> </div>
 
 </div>
 <div class="form-actions">
+    <input type="hidden" id="cdid" value="<%if(inst!=null && typeof(inst.Card_id)!=='object'){%><%= inst.Card_id%><%}%>"/>
 <button type="button" class="btn btn-primary" id="submit" name="submit">保存</button>
 <!--button type="reset" class="btn">取消</button-->
 <button type="button" class="btn btn-primary" id="addyy" name="addyy" onclick="javascript:addyy2();">已有</button>
@@ -315,9 +275,15 @@ where+='&'+'Jbr'+$('#Jbr').val();
                                     str+="<tr>";
                                     str+="<td>"+data.aaData.Vip_name+"</td>";
                                     str+="<td>"+data.aaData.Card_id+"</td>";
-                                    str+="<td>"+data.aaData.Company+"</td>";
-                                    str+="<td><a href=javascript:setselect("+data.aaData.Card_id+");></a>"+data.aaData.Vip_name+"</td>";
-                                     str+="</tr>";
+                                    if(typeof(data.aaData.Company)==='object'){
+    str+="<td>————</td>";
+
+}else{
+str+="<td>"+data.aaData.Company+"</td>";
+}
+   
+                                    str+="<td><a href=javascript:setselect('"+data.aaData.Card_id+"');>选择</a></td>";
+                                     str+="</tr>"
 
                                 if(data.aaData.Vip_name==""){
                                   
@@ -379,12 +345,41 @@ function setselect(card_id){
                     data:{id:card_id},
                     success: function (data, textStatus) {  
                     if(data!=null) {
+                        if(typeof(data.Vip_name)==='object')
+                            $('#Vip_name').val("");
+                        else
                        $('#Vip_name').val(data.Vip_name);
+                   if(typeof(data.Card_id)==='object')
+                    $('#Card_id').val("");
+else
+
+
                        $('#Card_id').val(data.Card_id);
+
+                   if(typeof(data.Vip_sex)==='object')
+                     $('#Vip_sex').val(""); 
+                 else
+
                        $('#Vip_sex').val(data.Vip_sex); 
+
+                   if(typeof(data.Card_id)==='object')
+                    $('#Jbr').val(""); 
+                    else
                        $('#Jbr').val(data.Jbr); 
+
+                   if(typeof(data.Card_type)!=='object')
                        $('#Card_type').val(data.Card_type);
+
+                   if(typeof(data.Company)==='object')
+                     $('#Company').val("");
+                    else
                        $('#Company').val(data.Company);
+
+                   $("#cdid").val(data.Card_id;
+
+
+                       $('#mysearch').modal('hide');
+
 
                     }
                     else{

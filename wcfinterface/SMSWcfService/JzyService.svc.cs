@@ -60,6 +60,10 @@ namespace SMSWcfService
             sql += " left join t_sys_operator c on a.oper_id = c.oper_id where 1=1  ";
             sql += " and a.vip_tel='"+tel+"' or a.mobile='"+tel+"'";
             DataTable dt = Query(sql);
+
+            if (dt == null)
+                return cinfo;
+
             
             foreach (DataRow row in dt.Rows)
             {
@@ -82,16 +86,18 @@ namespace SMSWcfService
             return cinfo;
         }
 
-        public CustomInfo getCustomById(string cardid){
+        public CustomInfo getCustomById(string cardid)
+        {
             CustomInfo cinfo = new CustomInfo();
-            if (string.IsNullOrEmpty(tel))
+            if (string.IsNullOrEmpty(cardid))
                 return cinfo;
             string sql = "select a.card_id,a.card_type,b.type_name,b.discount,a.vip_name,a.vip_sex,a.oper_id,c.oper_name,a.social_id,a.vip_add,a.vip_email,a.vip_tel,a.company,a.duty,a.mobile from t_rm_vip_info a ";
             sql += " left join t_rm_vip_type b on b.type_id=a.card_type ";
             sql += " left join t_sys_operator c on a.oper_id = c.oper_id where 1=1  ";
-            sql += " and a.card_id='"+cardid;
+            sql += " and a.card_id='"+cardid+"'";
             DataTable dt = Query(sql);
-            
+            if (dt == null)
+                return cinfo;
             foreach (DataRow row in dt.Rows)
             {
                 cinfo.Vip_name = row["vip_name"].ToString() ;

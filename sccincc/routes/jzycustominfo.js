@@ -98,11 +98,11 @@
       }, function(err, result, body) {
 
         if (err) {
-          console.log("getCustom err:", util.inspect(err, null, null));
+          console.log("getCustomById err:", util.inspect(err, null, null));
           res.send({});
 
         } else {
-          console.log("getCustom:", result['getCustomByIdResult']);
+          console.log("getCustomById:", result['getCustomByIdResult']);
           res.send(result['getCustomByIdResult']);
         }
 
@@ -246,11 +246,103 @@
   }
 
   exports.screenPopInsert = function(req, res) {
+    var custom = {};
+    custom.Vip_name = req.body['Vip_name'] || req.query['Vip_name'] || '';
+    custom.Card_id = req.body['Card_id'] || req.query['Card_id'] || '';
+    custom.Vip_sex = req.body['Vip_sex'] || req.query['Vip_sex'] || '';
+    custom.Card_type = req.body['Card_type'] || req.query['Card_type'] || '';
+    custom.Vip_tel = req.body['Vip_tel'] || req.query['Vip_tel'] || '';
+    custom.Mobile = req.body['Mobile'] || req.query['Mobile'] || '';
+    custom.Company = req.body['Company'] || req.query['Company'] || '';
+    custom.Vip_add = req.body['Vip_add'] || req.query['Vip_add'] || '';
+
+
+    // custom.Jbr = req.body['Jbr'] || req.query['Jbr']||'';
+
+
+    soap.createClient(wcfurl, function(err, client) {
+      if (err) {
+        console.log("连接服务发生异常！", err);
+        res.send("连接服务发生异常！", util.inspect(err, null, null));
+      }
+
+      if (!client) {
+        console.log("无法正常连接服务！");
+        res.send("无法正常连接服务！");
+      }
+      client.insertCustom(custom, function(err, result, body) {
+        if (err) {
+          console.log("insertCustom err:", util.inspect(err, null, null));
+          res.send({});
+        } else {
+          console.log("insertCustom:", result['insertCustomResult']);
+          res.send(result['insertCustomResult']);
+
+        }
+
+
+      });
+
+    });
 
 
   }
-  
+
   exports.screenPopUpdate = function(req, res) {
 
+    var custom = {};
+    custom.Vip_name = req.body['Vip_name'] || req.query['Vip_name'] || '';
+    custom.Card_id = req.body['Card_id'] || req.query['Card_id'] || '';
+    custom.Vip_sex = req.body['Vip_sex'] || req.query['Vip_sex'] || '';
+    custom.Card_type = req.body['Card_type'] || req.query['Card_type'] || '';
+    custom.Vip_tel = req.body['Vip_tel'] || req.query['Vip_tel'] || '';
+    custom.Mobile = req.body['Mobile'] || req.query['Mobile'] || '';
+    custom.Company = req.body['Company'] || req.query['Company'] || '';
+    custom.Vip_add = req.body['Vip_add'] || req.query['Vip_add'] || '';
+
+
+    // custom.Jbr = req.body['Jbr'] || req.query['Jbr']||'';
+    soap.createClient(wcfurl, function(err, client) {
+      if (err) {
+        console.log("连接服务发生异常！", err);
+        res.send("连接服务发生异常！", util.inspect(err, null, null));
+      }
+
+      if (!client) {
+        console.log("无法正常连接服务！");
+        res.send("无法正常连接服务！");
+      }
+      client.updateCustom(custom, function(err, result, body) {
+        if (err) {
+          console.log("updateCustom err:", util.inspect(err, null, null));
+          res.send({});
+        } else {
+          console.log("updateCustom:", result['updateCustomResult']);
+          res.send(result['updateCustomResult']);
+
+        }
+
+
+      });
+
+    });
+  }
+
+  exports.createThjlGet = function(req, res) {
+    var unitid = req.body["unid"] || req.query["unid"] || '';
+    var cid = req.body["customid"] || req.query["customid"] || '';
+    res.render('jzycustominfo/thjl.html', {
+      title: '通话记录',
+      cid: cid,
+      unitid: unitid
+    });
+  }
+
+  exports.createThjlPost=function(req,res){
+    var unitid = req.body["unid"] || req.query["unid"] || '';
+    var cid = req.body["customid"] || req.query["customid"] || '';
+    var content=req.body["content"] || req.query["content"] || '';
+    var dosth=req.body["dosth"] || req.query["dosth"] || '';
+    var doresult=req.body["doresult"] || req.query["doresult"] || '';
 
   }
