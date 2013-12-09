@@ -91,13 +91,14 @@
 
     function addconsult(){
         var customid = $("#cdid").val();
+        var vipname=$('#Vip_name').val();
         if (customid == "") {
             alert("请先保存来电者信息！");
             return false;
         }
         parent.myLib.desktop.win.newWin({
             WindowTitle: '新增来电：<%= callmsg.caller%>的通话记录',
-            iframSrc: '/jzy/createThjl?unid=<%= callmsg.unid%>&customid=' + customid,
+            iframSrc: '/jzy/createThjl?unid=<%= callmsg.unid%>&customid=' + customid+'&vipname='+vipname,
             WindowsId: "通话记录_<%= callmsg.unid%>",
             WindowAnimation: 'none',
             WindowWidth: 960,
@@ -375,7 +376,7 @@ else
                     else
                        $('#Company').val(data.Company);
 
-                   $("#cdid").val(data.Card_id;
+                   $("#cdid").val(data.Card_id);
 
 
                        $('#mysearch').modal('hide');
