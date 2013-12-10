@@ -1,6 +1,6 @@
 var Schema = require('jugglingdb').Schema;
 var schema = new Schema('mysql', {
-	host : '192.168.0.144',
+	host : '127.0.0.1',
 	port : '3306',
 	database : 'callcenter',
 	username : 'root',

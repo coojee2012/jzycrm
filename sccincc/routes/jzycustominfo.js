@@ -331,18 +331,28 @@
   exports.createThjlGet = function(req, res) {
     var unitid = req.body["unid"] || req.query["unid"] || '';
     var cid = req.body["customid"] || req.query["customid"] || '';
-    res.render('jzycustominfo/thjl.html', {
+    var vipname= req.body["vipname"] || req.query["vipname"] || '';
+    var inst={};
+    inst.unid=unitid;
+    inst.card_id=cid;
+    inst.vipname=vipname;
+    inst.content='';
+    inst.dostate=-1;
+    inst.donesth='';
+    inst.exten=req.session.exten;
+    inst.agentname=req.session.username;
+
+    res.render('jzycustominfo/createThjl.html', {
       title: '通话记录',
-      cid: cid,
-      unitid: unitid
+      inst: inst
     });
   }
 
   exports.createThjlPost=function(req,res){
     var unitid = req.body["unid"] || req.query["unid"] || '';
-    var cid = req.body["customid"] || req.query["customid"] || '';
+    var cid = req.body["card_id"] || req.query["card_id"] || '';
     var content=req.body["content"] || req.query["content"] || '';
-    var dosth=req.body["dosth"] || req.query["dosth"] || '';
-    var doresult=req.body["doresult"] || req.query["doresult"] || '';
+    var dostate=req.body["dostate"] || req.query["dostate"] || '';
+    var donesth=req.body["donesth"] || req.query["donesth"] || '';
 
   }
