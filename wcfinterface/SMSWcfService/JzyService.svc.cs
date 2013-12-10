@@ -199,7 +199,20 @@ namespace SMSWcfService
             return shopitems;
         
         }
+        /// <summary>
+        /// 查询通话记录列表
+        /// </summary>
+        /// <param name="keywords"></param>
+        /// <param name="dostate"></param>
+        /// <param name="timefrom"></param>
+        /// <param name="timeto"></param>
+        /// <returns></returns>
+        public List<CallRecords> getCalls(string keywords , int dostate,string timefrom,string timeto) {
+            List<CallRecords> calls = new List<CallRecords>();
 
+            return calls;
+
+        }
         //更新客户档案信息
         public boolReturn updateCustom(string Vip_name, string Card_id, string Vip_sex, string Card_type, string Vip_tel, string Mobile, string Company, string Vip_add)
         {
@@ -231,7 +244,6 @@ namespace SMSWcfService
                 return NoneQuery(str);
             }
         }
-
         //更新客户档案信息
         public boolReturn insertCustom(string Vip_name, string Card_id, string Vip_sex,string Card_type,  string Vip_tel, string Mobile, string Company, string Vip_add)
         {
@@ -263,7 +275,51 @@ namespace SMSWcfService
                 return NoneQuery(str);
             }
         }
+        //插入通话记录
+        public boolReturn insertCalls(string Unid, string Cid, string Content, int DoState, string DoneSth,string AgentName,string Exten) {
+            if (string.IsNullOrEmpty(Unid) || string.IsNullOrEmpty(Cid))
+            {
+                boolReturn br = new boolReturn();
+                br.Code = -1;
+                br.Message = "无效的会员卡号和通话编号！";
+                return br;
+            }
+            else
+            {
+                string str = "insert into callrecords (unid,cid,content,dostate,donesth,agentname,exten,recordtime,updatetime) values('" + SafePramas(Unid);
 
+                str += "','" + SafePramas(Cid);
+
+                str += "','" + SafePramas(Content);
+                str += "'," + DoState;
+                str += ",'" + SafePramas(DoneSth);
+                str += ",'" + SafePramas(AgentName);
+                str += ",'" + SafePramas(Exten);
+                str += "',GETDATE(),GETDATE()";
+                str += ")";
+                return NoneQuery(str);
+            }
+        }
+        //更新通话记录
+        public boolReturn updateCalls(int Id,string Content, int DoState, string DoneSth) {
+
+
+            string str = "update callrecords set updatetime=GETDATE() " ;
+
+
+            if (!string.IsNullOrEmpty(Content))
+                str += ",content='" + SafePramas(Content);
+
+            str += "',dostate=" + DoState;
+
+            if (!string.IsNullOrEmpty(DoneSth))
+                str += ",donesth='" + SafePramas(DoneSth);
+
+
+            str += "' where id=" + Id ;
+                return NoneQuery(str);
+            
+        }
         #region 连接到数据库
         private void connectDB()
         {

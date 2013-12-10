@@ -285,4 +285,94 @@ namespace SMSWcfService
 
         }
     }
+    /// <summary>
+    /// 通话记录
+    /// </summary>
+    [DataContract]
+    public class CallRecords {
+        public CallRecords() { }
+        private int  _id;//记录编号
+        [DataMember]
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+
+        }
+
+        private string _unid;//通话编号
+        [DataMember]
+        public string Unid
+        {
+            get { return _unid; }
+            set { _unid = value; }
+
+        }
+
+        private string _cid;//客户会员卡号
+        [DataMember]
+        public string Cid
+        {
+            get { return _cid; }
+            set { _cid = value; }
+
+        }
+        private string _content;//通话内容
+        [DataMember]
+        public string Content
+        {
+            get { return _content; }
+            set { _content = value; }
+
+        }
+        private int _dostate;//处理状态
+        [DataMember]
+        public int DoState
+        {
+            get { return _dostate; }
+            set { _dostate = value; }
+
+        }
+        private string _donesth;//处理内容
+        [DataMember]
+        public string DoneSth
+        {
+            get { return _donesth; }
+            set { _donesth = value; }
+
+        }
+        private string _agentname;//服务座席
+        [DataMember]
+        public string AgentName
+        {
+            get { return _agentname; }
+            set { _agentname = value; }
+
+        }
+        private string _exten;//服务分机
+        [DataMember]
+        public string Exten
+        {
+            get { return _exten; }
+            set { _exten = value; }
+
+        }
+        private string _recordtime;//记录时间
+        [DataMember]
+        public string RecordTime
+        {
+            get { return _recordtime; }
+            set { _recordtime = value; }
+
+        }
+        private string _updatetime;//修改时间
+        [DataMember]
+        public string UpdateTime
+        {
+            get { return _updatetime; }
+            set { _updatetime = value; }
+
+        }
+
+    }
 }
