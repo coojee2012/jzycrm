@@ -1,3 +1,10 @@
+<div class="container-fluid"><%if(msg!=null){%>
+<div class="alert alert-block">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<h4>注意!</h4>
+<%= util.inspect(msg,false,null)%></div>
+<%}%>
+
 <div class="container-fluid"> 
 
 			<div class="row-fluid sortable"> 
@@ -13,7 +20,7 @@
 							<div class="control-group"> 
 							<label class="control-label" for="unid">通话编号 </label> 
 							<div class="controls"> 
-							<input type="text" class="span6" readonly="readonly" id="unid" name="unid" value="<% if(inst!=null){%><%= inst.unid %><% }%>" />
+							<input type="text" class="span6" readonly="readonly" id="unid" name="unid" value="<%if(inst!=null){%><%= inst.unid %><%}%>" />
 							<input type="hidden" id="card_id" name="card_id" value="<% if(inst!=null){%><%= inst.card_id %><%}%>" />
 							</div> 
 							</div> 
@@ -29,7 +36,7 @@
 							<label class="control-label" for="agentname">座席姓名</label> 
 							<div class="controls"> 
 							<input type="text" class="span6" readonly="readonly" id="agentname" name="agentname" value="<% if(inst!=null){%><%= inst.agentname %><% }%>" />
-							<input type="hidden" id="card_id" name="card_id" value="<% if(inst!=null){%><%= inst.extent %><%}%>" />
+							<input type="hidden" id="extent" name="extent" value="<% if(inst!=null){%><%= inst.extent %><%}%>" />
 							</div> 
 							</div> 
 
@@ -56,7 +63,7 @@
 							<div class="control-group"> 
 							<label class="control-label" for="donesth">处理内容</label> 
 							<div class="controls"> 
-							<textarea class="span6" id="content" name="content"><%if(inst!=null){%><%= inst.donesth%><%}%></textarea>
+							<textarea class="span6" id="donesth" name="donesth"><%if(inst!=null){%><%= inst.donesth%><%}%></textarea>
 							
 																					 </div> 
 							</div> 

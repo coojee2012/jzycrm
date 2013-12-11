@@ -17,6 +17,9 @@
 
   }
 
+   
+
+
   exports.post = function(req, res) {
     var where = {};
     var query = req.body;
@@ -29,6 +32,22 @@
     });
 
   }
+
+
+  exports.getCalls = function(req, res) {
+    var cid = req.body["Card_id"] || req.query["Card_id"] || "-1";
+    var where = {};
+    where.Vip_name = '';
+    where.Card_id = cid;
+    where.Content = '';
+    where.DoneSth='';
+    res.render('jzycustominfo/indexThjl.html', {
+      title: '通话记录列表',
+      where: where
+    });
+
+  }
+  
   //获取客户档案列表
   exports.getCustoms = function(req, res) {
     var cunit = req.body["Vip_name"] || req.query["Vip_name"] || "";
@@ -331,28 +350,80 @@
   exports.createThjlGet = function(req, res) {
     var unitid = req.body["unid"] || req.query["unid"] || '';
     var cid = req.body["customid"] || req.query["customid"] || '';
-    var vipname= req.body["vipname"] || req.query["vipname"] || '';
-    var inst={};
-    inst.unid=unitid;
-    inst.card_id=cid;
-    inst.vipname=vipname;
-    inst.content='';
-    inst.dostate=-1;
-    inst.donesth='';
-    inst.exten=req.session.exten;
-    inst.agentname=req.session.username;
+    var vipname = req.body["vipname"] || req.query["vipname"] || '';
+    var inst = {};
+    inst.unid = unitid;
+    inst.card_id = cid;
+    inst.vipname = vipname;
+    inst.content = '';
+    inst.dostate = -1;
+    inst.donesth = '';
+    inst.exten = req.session.exten;
+    inst.agentname = req.session.username;
 
     res.render('jzycustominfo/createThjl.html', {
       title: '通话记录',
+      msg: null,
       inst: inst
     });
   }
 
-  exports.createThjlPost=function(req,res){
+  exports.createThjlPost = function(req, res) {
     var unitid = req.body["unid"] || req.query["unid"] || '';
     var cid = req.body["card_id"] || req.query["card_id"] || '';
-    var content=req.body["content"] || req.query["content"] || '';
-    var dostate=req.body["dostate"] || req.query["dostate"] || '';
-    var donesth=req.body["donesth"] || req.query["donesth"] || '';
+    var content = req.body["content"] || req.query["content"] || '';
+    var dostate = req.body["dostate"] || req.query["dostate"] || '';
+    var donesth = req.body["donesth"] || req.query["donesth"] || '';
+    var exten = req.body["exten"] || req.query["exten"] || '';
+    var agentname = req.body["agentname"] || req.query["agentname"] || '';
+    var inst = {};
+    inst.Unid = unitid;
+    inst.Cid = cid;
+    //inst.vipname=vipname;
+    inst.Content = content;
+    inst.DoState = dostate;
+    inst.DoneSth = donesth;
+    inst.Exten = exten;
+    inst.AgentName = agentname;
+    soap.createClient(wcfurl, function(err, client) {
+      if (err) {
+        console.log("连接服务发生异常！", err);
+        res.render('jzycustominfo/createThjl.html', {
+          title: '通话记录',
+          msg: err,
+          inst: null
+        });
+        //res.send("连接服务发生异常！", util.inspect(err, null, null));
+      }
+
+      if (!client) {
+        console.log("无法正常连接服务！");
+        res.render('jzycustominfo/createThjl.html', {
+          title: '通话记录',
+          msg: "无法正常连接服务！",
+          inst: null
+        });
+      }
+      client.insertCalls(inst, function(err, result, body) {
+        if (err) {
+          console.log("insertCalls err:", util.inspect(err, null, null));
+          res.render('jzycustominfo/createThjl.html', {
+          title: '通话记录',
+          msg: err,
+          inst: null
+        });
+        } else {
+          console.log("insertCalls:", result['insertCallsResult']);
+          //res.send(result['updateCustomResult']);
+          res.redirect('/jzy/listThjl?cid='+cid);
+
+        }
+
+
+      });
+
+    });
+
+
 
   }
