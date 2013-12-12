@@ -320,7 +320,7 @@ namespace SMSWcfService
 
         private string _vipname;//客户姓名
         [DataMember]
-        public string VipName
+        public string Vip_name
         {
             get { return _vipname; }
             set { _vipname = value; }

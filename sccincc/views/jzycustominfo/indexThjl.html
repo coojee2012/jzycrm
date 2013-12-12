@@ -15,10 +15,11 @@ var aoColumns=[
 var where='';
 
 
-where+='Vip_name='+$('#Vip_name').val();
-where+='&'+'Content'+$('#Content').val();
-where+='&'+'DoneSth'+$('#DoneSth').val();
-where+='&'+'Card_id'+$('#Card_id').val();
+where+='KeyWords='+$('#KeyWords').val();
+where+='&'+'DoState='+$('#DoState').val();
+where+='&'+'TimeFrom='+$('#TimeFrom').val();
+where+='&'+'TimeTo='+$('#TimeTo').val();
+where+='&'+'Card_id='+$('#Card_id').val();
 
 
 var daochu=[];
@@ -138,27 +139,32 @@ function del(ids){
 <div class="box-content">
 <form class="form-horizontal" method="POST">
 <fieldset> 
-<div class="control-group"><label class="control-label" for="Vip_name">客户姓名</label>
-<div class="controls"> <input type="text" class="span6 typeahead" id="Vip_name"
-name="Vip_name" value="<%= where.Vip_name%>" /> 
+<div class="control-group"><label class="control-label" for="KeyWords">关键字</label>
+<div class="controls"> <input type="text" class="span6 typeahead" id="KeyWords"
+name="KeyWords" value="<%= where.KeyWords%>" /> 
 <input type="hidden"  id="Card_id" name="Card_id" value="<%= where.Card_id%>" /> 
      </div>
 </div>
   
-<div class="control-group"><label class="control-label" for="Content">通话内容</label>
-<div class="controls"> <input type="text" class="span6 typeahead" id="Content"
-name="Content" value="<%= where.Content%>"> 
+<div class="control-group"><label class="control-label" for="DoState">处理状态</label>
+<div class="controls"> <input type="text" class="span6 typeahead" id="DoState"
+name="DoState" value="<%= where.DoState%>"> 
      </div>
 </div>
           
 
     
-<div class="control-group"><label class="control-label" for="DoneSth">处理内容</label>
-<div class="controls"> <input type="text" class="span6 typeahead" id="DoneSth"
-name="DoneSth" value="<%= where.DoneSth%>"> 
+<div class="control-group"><label class="control-label" for="TimeFrom">记录时间 从</label>
+<div class="controls"> <input type="text" class="span6 typeahead datepicker" readonly="readonly" id="TimeFrom"
+name="TimeFrom" value="<%= where.TimeFrom%>"> 
      </div>
 </div>
           
+<div class="control-group"><label class="control-label" for="TimeTo">到</label>
+<div class="controls"> <input type="text" class="span6 typeahead datepicker" readonly="readonly" id="TimeTo"
+name="TimeTo" value="<%= where.TimeTo%>"> 
+     </div>
+</div>
 
 <div class="modal-footer">
 <button class="btn btn-small btn-danger" data-dismiss="modal" aria-hidden="true">关闭</button>

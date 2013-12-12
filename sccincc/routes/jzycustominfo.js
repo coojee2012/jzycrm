@@ -17,7 +17,6 @@
 
   }
 
-   
 
 
   exports.post = function(req, res) {
@@ -34,13 +33,14 @@
   }
 
 
-  exports.getCalls = function(req, res) {
+  exports.indexThjl = function(req, res) {
     var cid = req.body["Card_id"] || req.query["Card_id"] || "-1";
     var where = {};
-    where.Vip_name = '';
+    where.KeyWords = '';
     where.Card_id = cid;
-    where.Content = '';
-    where.DoneSth='';
+    where.TimeFrom = '';
+    where.TimeTo = '';
+    where.DoState = 0;
     res.render('jzycustominfo/indexThjl.html', {
       title: '通话记录列表',
       where: where
@@ -48,6 +48,59 @@
 
   }
   
+//获取通话记录列表
+  exports.getCalls = function(req, res) {
+    var card_id = req.body["Card_id"] || req.query["Card_id"];
+    var keywords = req.body["KeyWords"] || req.query["KeyWords"];
+    var dostate = req.body["DoState"] || req.query["DoState"];
+    var timefrom = req.body["TimeFrom"] || req.query["TimeFrom"];
+    var timeto = req.body["TimeTo"] || req.query["TimeTo"];
+    var jieguo = {};
+    jieguo.iTotalRecords = 10;
+    jieguo.sEcho = req.query['sEcho'] || req.body['sEcho'];
+    jieguo.iTotalDisplayRecords = 10;
+
+    soap.createClient(wcfurl, function(err, client) {
+      if (err) {
+        console.log("连接服务发生异常！", err);
+        res.send("连接服务发生异常！", util.inspect(err, null, null));
+      }
+
+      if (!client) {
+        console.log("无法正常连接服务！");
+        res.send("无法正常连接服务！");
+      } else {
+        client.getCalls({
+          keywords: keywords,
+          card_id: card_id,
+          dostate: dostate,
+          timefrom: timefrom,
+          timeto: timeto
+          
+        }, function(err, result, body) {
+          //client.getCustom({tel:"13699012676"},function(err, result,body){
+          if (err) {
+            console.log("getCalls err", util.inspect(err, null, null));
+            res.send("getCalls err:" + util.inspect(err, null, null));
+          } else {
+            console.log("getCalls", result['getCallsResult']);
+
+            if (result['getCallsResult'].CallRecords)
+              jieguo.aaData = result['getCallsResult'].CallRecords;
+            else
+              jieguo.aaData = [];
+            res.send(jieguo);
+
+          }
+
+
+        });
+      }
+
+    });
+
+
+  }
   //获取客户档案列表
   exports.getCustoms = function(req, res) {
     var cunit = req.body["Vip_name"] || req.query["Vip_name"] || "";
@@ -408,14 +461,14 @@
         if (err) {
           console.log("insertCalls err:", util.inspect(err, null, null));
           res.render('jzycustominfo/createThjl.html', {
-          title: '通话记录',
-          msg: err,
-          inst: null
-        });
+            title: '通话记录',
+            msg: err,
+            inst: null
+          });
         } else {
           console.log("insertCalls:", result['insertCallsResult']);
           //res.send(result['updateCustomResult']);
-          res.redirect('/jzy/listThjl?cid='+cid);
+          res.redirect('/jzy/listThjl?cid=' + cid);
 
         }
 

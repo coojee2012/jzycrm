@@ -84,5 +84,9 @@ namespace SMSWcfService
          [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
          boolReturn updateCalls(int Id, string Content, int DoState, string DoneSth);
 
+         [OperationContract]
+         [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+         List<CallRecords> getCalls(string keywords, string card_id, string dostate, string timefrom, string timeto);
+
     }
 }

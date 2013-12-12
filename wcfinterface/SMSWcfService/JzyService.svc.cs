@@ -210,7 +210,7 @@ namespace SMSWcfService
         /// <param name="timefrom"></param>
         /// <param name="timeto"></param>
         /// <returns></returns>
-        public List<CallRecords> getCalls(string keywords ,string card_id, int dostate,string timefrom,string timeto) {
+        public List<CallRecords> getCalls(string keywords ,string card_id, string dostate,string timefrom,string timeto) {
             List<CallRecords> calls = new List<CallRecords>();
             string sql = "select a.*,b.vip_name from callrecords a left join t_rm_vip_info b on b.card_id = a.cid where 1=1 ";
             if (!string.IsNullOrEmpty(card_id)) {
@@ -222,6 +222,10 @@ namespace SMSWcfService
                     sql += " or b.vip_name like '%" + keywords + "%'";
                 }
                 sql += ")";
+            }
+            if (!string.IsNullOrEmpty(dostate) && (dostate == "0" || dostate == "1" || dostate == "2"))
+            {
+                sql += " and a.dostate = " + dostate;
             }
             if (!string.IsNullOrEmpty(timefrom)) {
                 sql += " and a.recordtime > '" + timefrom+"'";
@@ -240,7 +244,7 @@ namespace SMSWcfService
                     callinfo.Id = int.Parse(row["id"].ToString());
                     callinfo.Unid = row["unid"].ToString();
                     callinfo.Cid = row["cid"].ToString();
-                    callinfo.VipName = row["vip_name"].ToString();
+                    callinfo.Vip_name = row["vip_name"].ToString();
                     callinfo.Content = row["content"].ToString();
                     callinfo.DoState = int.Parse(row["dostate"].ToString());
                     callinfo.DoneSth = row["donesth"].ToString();
