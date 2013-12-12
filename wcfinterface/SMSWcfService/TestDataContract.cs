@@ -317,6 +317,16 @@ namespace SMSWcfService
             set { _cid = value; }
 
         }
+
+        private string _vipname;//客户姓名
+        [DataMember]
+        public string VipName
+        {
+            get { return _vipname; }
+            set { _vipname = value; }
+
+        }
+
         private string _content;//通话内容
         [DataMember]
         public string Content

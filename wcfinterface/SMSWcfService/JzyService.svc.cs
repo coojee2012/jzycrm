@@ -136,25 +136,28 @@ namespace SMSWcfService
                 sql += " and a.social_id like '%" + SafePramas(jbr) + "%' ";
             }
             DataTable dt = Query(sql);
-            foreach (DataRow row in dt.Rows)
+            if (dt != null)
             {
-                CustomInfo cinfo = new CustomInfo();
-                cinfo.Vip_name = row["vip_name"].ToString();
-                cinfo.Vip_sex = row["vip_sex"].ToString();
-                cinfo.Vip_tel = row["vip_tel"].ToString();
-                cinfo.Mobile = row["mobile"].ToString();
-                cinfo.Card_id = row["card_id"].ToString();
-                cinfo.Card_type = row["card_type"].ToString();
-                cinfo.CardName = row["type_name"].ToString();
-                cinfo.Company = row["company"].ToString();
-                cinfo.Discount = row["discount"].ToString();
-                cinfo.Duty = row["duty"].ToString();
-                cinfo.Email = row["vip_email"].ToString();
-                cinfo.Vip_add = row["vip_add"].ToString();
-                cinfo.Idcard = "";
-                cinfo.Jbr = row["social_id"].ToString();
-                customs.Add(cinfo);
-            
+                foreach (DataRow row in dt.Rows)
+                {
+                    CustomInfo cinfo = new CustomInfo();
+                    cinfo.Vip_name = row["vip_name"].ToString();
+                    cinfo.Vip_sex = row["vip_sex"].ToString();
+                    cinfo.Vip_tel = row["vip_tel"].ToString();
+                    cinfo.Mobile = row["mobile"].ToString();
+                    cinfo.Card_id = row["card_id"].ToString();
+                    cinfo.Card_type = row["card_type"].ToString();
+                    cinfo.CardName = row["type_name"].ToString();
+                    cinfo.Company = row["company"].ToString();
+                    cinfo.Discount = row["discount"].ToString();
+                    cinfo.Duty = row["duty"].ToString();
+                    cinfo.Email = row["vip_email"].ToString();
+                    cinfo.Vip_add = row["vip_add"].ToString();
+                    cinfo.Idcard = "";
+                    cinfo.Jbr = row["social_id"].ToString();
+                    customs.Add(cinfo);
+
+                }
             }
             return customs;
         }
@@ -207,8 +210,49 @@ namespace SMSWcfService
         /// <param name="timefrom"></param>
         /// <param name="timeto"></param>
         /// <returns></returns>
-        public List<CallRecords> getCalls(string keywords , int dostate,string timefrom,string timeto) {
+        public List<CallRecords> getCalls(string keywords ,string card_id, int dostate,string timefrom,string timeto) {
             List<CallRecords> calls = new List<CallRecords>();
+            string sql = "select a.*,b.vip_name from callrecords a left join t_rm_vip_info b on b.card_id = a.cid where 1=1 ";
+            if (!string.IsNullOrEmpty(card_id)) {
+                sql += " and a.cid = '" + card_id + "'";
+            }
+            if (!string.IsNullOrEmpty(keywords)) {
+                sql += " and (a.content like '%" + keywords + "%' or a.donesth like '%" + keywords + "%'";
+                if(string.IsNullOrEmpty(card_id)){
+                    sql += " or b.vip_name like '%" + keywords + "%'";
+                }
+                sql += ")";
+            }
+            if (!string.IsNullOrEmpty(timefrom)) {
+                sql += " and a.recordtime > '" + timefrom+"'";
+            }
+            if (!string.IsNullOrEmpty(timeto))
+            {
+                sql += " and a.recordtime < '" + timeto + "'";
+            }
+
+            DataTable dt = Query(sql);
+            if (dt != null)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    CallRecords callinfo = new CallRecords();
+                    callinfo.Id = int.Parse(row["id"].ToString());
+                    callinfo.Unid = row["unid"].ToString();
+                    callinfo.Cid = row["cid"].ToString();
+                    callinfo.VipName = row["vip_name"].ToString();
+                    callinfo.Content = row["content"].ToString();
+                    callinfo.DoState = int.Parse(row["dostate"].ToString());
+                    callinfo.DoneSth = row["donesth"].ToString();
+                    callinfo.AgentName = row["agentname"].ToString();
+                    callinfo.Exten = row["exten"].ToString();
+                    callinfo.RecordTime = row["recordtime"].ToString();
+                    callinfo.UpdateTime = row["updatetime"].ToString();
+
+                    calls.Add(callinfo);
+
+                }
+            }
 
             return calls;
 
