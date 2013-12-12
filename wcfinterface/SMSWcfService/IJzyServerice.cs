@@ -75,6 +75,14 @@ namespace SMSWcfService
          [OperationContract]
          [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
          boolReturn updateCustom(string Vip_name, string Card_id, string Vip_sex, string Card_type, string Vip_tel, string Mobile, string Company, string Vip_add);
+         
+         [OperationContract]
+         [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+         boolReturn insertCalls(string Unid, string Cid, string Content, int DoState, string DoneSth,string AgentName,string Exten);
+
+         [OperationContract]
+         [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+         boolReturn updateCalls(int Id, string Content, int DoState, string DoneSth);
 
     }
 }

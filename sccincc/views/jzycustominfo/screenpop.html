@@ -21,7 +21,9 @@
                       if(result.Code!=-1)
                       {
                       //$("#savesuccess").click();
-                      $("#cdid").val(result.Card_id);
+                      var Card_id=$("#Card_id").val();
+                      $("#Card_id").attr("readonly","readonly");
+                      $("#cdid").val(Card_id);
                       alert(result.Message);
                       //$("#id").val(result.id);
                       }
@@ -133,8 +135,14 @@
 </div>
 <div class="control-group"> <label class="control-label"
 	for="Vip_sex">性别 </label>
-<div class="controls"><input type="text" class="span12"
-	id="Vip_sex" name="Vip_sex" value="<% if(inst!=null && typeof(inst.Vip_sex)!=='object'){%><%= inst.Vip_sex%><%}%>" /> </div>
+<div class="controls">
+<select id="Vip_sex" name="Vip_sex">
+    <option value="男"  <%if(inst!=null && typeof(inst.Vip_sex)!=='object' && inst.Vip_sex == '男'){%>
+        selected="selected"<%}%>>男</option>  
+     <option value="女"  <%if(inst!=null && typeof(inst.Vip_sex)!=='object' && inst.Vip_sex == '女'){%>
+        selected="selected"<%}%>>女</option>
+</select>
+</div>
 </div>
 <div class="control-group"> <label class="control-label"
 	for="Company">单位名称 </label>
@@ -202,7 +210,7 @@ inst.Discount %><% }%>" /> </div>
 
 </div>
 <div class="form-actions">
-    <input type="hidden" id="cdid" value="<%if(inst!=null && typeof(inst.Card_id)!=='object'){%><%= inst.Card_id%><%}%>"/>
+    <input type="hidden" id="cdid" name="cdid" value="<%if(inst!=null && typeof(inst.Card_id)!=='object'){%><%= inst.Card_id%><%}%>"/>
 <button type="button" class="btn btn-primary" id="submit" name="submit">保存</button>
 <!--button type="reset" class="btn">取消</button-->
 <button type="button" class="btn btn-primary" id="addyy" name="addyy" onclick="javascript:addyy2();">已有</button>
