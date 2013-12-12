@@ -47,6 +47,26 @@
     });
 
   }
+
+  exports.indexThjlPost = function(req, res) {
+    var card_id = req.body["Card_id"] || req.query["Card_id"];
+    var keywords = req.body["KeyWords"] || req.query["KeyWords"];
+    var dostate = req.body["DoState"] || req.query["DoState"];
+    var timefrom = req.body["TimeFrom"] || req.query["TimeFrom"];
+    var timeto = req.body["TimeTo"] || req.query["TimeTo"];
+    var where = {};
+    where.KeyWords = keywords;
+    where.Card_id = card_id;
+    where.TimeFrom = timefrom;
+    where.TimeTo = timeto;
+    where.DoState = dostate;
+    res.render('jzycustominfo/indexThjl.html', {
+      title: '通话记录列表',
+      where: where
+    });
+
+  }
+
   
 //获取通话记录列表
   exports.getCalls = function(req, res) {
@@ -413,6 +433,7 @@
     inst.donesth = '';
     inst.exten = req.session.exten;
     inst.agentname = req.session.username;
+    console.log("exten:",req.session.exten,"username:",req.session.username);
 
     res.render('jzycustominfo/createThjl.html', {
       title: '通话记录',
@@ -436,8 +457,10 @@
     inst.Content = content;
     inst.DoState = dostate;
     inst.DoneSth = donesth;
-    inst.Exten = exten;
     inst.AgentName = agentname;
+    inst.Exten = exten;
+   
+    console.log(inst);
     soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);

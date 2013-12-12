@@ -9,7 +9,8 @@ var aoColumns=[
                { mData: "DoState", sClass: "center" },
                { mData: "DoneSth", sClass: "center",bSearchable: false},                                 
                { mData: "RecordTime", sClass: "center",bSearchable: false},
-               { mData: "Exten", sClass: "center",bSearchable: false }
+               { mData: "Exten", sClass: "center",bSearchable: false },
+               { mData: "Unid", sClass: "center",bSearchable: false }
                  
              ];
 var where='';
@@ -52,8 +53,14 @@ $('#datatable').dataTable( {
     sAjaxSource: "/jzy/getCalls?"+where,
     aoColumns:aoColumns ,
     aoColumnDefs: [
+    {
+                               	aTargets: [1],
+                               	  mRender: function (data, type,full) {
+                               return '<a href="/jzy/editThjl?id='+full.Id+'">'+data+'</a>';
+                               }
+                           },
                               {
-                            	   aTargets: [0,1,2,3,4,5,6,7],
+                            	   aTargets: [0,2,3,4,5,6,7],
                             
                                    mRender: function (data, type,full) {
                                if(typeof(data)==='object')
@@ -62,6 +69,23 @@ $('#datatable').dataTable( {
                                	return data;
                                    }
                                },
+                               {
+                               	aTargets: [4],
+                               	  mRender: function (data, type,full) {
+                               if(data==0)
+                               	return '未处理';
+                               if(data==1)
+                               	return '处理中';
+                               else
+                               	return '已处理';
+                                   }
+                               },
+                               {
+                               	aTargets: [8],
+                               	  mRender: function (data, type,full) {
+                               return '<a href="javascript:paly('+')">播放</a>';
+                                   }
+                               }
                                //{bVisible:false,aTargets: [4]}
                               ],
              
@@ -142,13 +166,18 @@ function del(ids){
 <div class="control-group"><label class="control-label" for="KeyWords">关键字</label>
 <div class="controls"> <input type="text" class="span6 typeahead" id="KeyWords"
 name="KeyWords" value="<%= where.KeyWords%>" /> 
-<input type="hidden"  id="Card_id" name="Card_id" value="<%= where.Card_id%>" /> 
+<input type="hidden"  id="Card_id" name="Card_id" value="<%= where.KeyWords%>" /> 
      </div>
 </div>
   
 <div class="control-group"><label class="control-label" for="DoState">处理状态</label>
-<div class="controls"> <input type="text" class="span6 typeahead" id="DoState"
-name="DoState" value="<%= where.DoState%>"> 
+<div class="controls">
+<select id="DoState" name="DoState">
+<option value='0' <%if(where.DoState==0){%>selected='selected'<%}%>>未处理</option>
+<option value='1' <%if(where.DoState==1){%>selected='selected'<%}%>>处理中</option>
+<option value='2' <%if(where.DoState==2){%>selected='selected'<%}%>>已处理</option>
+</select> 
+
      </div>
 </div>
           
@@ -201,20 +230,23 @@ name="TimeTo" value="<%= where.TimeTo%>">
 	<thead>
 		<tr>
 			 
-			<th>会员卡号</th>
+			<th width="6%">编号</th>
 			  
-			<th>客户姓名</th>
-			<th>服务座席</th>
+			<th width="8%">客户姓名</th>
+			<th width="8%">服务座席</th>
 			  
-			<th>通话内容</th>
+			<th width="20%">通话内容</th>
 			  
-			<th>处理状态</th>
+			<th width="8%">处理状态</th>
 			      
-			<th>处理内容</th>
+			<th width="20%">处理内容</th>
 			  
-			<th>记录时间</th>
+			<th width="12%">记录时间</th>
 			  
-			<th>录音查听</th>			          
+			<th width="8%">接听分机</th>
+			<th width="10%">录音查听</th>
+
+
 			
 		</tr>
 	</thead>

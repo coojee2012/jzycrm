@@ -341,8 +341,8 @@ namespace SMSWcfService
                 str += "','" + SafePramas(Content);
                 str += "'," + DoState;
                 str += ",'" + SafePramas(DoneSth);
-                str += ",'" + SafePramas(AgentName);
-                str += ",'" + SafePramas(Exten);
+                str += "','" + SafePramas(AgentName);
+                str += "','" + SafePramas(Exten);
                 str += "',GETDATE(),GETDATE()";
                 str += ")";
                 return NoneQuery(str);

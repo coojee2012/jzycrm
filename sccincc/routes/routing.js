@@ -271,6 +271,11 @@ routes.jzycustominfo = [{
 	file: '/routes/jzycustominfo',
 	method: 'get',
 	fn: 'indexThjl'
+},{
+	urlreg: '/jzy/listThjl',
+	file: '/routes/jzycustominfo',
+	method: 'post',
+	fn: 'indexThjlPost'
 }];
 
 routes.chart = [
