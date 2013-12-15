@@ -46,12 +46,12 @@ my $sql="update callevent set callernumber = '".$callernumber.
 			      "',routerdype = '".$routertype.
 			      "',creattime = now() ,status = 'waite' where extensionnumber = '".$callednumber."'";
 $AGI->exec('noop',$sql);			   
- 		$DBH->do("update callevent set callernumber = '".$callernumber.
-	                      "',callednumber = '".$callednumber.
-			      "',uid = '".$sessionid.
-			      "',routerdype = '".$routertype.
-			      "',creattime = now(),status = 'waite' where extensionnumber = '".$callednumber."'")
-			      or die $self->logfile(4, 'Database Error : '.$DBH->errstr);
+ 		#$DBH->do("update callevent set callernumber = '".$callernumber.
+	     #                 "',callednumber = '".$callednumber.
+		#	      "',uid = '".$sessionid.
+		#	      "',routerdype = '".$routertype.
+		#	      "',creattime = now(),status = 'waite' where extensionnumber = '".$callednumber."'")
+		#	      or die $self->logfile(4, 'Database Error : '.$DBH->errstr);
 			      
 	if ($PARAM->{saymember} && $PARAM->{saymember} eq '1') {
 		$self->say_digit($member);

@@ -37,7 +37,7 @@ var fs = require('fs');
 //	flags : 'a'
 //});
 
-var mysql = require('mysql').createConnection({ host:'192.168.1.115',user: 'root', password: '12345678', database: 'callcenter' }),
+var mysql = require('mysql').createConnection({ host:'127.0.0.1',user: 'root', password: '12345678', database: 'callcenter' }),
     MySQLStore = require('connect-mysql')(express);
 
 

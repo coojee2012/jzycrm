@@ -1,7 +1,7 @@
   var soap = require('soap');
   var fs = require('fs');
   var util = require('util');
-  var wcfurl = 'http://192.168.1.2:8088/JzyService.svc?wsdl';
+  var wcfurl = 'http://127.0.0.1:8088/JzyService.svc?wsdl';
 
   //获取客户档案列表
   exports.get = function(req, res) {
@@ -34,7 +34,7 @@
 
 
   exports.indexThjl = function(req, res) {
-    var cid = req.body["Card_id"] || req.query["Card_id"] || "-1";
+    var cid = req.body["Card_id"] || req.query["Card_id"] || "";
     var where = {};
     where.KeyWords = '';
     where.Card_id = cid;
@@ -49,11 +49,11 @@
   }
 
   exports.indexThjlPost = function(req, res) {
-    var card_id = req.body["Card_id"] || req.query["Card_id"];
-    var keywords = req.body["KeyWords"] || req.query["KeyWords"];
-    var dostate = req.body["DoState"] || req.query["DoState"];
-    var timefrom = req.body["TimeFrom"] || req.query["TimeFrom"];
-    var timeto = req.body["TimeTo"] || req.query["TimeTo"];
+    var card_id = req.body["Card_id"] || req.query["Card_id"] || "";
+    var keywords = req.body["KeyWords"] || req.query["KeyWords"] || '';
+    var dostate = req.body["DoState"] || req.query["DoState"] || 0;
+    var timefrom = req.body["TimeFrom"] || req.query["TimeFrom"] || '';
+    var timeto = req.body["TimeTo"] || req.query["TimeTo"] || '';
     var where = {};
     where.KeyWords = keywords;
     where.Card_id = card_id;
@@ -83,7 +83,7 @@
 
 
     soap.createClient(wcfurl, function(err, client) {
-      
+
       if (err) {
         console.log("连接服务发生异常！", err);
         res.send("连接服务发生异常！", util.inspect(err, null, null));
@@ -107,10 +107,12 @@
             res.send("getCalls err:" + util.inspect(err, null, null));
           } else {
             console.log("getCalls", result['getCallsResult']);
-
-            if (result['getCallsResult'].CallRecords)
+            if (Object.prototype.toString.call(result['getCallsResult'].CallRecords) === '[object Array]') {
               jieguo.aaData = result['getCallsResult'].CallRecords;
-            else
+            } else if (result['getCallsResult'].CallRecords) {
+              jieguo.aaData = [];
+              jieguo.aaData.push(result['getCallsResult'].CallRecords);
+            } else
               jieguo.aaData = [];
             res.send(jieguo);
 
@@ -133,9 +135,9 @@
     jieguo.iTotalRecords = 10;
     jieguo.sEcho = req.query['sEcho'] || req.body['sEcho'];
     jieguo.iTotalDisplayRecords = 10;
-    console.log(soap);
+    //console.log(soap);
     soap.createClient(wcfurl, function(err, client) {
-      console.log(client);
+      // console.log(client);
       if (err) {
         console.log("连接服务发生异常！", err);
         res.send("连接服务发生异常！", util.inspect(err, null, null));
@@ -157,9 +159,12 @@
           } else {
             console.log("getCustoms", result['getCustomsResult']);
 
-            if (result['getCustomsResult'].CustomInfo)
+            if (Object.prototype.toString.call(result['getCustomsResult'].CustomInfo) === '[object Array]') {
               jieguo.aaData = result['getCustomsResult'].CustomInfo;
-            else
+            } else if (result['getCustomsResult'].CustomInfo) {
+              jieguo.aaData = [];
+              jieguo.aaData.push(result['getCustomsResult'].CustomInfo);
+            } else
               jieguo.aaData = [];
             res.send(jieguo);
 
@@ -269,10 +274,12 @@
             res.send("getShopItems err:" + util.inspect(err, null, null));
           } else {
             console.log("getShopItems", result['getShopItemsResult']);
-
-            if (result['getShopItemsResult'].shopItemInfo)
+            if (Object.prototype.toString.call(result['getShopItemsResult'].shopItemInfo) === '[object Array]') {
               jieguo.aaData = result['getShopItemsResult'].shopItemInfo;
-            else
+            } else if (result['getShopItemsResult'].shopItemInfo) {
+              jieguo.aaData = [];
+              jieguo.aaData.push(result['getShopItemsResult'].shopItemInfo);
+            } else
               jieguo.aaData = [];
             res.send(jieguo);
 

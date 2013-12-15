@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <publishData>
   <publishProfile publishUrl="D:\web\wcftest" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="配置文件1" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
-    <file relUrl="bin/SMSWcfService.pdb" publishTime="12/14/2013 14:38:45" />
+    <file relUrl="bin/SMSWcfService.pdb" publishTime="12/15/2013 21:31:16" />
     <file relUrl="JzyService.svc" publishTime="11/26/2013 11:08:51" />
-    <file relUrl="Web.config" publishTime="12/14/2013 14:38:48" />
+    <file relUrl="Web.config" publishTime="12/15/2013 21:02:14" />
     <file relUrl="bin/DataAccess.pdb" publishTime="12/03/2013 20:07:25" />
     <file relUrl="SMSService.svc" publishTime="10/18/2013 20:29:41" />
     <file relUrl="bin/DataAccess.dll" publishTime="12/03/2013 20:07:25" />
-    <file relUrl="bin/SMSWcfService.dll" publishTime="12/14/2013 14:38:45" />
+    <file relUrl="bin/SMSWcfService.dll" publishTime="12/15/2013 21:31:16" />
   </publishProfile>
 </publishData>

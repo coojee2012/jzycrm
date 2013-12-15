@@ -177,26 +177,29 @@ namespace SMSWcfService
                    }
                    if (!string.IsNullOrEmpty(rembercode))
                    {
-                       sql += " and a.a.item_rem like '%" + SafePramas(rembercode) + "%'";
+                       sql += " and a.item_rem like '%" + SafePramas(rembercode) + "%'";
                    }
              DataTable dt = Query(sql);
-             foreach (DataRow row in dt.Rows)
+             if (dt != null)
              {
-                 shopItemInfo shopitem = new shopItemInfo();
-                 shopitem.ItemName = row["item_name"].ToString();
-                 shopitem.ItemNo = row["item_no"].ToString();
-                 shopitem.ItemSubno = row["item_subno"].ToString();
-                 shopitem.Price = row["price"].ToString();
-                 shopitem.SalePrice = row["sale_price"].ToString();
-                
-                 shopitem.Stors =row["stock_qty"].ToString();
-                 shopitem.SupcustName = "";
-                 shopitem.SupcustTel = "";
-                 shopitem.UnitNo = row["unit_no"].ToString();
-                 shopitem.EnDis = row["en_dis"].ToString()=="1"?"是":"否";
-                 shopitem.Itemrem = row["item_rem"].ToString();
-                 shopitems.Add(shopitem);
+                 foreach (DataRow row in dt.Rows)
+                 {
+                     shopItemInfo shopitem = new shopItemInfo();
+                     shopitem.ItemName = row["item_name"].ToString();
+                     shopitem.ItemNo = row["item_no"].ToString();
+                     shopitem.ItemSubno = row["item_subno"].ToString();
+                     shopitem.Price = row["price"].ToString();
+                     shopitem.SalePrice = row["sale_price"].ToString();
 
+                     shopitem.Stors = row["stock_qty"].ToString();
+                     shopitem.SupcustName = "";
+                     shopitem.SupcustTel = "";
+                     shopitem.UnitNo = row["unit_no"].ToString();
+                     shopitem.EnDis = row["en_dis"].ToString() == "1" ? "是" : "否";
+                     shopitem.Itemrem = row["item_rem"].ToString();
+                     shopitems.Add(shopitem);
+
+                 }
              }
 
             return shopitems;

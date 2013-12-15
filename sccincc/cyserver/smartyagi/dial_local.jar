@@ -166,6 +166,8 @@ my	($def_typeof,$def_voicemail,$def_dialargs);
 		#记录当前呼叫方法
 		#$self->_callsession('action=local_queue','local_queue='.$PARAM->{'callednum'});
 		$self->_callsession_set($MYSESS->{ACTID},'typeof','queue');
+        $self->for_popdataQueue($MYSESSIONID,$callernumber);
+		
 
 		#查找
 	my	$sth = $DBH->prepare("select * from queue where queuenumber = '".$PARAM->{'callednum'}."'");
@@ -267,6 +269,42 @@ my	$DBH = $self->database_pconnect();			#DBI object
 			        ,status = 'waite',poptype='".$poptype."' where extensionnumber = '".$callednumber."'")
 			      or die $self->logfile(4, 'Database Error : '.$DBH->errstr);	
 }
+
+sub for_popdataQueue
+{
+my	$self = shift;
+my	$AGI = $self->{server}{agi};				#Asterisk::AGI object
+my	$DBH = $self->database_pconnect();			#DBI object	
+
+
+	
+		
+	my      $callednumber=8001;
+	my      $poptype=$AGI->get_variable("POPTYPE");
+	$AGI->exec('noop',"弹屏变量POPTYPE:".$poptype);	
+	$AGI->noop("");
+	my      $sessionid=shift;
+	my      $callernumber=shift;
+	if(!defined$callernumber or $callernumber eq ''){
+	my $temp=$AGI->get_variable(ROUTER_PROCESS_CALLERIDNUM);
+	if(!defined$temp or $temp eq ''){
+	$callernumber=999999;
+	}else{
+	$callernumber=$temp;
+	}
+	}
+	my      $routertype=1;
+        my   $sql="update callevent set callernumber = '".$callernumber."',callednumber = '".$callednumber."',uid = '".$sessionid."',routerdype = '".$routertype."',creattime = now(),status = 'waite',poptype='".$poptype."' where extensionnumber = '".$callednumber."'";
+	$AGI->exec('noop',"$sql");	
+ 		$DBH->do("update callevent set callernumber = '".$callernumber.
+	                      "',callednumber = '".$callednumber.
+			      "',uid = '".$sessionid.
+			      "',routerdype = '".$routertype.
+			      "',creattime = now()
+			        ,status = 'waite',poptype='".$poptype."' where extensionnumber = '".$callednumber."'")
+			      or die $self->logfile(4, 'Database Error : '.$DBH->errstr);	
+}
+
 
 sub _dial_local_failed
 {
