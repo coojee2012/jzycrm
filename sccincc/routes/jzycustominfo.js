@@ -1,7 +1,7 @@
   var soap = require('soap');
   var fs = require('fs');
   var util = require('util');
-  var wcfurl = 'http://localhost:8088/JzyService.svc?wsdl';
+  var wcfurl = 'http://192.168.1.2:8088/JzyService.svc?wsdl';
 
   //获取客户档案列表
   exports.get = function(req, res) {
@@ -67,8 +67,8 @@
 
   }
 
-  
-//获取通话记录列表
+
+  //获取通话记录列表
   exports.getCalls = function(req, res) {
     var card_id = req.body["Card_id"] || req.query["Card_id"];
     var keywords = req.body["KeyWords"] || req.query["KeyWords"];
@@ -80,7 +80,10 @@
     jieguo.sEcho = req.query['sEcho'] || req.body['sEcho'];
     jieguo.iTotalDisplayRecords = 10;
 
+
+
     soap.createClient(wcfurl, function(err, client) {
+      
       if (err) {
         console.log("连接服务发生异常！", err);
         res.send("连接服务发生异常！", util.inspect(err, null, null));
@@ -96,7 +99,7 @@
           dostate: dostate,
           timefrom: timefrom,
           timeto: timeto
-          
+
         }, function(err, result, body) {
           //client.getCustom({tel:"13699012676"},function(err, result,body){
           if (err) {
@@ -130,8 +133,9 @@
     jieguo.iTotalRecords = 10;
     jieguo.sEcho = req.query['sEcho'] || req.body['sEcho'];
     jieguo.iTotalDisplayRecords = 10;
-
+    console.log(soap);
     soap.createClient(wcfurl, function(err, client) {
+      console.log(client);
       if (err) {
         console.log("连接服务发生异常！", err);
         res.send("连接服务发生异常！", util.inspect(err, null, null));
@@ -433,7 +437,7 @@
     inst.donesth = '';
     inst.exten = req.session.exten;
     inst.agentname = req.session.username;
-    console.log("exten:",req.session.exten,"username:",req.session.username);
+    console.log("exten:", req.session.exten, "username:", req.session.username);
 
     res.render('jzycustominfo/createThjl.html', {
       title: '通话记录',
@@ -459,7 +463,7 @@
     inst.DoneSth = donesth;
     inst.AgentName = agentname;
     inst.Exten = exten;
-   
+
     console.log(inst);
     soap.createClient(wcfurl, function(err, client) {
       if (err) {

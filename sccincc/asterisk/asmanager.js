@@ -2,7 +2,7 @@ var Nami=require("nami").Nami;
 //var Action=require("nami").Action;
 
 var namiConfig = {
-    host: "192.168.0.144",
+    host: "192.168.1.115",
     port: 5038,
     username: "admin",
     secret: "admin"

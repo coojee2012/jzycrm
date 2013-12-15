@@ -275,7 +275,7 @@ exports.checkService=function(req,res){
 	
 }
 
-exports.GetCallInfo=function(req,res){
+/*exports.GetCallInfo=function(req,res){
 	var exten=req.body['fromexten']||req.query['fromexten'];
 	if(exten==null||exten==''){
 		res.send({success:'0'});
@@ -327,7 +327,111 @@ exports.GetCallInfo=function(req,res){
 	});
 	}
 	
+}*/
+
+exports.GetCallInfo=function(req,res){
+	
+	var calleventDB=require('../modules/ippbx/callevent.js');	
+	calleventDB.findOne({where:{status:'waite'}},function(err,inst){
+		if(err || inst==null)
+			res.send({success:'0'});
+		else{
+			var resjson={};
+			if (inst.status == "waite")
+            {
+                
+                resjson.success=1;
+                if (inst.routerdype == "2")
+                {
+                  
+                    resjson.caller=inst.callednumber;
+                    resjson.called=inst.callernumber;
+                }
+                else
+                {
+                	resjson.caller=inst.callernumber;
+                    resjson.called=inst.callednumber;
+                }
+                
+              
+                resjson.unid=inst.uid;
+                resjson.poptype=inst.poptype;
+                resjson.callid=inst.callid;
+
+                inst.status = "over";
+                inst.poptype = "";
+                calleventDB.updateOrCreate(inst,function(err,inst2){
+                	if(err)
+                		res.send({success:'0'});
+                	else{
+                		res.send(resjson);
+                	}
+                });
+
+            }
+            else
+            {
+            	res.send({success:'0'});
+            }
+		}
+
+	});
+	
+	
 }
+
+/*exports.GetCallInfo=function(req,res){
+
+	var calleventDB=require('../modules/ippbx/callevent.js');	
+	calleventDB.all({},function(err,insts){
+		
+			for (var i = 0; i < insts.length; i++) {
+			var resjson={};
+			var inst=insts[i];
+			if (inst.status == "waite")
+            {
+                
+                resjson.success=1;
+                if (inst.routerdype == "2")
+                {
+                  
+                    resjson.caller=inst.callednumber;
+                    resjson.called=inst.callernumber;
+                }
+                else
+                {
+                	resjson.caller=inst.callernumber;
+                    resjson.called=inst.callednumber;
+                }
+                
+              
+                resjson.unid=inst.uid;
+                resjson.poptype=inst.poptype;
+                resjson.callid=inst.callid;
+
+                inst.status = "over";
+                inst.poptype = "";
+                calleventDB.updateOrCreate(inst,function(err,inst2){
+                	if(err)
+                		res.send({success:'0',msg:err});
+                	else{
+                		res.send(resjson);
+
+                	}
+                });
+
+            }
+            else
+            {
+            	res.send({success:'0',msg:'no calls'});
+            }
+		}
+	
+	});
+	
+	
+}*/
+
 
 exports.DadOn=function(req,res){
 	var exten=req.body['exten']||req.query['exten'];

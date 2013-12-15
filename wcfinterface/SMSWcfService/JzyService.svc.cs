@@ -376,7 +376,7 @@ namespace SMSWcfService
                 //string pwd = DataAccess.EncAndDec.Decrypt("KJLCYyh2D0/4A4X+NGtOgg==", "SICHUANEXPERT", System.Text.Encoding.Default);
                 string pwd = "123";
                 string connetstring = "data source=127.0.0.1\\SQLEXPRESS;persist security info=True;initial catalog=hbpos7;user id=sa;password=" + pwd;
-                //connetstring = System.Configuration.ConfigurationManager.AppSettings["DBConnection"];
+                connetstring = System.Configuration.ConfigurationManager.AppSettings["DBConnection"];
                 if (sqlConnection == null)
                 {
                     sqlConnection = new SqlConnection();

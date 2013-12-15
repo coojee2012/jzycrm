@@ -172,7 +172,7 @@ exports.post = function(req, res){
 						}
 					}
 					//console.log(usermenmus);
-					res.render('index.html', { title: '宜宾市清源水务客服服务系统',layout:false,umenmus:dbs2,user:db,exten:exten,menmus:util.inspect(usermenmus,false,null),startmenmus:util.inspect(startmenmus,false,null) });  
+					res.render('index.html', { title: '诚和办公客服服务系统',layout:false,umenmus:dbs2,user:db,exten:exten,menmus:util.inspect(usermenmus,false,null),startmenmus:util.inspect(startmenmus,false,null) });  
 				  });  //查找菜单结束
 			 
 			});//获取角色和菜单关系结束

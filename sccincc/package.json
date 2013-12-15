@@ -1,9 +1,9 @@
 {
-  "name": "application-name",
+  "name": "jzycrm",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node cluster.js"
   },
   "dependencies": {
     "express": "3.2.3",

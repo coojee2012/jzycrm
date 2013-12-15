@@ -229,7 +229,8 @@
                         } else {
                             myLib.desktop.win.newWin({
                                 WindowTitle: '来电号码：' + data.caller,
-                                iframSrc: '/screenpop/index?callid=' + data.callid + "&unid=" + data.unid + "&caller=" + data.caller + "&called=" + data.called + "&poptype=" + data.poptype,
+                                //iframSrc: '/screenpop/index?callid=' + data.callid + "&unid=" + data.unid + "&caller=" + data.caller + "&called=" + data.called + "&poptype=" + data.poptype,
+                                iframSrc: '/jzy/screenpop?callid=' + data.callid + "&unid=" + data.unid + "&caller=" + data.caller + "&called=" + data.called + "&poptype=" + data.poptype,
                                 WindowsId: data.unid,
                                 WindowAnimation: 'none',
                                 WindowWidth: 960,
@@ -276,7 +277,7 @@
 </head>
 
 <body>
-<div><a href="#" class="powered_by">版权所有©中国电信，2008-2013</a>
+<div><a href="#" class="powered_by">版权所有©SCCIN，2008-2013</a>
 
 <div id="wallpapers"></div>
 

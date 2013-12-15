@@ -1,0 +1,6 @@
+Windows Registry Editor Version 5.00 
+ 
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\jzycrm\Parameters] 
+"Application"="值为你要作为服务运行的程序地址"
+"AppDirectory"="值为你要作为服务运行的程序所在文件夹路径"
+"AppParameters"="值为你要作为服务运行的程序启动所需要的参数"
