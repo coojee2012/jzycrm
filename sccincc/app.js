@@ -2,27 +2,29 @@
  * Module dependencies.
  */
 
-var express = require('express'), 
-partials = require('express-partials'), 
-routes = require('./routes'), 
-user = require('./routes/user'),
-http = require('http'), 
-path = require('path');
+var express = require('express'),
+	partials = require('express-partials'),
+	routes = require('./routes'),
+	user = require('./routes/user'),
+	http = require('http'),
+	path = require('path');
+var conf = require('node-conf');
 var log4js = require('log4js');
 
 var log4js = require('log4js');
 log4js.configure({
-  appenders: [
-    { type: 'console' }, //控制台输出
-    {
-      type: 'file', //文件输出
-      filename: 'web.log', 
-      maxLogSize: 10240000,
-      backups:3,
-      category: 'normal' 
-    }
-  ],
-replaceConsole: true
+	appenders: [{
+			type: 'console'
+		}, //控制台输出
+		{
+			type: 'file', //文件输出
+			filename: 'web.log',
+			maxLogSize: 10240000,
+			backups: 3,
+			category: 'normal'
+		}
+	],
+	replaceConsole: true
 });
 var logger = log4js.getLogger('normal');
 logger.setLevel('INFO');
@@ -36,9 +38,14 @@ var fs = require('fs');
 //var errorLogfile = fs.createWriteStream('error.log', {
 //	flags : 'a'
 //});
-
-var mysql = require('mysql').createConnection({ host:'127.0.0.1',user: 'root', password: '12345678', database: 'callcenter' }),
-    MySQLStore = require('connect-mysql')(express);
+var mysqlconfig = conf.load('mysql');
+var mysql = require('mysql').createConnection({
+	host: mysqlconfig.host,
+	user: mysqlconfig.username,
+	password: mysqlconfig.password,
+	database: mysqlconfig.database
+}),
+	MySQLStore = require('connect-mysql')(express);
 
 
 var app = express();
@@ -52,23 +59,28 @@ app.use(partials());
 app.use(express.favicon());
 app.use(express.logger('dev'));
 //app.use(express.bodyParser());
-app.use(express.bodyParser({uploadDir:'./uploads'}));
+app.use(express.bodyParser({
+	uploadDir: './uploads'
+}));
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 
 //app.use(express.session({ secret: "keyboard cat" }));
-app.use(express.session(
-	{ 
-		secret: 'supersecretkeygoeshere', 
-		store: new MySQLStore({ client: mysql })
-	}));
-
+app.use(express.session({
+	secret: 'supersecretkeygoeshere',
+	store: new MySQLStore({
+		client: mysql
+	})
+}));
 
 
 
 app.use(require('stylus').middleware(__dirname + '/public'));
 
-app.use(log4js.connectLogger(logger, {level: 'auto', format:':method :url'}));
+app.use(log4js.connectLogger(logger, {
+	level: 'auto',
+	format: ':method :url'
+}));
 
 app.use(app.router);
 
@@ -78,14 +90,14 @@ app.use(app.router);
 
 
 app.configure('production', function() {
-  app.use(function(err, req, res, next){
-	  console.log('在文件记录错误日志：',err);
-   // var meta = '[' + new Date() + '] ' + req.url + '\n';
-   // errorLogfile.write(meta + err.stack + '\n');
-    next();
-  });
+	app.use(function(err, req, res, next) {
+		console.log('在文件记录错误日志：', err);
+		// var meta = '[' + new Date() + '] ' + req.url + '\n';
+		// errorLogfile.write(meta + err.stack + '\n');
+		next();
+	});
 });
- 
+
 //for 2.x
 //app.configure('production', function() {
 //  app.error(function(err, req, res, next){
@@ -95,25 +107,26 @@ app.configure('production', function() {
 //  });
 //});
 
-app.use( function(req, res, next) {
-//	console.log("用来判断用户是否已经登录：",req.session);
-	
-//	if (!req.session.user && req.path!='/') {
-//		req.session.error='请先登陆';
-//		return res.redirect('/login');
-//		}
-	
-		next();
-	});
+app.use(function(req, res, next) {
+	//	console.log("用来判断用户是否已经登录：",req.session);
+
+	//	if (!req.session.user && req.path!='/') {
+	//		req.session.error='请先登陆';
+	//		return res.redirect('/login');
+	//		}
+
+	next();
+});
 
 //app.use(logErrors);
 //app.use(clientErrorHandler);
 //app.use(errorHandler);
 
-app.locals( {
-	title : '宜宾市清源水务客户服务系统',
-	phone : '1-250-858-9990',
-	email : 'me@myapp.com'
+var common=conf.load('common');
+app.locals({
+	title: common.sysname,
+	phone: common.phone,
+	email: common.email
 });
 
 function logErrors(err, req, res, next) {
@@ -157,23 +170,21 @@ if ('production' == app.get('env')) {
 	console.log("当前程序运行于生产环境");
 	var oneYear = 31557600000;
 	app.use(express.static(__dirname + '/public', {
-		maxAge : oneYear
+		maxAge: oneYear
 	}));
 	//app.use(express.errorHandler());
-	
+
 }
 
 var routings = require(__dirname + '/routes/routing.js');
-for ( var i in routings) {
+for (var i in routings) {
 	//console.log(routings[i]);
-	for ( var r in routings[i]) {
+	for (var r in routings[i]) {
 		var pf = require(__dirname + routings[i][r].file)[routings[i][r].fn];
-		if (routings[i][r].method == 'get')
-		{
+		if (routings[i][r].method == 'get') {
 			//console.log(routings[i][r].urlreg,pf);
 			app.get(routings[i][r].urlreg, pf);
-		}
-		else if (routings[i][r].method == 'post')
+		} else if (routings[i][r].method == 'post')
 			app.post(routings[i][r].urlreg, pf);
 		else
 			app.all(routings[i][r].urlreg, pf);
@@ -199,7 +210,7 @@ app.get('*', function(req, res){
 if (!module.parent) {
 	app.listen(3000);
 	console.log("Express server listening on port %d in %s mode", app
-			.get('port'), app.settings.env);
+		.get('port'), app.settings.env);
 }
 
 module.exports = app;

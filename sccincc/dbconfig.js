@@ -1,12 +1,7 @@
 var Schema = require('jugglingdb').Schema;
-var schema = new Schema('mysql', {
-	host : '127.0.0.1',
-	port : '3306',
-	database : 'callcenter',
-	username : 'root',
-	password : '12345678',
-	debug:false
-});
+var conf = require('node-conf');
+var mysqlconfig=conf.load('mysql');
+var schema = new Schema('mysql', mysqlconfig);
 schema.isActual(function(err, actual) {
     if (!actual) {
         schema.autoupdate();

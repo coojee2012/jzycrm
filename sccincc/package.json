@@ -16,6 +16,7 @@
     "mysql":"*",
     "socket.io":"*",
     "xmlhttprequest":"*",
+    "node-conf":"*",
     "xml":"*",
     "urlencode":"*",
     "agi":"*",
