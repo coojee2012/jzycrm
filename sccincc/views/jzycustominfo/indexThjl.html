@@ -9,7 +9,7 @@ var aoColumns=[
                { mData: "DoState", sClass: "center" },
                { mData: "DoneSth", sClass: "center",bSearchable: false},                                 
                { mData: "RecordTime", sClass: "center",bSearchable: false},
-               { mData: "Exten", sClass: "center",bSearchable: false },
+            
                { mData: "Unid", sClass: "center",bSearchable: false }
                  
              ];
@@ -56,7 +56,7 @@ $('#datatable').dataTable( {
     {
                                	aTargets: [1],
                                	  mRender: function (data, type,full) {
-                               return '<a href="/jzy/editThjl?id='+full.Id+'">'+data+'</a>';
+                               return '<a href="/jzy/editThjl?id='+full.Id+'&cid='+<% =cid%>+'">'+data+'</a>';
                                }
                            },
                               {
@@ -83,7 +83,11 @@ $('#datatable').dataTable( {
                                {
                                	aTargets: [8],
                                	  mRender: function (data, type,full) {
-                               return '<a href="javascript:paly('+')">播放</a>';
+                               	  	var filename="我";
+                               	  	if(data!="-1")
+                               	  		filename=data;
+                               	
+                               return "<a href=\"javascript:play('"+filename+"')\">播放</a>";
                                    }
                                }
                                //{bVisible:false,aTargets: [4]}
@@ -124,6 +128,12 @@ function deleterow(data){
 	            }
 	            );	       
 	 }
+
+	 function  play(src) {
+    var filename='/SoundPlayer?filename='+src;
+    $("#playerframeid").attr("src", filename);
+    $("#showplayer").modal("show");       
+    }
 </script>
 
 <script type="text/javascript">
@@ -243,7 +253,7 @@ name="TimeTo" value="<%= where.TimeTo %>">
 			  
 			<th width="12%">记录时间</th>
 			  
-			<th width="8%">接听分机</th>
+			
 			<th width="10%">录音查听</th>
 
 
@@ -256,4 +266,23 @@ name="TimeTo" value="<%= where.TimeTo %>">
 </div>
 </div>
 </div>
+</div>
+
+<div id="showplayer" class="modal hide fade" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal"
+	aria-hidden="true">×</button>
+<h3 id="myModalLabel">录音播放</h3>
+</div>
+<div class="modal-body">
+<div class="row-fluid sortable">
+<div class="box span12">
+<div class="box-content">
+<iframe id="playerframeid"></iframe>
+</div>
+</div>
+</div>
+</div>
+
 </div>

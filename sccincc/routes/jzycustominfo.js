@@ -43,6 +43,7 @@
     where.DoState = 0;
     res.render('jzycustominfo/indexThjl.html', {
       title: '通话记录列表',
+      cid: cid,
       where: where
     });
 
@@ -62,6 +63,7 @@
     where.DoState = dostate;
     res.render('jzycustominfo/indexThjl.html', {
       title: '通话记录列表',
+      cid: card_id,
       where: where
     });
 
@@ -471,7 +473,7 @@
     inst.AgentName = agentname;
     inst.Exten = exten;
 
-    console.log(inst);
+    //console.log(inst);
     soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);
@@ -495,6 +497,141 @@
         if (err) {
           console.log("insertCalls err:", util.inspect(err, null, null));
           res.render('jzycustominfo/createThjl.html', {
+            title: '通话记录',
+            msg: err,
+            inst: null
+          });
+        } else {
+          console.log("insertCalls:", result['insertCallsResult']);
+          //res.send(result['updateCustomResult']);
+          res.redirect('/jzy/listThjl?cid=' + cid);
+
+        }
+
+
+      });
+
+    });
+
+
+
+  }
+
+
+  exports.editThjlGet = function(req, res) {
+    var id = req.body["id"] || req.query["id"] || '';
+    var cid = req.body["cid"] || req.query["cid"] || '-1';
+    var where = {};
+    where.KeyWords = '';
+    where.Card_id = cid;
+    where.TimeFrom = '';
+    where.TimeTo = '';
+    where.DoState = 0;
+
+    soap.createClient(wcfurl, function(err, client) {
+      if (err) {
+        console.log("连接服务发生异常！", err);
+        res.render('jzycustominfo/indexThjl.html', {
+          title: '通话记录列表',
+          cid: cid,
+          where: where
+        });
+        //res.send("连接服务发生异常！", util.inspect(err, null, null));
+      }
+
+      if (!client) {
+        console.log("无法正常连接服务！");
+        res.render('jzycustominfo/indexThjl.html', {
+          title: '通话记录列表',
+          cid: cid,
+          where: where
+        });
+      }
+      client.findCalls({
+        id: id
+      }, function(err, result, body) {
+        if (err) {
+          console.log("findCalls err:", util.inspect(err, null, null));
+          res.render('jzycustominfo/indexThjl.html', {
+            title: '通话记录列表',
+            cid: cid,
+            where: where
+          });
+        } else {
+          console.log("findCalls:", result['findCallsResult']);
+          var inst = {};
+          inst.id = result['findCallsResult'].id;
+          inst.unid = result['findCallsResult'].unid;
+          inst.card_id = result['findCallsResult'].card_id;
+          inst.vipname = result['findCallsResult'].vipname;
+          inst.content = result['findCallsResult'].content;
+          inst.dostate = result['findCallsResult'].dostate;
+          inst.donesth = result['findCallsResult'].donesth || '';
+          inst.exten = result['findCallsResult'].exten;
+          inst.agentname = result['findCallsResult'].agentname;
+
+          res.render('jzycustominfo/editThjl.html', {
+            title: '通话记录',
+            msg: null,
+            inst: inst
+          });
+
+        }
+
+
+      });
+
+    });
+
+
+
+  }
+
+
+  exports.editThjlPost = function(req, res) {
+    var id = req.body["id"] || req.query["id"] || '';
+    var unitid = req.body["unid"] || req.query["unid"] || '';
+    var cid = req.body["card_id"] || req.query["card_id"] || '';
+    var content = req.body["content"] || req.query["content"] || '';
+    var dostate = req.body["dostate"] || req.query["dostate"] || '';
+    var donesth = req.body["donesth"] || req.query["donesth"] || '';
+    var exten = req.body["exten"] || req.query["exten"] || '';
+    var agentname = req.body["agentname"] || req.query["agentname"] || '';
+    var inst = {};
+    inst.Id = id;
+    inst.Unid = unitid;
+    inst.Cid = cid;
+    //inst.vipname=vipname;
+    inst.Content = content;
+    inst.DoState = dostate;
+    inst.DoneSth = donesth;
+    inst.AgentName = agentname;
+    inst.Exten = exten;
+
+    //console.log(inst);
+    soap.createClient(wcfurl, function(err, client) {
+      if (err) {
+        console.log("连接服务发生异常！", err);
+        res.render('jzycustominfo/editThjl.html', {
+          title: '通话记录',
+          msg: err,
+          inst: null
+        });
+        //res.send("连接服务发生异常！", util.inspect(err, null, null));
+      }
+
+      if (!client) {
+        console.log("无法正常连接服务！");
+        res.render('jzycustominfo/editThjl.html', {
+          title: '通话记录',
+          msg: "无法正常连接服务！",
+          inst: null
+        });
+      }
+      client.insertCalls(inst, function(err, result, body) {
+        if (err) {
+          console.log("insertCalls err:", util.inspect(err, null, null));
+          res.render('jzycustominfo/editThjl.html', {
             title: '通话记录',
             msg: err,
             inst: null

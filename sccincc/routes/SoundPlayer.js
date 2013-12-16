@@ -3,7 +3,8 @@ exports.SoundPlayer=function(req,res){
 	var filename=req.query['filename'] ||req.body['filename']||'我';
     var exten=req.query['exten'] ||	req.body['exten'];
     
-    var where={associate:filename,extennum:exten};
+    //var where={associate:filename,extennum:exten};
+    var where={associate:filename};
     var hostname=req.protocol+'://'+req.host;
     var port=req.app.get('port');
     
