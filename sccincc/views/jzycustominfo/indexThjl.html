@@ -56,11 +56,12 @@ $('#datatable').dataTable( {
     {
                                	aTargets: [1],
                                	  mRender: function (data, type,full) {
-                               return '<a href="/jzy/editThjl?id='+full.Id+'&cid='+<% =cid%>+'">'+data+'</a>';
+                               	var cid="<%= cid%>";
+                               return '<a href="/jzy/editThjl?id='+full.Id+'&cid='+cid+'">'+data+'</a>';
                                }
                            },
                               {
-                            	   aTargets: [0,2,3,4,5,6,7],
+                            	   aTargets: [0,2,3,5,6],
                             
                                    mRender: function (data, type,full) {
                                if(typeof(data)==='object')
@@ -81,7 +82,7 @@ $('#datatable').dataTable( {
                                    }
                                },
                                {
-                               	aTargets: [8],
+                               	aTargets: [7],
                                	  mRender: function (data, type,full) {
                                	  	var filename="我";
                                	  	if(data!="-1")

@@ -44,7 +44,7 @@ var mysql = require('mysql').createConnection({ host:'127.0.0.1',user: 'root', p
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 80);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
@@ -197,7 +197,7 @@ app.get('*', function(req, res){
  */
 
 if (!module.parent) {
-	app.listen(3000);
+	app.listen(80);
 	console.log("Express server listening on port %d in %s mode", app
 			.get('port'), app.settings.env);
 }
