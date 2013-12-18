@@ -895,6 +895,310 @@ exports.paidanchart = function(req, res) {
 	});
 }
 
+exports.callreportchart=function(req,rs){
+var tjtype = req.query['tjtype'] || req.body['tjtype'];
+	var tjvalue = req.query['tjvalue'] || req.body['tjvalue'];
+	var clomuns= req.query['clomuns'] || req.body['clomuns']||'';
+	var callsession=require('../modules/ippbx/callsession.js');
+	var output = {};
+	var now = new Date(); //当前日期 
+	var nowYear = now.getFullYear(); //当前年 
+
+	if (tjtype == 1) {
+
+		var kaishijieshu = mm(nowYear, tjvalue);
+		var sql = "SELECT count(*) as number,DepId,WEEKDAY(date(orderTime)) as week  FROM `OrderRecords` where 1=1 ";
+		sql += " and orderTime > '" + kaishijieshu.first + " 00:00:00' and orderTime < '" + kaishijieshu.end + " 23:59:59'  group by DepId,WEEKDAY(date(orderTime)) order by WEEKDAY(date(orderTime)) asc";
+		callsession.query(sql, function(err, dbs) {
+			if (err) {
+				res.send({
+					success: false,
+					msg: '数据库查询发生错误：！' + util.inspect(err, false, null)
+				});
+			} else {
+				var redata = [];
+				var weekcn = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日', '总计'];
+				for (var j = 0; j < weekcn.length; j++) {
+					var tmp = {};
+					tmp.tags = weekcn[j];
+					tmp.wxjl = 0;
+					tmp.shbxjl = 0;
+					tmp.sjsjl = 0;
+					tmp.ecgsjl = 0;
+					tmp.jck = 0;
+					tmp.yys = 0;
+					tmp.szk = 0;
+					tmp.zj = 0;
+					redata[j] = tmp;
+				}
+				for (var i = 0; i < dbs.length; i++) {
+
+					if (dbs[i].DepId == 1) {
+						redata[dbs[i].week].wxjl = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
+						redata[7].wxjl += dbs[i].number;
+						redata[7].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 3) {
+						redata[dbs[i].week].shbxjl = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
+						redata[7].shbxjl += dbs[i].number;
+						redata[7].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 7) {
+						redata[dbs[i].week].sjsjl = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
+						redata[7].sjsjl += dbs[i].number;
+						redata[7].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 8) {
+						redata[dbs[i].week].ecgsjl = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
+						redata[7].ecgsjl += dbs[i].number;
+						redata[7].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 6) {
+						redata[dbs[i].week].jck = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
+						redata[7].jck += dbs[i].number;
+						redata[7].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 5) {
+						redata[dbs[i].week].yys = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
+						redata[7].yys += dbs[i].number;
+						redata[7].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 11) {
+						redata[dbs[i].week].szk = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
+						redata[7].szk += dbs[i].number;
+						redata[7].zj += dbs[i].number;
+					}
+
+
+
+				}
+				output.iTotalRecords = 8;
+				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
+				output.iTotalDisplayRecords = 8;
+				output.aaData = redata;
+				res.send(output);
+			}
+		});
+
+	} else if (tjtype == 2) {
+		var firstday = formatDate(new Date(nowYear, tjvalue - 1, 1));
+		var eryuedays = (nowYear % 4 == 0) && (nowYear % 100 != 0) || nowYear % 400 == 0 ? 29 : 28;
+		var monthdays = [31, eryuedays, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+		var days = monthdays[tjvalue - 1];
+		var endday = formatDate(new Date(nowYear, tjvalue - 1, days));
+
+		var sql = "SELECT count(*) as number,DepId,DAYOFMONTH(date(orderTime)) as week  FROM `OrderRecords` where 1=1 ";
+		sql += " and orderTime > '" + firstday + " 00:00:00' and orderTime < '" + endday + " 23:59:59'  group by DepId,DAYOFMONTH(orderTime) order by DAYOFMONTH(date(orderTime)) asc";
+
+		Orders.query(sql, function(err, dbs) {
+			if (err) {
+				res.send({
+					success: false,
+					msg: '数据库查询发生错误：！' + util.inspect(err, false, null)
+				});
+			} else {
+
+				var redata = [];
+
+				for (var j = 0; j <= days; j++) {
+					var tmp = {};
+					if (j == days)
+						tmp.tags = '总计';
+					else {
+						var day1111 = j + 1;
+						tmp.tags = nowYear + '-' + tjvalue + '-' + day1111;
+					}
+					tmp.wxjl = 0;
+					tmp.shbxjl = 0;
+					tmp.sjsjl = 0;
+					tmp.ecgsjl = 0;
+					tmp.jck = 0;
+					tmp.yys = 0;
+					tmp.szk = 0;
+					tmp.zj = 0;
+					redata[j] = tmp;
+				}
+				for (var i = 0; i < dbs.length; i++) {
+
+					if (dbs[i].DepId == 1) {
+						redata[dbs[i].week - 1].wxjl = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[days].wxjl += dbs[i].number;
+						redata[days].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 3) {
+						redata[dbs[i].week - 1].shbxjl = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[days].shbxjl += dbs[i].number;
+						redata[days].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 7) {
+						redata[dbs[i].week - 1].sjsjl = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[days].sjsjl += dbs[i].number;
+						redata[days].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 8) {
+						redata[dbs[i].week - 1].ecgsjl = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[days].ecgsjl += dbs[i].number;
+						redata[days].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 6) {
+						redata[dbs[i].week - 1].jck = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[days].jck += dbs[i].number;
+						redata[days].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 5) {
+						redata[dbs[i].week - 1].yys = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[days].yys += dbs[i].number;
+						redata[days].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 11) {
+						redata[dbs[i].week - 1].szk = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[days].szk += dbs[i].number;
+						redata[days].zj += dbs[i].number;
+					}
+
+
+
+				}
+				output.iTotalRecords = days;
+				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
+				output.iTotalDisplayRecords = days;
+				output.aaData = redata;
+				res.send(output);
+			}
+
+		});
+
+	}
+	//end 2
+	else if(tjtype==3)
+	else if (tjtype == 4) {
+		var firstday = formatDate(new Date(tjvalue, 0, 1));
+		var endday = formatDate(new Date(tjvalue, 11, 31));
+		var sql = "SELECT count(*) as number,DepId,MONTH(date(orderTime)) as week  FROM `OrderRecords` where 1=1 ";
+		sql += " and orderTime > '" + firstday + " 00:00:00' and orderTime < '" + endday + " 23:59:59'  group by DepId,MONTH(orderTime) order by MONTH(date(orderTime)) asc";
+		Orders.query(sql, function(err, dbs) {
+			if (err) {
+				res.send({
+					success: false,
+					msg: '数据库查询发生错误：！' + util.inspect(err, false, null)
+				});
+			} else {
+
+				var redata = [];
+
+				for (var j = 0; j <= 12; j++) {
+					var tmp = {};
+					if (j == 12)
+						tmp.tags = '总计';
+					else {
+						var month11 = j + 1;
+						tmp.tags = month11 + '月';
+					}
+					tmp.wxjl = 0;
+					tmp.shbxjl = 0;
+					tmp.sjsjl = 0;
+					tmp.ecgsjl = 0;
+					tmp.jck = 0;
+					tmp.yys = 0;
+					tmp.szk = 0;
+					tmp.zj = 0;
+					redata[j] = tmp;
+				}
+				for (var i = 0; i < dbs.length; i++) {
+
+					if (dbs[i].DepId == 1) {
+						redata[dbs[i].week - 1].wxjl = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[12].wxjl += dbs[i].number;
+						redata[12].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 3) {
+						redata[dbs[i].week - 1].shbxjl = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[12].shbxjl += dbs[i].number;
+						redata[12].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 7) {
+						redata[dbs[i].week - 1].sjsjl = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[12].sjsjl += dbs[i].number;
+						redata[12].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 8) {
+						redata[dbs[i].week - 1].ecgsjl = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[12].ecgsjl += dbs[i].number;
+						redata[12].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 6) {
+						redata[dbs[i].week - 1].jck = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[12].jck += dbs[i].number;
+						redata[12].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 5) {
+						redata[dbs[i].week - 1].yys = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[12].yys += dbs[i].number;
+						redata[12].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 11) {
+						redata[dbs[i].week - 1].szk = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[12].szk += dbs[i].number;
+						redata[12].zj += dbs[i].number;
+					}
+
+
+
+				}
+				output.iTotalRecords = 12;
+				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
+				output.iTotalDisplayRecords = 12;
+				output.aaData = redata;
+				res.send(output);
+			}
+
+		});
+
+	}
+	else{}
+
+	//end 3	
+}
+
 //格局化日期：yyyy-MM-dd 
 
 function formatDate(date) {

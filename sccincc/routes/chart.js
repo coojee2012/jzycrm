@@ -161,3 +161,21 @@ exports.paidanchartsget=function(req,res){
 exports.paidanchartspost=function(req,res){
 	res.render('chart/paidancharts.html', { title: '',dataurl:'',tjtype:''});	
 }
+//GET座席话务统计页面
+exports.callreportsget=function(req,res){
+var UserInfo=require('../modules/crm/UserInfo.js');
+UserInfo.all({where:{isAgent:1}},function(err,dbs){
+var agent=[];
+var error=null;
+if(err){
+error=err;
+}
+else if(dbs.length==0){
+error="没有找到座席。";
+}else{
+agent=dbs;
+}
+res.render('chart/callreports.html', { title: '',Agent:agent,error:error});
+});
+	
+}

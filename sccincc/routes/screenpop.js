@@ -61,6 +61,7 @@ if(customs!=null && customs.length>0)
 CustomInfo.upsert(custom,function(err,inst){
 	if(err){
 		syslog.add(req,res,'sql',err);
+		console.log('更新用户信息发生异常：',err);
 		//res.render('screenpop/index.html', { title: '新增系统外线',inst:inst,error:err});
 		res.send({success:false,error:err});
 	}else{
@@ -79,6 +80,9 @@ custom=new CustomInfo();
 for(var key in req.body){	
 	custom[key]=req.body[key];
 }
+if(!custom.areaCode){
+custom.areaCode=1;	
+}
 
 custom.isValid(function (valid) {
 	
@@ -90,6 +94,7 @@ custom.isValid(function (valid) {
     	CustomInfo.updateOrCreate(custom,function(err,inst){
     		if(err){
     			syslog.add(req,res,'sql',err);
+    			console.log('新建用户信息发生异常：',err);
     			//res.render('screenpop/index.html', { title: '新增系统外线',inst:inst,error:err});
     			res.send({success:false,error:err});
     		}else{

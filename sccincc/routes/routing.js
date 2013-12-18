@@ -323,7 +323,13 @@ routes.chart = [
 		file: '/routes/chart',
 		method: 'post',
 		fn: 'callsessiondatetimes'
+	}, {
+		urlreg: '/chart/callreports',
+		file: '/routes/chart',
+		method: 'get',
+		fn: 'callreportsget'
 	}
+
 
 ];
 routes.SoundPlayer = [
