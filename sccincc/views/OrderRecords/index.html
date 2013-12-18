@@ -4,17 +4,19 @@ var roleid=<%= roleid%>;
 var aoColumns=[
                
                { mData: "id", sClass: "center",bSearchable: false },
-               
+               { mData: "cID", sClass: "center" },
+               { mData: "uaddr", sClass: "center" },
  //              { mData: "OrderTypeid", sClass: "center" },
+ { mData: "uphone", sClass: "center" },  
                
                { mData: "orderContent", sClass: "center" },
                
  //              { mData: "orderReslut", sClass: "center" },
                { mData: "DepID", sClass: "center" },               
   //             { mData: "dactorName", sClass: "center" },  
-                { mData: "cID", sClass: "center" },
-                { mData: "uphone", sClass: "center" },  
-                { mData: "uaddr", sClass: "center" },               
+                
+                
+                               
                 { mData: "serMan", sClass: "center" },               
                
                { mData: "OrderOptions", sClass: "center",bSearchable: false},
@@ -86,7 +88,7 @@ $('#datatable').dataTable( {
                 	//   }
                     //   },
                    {
-                	   aTargets:[2],
+                	   aTargets:[5],
                 	   mRender: function (data, type,full) {
                        var str='';
                        str+=data.depName||'';
@@ -94,7 +96,7 @@ $('#datatable').dataTable( {
                 	   }
                        },
                    {
-                	   aTargets:[3],
+                	   aTargets:[1],
                 	   mRender: function (data, type,full) {
                        var str='';
                        str+=""+data.idcard || '';
@@ -930,11 +932,14 @@ $(function(){
 	<thead>
 		<tr>
 			<th style="width:80px;">工单编号</th>
+      <th style="width:40px;">用户户号</th>
+      <th>联系地址</th>
 			<th>故障现象</th>
+        <th>联系电话</th>
+
       <th>处理部门</th>
-            <th style="width:40px;">用户户号</th>
-             <th>联系电话</th>
-<th>联系地址</th>
+            
+           
 			<th style="width:60px;">服务座席</th>
 			<th>工单状态</th>
 			<th>记录时间</th>
