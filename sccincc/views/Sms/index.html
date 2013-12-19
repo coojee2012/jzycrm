@@ -6,6 +6,9 @@ var aoColumns=[
                { mData: "mobile", sClass: "center" },
                
                { mData: "content", sClass: "center" },
+               { mData: "agentname", sClass: "center" },
+               { mData: "pdyname", sClass: "center" },
+               { mData: "wxsname", sClass: "center" },
               // { mData: "shuoming", sClass: "center" },
                
                { mData: "sendState", sClass: "center" },
@@ -52,7 +55,7 @@ $('#datatable').dataTable( {
     bServerSide: true,
     bSort: false,
     bFilter:false,
-    sAjaxSource: "/selectdb/pagingsearch?dbname=crm/Sms&cls=id___mobile___content___sendState___SendTime___id&where="+where,
+    sAjaxSource: "/selectdb/pagingsearch?dbname=crm/Sms&cls=id___mobile___content___agentname___pdyname___wxsname___sendState___SendTime___id&where="+where,
     aoColumns:aoColumns ,
     aoColumnDefs: [
                    {
@@ -251,9 +254,7 @@ function del(ids){
 </div>
 </div>
 <div class="box-content">
-<table
-	class="table table-striped table-bordered bootstrap-datatable datatable"
-	id="datatable">
+<table class="table table-striped table-bordered bootstrap-datatable datatable" id="datatable">
 	<caption></caption>
 	<thead>
 		<tr>
@@ -261,7 +262,9 @@ function del(ids){
 			<th>手机号</th>
 			  
 			<th>短信内容</th>
-			      
+			<th>坐席人员</th>
+			<th>派单人员</th>
+			<th>处理人员</th>      
 			<th>发送状态</th>
 			<th>发送时间</th>
 			<th>操作</th>

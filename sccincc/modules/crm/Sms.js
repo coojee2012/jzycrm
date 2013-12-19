@@ -6,7 +6,10 @@ var smsstate=[{checked:' selected="selected"',value:0,name:'未发送'},{checked
 var Sms = schema.define('Sms', {
 	mobile:     {type:String,limit:50},
 	content:    {type:String,limit:256},
-	shuoming:    {type:String,limit:256},
+	agentname:    {type:String,limit:50,default:function(){return '';}},
+	pdyname:    {type:String,limit:50,default:function(){return '';}},
+	wxsname:    {type:String,limit:50,default:function(){return '';}},
+	shuoming:    {type:String,limit:256,default:function(){return '';}},
 	SendTime:   {type: Date, default: function () { return moment().format("YYYY-MM-DD HH:mm:ss"); }},
 	WorkTime:   {type: Date, default: function () { return moment().format("YYYY-MM-DD HH:mm:ss"); }},
 	sendState:  {type:Number,default:function () { return 0 }}
@@ -18,6 +21,9 @@ Sms.autotpl=false;
 Sms.cloums={
 		mobile:    {name:"手机号",input:Inputs.Text,search:true,create:true,table:true},
 		content:   {name:"短信内容",input:Inputs.TextArea,search:true,create:true,table:true},
+		agentname:   {name:"短信内容",input:Inputs.TextArea,search:true,create:false,table:true},
+		pdyname:   {name:"短信内容",input:Inputs.TextArea,search:true,create:false,table:true},
+		wxsname:   {name:"短信内容",input:Inputs.TextArea,search:true,create:false,table:true},
 		shuoming:    {name:"说明",input:Inputs.Text,search:true,create:true,table:true},
 		SendTime:  {name:"发送时间",input:Inputs.Date,search:false,create:false,table:false},
 		WorkTime:  {name:"更新时间",input:Inputs.Date,search:false,create:false,table:false},

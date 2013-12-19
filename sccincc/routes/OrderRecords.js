@@ -466,15 +466,15 @@ exports.getOrder = function(req, res) {
 		} else {
 			if (inst != null) {
 				//console.log(inst.__cachedRelations.CustomInfo);
-				if (inst.OrderOptions != 0 && huifang == 0) {
+				if (inst.OrderOptions == 2 ) {
 					res.send({
 						success: false,
-						msg: "该工单已经派单，请及时回访！"
+						msg: "该工单已经处理了！"
 					});
-				} else if (inst.OrderOptions != 1 && huifang == 1) {
+				} else if (huifang == 1) {
 					res.send({
 						success: false,
-						msg: "工单还未派单或已经回访了！"
+						msg: "工单已经回访了！"
 					});
 				} else {
 					var data = {};
