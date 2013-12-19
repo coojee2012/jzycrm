@@ -76,11 +76,11 @@ if(tjtype ==-1)
 alert('请选择统计类型');
 return;
 }
-var clms="<%for(var i=0;i<Agent.length;i++){%><%= Agent[i].uLogin%>,<%}%>";
+var clms="<%for(var i=0;i<Agent.length;i++){%><%= Agent[i].uExten%>,<%}%>";
 clms+="zj";
 var aoColumns=[
 <%for(var i=0;i<Agent.length;i++){%>
-            {mData:"<%= Agent[i].uLogin%>", sClass: "center",bSearchable: false },
+            {mData:"<%= Agent[i].uExten%>", sClass: "center",bSearchable: false },
             <%}%>
                { mData: "zj", sClass: "center",bSearchable: false }
                ];

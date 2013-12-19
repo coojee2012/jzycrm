@@ -18,7 +18,7 @@ exports.get = function(req, res) {
 
 	try {
 
-<<<<<<< HEAD
+
 exports.post=function(req,res){
 var phone=req.body['phone']||	req.query['phone'];
 
@@ -88,7 +88,7 @@ custom.isValid(function (valid) {
 });//结束验证
     			}
 });//查询有无
-=======
+
 		CustomInfo.findOne({
 			where: {
 				phone: phone
@@ -115,7 +115,7 @@ custom.isValid(function (valid) {
 	}
 
 
->>>>>>> aa4420a20ca8f8f503d839c7562021290d7b8b02
+
 }
 
 exports.post = function(req, res) {

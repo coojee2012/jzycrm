@@ -69,6 +69,11 @@ routes.selectdb = [{
 		file: '/routes/selectdb',
 		method: 'all',
 		fn: 'pagingsearch'
+	}, {
+		urlreg: '/selectdb/callreportchart',
+		file: '/routes/selectdb',
+		method: 'all',
+		fn: 'callreportchart'
 	}
 
 ];
@@ -201,82 +206,6 @@ routes.asami = [
 	}
 
 ];
-routes.jzycustominfo = [{
-	urlreg: '/jzy/custominfo',
-	file: '/routes/jzycustominfo',
-	method: 'get',
-	fn: 'get'
-}, {
-	urlreg: '/jzy/custominfo',
-	file: '/routes/jzycustominfo',
-	method: 'post',
-	fn: 'post'
-},{
-	urlreg: '/jzy/getCustoms',
-	file: '/routes/jzycustominfo',
-	method: 'all',
-	fn: 'getCustoms'
-},{
-	urlreg: '/jzy/shopinfo',
-	file: '/routes/jzycustominfo',
-	method: 'get',
-	fn: 'getShop'
-}, {
-	urlreg: '/jzy/shopinfo',
-	file: '/routes/jzycustominfo',
-	method: 'post',
-	fn: 'postShop'
-},{
-	urlreg: '/jzy/getShopItems',
-	file: '/routes/jzycustominfo',
-	method: 'all',
-	fn: 'getShopItems'
-}, {
-	urlreg: '/jzy/screenpop',
-	file: '/routes/jzycustominfo',
-	method: 'get',
-	fn: 'screenPopGet'
-},{
-	urlreg: '/jzy/screenPopInsert',
-	file: '/routes/jzycustominfo',
-	method: 'post',
-	fn: 'screenPopInsert'
-},{
-	urlreg: '/jzy/screenPopUpdate',
-	file: '/routes/jzycustominfo',
-	method: 'post',
-	fn: 'screenPopUpdate'
-},{
-	urlreg: '/jzy/getCustomById',
-	file: '/routes/jzycustominfo',
-	method: 'post',
-	fn: 'getCustomById'
-},{
-	urlreg: '/jzy/createThjl',
-	file: '/routes/jzycustominfo',
-	method: 'get',
-	fn: 'createThjlGet'
-},{
-	urlreg: '/jzy/createThjl',
-	file: '/routes/jzycustominfo',
-	method: 'post',
-	fn: 'createThjlPost'
-},{
-	urlreg: '/jzy/getCalls',
-	file: '/routes/jzycustominfo',
-	method: 'all',
-	fn: 'getCalls'
-},{
-	urlreg: '/jzy/listThjl',
-	file: '/routes/jzycustominfo',
-	method: 'get',
-	fn: 'indexThjl'
-},{
-	urlreg: '/jzy/listThjl',
-	file: '/routes/jzycustominfo',
-	method: 'post',
-	fn: 'indexThjlPost'
-}];
 
 routes.chart = [
 
