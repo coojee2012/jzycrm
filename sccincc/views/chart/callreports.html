@@ -79,14 +79,19 @@ return;
 var clms="<%for(var i=0;i<Agent.length;i++){%><%= Agent[i].uExten%>,<%}%>";
 clms+="zj";
 var aoColumns=[
+{ mData: "tags", sClass: "center",bSearchable: false }, 
 <%for(var i=0;i<Agent.length;i++){%>
             {mData:"<%= Agent[i].uExten%>", sClass: "center",bSearchable: false },
             <%}%>
                { mData: "zj", sClass: "center",bSearchable: false }
                ];
 var daochu=[];
+var showcols=[];
 for(var i=0;i<aoColumns.length;i++){
-	daochu[i]=i;	
+	daochu[i]=i;
+    if(i!=0)
+        showcols[i-1]=i;
+
 }
 
 $('#datatable').dataTable({
@@ -111,7 +116,17 @@ $('#datatable').dataTable({
     bPaginate:false,
     sAjaxSource: "/selectdb/callreportchart?tjtype="+tjtype+"&tjvalue="+tjvalue+"&clomuns="+clms,
     aoColumns:aoColumns ,
-    aoColumnDefs: [],
+    aoColumnDefs: [{
+                       aTargets:showcols,
+                       mRender: function (data, type,full) {
+                       var str='<span style="background-color:blue;width:10px;">&nbsp;&nbsp;&nbsp;&nbsp;'+data[0]+'&nbsp;&nbsp;&nbsp;&nbsp;</span>';
+                           str+="|";
+                           str+='<span style="background-color:red;width:10px;">&nbsp;&nbsp;&nbsp;&nbsp;'+data[1]+'&nbsp;&nbsp;&nbsp;&nbsp;</span>';
+                           
+
+                       return str;
+                       }
+                    }],
              oTableTools: {
              sSwfPath: "/css/swf/copy_csv_xls_pdf.swf",
              aButtons: [                          

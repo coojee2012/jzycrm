@@ -10,7 +10,8 @@
 <div class="controls">
 <label class="radio"> <input type="radio" id="weakly" name="iswork" value=1  />周</label>
 <label class="radio"> <input type="radio" id="month" name="iswork" value=2 />月</label>
-<label class="radio"> <input type="radio" id="year" name="iswork" value=3 />年</label>
+<label class="radio"> <input type="radio" id="jidu" name="iswork" value=3 />季度</label>
+<label class="radio"> <input type="radio" id="year" name="iswork" value=4 />年</label>
 </div>
 </div>
 </div>
@@ -45,8 +46,7 @@
 </div>
 </div>
 <div class="box-content">
-<table
-	class="table table-striped table-bordered bootstrap-datatable datatable" id="datatable">
+<table class="table table-striped table-bordered bootstrap-datatable datatable" id="datatable">
 	<caption></caption>
 	<thead>
 		<tr>
@@ -193,6 +193,14 @@ while(i<13){
 }
 }
 if(ckval==="3"){
+var i=1;
+$('#thshow').html('季度\\部门');
+while(i<5){
+    $("<option value='第" + i + "'  >" + i + "季度</option>").appendTo("#dactorName");
+    i++;    
+}
+
+if(ckval==="4"){
     var now = new Date(); //当前日期 
 	var nowYear = now.getFullYear(); //当前年 
 	var ty=nowYear+5;

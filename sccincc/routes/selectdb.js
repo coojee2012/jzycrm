@@ -484,7 +484,9 @@ exports.orderchart = function(req, res) {
 			}
 		});
 
-	} else if (tjtype == 2) {
+	}
+	//end 1
+	else if (tjtype == 2) {
 		var firstday = formatDate(new Date(nowYear, tjvalue - 1, 1));
 		var eryuedays = (nowYear % 4 == 0) && (nowYear % 100 != 0) || nowYear % 400 == 0 ? 29 : 28;
 		var monthdays = [31, eryuedays, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -588,6 +590,103 @@ exports.orderchart = function(req, res) {
 	}
 	//end 2
 	else if (tjtype == 3) {
+		var firstday = formatDate(new Date(nowYear, (tjvalue - 1) * 3, 0, 1));
+		var endday = formatDate(new Date(tjvalue, tjvalue * 3 - 1, 31));
+		var sql = "SELECT count(*) as number,DepId,MONTH(date(orderTime)) as week  FROM `OrderRecords` where 1=1 ";
+		sql += " and orderTime > '" + firstday + " 00:00:00' and orderTime < '" + endday + " 23:59:59'  group by DepId,MONTH(orderTime) order by MONTH(date(orderTime)) asc";
+		Orders.query(sql, function(err, dbs) {
+			if (err) {
+				res.send({
+					success: false,
+					msg: '数据库查询发生错误：！' + util.inspect(err, false, null)
+				});
+			} else {
+
+				var redata = [];
+
+				for (var j = 0; j <= 12; j++) {
+					var tmp = {};
+					if (j == 12)
+						tmp.tags = '总计';
+					else {
+						var month11 = j + 1;
+						tmp.tags = month11 + '月';
+					}
+					tmp.wxjl = 0;
+					tmp.shbxjl = 0;
+					tmp.sjsjl = 0;
+					tmp.ecgsjl = 0;
+					tmp.jck = 0;
+					tmp.yys = 0;
+					tmp.szk = 0;
+					tmp.zj = 0;
+					redata[j] = tmp;
+				}
+				for (var i = 0; i < dbs.length; i++) {
+
+					if (dbs[i].DepId == 1) {
+						redata[dbs[i].week - 1].wxjl = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[12].wxjl += dbs[i].number;
+						redata[12].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 3) {
+						redata[dbs[i].week - 1].shbxjl = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[12].shbxjl += dbs[i].number;
+						redata[12].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 7) {
+						redata[dbs[i].week - 1].sjsjl = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[12].sjsjl += dbs[i].number;
+						redata[12].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 8) {
+						redata[dbs[i].week - 1].ecgsjl = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[12].ecgsjl += dbs[i].number;
+						redata[12].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 6) {
+						redata[dbs[i].week - 1].jck = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[12].jck += dbs[i].number;
+						redata[12].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 5) {
+						redata[dbs[i].week - 1].yys = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[12].yys += dbs[i].number;
+						redata[12].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 11) {
+						redata[dbs[i].week - 1].szk = dbs[i].number;
+						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[12].szk += dbs[i].number;
+						redata[12].zj += dbs[i].number;
+					}
+
+
+
+				}
+				output.iTotalRecords = 12;
+				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
+				output.iTotalDisplayRecords = 12;
+				output.aaData = redata;
+				res.send(output);
+			}
+
+		});
+	}
+	//end 3
+	else if (tjtype == 4) {
 		var firstday = formatDate(new Date(tjvalue, 0, 1));
 		var endday = formatDate(new Date(tjvalue, 11, 31));
 		var sql = "SELECT count(*) as number,DepId,MONTH(date(orderTime)) as week  FROM `OrderRecords` where 1=1 ";
@@ -684,7 +783,7 @@ exports.orderchart = function(req, res) {
 		});
 
 	}
-	//end 3
+	//end 4
 
 }
 
@@ -895,12 +994,12 @@ exports.paidanchart = function(req, res) {
 	});
 }
 
-exports.callreportchart=function(req,rs){
-var tjtype = req.query['tjtype'] || req.body['tjtype'];
+exports.callreportchart = function(req, res) {
+	var tjtype = req.query['tjtype'] || req.body['tjtype'];
 	var tjvalue = req.query['tjvalue'] || req.body['tjvalue'];
-	var clomuns= req.query['clomuns'] || req.body['clomuns']||'';
-	var clomunsarray=clomuns.split(',');
-	var callsession=require('../modules/ippbx/callsession.js');
+	var clomuns = req.query['clomuns'] || req.body['clomuns'] || '';
+	var clomunsarray = clomuns.split(',');
+	var callsession = require('../modules/ippbx/callsession.js');
 	var output = {};
 	var now = new Date(); //当前日期 
 	var nowYear = now.getFullYear(); //当前年 
@@ -922,32 +1021,29 @@ var tjtype = req.query['tjtype'] || req.body['tjtype'];
 				for (var j = 0; j < weekcn.length; j++) {
 					var tmp = {};
 					tmp.tags = weekcn[j];
-					for(var kk=0;kk<clomunsarray.length;kk++){
-					tmp[clomunsarray[kk]]=[0,0];	
+					for (var kk = 0; kk < clomunsarray.length; kk++) {
+						tmp[clomunsarray[kk]] = [0, 0];
 					}
-					
-					tmp.zj = [0,0];
+
+					tmp.zj = [0, 0];
 					redata[j] = tmp;
 				}
 				for (var i = 0; i < dbs.length; i++) {
 
-					if(contains(clomunsarray,dbs[i].accountcode) ){
-						if(dbs[i].routerline == 1){
-						redata[dbs[i].week][dbs[i].accountcode][0]=dbs[i].number;
-						redata[dbs[i].week].zj[0] += dbs[i].number;
-						redata[7][dbs[i].accountcode][0] += dbs[i].number;
-						redata[7].zj[0] += dbs[i].number;
-					}
-					else{
-						redata[dbs[i].week][dbs[i].accountcode][1]=dbs[i].number;
-						redata[dbs[i].week].zj[1] += dbs[i].number;
-						redata[7][dbs[i].accountcode][1] += dbs[i].number;
-						redata[7].zj[1] += dbs[i].number;
-					}
+					if (contains(clomunsarray, dbs[i].accountcode)) {
+						if (dbs[i].routerline == 1) {
+							redata[dbs[i].week][dbs[i].accountcode][0] = dbs[i].number;
+							redata[dbs[i].week].zj[0] += dbs[i].number;
+							redata[7][dbs[i].accountcode][0] += dbs[i].number;
+							redata[7].zj[0] += dbs[i].number;
+						} else {
+							redata[dbs[i].week][dbs[i].accountcode][1] = dbs[i].number;
+							redata[dbs[i].week].zj[1] += dbs[i].number;
+							redata[7][dbs[i].accountcode][1] += dbs[i].number;
+							redata[7].zj[1] += dbs[i].number;
+						}
 
 					}
-
-					
 
 
 
@@ -960,8 +1056,9 @@ var tjtype = req.query['tjtype'] || req.body['tjtype'];
 			}
 		});
 
-	} 
-	else if (tjtype == 2) {
+	}
+	//end 1
+	 else if (tjtype == 2) {
 		var firstday = formatDate(new Date(nowYear, tjvalue - 1, 1));
 		var eryuedays = (nowYear % 4 == 0) && (nowYear % 100 != 0) || nowYear % 400 == 0 ? 29 : 28;
 		var monthdays = [31, eryuedays, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -989,30 +1086,28 @@ var tjtype = req.query['tjtype'] || req.body['tjtype'];
 						var day1111 = j + 1;
 						tmp.tags = nowYear + '-' + tjvalue + '-' + day1111;
 					}
-					for(var kk=0;kk<clomunsarray.length;kk++){
-					tmp[clomunsarray[kk]]=[0,0];	
+					for (var kk = 0; kk < clomunsarray.length; kk++) {
+						tmp[clomunsarray[kk]] = [0, 0];
 					}
-					tmp.zj = [0,0];
+					tmp.zj = [0, 0];
 					redata[j] = tmp;
 				}
 				for (var i = 0; i < dbs.length; i++) {
 
-					if(contains(clomunsarray,dbs[i].accountcode) ){
-						if(dbs[i].routerline == 1){
-						redata[dbs[i].week-1][dbs[i].accountcode][0]=dbs[i].number;
-						redata[dbs[i].week-1].zj[0] += dbs[i].number;
-						redata[days][dbs[i].accountcode][0] += dbs[i].number;
-						redata[days].zj[0] += dbs[i].number;
-					}
-					else{
-						redata[dbs[i].week-1][dbs[i].accountcode][1]=dbs[i].number;
-						redata[dbs[i].week-1].zj[1] += dbs[i].number;
-						redata[days][dbs[i].accountcode][1] += dbs[i].number;
-						redata[days].zj[1] += dbs[i].number;
-					}
+					if (contains(clomunsarray, dbs[i].accountcode)) {
+						if (dbs[i].routerline == 1) {
+							redata[dbs[i].week - 1][dbs[i].accountcode][0] = dbs[i].number;
+							redata[dbs[i].week - 1].zj[0] += dbs[i].number;
+							redata[days][dbs[i].accountcode][0] += dbs[i].number;
+							redata[days].zj[0] += dbs[i].number;
+						} else {
+							redata[dbs[i].week - 1][dbs[i].accountcode][1] = dbs[i].number;
+							redata[dbs[i].week - 1].zj[1] += dbs[i].number;
+							redata[days][dbs[i].accountcode][1] += dbs[i].number;
+							redata[days].zj[1] += dbs[i].number;
+						}
 
 					}
-
 
 
 
@@ -1028,9 +1123,9 @@ var tjtype = req.query['tjtype'] || req.body['tjtype'];
 
 	}
 	//end 2
-	else if(tjtype==3){
-		var firstday = formatDate(new Date(nowYear,(tjvalue-1)*3, 0, 1));
-		var endday = formatDate(new Date(tjvalue, tjvalue*3-1, 31));
+	else if (tjtype == 3) {
+		var firstday = formatDate(new Date(nowYear, (tjvalue - 1) * 3, 0, 1));
+		var endday = formatDate(new Date(tjvalue, tjvalue * 3 - 1, 31));
 		var sql = "SELECT count(*) as number,accountcode,routerline,MONTH(date(cretime)) as week  FROM `callsession` where 1=1 ";
 		sql += " and cretime > '" + firstday + " 00:00:00' and cretime < '" + endday + " 23:59:59'  group by accountcode,MONTH(cretime) order by MONTH(date(cretime)) asc";
 		callsession.query(sql, function(err, dbs) {
@@ -1051,39 +1146,38 @@ var tjtype = req.query['tjtype'] || req.body['tjtype'];
 						var month11 = j + 1;
 						tmp.tags = month11 + '月';
 					}
-					for(var kk=0;kk<clomunsarray.length;kk++){
-					tmp[clomunsarray[kk]]=[0,0];	
+					for (var kk = 0; kk < clomunsarray.length; kk++) {
+						tmp[clomunsarray[kk]] = [0, 0];
 					}
-					tmp.zj = [0,0];
+					tmp.zj = [0, 0];
 					redata[j] = tmp;
 				}
 				for (var i = 0; i < dbs.length; i++) {
 
-					if(contains(clomunsarray,dbs[i].accountcode) ){
-						if(dbs[i].routerline == 1){
-						redata[dbs[i].week-1][dbs[i].accountcode][0]=dbs[i].number;
-						redata[dbs[i].week-1].zj[0] += dbs[i].number;
-						redata[3][dbs[i].accountcode][0] += dbs[i].number;
-						redata[3].zj[0] += dbs[i].number;
-					}
-					else{
-						redata[dbs[i].week-1][dbs[i].accountcode][1]=dbs[i].number;
-						redata[dbs[i].week-1].zj[1] += dbs[i].number;
-						redata[3][dbs[i].accountcode][1] += dbs[i].number;
-						redata[3].zj[1] += dbs[i].number;
-					}
+					if (contains(clomunsarray, dbs[i].accountcode)) {
+						if (dbs[i].routerline == 1) {
+							redata[dbs[i].week - 1][dbs[i].accountcode][0] = dbs[i].number;
+							redata[dbs[i].week - 1].zj[0] += dbs[i].number;
+							redata[4][dbs[i].accountcode][0] += dbs[i].number;
+							redata[4].zj[0] += dbs[i].number;
+						} else {
+							redata[dbs[i].week - 1][dbs[i].accountcode][1] = dbs[i].number;
+							redata[dbs[i].week - 1].zj[1] += dbs[i].number;
+							redata[4][dbs[i].accountcode][1] += dbs[i].number;
+							redata[4].zj[1] += dbs[i].number;
+						}
 					}
 				}
-				output.iTotalRecords = 4;
+				output.iTotalRecords = 5;
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
-				output.iTotalDisplayRecords = 4;
+				output.iTotalDisplayRecords = 5;
 				output.aaData = redata;
 				res.send(output);
 			}
 
 		});
 
-	}//end3
+	} //end3
 	else if (tjtype == 4) {
 		var firstday = formatDate(new Date(tjvalue, 0, 1));
 		var endday = formatDate(new Date(tjvalue, 11, 31));
@@ -1107,40 +1201,38 @@ var tjtype = req.query['tjtype'] || req.body['tjtype'];
 						var month11 = j + 1;
 						tmp.tags = month11 + '月';
 					}
-					for(var kk=0;kk<clomunsarray.length;kk++){
-					tmp[clomunsarray[kk]]=[0,0];	
+					for (var kk = 0; kk < clomunsarray.length; kk++) {
+						tmp[clomunsarray[kk]] = [0, 0];
 					}
-					tmp.zj = [0,0];
+					tmp.zj = [0, 0];
 					redata[j] = tmp;
 				}
 				for (var i = 0; i < dbs.length; i++) {
 
-					if(contains(clomunsarray,dbs[i].accountcode) ){
-						if(dbs[i].routerline == 1){
-						redata[dbs[i].week-1][dbs[i].accountcode][0]=dbs[i].number;
-						redata[dbs[i].week-1].zj[0] += dbs[i].number;
-						redata[12][dbs[i].accountcode][0] += dbs[i].number;
-						redata[12].zj[0] += dbs[i].number;
-					}
-					else{
-						redata[dbs[i].week-1][dbs[i].accountcode][1]=dbs[i].number;
-						redata[dbs[i].week-1].zj[1] += dbs[i].number;
-						redata[12][dbs[i].accountcode][1] += dbs[i].number;
-						redata[12].zj[1] += dbs[i].number;
-					}
+					if (contains(clomunsarray, dbs[i].accountcode)) {
+						if (dbs[i].routerline == 1) {
+							redata[dbs[i].week - 1][dbs[i].accountcode][0] = dbs[i].number;
+							redata[dbs[i].week - 1].zj[0] += dbs[i].number;
+							redata[12][dbs[i].accountcode][0] += dbs[i].number;
+							redata[12].zj[0] += dbs[i].number;
+						} else {
+							redata[dbs[i].week - 1][dbs[i].accountcode][1] = dbs[i].number;
+							redata[dbs[i].week - 1].zj[1] += dbs[i].number;
+							redata[12][dbs[i].accountcode][1] += dbs[i].number;
+							redata[12].zj[1] += dbs[i].number;
+						}
 					}
 				}
-				output.iTotalRecords = 12;
+				output.iTotalRecords = 13;
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
-				output.iTotalDisplayRecords = 12;
+				output.iTotalDisplayRecords = 13;
 				output.aaData = redata;
 				res.send(output);
 			}
 
 		});
 
-	}
-	else{}
+	} else {}
 
 	//end 4	
 }
@@ -1196,12 +1288,12 @@ function getFirstAndEnd(d) {
 	};
 }
 
-function contains(a, obj) { 
-  var i = a.length; 
-  while (i--) { 
-    if (a[i] === obj) { 
-      return true; 
-    } 
-  } 
-  return false; 
+function contains(a, obj) {
+	var i = a.length;
+	while (i--) {
+		if (a[i] === obj) {
+			return true;
+		}
+	}
+	return false;
 }
