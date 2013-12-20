@@ -17,8 +17,10 @@ for (var key in DbMode.relations) {
 
 exports.get = function(req, res) {
 	var where = {};
+	var pageindex=req.query['pageindex'] || 0;
 	var cID = req.query['cID'] || req.body['cID'];
 	var serMan = req.query['serMan'] || req.body['serMan'];
+	//if(where!=null){}
 	if (cID !== '')
 		where.cID = cID;
 	else
@@ -26,14 +28,14 @@ exports.get = function(req, res) {
 	if (serMan !== '')
 		where.serMan = serMan;
 	else
-		where.serMan = -1;
+	where.serMan = -1;
 	where.dactorName = -1;
 	where.orderReslut = '';
 	where.uphone = '';
 	where.uaddr = '';
 	where.orderContent = '';
-	where.orderTime_from='';
-	where.orderTime_to='';
+	where.orderTime_from = '';
+	where.orderTime_to = '';
 	where.OrderTypeid = -1;
 	if (req.session.roleid == 8) //派单部门只能看到自己部门的
 		where.DepID = req.session.deptid;
@@ -45,6 +47,7 @@ exports.get = function(req, res) {
 		title: '工单记录列表',
 		roleid: req.session.roleid,
 		items: dbs,
+		pageindex:pageindex,
 		serverfn: serverfn,
 		where: where
 	});
@@ -165,7 +168,7 @@ exports.createpost = function(req, res) {
 								if (err) {
 									syslog.add(req, res, 'sql', err);
 								} else {
-									var smscontent = '户号:' + custom.idcard  + '.地址:' + custom.lifeAddr;
+									var smscontent = '户号:' + custom.idcard + '.地址:' + custom.lifeAddr;
 									smscontent += '.故障:' + inst.orderContent;
 									smscontent += '.电话:' + custom.phone;
 									//smscontent += '。表号:' + custom.work;
@@ -271,6 +274,8 @@ exports.createpost = function(req, res) {
 exports.editget = function(req, res) {
 	console.log(req.query);
 	var id = req.query.id;
+	var where =req.query.where;
+	var pageindex=req.query.distart;
 	DbMode.findOne({
 		where: {
 			id: id
@@ -288,6 +293,8 @@ exports.editget = function(req, res) {
 			res.render('OrderRecords/edit.html', {
 				title: '编辑工单记录',
 				inst: inst,
+				where:where,
+				pageindex:pageindex,
 				msg: null,
 				util: util
 			});
@@ -351,6 +358,8 @@ exports.editpost = function(req, res) {
 //详细GET
 exports.detail = function(req, res) {
 	var id = req.query.id;
+	var where =req.query.where;
+	var pageindex=req.query.distart;
 	DbMode.findOne({
 		where: {
 			id: id
@@ -369,6 +378,8 @@ exports.detail = function(req, res) {
 				title: '工单记录详细',
 				inst: inst,
 				msg: null,
+				where:where,
+				pageindex:pageindex,
 				util: util
 			});
 		}
@@ -466,7 +477,7 @@ exports.getOrder = function(req, res) {
 		} else {
 			if (inst != null) {
 				//console.log(inst.__cachedRelations.CustomInfo);
-				if (inst.OrderOptions == 2 ) {
+				if (inst.OrderOptions == 2) {
 					res.send({
 						success: false,
 						msg: "该工单已经处理了！"
@@ -548,6 +559,9 @@ exports.paiDan = function(req, res) {
 							var Sms_mod = new sms2();
 							Sms_mod.mobile = inst12.__cachedRelations.UserInfo2.uPhone;
 							Sms_mod.content = sms;
+							Sms_mod.agentname = inst12.__cachedRelations.UserInfo2.uName;
+							Sms_mod.pdyname = req.session.username;
+							Sms_mod.wxsname = inst12.__cachedRelations.UserInfo3.uName;
 							Sms_mod.shuoming = shuoming;
 							Sms_mod.save(function(err, instsms) {
 								if (err) {

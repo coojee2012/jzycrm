@@ -265,6 +265,7 @@ exports.pagingsearch = function(req, res) {
 					}
 					//console.log(redata);
 					output.aaData = redata;
+					//output.iDisplayStart=iDisplayStart;
 					res.send(output);
 				});
 			}

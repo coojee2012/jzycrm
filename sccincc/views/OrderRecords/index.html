@@ -52,12 +52,14 @@ for(var i=0;i<aoColumns.length-1;i++){
 	daochu[i]=i;	
 }
 
-var geturl="/selectdb/pagingsearch?dbname=crm/OrderRecords&cls=id___OrderTypeid___orderContent___uphone___uaddr___orderReslut___DepID___dactorName___serMan___cID___OrderOptions___recordTime___orderTime___id&where="+where;
+var geturl="/selectdb/pagingsearch?dbname=crm/OrderRecords&cls=id___OrderTypeid___orderContent___uphone___uaddr___orderReslut___DepID___dactorName___serMan___cID___OrderOptions___recordTime___orderTime___id&where="+where+"&random="+Math.random();
 
-$('#datatable').dataTable( {
+
+var MyDataTable=$('#datatable').dataTable( {
 	sDom: " <'row-fluid'<'span4'l><'span4'f><'span4'T>r>t<'row-fluid'<'span4'i><'span8 center'p>>",
 	//sDom: 'T<"clear">lfrtip',
 	sPaginationType: "bootstrap",
+  <%if(pageindex>0){%>iDisplayStart: <%= pageindex%>,<%}%>
 	//bDestroy:true,
 	oLanguage: {
 	sLengthMenu: "每页显示 _MENU_ 条记录",
@@ -131,12 +133,16 @@ $('#datatable').dataTable( {
                             	   aTargets: [aoColumns.length-1],
                             	//   mData : "id",
                                    mRender: function (data, type,full) {
-                                var depid=full.DepID.id;
+
+                                 var depid=full.DepID.id;
+                                 var oSettings = MyDataTable.fnSettings();
+                                 var displaystart=oSettings._iDisplayStart;
+
                             	var str='<div class="btn-group"><button class="btn btn-small ">操作</button> ';
 						            str+='<button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>';
 						            str+='<ul class="dropdown-menu"> ';
-                                    str+='<li><a href="/OrderRecords/detail?id='+data+'" ><i class="icon-zoom-in icon-white"></i>查看</a></li>';
-                                    str+='<li><a href="/OrderRecords/edit?id='+data+'" ><i class="icon-edit icon-white"></i> 编辑</a></li>';
+                                    str+='<li><a href="/OrderRecords/detail?id='+data+'&where='+'&distart='+displaystart+'" ><i class="icon-zoom-in icon-white"></i>查看</a></li>';
+                                    str+='<li><a href="/OrderRecords/edit?id='+data+'&where='+'&distart='+displaystart+'" ><i class="icon-edit icon-white"></i> 编辑</a></li>';
                                     if(roleid==8){
                                     str+='<li><a href="javascript:paidan('+data+','+depid+');" ><i class="icon-trash icon-white"></i>派单 </a></li>';
                                     str+='<li><a href="javascript:cdsms('+data+');" ><i class="icon-trash icon-white"></i> 短信催单</a></li>';
@@ -180,6 +186,7 @@ $('#datatable').dataTable( {
   // "fnServerData": fnDataTablesPipeline
 } );
 } );
+
 
 function deleterow(data){
 	var oTable = $('#datatable').dataTable();
