@@ -1059,7 +1059,7 @@ exports.callreportchart = function(req, res) {
 
 	}
 	//end 1
-	 else if (tjtype == 2) {
+	else if (tjtype == 2) {
 		var firstday = formatDate(new Date(nowYear, tjvalue - 1, 1));
 		var eryuedays = (nowYear % 4 == 0) && (nowYear % 100 != 0) || nowYear % 400 == 0 ? 29 : 28;
 		var monthdays = [31, eryuedays, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
