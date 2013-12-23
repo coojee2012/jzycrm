@@ -5,26 +5,53 @@ $('#container').highcharts({
             type: 'column'
         },
         title: {
-            text: 'My first Highcharts chart'
+            text: '通话统计'
         },
         xAxis: {
-            categories: ['my', 'first', 'chart']
+            categories: [<%= Agent%>]
         },
         yAxis: {
             title: {
-                text: 'something'
+                text: '通话次数'
             }
         },
         series: [{
-            name: 'Jane',
-            data: [1, 0, 4]
+            name: '呼入',
+            data: [<%= Outcall%>]
         }, {
-            name: 'John',
-            data: [5, 7, 3]
-        }]
+            name: '呼出',
+            data: [<%= Incall%>]
+        }],
+        credits:{
+            enabled:true,
+            text:'中国电信',
+            href:'http://www.189.cn'
+        }
     });
 	});
 </script>
+<form class="form-horizontal" method="POST">
+<fieldset>
+    <legend>通话统计</legend>
+    <div class="box-content span5">
+<div class="control-group"><label class="control-label" for="Timefrom">通话时间 从</label>
+<div class="controls">
+ <input type="text" class="input-xlarge datepicker" id="Timefrom" name="Timefrom" value="<%= where.Timefrom%>"> 
+     </div>
+</div>
+</div>
+<div class="box-content span5">
+<div class="control-group"><label class="control-label" for="Timeto">到</label>
+<div class="controls">
+<input type="text" class="input-xlarge datepicker" id="Timeto" name="Timeto" value="<%= where.Timeto%>">
+     </div>
+</div>
+</div>
 
+<div  class="box-content span2">
+<button type="submit" class="btn btn-small btn-info">统计</button>
+</div>
+</fieldset>
+</form>
 <div id="container" style="min-width:800px;height:400px;">	
 </div>

@@ -29,11 +29,75 @@ exports.callsessionget = function(req, res){
 	var dataurl=req.query['dataurl']||req.body['dataurl']||'/chart/callsession';
 	res.render('chart/callsession.html', { title: title,dataurl:dataurl,tjtype:tjtype});	
 }
+
 exports.callhchartget=function(req,res){
-res.render('chart/hchart.html', {});
+
+var UserInfo=require('../modules/crm/UserInfo.js');
+UserInfo.all({where:{isAgent:1}},function(err,dbs){
+var agent=[];
+var outcalls=[];
+var incalls=[];
+var error=null;
+if(err){
+error=err;
 }
+else if(dbs.length==0){
+error="没有找到座席。";
+}else{
+	for(var i=0;i<dbs.length;i++){
+agent.push("'"+dbs[i].uName+"'");
+outcalls.push(0);
+incalls.push(0);
+}
+}
+console.log(agent);
+res.render('chart/hchart.html', {where:{Timefrom:'',Timeto:''},Agent:agent,Outcall:outcalls,Incall:incalls});
+});
+
+}
+
 exports.callhchartpost=function(req,res){
-res.render('chart/hchart.html', {});
+var now = new Date(); //当前日期 
+var nowYear = now.getFullYear(); //当前年 
+var firstday=req.query["Timefrom"] || req.body["Timefrom"] || nowYear+'-01-01';
+var endday=req.query["Timeto"] ||req.body["Timeto"]|| nowYear+'-12-31';
+var sql = "SELECT count(*) as number,a.accountcode,a.routerline,b.uName   FROM `callsession` as a left join UserInfo as b on a.accountcode=b.uExten where b.isAgent=1";
+	sql += " and a.cretime > '" + firstday + " 00:00:00' and a.cretime < '" + endday + " 23:59:59'  group by a.accountcode,a.routerline";
+	var callsession = require('../modules/ippbx/callsession.js');
+	var agent=[];
+var outcalls=[];
+var incalls=[];
+	callsession.query(sql, function(err, dbs) {
+		if (err || dbs.length==0) {
+		res.render('chart/hchart.html', {where:{Timefrom:firstday,Timeto:endday},Agent:agent,Outcall:outcalls,Incall:incalls});	
+		}
+		else{
+			var tmp={};
+			for(var i=0;i<dbs.length;i++){
+				if(!tmp[dbs[i].uName])
+					tmp[dbs[i].uName]={};
+				//console.log(dbs[i].routerline);
+				if(dbs[i].routerline == 1)
+				tmp[dbs[i].uName].outcalls=dbs[i].number;
+			    else
+			    {
+			    	if(!tmp[dbs[i].uName].incalls)
+			    		tmp[dbs[i].uName].incalls=0;
+			    tmp[dbs[i].uName].incalls+=dbs[i].number;	
+			}
+
+			}
+			for(var j in tmp){
+				agent.push("'"+j+"'");
+				outcalls.push(tmp[j].outcalls || 0);
+				incalls.push(tmp[j].incalls || 0)
+			}
+
+res.render('chart/hchart.html', {where:{Timefrom:firstday,Timeto:endday},Agent:agent,Outcall:outcalls,Incall:incalls});	
+
+		}
+	});
+
 }
 exports.callsessionpost = function(req, res){
 	var datefrom=req.body['datefrom']||'';
