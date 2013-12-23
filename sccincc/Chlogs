@@ -1,10 +1,7 @@
 2013年12月19日
 1、修改modules.crm.sms
 新增3字段
-ALTER TABLE `sms`
-DROP COLUMN `agentname`,
-DROP COLUMN `pdyname`,
-DROP COLUMN `wxsname`,
+ALTER TABLE `Sms`
 ADD COLUMN `agentname`  varchar(50) NULL DEFAULT '' AFTER `mobile`,
 ADD COLUMN `pdyname`  varchar(50) NULL DEFAULT '' AFTER `agentname`,
 ADD COLUMN `wxsname`  varchar(50) NULL DEFAULT '' AFTER `pdyname`;

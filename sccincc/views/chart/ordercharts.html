@@ -145,6 +145,7 @@ $('#datatable').dataTable({
     n   =   Math.ceil(n/(7*24*60*60*1000)); 
     return   (flag==true&&first.getDay()!=1)?(n+1):n; 
 }; 
+
 Date.prototype.format   =   function(format) 
 { 
     var   o   =   { 
@@ -164,8 +165,10 @@ Date.prototype.format   =   function(format)
                 ("00"+   o[k]).substr(( ""+   o[k]).length)); 
     return   format; 
 }; 
+
 //$(
-$("input[name='iswork']").bind("click",function(){		
+$("input[name='iswork']").bind("click",function(){
+
 var ckval=$('input[name="iswork"]:checked').val();
 $("#dactorName").empty();
 //alert(ckval);
@@ -184,6 +187,7 @@ var i=1;
 	}
 	
 }
+
 if(ckval==="2"){
 var i=1;
 $('#thshow').html('日期\\部门');
@@ -192,12 +196,14 @@ while(i<13){
 	i++;	
 }
 }
+
 if(ckval==="3"){
 var i=1;
 $('#thshow').html('季度\\部门');
 while(i<5){
     $("<option value='第" + i + "'  >" + i + "季度</option>").appendTo("#dactorName");
     i++;    
+}
 }
 
 if(ckval==="4"){
