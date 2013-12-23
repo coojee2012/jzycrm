@@ -262,6 +262,16 @@ routes.jzycustominfo = [{
 	method: 'post',
 	fn: 'createThjlPost'
 },{
+	urlreg: '/jzy/editThjl',
+	file: '/routes/jzycustominfo',
+	method: 'get',
+	fn: 'editThjlGet'
+},{
+	urlreg: '/jzy/editThjl',
+	file: '/routes/jzycustominfo',
+	method: 'post',
+	fn: 'editThjlPost'
+},{
 	urlreg: '/jzy/getCalls',
 	file: '/routes/jzycustominfo',
 	method: 'all',

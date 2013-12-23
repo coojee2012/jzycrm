@@ -35,12 +35,13 @@
 
   exports.indexThjl = function(req, res) {
     var cid = req.body["Card_id"] || req.query["Card_id"] || "";
+    var dostate = req.body["DoState"] || req.query["DoState"] || -1;
     var where = {};
     where.KeyWords = '';
     where.Card_id = cid;
     where.TimeFrom = '';
     where.TimeTo = '';
-    where.DoState = 0;
+    where.DoState = dostate;
     res.render('jzycustominfo/indexThjl.html', {
       title: '通话记录列表',
       cid: cid,
@@ -52,7 +53,7 @@
   exports.indexThjlPost = function(req, res) {
     var card_id = req.body["Card_id"] || req.query["Card_id"] || "";
     var keywords = req.body["KeyWords"] || req.query["KeyWords"] || '';
-    var dostate = req.body["DoState"] || req.query["DoState"] || 0;
+    var dostate = req.body["DoState"] || req.query["DoState"] || -1;
     var timefrom = req.body["TimeFrom"] || req.query["TimeFrom"] || '';
     var timeto = req.body["TimeTo"] || req.query["TimeTo"] || '';
     var where = {};
@@ -74,7 +75,7 @@
   exports.getCalls = function(req, res) {
     var card_id = req.body["Card_id"] || req.query["Card_id"];
     var keywords = req.body["KeyWords"] || req.query["KeyWords"];
-    var dostate = req.body["DoState"] || req.query["DoState"];
+    var dostate = req.body["DoState"] || req.query["DoState"] ||"";
     var timefrom = req.body["TimeFrom"] || req.query["TimeFrom"];
     var timeto = req.body["TimeTo"] || req.query["TimeTo"];
     var jieguo = {};
@@ -560,15 +561,17 @@
         } else {
           console.log("findCalls:", result['findCallsResult']);
           var inst = {};
-          inst.id = result['findCallsResult'].id;
-          inst.unid = result['findCallsResult'].unid;
-          inst.card_id = result['findCallsResult'].card_id;
-          inst.vipname = result['findCallsResult'].vipname;
-          inst.content = result['findCallsResult'].content;
-          inst.dostate = result['findCallsResult'].dostate;
-          inst.donesth = result['findCallsResult'].donesth || '';
-          inst.exten = result['findCallsResult'].exten;
-          inst.agentname = result['findCallsResult'].agentname;
+          inst.id = result['findCallsResult'].Id;
+          inst.unid = result['findCallsResult'].Unid;
+          inst.card_id = result['findCallsResult'].Cid
+          inst.vipname = result['findCallsResult'].Vip_name;
+          inst.content = result['findCallsResult'].Content;
+          inst.dostate = result['findCallsResult'].DoState;
+          inst.donesth = result['findCallsResult'].DoneSth || '';
+          inst.exten = result['findCallsResult'].Exten;
+          inst.agentname = result['findCallsResult'].AgentName;
+
+          console.log("INST:",inst);
 
           res.render('jzycustominfo/editThjl.html', {
             title: '通话记录',
@@ -615,7 +618,7 @@
         res.render('jzycustominfo/editThjl.html', {
           title: '通话记录',
           msg: err,
-          inst: null
+          inst: inst
         });
         //res.send("连接服务发生异常！", util.inspect(err, null, null));
       }
@@ -625,19 +628,19 @@
         res.render('jzycustominfo/editThjl.html', {
           title: '通话记录',
           msg: "无法正常连接服务！",
-          inst: null
+          inst: inst
         });
       }
-      client.insertCalls(inst, function(err, result, body) {
+      client.updateCalls({Id:id,Content:content,DoState:dostate,DoneSth:donesth}, function(err, result, body) {
         if (err) {
-          console.log("insertCalls err:", util.inspect(err, null, null));
+          console.log("updateCalls err:", util.inspect(err, null, null));
           res.render('jzycustominfo/editThjl.html', {
             title: '通话记录',
             msg: err,
-            inst: null
+            inst: inst
           });
         } else {
-          console.log("insertCalls:", result['insertCallsResult']);
+          console.log("updateCalls:", result['updateCallsResult']);
           //res.send(result['updateCustomResult']);
           res.redirect('/jzy/listThjl?cid=' + cid);
 

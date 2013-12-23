@@ -184,6 +184,7 @@ name="KeyWords" value="<%= where.KeyWords %>" />
 <div class="control-group"><label class="control-label" for="DoState">处理状态</label>
 <div class="controls">
 <select id="DoState" name="DoState">
+<option value='-1' <%if(where.DoState==-1){%>selected='selected'<%}%>>--选择--</option>
 <option value='0' <%if(where.DoState==0){%>selected='selected'<%}%>>未处理</option>
 <option value='1' <%if(where.DoState==1){%>selected='selected'<%}%>>处理中</option>
 <option value='2' <%if(where.DoState==2){%>selected='selected'<%}%>>已处理</option>

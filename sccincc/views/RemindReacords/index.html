@@ -7,93 +7,29 @@ function openorder(){
          return false;
      }
      parent.myLib.desktop.win.newWin({
-         WindowTitle: '我的工单',
+         WindowTitle: '通话记录',
        //  iframSrc: '/OrderRecords?serMan=' + uid,
-         iframSrc: '/OrderRecords',
-         WindowsId: uid + "_工单记录",
+         iframSrc: '/jzy/listThjl?DoState=0',
+         WindowsId: uid + "_通话记录记录",
          WindowAnimation: 'none',
          WindowWidth: 1100,
          WindowHeight: 600
      });
 	
 }
-
-function openconsult(){
-	 var uid = parent._USERID;
-    if (!uid || uid === '') {
-        alert("无法获取您的登录信息，请重新登录！");
-        return false;
-    }
-    parent.myLib.desktop.win.newWin({
-        WindowTitle: '我的咨询',
-        iframSrc: '/ConsultRecords?srvManID=' + uid,
-        WindowsId: uid + "_咨询记录",
-        WindowAnimation: 'none',
-        WindowWidth: 1100,
-        WindowHeight: 600
-    });
-	
-}
-
-function openwarterstop(){
-   parent.myLib.desktop.win.newWin({
-       WindowTitle: '停水信息',
-       iframSrc: '/WarterStopInfo',
-       WindowsId: "1_停水信息",
-       WindowAnimation: 'none',
-       WindowWidth: 1100,
-       WindowHeight: 600
-   });
-	
-}
-
-function opensms(){
-	   parent.myLib.desktop.win.newWin({
-	       WindowTitle: '短信信息',
-	       iframSrc: '/Sms',
-	       WindowsId: "1_短信信息",
-	       WindowAnimation: 'none',
-	       WindowWidth: 1100,
-	       WindowHeight: 600
-	   });
-		
-	}
-
-
-
 </script>
 
 <div id="content" class="span12">
 <div style="height: 10%;"><legend>今日事，今日果。</legend></div>
 
-<div class="sortable row-fluid"><a data-rel="tooltip"
-	title="<%= inst.gd.notdo%> 条新工单." class="well span4 top-block"
-	href="javascript:openorder();"> <span
-	class="icon32 icon-red icon-page"></span>
-<div>工单处理</div>
+<div class="sortable row-fluid">
+  <a data-rel="tooltip" title="<%= inst.gd.notdo%> 条新通话记录." class="well span4 top-block" href="javascript:openorder();">
+   <span class="icon32 icon-red icon-page"></span>
+<div>通话记录</div>
 <div><%= inst.gd.count%></div>
-<span class="notification"><%= inst.gd.notdo%></span> </a> 
+<span class="notification"><%= inst.gd.notdo%></span> 
+</a> 
 
-<a data-rel="tooltip"
-	title="<%= inst.zx.notdo%> 条新咨询." class="well span4 top-block"
-	href="javascript:openconsult();"> <span
-	class="icon32 icon-color icon-document"></span>
-<div>咨询记录</div>
-<div><%= inst.zx.count%></div>
-<span class="notification green"><%= inst.zx.notdo%></span> </a> 
-<a data-rel="tooltip"
-	title="<%= inst.ts.notdo%> 条新停水通知." class="well span4 top-block"
-	href="javascript:openwarterstop();"> <span
-	class="icon32 icon-color icon-wrench"></span>
-<div>停水通知</div>
-<div><%= inst.ts.count%></div>
-<span class="notification yellow"><%= inst.ts.notdo%></span> </a></div>
-<div class="sortable row-fluid"><a data-rel="tooltip"
-	title="<%= inst.dx.notdo%> 短信未发送." class="well span4 top-block"
-	href="javascript:opensms();"> <span
-	class="icon32 icon-color icon-envelope-closed"></span>
-<div>短信发送</div>
-<div><%= inst.dx.count%></div>
-<span class="notification red"><%= inst.dx.notdo%></span> </a></div>
-<div class="sortable row-fluid"></div>
+
+</div>
 </div>

@@ -22,6 +22,7 @@
 							<div class="controls"> 
 							<input type="text" class="span6" readonly="readonly" id="unid" name="unid" value="<%if(inst!=null){%><%= inst.unid %><%}%>" />
 							<input type="hidden" id="card_id" name="card_id" value="<% if(inst!=null){%><%= inst.card_id %><%}%>" />
+							<input type="hidden" id="id" name="id" value="<% if(inst!=null){%><%= inst.id %><%}%>" />
 							</div> 
 							</div> 
 
@@ -35,7 +36,7 @@
 							<div class="control-group"> 
 							<label class="control-label" for="agentname">座席姓名</label> 
 							<div class="controls"> 
-							<input type="text" class="span6" readonly="readonly" id="agentname" name="agentname" value="<% if(inst!=null){%><%= inst.agentname%><%}%>" />
+							<input type="text" class="span6" readonly="readonly" id="agentname" name="agentname" value="<% if(inst!=null && typeof(inst.agentname)!=='object'){%><%= inst.agentname%><%}%>" />
 							<input type="hidden" id="exten" name="exten" value="<% if(inst!=null){%><%= inst.extent%><%}%>" />
 							</div> 
 							</div> 

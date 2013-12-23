@@ -385,4 +385,72 @@ namespace SMSWcfService
         }
 
     }
+
+    /// <summary>
+    /// 通话记录
+    /// </summary>
+    [DataContract]
+    public class YGous {
+        public YGous() { }
+
+        private string _flow_no;//订单编号
+        [DataMember]
+        public string Flow_no
+        {
+            get { return _flow_no; }
+            set { _flow_no = value; }
+
+        }
+        private string _oper_date;//订单编号
+        [DataMember]
+        public string Oper_date
+        {
+            get { return _oper_date; }
+            set { _oper_date = value; }
+
+        }
+        private string _sale_qnty;//订单编号
+        [DataMember]
+        public string Sale_qnty
+        {
+            get { return _sale_qnty; }
+            set { _sale_qnty = value; }
+
+        }
+        private string _sale_money;//订单编号
+        [DataMember]
+        public string Sale_money
+        {
+            get { return _sale_money; }
+            set { _sale_money = value; }
+
+        }
+       
+        private string _item_no;//订单编号
+        [DataMember]
+        public string Item_no
+        {
+            get { return _item_no; }
+            set { _item_no = value; }
+
+        }
+        private string _item_name;
+        [DataMember]
+        public string Item_name
+        {
+            get { return _item_name; }
+            set { _item_name = value; }
+
+        }
+        private string _item_rem;
+        [DataMember]
+        public string Item_rem
+        {
+            get { return _item_rem; }
+            set { _item_rem = value; }
+
+        }
+
+    }
+
 }

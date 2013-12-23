@@ -264,6 +264,40 @@ namespace SMSWcfService
             return calls;
 
         }
+        public CallRecords findCalls(int id) {
+            CallRecords callinfo = new CallRecords();
+            string sql = "select a.*,b.vip_name from callrecords a left join t_rm_vip_info b on b.card_id = a.cid where 1=1 ";
+
+
+            sql += " and a.id = " + id.ToString() + "";
+            
+          
+
+            DataTable dt = Query(sql);
+            if (dt != null)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    
+                    callinfo.Id = int.Parse(row["id"].ToString());
+                    callinfo.Unid = row["unid"].ToString();
+                    callinfo.Cid = row["cid"].ToString();
+                    callinfo.Vip_name = row["vip_name"].ToString();
+                    callinfo.Content = row["content"].ToString();
+                    callinfo.DoState = int.Parse(row["dostate"].ToString());
+                    callinfo.DoneSth = row["donesth"].ToString();
+                    callinfo.AgentName = row["agentname"].ToString();
+                    callinfo.Exten = row["exten"].ToString();
+                    callinfo.RecordTime = row["recordtime"].ToString();
+                    callinfo.UpdateTime = row["updatetime"].ToString();
+                  
+
+                   
+
+                }
+            }
+            return callinfo;
+        }
         //更新客户档案信息
         public boolReturn updateCustom(string Vip_name, string Card_id, string Vip_sex, string Card_type, string Vip_tel, string Mobile, string Company, string Vip_add)
         {
@@ -370,6 +404,57 @@ namespace SMSWcfService
             str += "' where id=" + Id ;
                 return NoneQuery(str);
             
+        }
+
+        //获取已购商品信息
+        public List<YGous> getYgItems(string keywords, string card_id,  string timefrom, string timeto)
+        {
+            List<YGous> calls = new List<YGous>();
+            string sql = " select a.flow_no,a.oper_date,b.sale_qnty,b.sale_money,c.item_no,c.item_name,c.item_rem from t_rm_payflow a ";
+  sql+=" left join t_rm_saleflow b on a.flow_no = b.flow_no";
+  sql+=" left join t_bd_item_info c on c.item_no=b.item_no";
+  sql += " where 1=1";
+  if (!string.IsNullOrEmpty(card_id))
+  {
+      sql += " and a.vip_no = '" + card_id + "'";
+  }
+  if (!string.IsNullOrEmpty(keywords))
+  {
+      sql += " and (c.item_name like '%" + keywords + "%' or c.item_rem like '%" + keywords + "%'";
+    
+      sql += ")";
+  }
+ 
+  if (!string.IsNullOrEmpty(timefrom))
+  {
+      sql += " and a.oper_date > '" + timefrom + "'";
+  }
+  if (!string.IsNullOrEmpty(timeto))
+  {
+      sql += " and a.oper_date < '" + timeto + "'";
+  }
+
+  DataTable dt = Query(sql);
+  if (dt != null)
+  {
+      foreach (DataRow row in dt.Rows)
+      {
+          YGous callinfo = new YGous();
+          callinfo.Flow_no = row["flow_no"].ToString();
+          callinfo.Item_name = row["item_name"].ToString();
+          callinfo.Oper_date = row["oper_date"].ToString();
+          callinfo.Sale_money = row["sale_money"].ToString();
+          callinfo.Sale_qnty = row["sale_qnty"].ToString();
+          callinfo.Item_no = row["item_no"].ToString();
+          callinfo.Item_rem = row["item_rem"].ToString();
+          
+
+          calls.Add(callinfo);
+
+      }
+  }
+  return calls;
+
         }
         #region 连接到数据库
         private void connectDB()

@@ -88,5 +88,8 @@ namespace SMSWcfService
          [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
          List<CallRecords> getCalls(string keywords, string card_id, string dostate, string timefrom, string timeto);
 
+         [OperationContract]
+         [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+         CallRecords findCalls(int id);
     }
 }
