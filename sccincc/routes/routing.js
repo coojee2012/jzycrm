@@ -222,6 +222,19 @@ routes.chart = [
 		method: 'post',
 		fn: 'callsessionpost'
 	},
+	{
+		urlreg: '/chart/callhchart',
+		file: '/routes/chart',
+		method: 'get',
+		fn: 'callhchartget'
+	},
+
+	{
+		urlreg: '/chart/callhchart',
+		file: '/routes/chart',
+		method: 'post',
+		fn: 'callhchartpost'
+	},
 
 	{
 		urlreg: '/chart/ordercharts',

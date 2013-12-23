@@ -29,6 +29,12 @@ exports.callsessionget = function(req, res){
 	var dataurl=req.query['dataurl']||req.body['dataurl']||'/chart/callsession';
 	res.render('chart/callsession.html', { title: title,dataurl:dataurl,tjtype:tjtype});	
 }
+exports.callhchartget=function(req,res){
+res.render('chart/hchart.html', {});
+}
+exports.callhchartpost=function(req,res){
+res.render('chart/hchart.html', {});
+}
 exports.callsessionpost = function(req, res){
 	var datefrom=req.body['datefrom']||'';
 	var dateto=req.body['dateto']||'';
