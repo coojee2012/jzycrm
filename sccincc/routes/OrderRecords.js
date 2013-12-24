@@ -305,6 +305,8 @@ exports.editget = function(req, res) {
 //编辑POST
 exports.editpost = function(req, res) {
 	var id = req.body["id"];
+	var pageindex=req.query["pageindex"];
+	var where={};
 	DbMode.findOne({
 		where: {
 			id: id
@@ -316,6 +318,8 @@ exports.editpost = function(req, res) {
 				title: '编辑工单记录',
 				inst: null,
 				msg: err,
+				where:where,
+				pageindex:pageindex,
 				util: util
 			});
 		} else {
@@ -337,6 +341,8 @@ exports.editpost = function(req, res) {
 						title: '编辑工单记录',
 						inst: inst,
 						msg: err,
+						where:where,
+						pageindex:pageindex,
 						util: util
 					});
 				} else {
@@ -345,6 +351,8 @@ exports.editpost = function(req, res) {
 						title: '编辑工单记录',
 						inst: inst,
 						msg: null,
+						pageindex:pageindex,
+						where:where,
 						util: util
 					});
 				}
@@ -559,10 +567,11 @@ exports.paiDan = function(req, res) {
 							var Sms_mod = new sms2();
 							Sms_mod.mobile = inst12.__cachedRelations.UserInfo2.uPhone;
 							Sms_mod.content = sms;
-							Sms_mod.agentname = inst12.__cachedRelations.UserInfo2.uName;
-							Sms_mod.pdyname = req.session.username;
-							Sms_mod.wxsname = inst12.__cachedRelations.UserInfo3.uName;
+							Sms_mod.agentname = inst12.__cachedRelations.UserInfo3.uName || '--';
+							Sms_mod.pdyname = req.session.username  || '--';
+							Sms_mod.wxsname = inst12.__cachedRelations.UserInfo2.uName  || '--';
 							Sms_mod.shuoming = shuoming;
+							console.log(Sms_mod);
 							Sms_mod.save(function(err, instsms) {
 								if (err) {
 									syslog.add(req, res, 'sql', err);

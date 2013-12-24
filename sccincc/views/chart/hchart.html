@@ -33,6 +33,7 @@ $('#container').highcharts({
 <form class="form-horizontal" method="POST">
 <fieldset>
     <legend>通话统计</legend>
+    <input type="hidden" name="agents" id="agents" value="<%= Agent.join(',')%>" />
     <div class="box-content span5">
 <div class="control-group"><label class="control-label" for="Timefrom">通话时间 从</label>
 <div class="controls">

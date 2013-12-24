@@ -7,9 +7,10 @@ var aoColumns=[
                { mData: "cID", sClass: "center" },
                { mData: "uaddr", sClass: "center" },
  //              { mData: "OrderTypeid", sClass: "center" },
+ { mData: "orderContent", sClass: "center" },
  { mData: "uphone", sClass: "center" },  
                
-               { mData: "orderContent", sClass: "center" },
+               
                
               
                { mData: "DepID", sClass: "center" },               
@@ -26,7 +27,7 @@ var aoColumns=[
                  { mData: "id", sClass: "center",bSearchable: false }
                  
              ];
-var vKeys=["id","cID.idcard","uaddr","uphone","orderContent","DepID.depName","dactorName.uName","orderReslut","serMan.uName","OrderOptions","orderTime","id"];
+var vKeys=["id","cID.idcard","uaddr","orderContent","uphone","DepID.depName","dactorName.uName","orderReslut","serMan.uName","OrderOptions","orderTime","id"];
 var where='';
 where+=',,,,,'+'serMan:::::'+$('#serMan').val();
 where+=',,,,,'+'DepID:::::'+$('#DepID').val();
@@ -111,7 +112,7 @@ var MyDataTable=$('#datatable').dataTable( {
                 	   aTargets:[6],
                 	   mRender: function (data, type,full) {
                        var str="--";
-                      if(data!=null)
+                      if(data!=null  &&　data.uName)
                       str=data.uName;
                        return str;
                 	   }
@@ -120,7 +121,7 @@ var MyDataTable=$('#datatable').dataTable( {
                      aTargets:[8],
                      mRender: function (data, type,full) {
                        var str="--";
-                      if(data!=null)
+                      if(data!=null  && 　data.uName)
                       str=data.uName;
                        return str;
                      }
@@ -950,8 +951,9 @@ $(function(){
 			<th style="width:80px;">工单编号</th>
       <th style="width:40px;">用户户号</th>
       <th>联系地址</th>
+      <th>故障现象</th>
        <th>联系电话</th>
-			<th>故障现象</th>
+			
        
 
       <th>处理部门</th>
