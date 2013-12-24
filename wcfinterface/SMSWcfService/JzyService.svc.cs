@@ -237,6 +237,7 @@ namespace SMSWcfService
             {
                 sql += " and a.recordtime < '" + timeto + "'";
             }
+            sql += " order by a.recordtime desc ";
 
             DataTable dt = Query(sql);
             if (dt != null)

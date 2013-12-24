@@ -4,7 +4,8 @@ var aoColumns=[
                
                { mData: "Id", sClass: "center" },
                { mData: "Vip_name", sClass: "center" },
-               { mData: "AgentName", sClass: "center",bSearchable: false},
+             //  { mData: "AgentName", sClass: "center",bSearchable: false},
+               {mData:'Cid', sClass: "center",bSearchable: false},
                	{ mData: "Content", sClass: "center",bSearchable: false},              	
                { mData: "DoState", sClass: "center" },
                { mData: "DoneSth", sClass: "center",bSearchable: false},                                 
@@ -57,19 +58,33 @@ $('#datatable').dataTable( {
                                	aTargets: [1],
                                	  mRender: function (data, type,full) {
                                	var cid="<%= cid%>";
-                               return '<a href="/jzy/editThjl?id='+full.Id+'&cid='+cid+'">'+data+'</a>';
+                               	var str="--";
+                               	if(typeof(data)!=='object')
+                               		str=data;
+                               return '<a href="/jzy/editThjl?id='+full.Id+'&cid='+cid+'">'+str+'</a>';
                                }
                            },
                               {
-                            	   aTargets: [0,2,3,5,6],
+                            	   aTargets: [2],
                             
                                    mRender: function (data, type,full) {
-                               if(typeof(data)==='object')
+                               if(typeof(data)==='object' || !data)
                                	return '--';
                                else
                                	return data;
                                    }
                                },
+                              {
+                            	   aTargets: [3],
+                            
+                                   mRender: function (data, type,full) {
+                               if(typeof(data)==='object' || !data)
+                               	return '--';
+                               else
+                               	return data;
+                                   }
+                               },
+
                                {
                                	aTargets: [4],
                                	  mRender: function (data, type,full) {
@@ -79,6 +94,26 @@ $('#datatable').dataTable( {
                                	return '处理中';
                                else
                                	return '已处理';
+                                   }
+                               },
+                              {
+                            	   aTargets: [5],
+                            
+                                   mRender: function (data, type,full) {
+                               if(typeof(data)==='object' || data==='undefined')
+                               	return '--';
+                               else
+                               	return data;
+                                   }
+                               },
+                              {
+                            	   aTargets: [6],
+                            
+                                   mRender: function (data, type,full) {
+                               if(typeof(data)==='object' || !data)
+                               	return '--';
+                               else
+                               	return data;
                                    }
                                },
                                {
@@ -184,7 +219,7 @@ name="KeyWords" value="<%= where.KeyWords %>" />
 <div class="control-group"><label class="control-label" for="DoState">处理状态</label>
 <div class="controls">
 <select id="DoState" name="DoState">
-<option value='-1' <%if(where.DoState==-1){%>selected='selected'<%}%>>--选择--</option>
+<option value='-1' <%if(where.DoState==-1){%>selected='selected'<%}%>>全部</option>
 <option value='0' <%if(where.DoState==0){%>selected='selected'<%}%>>未处理</option>
 <option value='1' <%if(where.DoState==1){%>selected='selected'<%}%>>处理中</option>
 <option value='2' <%if(where.DoState==2){%>selected='selected'<%}%>>已处理</option>
@@ -208,8 +243,9 @@ name="TimeTo" value="<%= where.TimeTo %>">
 </div>
 
 <div class="modal-footer">
-<button class="btn btn-small btn-danger" data-dismiss="modal" aria-hidden="true">关闭</button>
+
 <button type="submit" class="btn btn-small btn-info">搜索</button>
+<button class="btn btn-small btn-danger" data-dismiss="modal" aria-hidden="true">关闭</button>
 </div>
 </fieldset>
 </form>
@@ -235,9 +271,7 @@ name="TimeTo" value="<%= where.TimeTo %>">
 </div>
 </div>
 <div class="box-content">
-<table
-	class="table table-striped table-bordered bootstrap-datatable datatable"
-	id="datatable">
+<table class="table table-striped table-bordered bootstrap-datatable datatable" id="datatable">
 	<caption></caption>
 	<thead>
 		<tr>
@@ -245,7 +279,7 @@ name="TimeTo" value="<%= where.TimeTo %>">
 			<th width="6%">编号</th>
 			  
 			<th width="8%">客户姓名</th>
-			<th width="8%">服务座席</th>
+			<th width="8%">会员卡号</th>
 			  
 			<th width="20%">通话内容</th>
 			  
