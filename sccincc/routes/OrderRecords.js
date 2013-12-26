@@ -55,6 +55,7 @@ exports.get = function(req, res) {
 
 exports.post = function(req, res) {
 	var where = {};
+	var pageindex=req.query['pageindex'] || 0;
 	var query = req.body || req.query;
 	for (var key in query) {
 		where[key] = query[key] || '';
@@ -65,6 +66,7 @@ exports.post = function(req, res) {
 		title: '工单记录列表',
 		roleid: req.session.roleid,
 		items: null,
+		pageindex:pageindex,
 		serverfn: serverfn,
 		where: where
 	});

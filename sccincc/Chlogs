@@ -5,3 +5,11 @@ ALTER TABLE `Sms`
 ADD COLUMN `agentname`  varchar(50) NULL DEFAULT '' AFTER `mobile`,
 ADD COLUMN `pdyname`  varchar(50) NULL DEFAULT '' AFTER `agentname`,
 ADD COLUMN `wxsname`  varchar(50) NULL DEFAULT '' AFTER `pdyname`;
+
+2013年12月25日
+
+ALTER TABLE `orderrecords`
+MODIFY COLUMN `memo`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `OrderTypeid`;
+ALTER TABLE `orderrecords`
+MODIFY COLUMN `orderContent`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `dactorName`,
+MODIFY COLUMN `orderReslut`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `orderContent`;

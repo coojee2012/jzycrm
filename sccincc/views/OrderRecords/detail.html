@@ -4,11 +4,11 @@
 <div class="box span12">
 <div class="box-content">
 <form class="form-horizontal" method="POST">
-<div><a href="/OrderRecords?<%= pageindex%>&where=<%= where%>" class="btn btn-small btn-primary">
+<div><a href="/OrderRecords?pageindex=<%= pageindex%>&where=<%= where%>" class="btn btn-small btn-primary">
 <i class="icon-chevron-left icon-white"></i>列表</a><!-- 
 						  <a href="/OrderRecords/create" class="btn btn-small btn-primary">
 						 <i class="icon-plus icon-white"></i>新增</a> 
-						  --><a href="/OrderRecords/edit?id=<%= inst['id']%>"
+						  --><a href="/OrderRecords/edit?id=<%= inst['id']%>&distart=<%= pageindex%>&where="
 class="btn btn-small btn-primary"> <i class="icon-edit icon-white"></i>修改</a>
 </div>
 <fieldset>

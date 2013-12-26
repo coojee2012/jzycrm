@@ -11,13 +11,13 @@ var OrderRecords = schema.define('OrderRecords', {
 	uphone:   {type:String,limit:100},
 	uaddr:   {type:String,limit:200},
 	//dactorName:    {type:String,limit:150},
-	orderContent:  {type:String,limit:255},
+	orderContent:  {type:String,limit:500, default: function () { return '';}},
 	OrderOptions:    {type: Number, default: function () { return 0 }},	
 	recordTime:   {type: Date, default: function () { return null; }},
 	paidanTime:   {type: Date, default: function () { return null;}},
 	orderTime:   {type: Date, default: function () { return moment().format("YYYY-MM-DD HH:mm:ss"); }},
-	orderReslut:	{type:String,limit:255},
-	memo:{type:String,limit:100}
+	orderReslut:	{type:String,limit:500, default: function () { return '';}},
+	memo:{type:String,limit:500, default: function () { return '';}}
 	//serMan:	{type:Number,default:function () { return 540 }},
 	//cID:	{type:Number,default:function () { return 0 }}
 }, {

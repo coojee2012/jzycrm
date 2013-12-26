@@ -604,13 +604,15 @@ exports.orderchart = function(req, res) {
 			} else {
 
 				var redata = [];
+				var basemonth=(tjvalue - 1) * 3;
+				console.log("basemonth:"+basemonth+",tjvalue:"+tjvalue);
 
-				for (var j = 0; j <= 12; j++) {
+				for (var j = 0; j <= 3; j++) {
 					var tmp = {};
-					if (j == 12)
+					if (j == 3)
 						tmp.tags = '总计';
 					else {
-						var month11 = j + 1;
+						var month11 = j + 1 + basemonth;
 						tmp.tags = month11 + '月';
 					}
 					tmp.wxjl = 0;
@@ -628,58 +630,58 @@ exports.orderchart = function(req, res) {
 					if (dbs[i].DepId == 1) {
 						redata[dbs[i].week - 1].wxjl = dbs[i].number;
 						redata[dbs[i].week - 1].zj += dbs[i].number;
-						redata[12].wxjl += dbs[i].number;
-						redata[12].zj += dbs[i].number;
+						redata[3].wxjl += dbs[i].number;
+						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 3) {
 						redata[dbs[i].week - 1].shbxjl = dbs[i].number;
 						redata[dbs[i].week - 1].zj += dbs[i].number;
-						redata[12].shbxjl += dbs[i].number;
-						redata[12].zj += dbs[i].number;
+						redata[3].shbxjl += dbs[i].number;
+						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 7) {
 						redata[dbs[i].week - 1].sjsjl = dbs[i].number;
 						redata[dbs[i].week - 1].zj += dbs[i].number;
-						redata[12].sjsjl += dbs[i].number;
-						redata[12].zj += dbs[i].number;
+						redata[3].sjsjl += dbs[i].number;
+						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 8) {
 						redata[dbs[i].week - 1].ecgsjl = dbs[i].number;
 						redata[dbs[i].week - 1].zj += dbs[i].number;
-						redata[12].ecgsjl += dbs[i].number;
-						redata[12].zj += dbs[i].number;
+						redata[3].ecgsjl += dbs[i].number;
+						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 6) {
 						redata[dbs[i].week - 1].jck = dbs[i].number;
 						redata[dbs[i].week - 1].zj += dbs[i].number;
-						redata[12].jck += dbs[i].number;
-						redata[12].zj += dbs[i].number;
+						redata[3].jck += dbs[i].number;
+						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 5) {
 						redata[dbs[i].week - 1].yys = dbs[i].number;
 						redata[dbs[i].week - 1].zj += dbs[i].number;
-						redata[12].yys += dbs[i].number;
-						redata[12].zj += dbs[i].number;
+						redata[3].yys += dbs[i].number;
+						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 11) {
 						redata[dbs[i].week - 1].szk = dbs[i].number;
 						redata[dbs[i].week - 1].zj += dbs[i].number;
-						redata[12].szk += dbs[i].number;
-						redata[12].zj += dbs[i].number;
+						redata[3].szk += dbs[i].number;
+						redata[3].zj += dbs[i].number;
 					}
 
 
 
 				}
-				output.iTotalRecords = 12;
+				output.iTotalRecords = 4;
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
-				output.iTotalDisplayRecords = 12;
+				output.iTotalDisplayRecords = 4;
 				output.aaData = redata;
 				res.send(output);
 			}
@@ -774,9 +776,9 @@ exports.orderchart = function(req, res) {
 
 
 				}
-				output.iTotalRecords = 12;
+				output.iTotalRecords = 13;
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
-				output.iTotalDisplayRecords = 12;
+				output.iTotalDisplayRecords = 13;
 				output.aaData = redata;
 				res.send(output);
 			}
@@ -1144,7 +1146,7 @@ exports.callreportchart = function(req, res) {
 					if (j == 3)
 						tmp.tags = '总计';
 					else {
-						var month11 = j + 1;
+						var month11 = j + 1+(tjvalue - 1) * 3;
 						tmp.tags = month11 + '月';
 					}
 					for (var kk = 0; kk < clomunsarray.length; kk++) {
