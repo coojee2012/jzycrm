@@ -212,167 +212,88 @@
             </div>
 <form class="form-horizontal" method="post" id="form1" name="form1">
     <div class="box-content span6">
-        <div class="control-group<%if(error!=null &&
-error.cname!=null){%>
-            error
-            <%}%>
-            ">
-            <label class="control-label"
-    for="cname">用户姓名</label>
+        <div class="control-group<%if(error!=null && error.cname!=null){%>error<%}%>">
+            <label class="control-label" for="cname">用户姓名</label>
             <div class="controls">
-                <input type="text" class="span12" id="cname" name="cname" value="<% if(inst!=null && inst.cname!=null){%>
-                <%=inst.cname %>
-                <% }else{%>
-                无
-                <%}%>
-                " />
+                <input type="text" class="span12" id="cname" name="cname" value="<% if(inst!=null && inst.cname!=null){%><%=inst.cname%><%}else{%>无<%}%>" />
                 <span class="help-inline">
-                    <%if(error!=null
-&& error.cname!=null){%>
-                    <%= error.cname%>
-                    <%}%></span>
+                    <%if(error!=null && error.cname!=null){%><%= error.cname%><%}%></span>
             </div>
         </div>
-        <div class="control-group<%if(error!=null &&
-error.idcard!=null){%>
-            error
-            <%}%>
-            ">
-            <label class="control-label"
-    for="idcard">用户号</label>
+        <div class="control-group<%if(error!=null && error.idcard!=null){%>error<%}%>">
+            <label class="control-label" for="idcard">用户号</label>
             <div class="controls">
                 <input type="text" class="span12"
-    id="idcard" name="idcard" value="<% if(inst!=null &&
-inst.idcard!=null){%>
-                <%= inst.idcard %>
-                <% }%>
-                " />
+    id="idcard" name="idcard" value="<% if(inst!=null && inst.idcard!=null){%><%= inst.idcard%><%}%>" />
                 <span
     class="help-inline">
-                    <%if(error!=null &&
-error.idcard!=null){%>
-                    <%= error.idcard%>
-                    <%}%></span>
+                    <%if(error!=null && error.idcard!=null){%><%= error.idcard%><%}%></span>
             </div>
         </div>
-        <div class="control-group<%if(error!=null &&
-error.workunit!=null){%>
-            error
-            <%}%>
-            ">
+        <div class="control-group<%if(error!=null && error.workunit!=null){%>error<%}%>">
             <label class="control-label"
     for="workunit">水表口径</label>
             <div class="controls">
                 <input type="text" class="span12"
-    id="workunit" name="workunit" value="<% if(inst!=null &&
-inst.workunit!=null){%>
-                <%= inst.workunit %>
-                <% }%>
-                " />
+    id="workunit" name="workunit" value="<% if(inst!=null && inst.workunit!=null){%><%= inst.workunit %><%}%>" />
                 <span
     class="help-inline">
-                    <%if(error!=null &&
-error.workunit!=null){%>
-                    <%= error.workunit%>
-                    <%}%></span>
+<%if(error!=null && error.workunit!=null){%><%= error.workunit%><%}%></span>
             </div>
         </div>
 
-        <div class="control-group<%if(error!=null &&
-error.lifeAddr!=null){%>
-            error
-            <%}%>
-            ">
+        <div class="control-group<%if(error!=null && error.lifeAddr!=null){%>error<%}%>">
             <label class="control-label"
     for="lifeAddr">用水地址</label>
             <div class="controls">
                 <textarea class="span12 autogrow"
     id="lifeAddr" name="lifeAddr">
-                    <% if(inst!=null && inst.lifeAddr!=null){%>
-                    <%= inst.lifeAddr %>
-                    <% }%></textarea>
+<% if(inst!=null && inst.lifeAddr!=null){%><%= inst.lifeAddr%><%}%></textarea>
 
                 <span class="help-inline">
-                    <%if(error!=null &&
-error.lifeAddr!=null){%>
-                    <%= error.lifeAddr%>
-                    <%}%></span>
+<%if(error!=null && error.lifeAddr!=null){%><%= error.lifeAddr%><%}%></span>
             </div>
         </div>
 
     </div>
     <div class="box-content span6">
-        <div class="control-group<%if(error!=null &&
-error.cage!=null){%>
-            error
-            <%}%>
-            ">
+        <div class="control-group<%if(error!=null && error.cage!=null){%>error<%}%>">
             <label class="control-label" for="cage">用水性质</label>
             <div class="controls">
                 <input type="text" class="span12" id="cage"
-    name="cage" value="<% if(inst!=null && inst.cage!=null){%>
-                <%=
-inst.cage %>
-                <% }%>
-                " />
+    name="cage" value="<% if(inst!=null && inst.cage!=null){%><%= inst.cage%><%}%>" />
                 <span class="help-inline">
-                    <%if(error!=null
-&& error.cage!=null){%>
-                    <%= error.cage%>
-                    <%}%></span>
+                    <%if(error!=null && error.cage!=null){%><%= error.cage%><%}%></span>
             </div>
         </div>
-        <div class="control-group<%if(error!=null &&
-error.csex!=null){%>
-            error
-            <%}%>
-            ">
+        <div class="control-group<%if(error!=null && error.csex!=null){%>error<%}%>">
             <label class="control-label" for="csex">用水情况</label>
             <div class="controls">
                 <label class="radio">
-                    <input
-    type="radio" id="csex_0" name="csex" value="1" <% if(inst!=null
-&& inst.csex=='1' ){%>
-                    checked='checked'
-                    <% } else if(inst==null){%>
-                    checked='checked'
-                    <% }else{ %>
-                    <% }%>/> 正常用水</label>
+                    <input type="radio" id="csex_0" name="csex" value="1" <%if(inst!=null && inst.csex=='1'){%>checked='checked'<%} else if(inst==null){%>checked='checked'<%}else{%><%}%>/> 正常用水</label>
                 <label
     class="radio">
-                    <input type="radio" id="csex_1" name="csex" value="0"<% if(inst!=null && inst.csex=='0' ){%>
-                    checked='checked'
-                    <% } else if(inst==null){%>
-                    <% }else{ %>
-                    <% }%>
+                    <input type="radio" id="csex_1" name="csex" 
+                    value="0"<% if(inst!=null && inst.csex=='0' ){%>checked='checked'<%} else if(inst==null){%><%}else{%><%}%>
                     />
 欠费停水
                 </label>
             </div>
         </div>
-        <div class="control-group<%if(error!=null &&
-error.work!=null){%>
-            error
-            <%}%>
-            ">
+        <div class="control-group<%if(error!=null && error.work!=null){%>error<%}%>">
             <label class="control-label" for="work">水表号</label>
             <div class="controls">
-                <input type="text" class="span12" id="work" name="work" value="<% if(inst!=null && inst.work!=null){%>                
-                <%= inst.work %>                
-                <% }%>                
-                " />
+                <input type="text" class="span12" id="work" name="work" 
+                value="<% if(inst!=null && inst.work!=null){%><%= inst.work%><%}%>" />
                 <span class="help-inline">
-                    <%if(error!=null
-&& error.work!=null){%>
-                    <%= error.work%>
-                    <%}%></span>
+                    <%if(error!=null && error.work!=null){%><%= error.work%><%}%></span>
             </div>
         </div>
 
         <div class="control-group<%if(error!=null && error.phone!=null){%>error<%}%>">
             <label class="control-label" for="phone">联系电话</label>
             <div class="controls">
-                <input type="text" class="span12" id="phone" name="phone" value="<% if(phone!=''){%><%= phone %><% }%>" />
+                <input type="text" class="span12" id="phone" name="phone" value="<% if(phone!=''){%><%= phone%><%}%>" />
                 <span class="help-inline">
                     <%if(error!=null && error.phone!=null){%><%= error.phone%><%}%>
                 </span>
@@ -383,10 +304,7 @@ error.work!=null){%>
         <button type="button" class="btn btn-primary" id="submit" name="submit">保存</button>
         <button type="reset" class="btn">取消</button>
     </div>
-    <input type="hidden" id="id" name="id" value="<% if(inst!=null
-&& inst.id!=null){%>
-    <%= inst.id %>
-    <% }%>" /></form>
+    <input type="hidden" id="id" name="id" value="<% if(inst!=null && inst.id!=null){%><%= inst.id%><%}%>" /></form>
 <div style="display: none">
     <button id="savesuccess" name="savesuccess" class="btn btn-primary noty"
     data-noty-options='{"text":"保存成功！","layout":"topCenter","type":"success","animateOpen": {"opacity": "show"}}'> <i class="icon-bell icon-white"></i>

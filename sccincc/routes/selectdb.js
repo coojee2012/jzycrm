@@ -396,7 +396,108 @@ exports.orderchart = function(req, res) {
 	var now = new Date(); //当前日期 
 	var nowYear = now.getFullYear(); //当前年 
 
-	if (tjtype == 1) {
+if (tjtype == 0) {
+		var dayfrom = req.query['dayform'] || req.body['dayform'] || nowYear + "-01" + "-01";
+	var dayto=req.query['dayto'] || req.body['dayto'] || nowYear+"-12"+"-31";
+	var sql = "SELECT count(*) as number,DepId, DATE_FORMAT(orderTime,'%Y-%m-%d') as week  FROM `OrderRecords` where 1=1 ";
+		sql += " and orderTime > '" + dayfrom + " 00:00:00' and orderTime < '" + dayto + " 23:59:59'  group by DepId,DATE_FORMAT(orderTime,'%Y-%m-%d') order by DATE_FORMAT(orderTime,'%Y-%m-%d') asc";
+        Orders.query(sql, function(err, dbs) {
+			if (err) {
+				res.send({
+					success: false,
+					msg: '数据库查询发生错误：！' + util.inspect(err, false, null)
+				});
+			} else {
+
+				var redata = [];
+
+				
+				redata[dbs.length]={};
+				redata[dbs.length].tags = '总计';
+				redata[dbs.length].wxjl = 0;
+					redata[dbs.length].shbxjl = 0;
+					redata[dbs.length].sjsjl = 0;
+					redata[dbs.length].ecgsjl = 0;
+					redata[dbs.length].jck = 0;
+					redata[dbs.length].yys = 0;
+					redata[dbs.length].szk = 0;
+					redata[dbs.length].zj = 0;
+
+				for (var i = 0; i < dbs.length; i++) {
+					redata[i]={};
+					redata[i].tags = dbs[i].week;
+				    redata[i].wxjl = 0;
+					redata[i].shbxjl = 0;
+					redata[i].sjsjl = 0;
+					redata[i].ecgsjl = 0;
+					redata[i].jck = 0;
+					redata[i].yys = 0;
+					redata[i].szk = 0;
+					redata[i].zj = 0;
+
+					if (dbs[i].DepId == 1) {
+						redata[i].wxjl = dbs[i].number;
+						redata[i].zj += dbs[i].number;
+						redata[dbs.length].wxjl += dbs[i].number;
+						redata[dbs.length].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 3) {
+						redata[i].shbxjl = dbs[i].number;
+						redata[i].zj += dbs[i].number;
+						redata[dbs.length].shbxjl += dbs[i].number;
+						redata[dbs.length].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 7) {
+						redata[i].sjsjl = dbs[i].number;
+						redata[i].zj += dbs[i].number;
+						redata[dbs.length].sjsjl += dbs[i].number;
+						redata[dbs.length].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 8) {
+						redata[i].ecgsjl = dbs[i].number;
+						redata[i].zj += dbs[i].number;
+						redata[dbs.length].ecgsjl += dbs[i].number;
+						redata[dbs.length].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 6) {
+						redata[i].jck = dbs[i].number;
+						redata[i].zj += dbs[i].number;
+						redata[dbs.length].jck += dbs[i].number;
+						redata[dbs.length].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 5) {
+						redata[i].yys = dbs[i].number;
+						redata[i].zj += dbs[i].number;
+						redata[dbs.length].yys += dbs[i].number;
+						redata[dbs.length].zj += dbs[i].number;
+					}
+
+					if (dbs[i].DepId == 11) {
+						redata[i].szk = dbs[i].number;
+						redata[i].zj += dbs[i].number;
+						redata[dbs.length].szk += dbs[i].number;
+						redata[dbs.length].zj += dbs[i].number;
+					}
+
+
+
+				}
+				output.iTotalRecords = dbs.length;
+				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
+				output.iTotalDisplayRecords = dbs.length;
+				output.aaData = redata;
+				res.send(output);
+			}
+
+		});
+}
+//end0
+	else if (tjtype == 1) {
 
 		var kaishijieshu = mm(nowYear, tjvalue);
 		var sql = "SELECT count(*) as number,DepId,WEEKDAY(date(orderTime)) as week  FROM `OrderRecords` where 1=1 ";
@@ -495,7 +596,7 @@ exports.orderchart = function(req, res) {
 		var endday = formatDate(new Date(nowYear, tjvalue - 1, days));
 
 		var sql = "SELECT count(*) as number,DepId,DAYOFMONTH(date(orderTime)) as week  FROM `OrderRecords` where 1=1 ";
-		sql += " and orderTime > '" + firstday + " 00:00:00' and orderTime < '" + endday + " 23:59:59'  group by DepId,DAYOFMONTH(orderTime) order by DAYOFMONTH(date(orderTime)) asc";
+		sql += " and orderTime > '" + firstday + " 00:00:00' and orderTime < '" + endday + " 23:59:59'  group by DepId,DAYOFMONTH(date(orderTime)) order by DAYOFMONTH(date(orderTime)) asc";
 
 		Orders.query(sql, function(err, dbs) {
 			if (err) {
@@ -591,8 +692,8 @@ exports.orderchart = function(req, res) {
 	}
 	//end 2
 	else if (tjtype == 3) {
-		var firstday = formatDate(new Date(nowYear, (tjvalue - 1) * 3, 0, 1));
-		var endday = formatDate(new Date(tjvalue, tjvalue * 3 - 1, 31));
+		var firstday = formatDate(new Date(nowYear, (tjvalue - 1) * 3, 1));
+		var endday = formatDate(new Date(nowYear, (tjvalue * 3) - 1,31));
 		var sql = "SELECT count(*) as number,DepId,MONTH(date(orderTime)) as week  FROM `OrderRecords` where 1=1 ";
 		sql += " and orderTime > '" + firstday + " 00:00:00' and orderTime < '" + endday + " 23:59:59'  group by DepId,MONTH(orderTime) order by MONTH(date(orderTime)) asc";
 		Orders.query(sql, function(err, dbs) {
@@ -628,50 +729,50 @@ exports.orderchart = function(req, res) {
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (dbs[i].DepId == 1) {
-						redata[dbs[i].week - 1].wxjl = dbs[i].number;
-						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[i].wxjl = dbs[i].number;
+						redata[i].zj += dbs[i].number;
 						redata[3].wxjl += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 3) {
-						redata[dbs[i].week - 1].shbxjl = dbs[i].number;
-						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[i].shbxjl = dbs[i].number;
+						redata[i].zj += dbs[i].number;
 						redata[3].shbxjl += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 7) {
-						redata[dbs[i].week - 1].sjsjl = dbs[i].number;
-						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[i].sjsjl = dbs[i].number;
+						redata[i].zj += dbs[i].number;
 						redata[3].sjsjl += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 8) {
-						redata[dbs[i].week - 1].ecgsjl = dbs[i].number;
-						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[i].ecgsjl = dbs[i].number;
+						redata[i].zj += dbs[i].number;
 						redata[3].ecgsjl += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 6) {
-						redata[dbs[i].week - 1].jck = dbs[i].number;
-						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[i].jck = dbs[i].number;
+						redata[i].zj += dbs[i].number;
 						redata[3].jck += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 5) {
-						redata[dbs[i].week - 1].yys = dbs[i].number;
-						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[i].yys = dbs[i].number;
+						redata[i].zj += dbs[i].number;
 						redata[3].yys += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 11) {
-						redata[dbs[i].week - 1].szk = dbs[i].number;
-						redata[dbs[i].week - 1].zj += dbs[i].number;
+						redata[i].szk = dbs[i].number;
+						redata[i].zj += dbs[i].number;
 						redata[3].szk += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
@@ -1127,8 +1228,8 @@ exports.callreportchart = function(req, res) {
 	}
 	//end 2
 	else if (tjtype == 3) {
-		var firstday = formatDate(new Date(nowYear, (tjvalue - 1) * 3, 0, 1));
-		var endday = formatDate(new Date(tjvalue, tjvalue * 3 - 1, 31));
+		var firstday = formatDate(new Date(nowYear, (tjvalue - 1) * 3, 1));
+		var endday = formatDate(new Date(nowYear, (tjvalue * 3) - 1,31));
 		var sql = "SELECT count(*) as number,accountcode,routerline,MONTH(date(cretime)) as week  FROM `callsession` where 1=1 ";
 		sql += " and cretime > '" + firstday + " 00:00:00' and cretime < '" + endday + " 23:59:59'  group by accountcode,MONTH(cretime) order by MONTH(date(cretime)) asc";
 		callsession.query(sql, function(err, dbs) {
@@ -1155,25 +1256,27 @@ exports.callreportchart = function(req, res) {
 					tmp.zj = [0, 0];
 					redata[j] = tmp;
 				}
+				console.log(redata);
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
 						if (dbs[i].routerline == 1) {
-							redata[dbs[i].week - 1][dbs[i].accountcode][0] = dbs[i].number;
-							redata[dbs[i].week - 1].zj[0] += dbs[i].number;
-							redata[4][dbs[i].accountcode][0] += dbs[i].number;
-							redata[4].zj[0] += dbs[i].number;
+							redata[dbs[i].week-(tjvalue - 1) * 3][dbs[i].accountcode][0] = dbs[i].number;
+							redata[dbs[i].week-(tjvalue - 1) * 3].zj[0] += dbs[i].number;
+							redata[3][dbs[i].accountcode][0] += dbs[i].number;
+							redata[3].zj[0] += dbs[i].number;
 						} else {
-							redata[dbs[i].week - 1][dbs[i].accountcode][1] = dbs[i].number;
-							redata[dbs[i].week - 1].zj[1] += dbs[i].number;
-							redata[4][dbs[i].accountcode][1] += dbs[i].number;
-							redata[4].zj[1] += dbs[i].number;
+							console.log(redata[i],"--"+i+"--",dbs[i].accountcode);
+							redata[dbs[i].week-(tjvalue - 1) * 3][dbs[i].accountcode][1] = dbs[i].number;
+							redata[dbs[i].week-(tjvalue - 1) * 3].zj[1] += dbs[i].number;
+							redata[3][dbs[i].accountcode][1] += dbs[i].number;
+							redata[3].zj[1] += dbs[i].number;
 						}
 					}
 				}
-				output.iTotalRecords = 5;
+				output.iTotalRecords = 4;
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
-				output.iTotalDisplayRecords = 5;
+				output.iTotalDisplayRecords = 4;
 				output.aaData = redata;
 				res.send(output);
 			}

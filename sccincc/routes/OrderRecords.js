@@ -17,7 +17,7 @@ for (var key in DbMode.relations) {
 
 exports.get = function(req, res) {
 	var where = {};
-	var pageindex=req.query['pageindex'] || 0;
+	var pageindex = req.query['pageindex'] || 0;
 	var cID = req.query['cID'] || req.body['cID'];
 	var serMan = req.query['serMan'] || req.body['serMan'];
 	//if(where!=null){}
@@ -28,7 +28,7 @@ exports.get = function(req, res) {
 	if (serMan !== '')
 		where.serMan = serMan;
 	else
-	where.serMan = -1;
+		where.serMan = -1;
 	where.dactorName = -1;
 	where.orderReslut = '';
 	where.uphone = '';
@@ -47,7 +47,7 @@ exports.get = function(req, res) {
 		title: '工单记录列表',
 		roleid: req.session.roleid,
 		items: dbs,
-		pageindex:pageindex,
+		pageindex: pageindex,
 		serverfn: serverfn,
 		where: where
 	});
@@ -55,7 +55,7 @@ exports.get = function(req, res) {
 
 exports.post = function(req, res) {
 	var where = {};
-	var pageindex=req.query['pageindex'] || 0;
+	var pageindex = req.query['pageindex'] || 0;
 	var query = req.body || req.query;
 	for (var key in query) {
 		where[key] = query[key] || '';
@@ -66,7 +66,7 @@ exports.post = function(req, res) {
 		title: '工单记录列表',
 		roleid: req.session.roleid,
 		items: null,
-		pageindex:pageindex,
+		pageindex: pageindex,
 		serverfn: serverfn,
 		where: where
 	});
@@ -194,7 +194,10 @@ exports.createpost = function(req, res) {
 														var Sms_mod = new sms2();
 														Sms_mod.mobile = users[i5].uPhone;
 														Sms_mod.content = smscontent;
-														Sms_mod.shuoming = "1111";
+														Sms_mod.shuoming = "发送给派单员";
+														Sms_mod.agentname = req.session.username || '--';
+														Sms_mod.pdyname =  '--';
+														Sms_mod.wxsname =  '--';
 														Sms_mod.save(function(err, instsms) {
 															if (err) {
 																syslog.add(req, res, 'sql', err);
@@ -222,7 +225,10 @@ exports.createpost = function(req, res) {
 											var Sms_mod = new sms2();
 											Sms_mod.mobile = user.uPhone;
 											Sms_mod.content = smscontent;
-											Sms_mod.shuoming = "1111";
+											Sms_mod.shuoming = "非工作时间段派单短信";
+											Sms_mod.agentname = req.session.username || '--';
+											Sms_mod.pdyname = req.session.username || '--';
+											Sms_mod.wxsname = user.uName || '--';
 											Sms_mod.save(function(err, instsms) {
 												if (err) {
 													syslog.add(req, res, 'sql', err);
@@ -276,8 +282,8 @@ exports.createpost = function(req, res) {
 exports.editget = function(req, res) {
 	console.log(req.query);
 	var id = req.query.id;
-	var where =req.query.where;
-	var pageindex=req.query.distart;
+	var where = req.query.where;
+	var pageindex = req.query.distart;
 	DbMode.findOne({
 		where: {
 			id: id
@@ -295,8 +301,8 @@ exports.editget = function(req, res) {
 			res.render('OrderRecords/edit.html', {
 				title: '编辑工单记录',
 				inst: inst,
-				where:where,
-				pageindex:pageindex,
+				where: where,
+				pageindex: pageindex,
 				msg: null,
 				util: util
 			});
@@ -307,8 +313,8 @@ exports.editget = function(req, res) {
 //编辑POST
 exports.editpost = function(req, res) {
 	var id = req.body["id"];
-	var pageindex=req.query["pageindex"];
-	var where={};
+	var pageindex = req.query["pageindex"] || req.body["pageindex"];
+	var where = {};
 	DbMode.findOne({
 		where: {
 			id: id
@@ -320,14 +326,14 @@ exports.editpost = function(req, res) {
 				title: '编辑工单记录',
 				inst: null,
 				msg: err,
-				where:where,
-				pageindex:pageindex,
+				where: where,
+				pageindex: pageindex,
 				util: util
 			});
 		} else {
 			for (var key in req.body) {
 				//console.log(key);
-				if (key == 'id')
+				if (key == 'id' || key == "pageindex")
 					continue;
 				if (DbMode['cloums'][key] != null && DbMode['cloums'][key]['input']['type'] === 'password') {
 					inst[key] = md5.update(req.body[key]).digest('hex').toUpperCase();
@@ -343,8 +349,8 @@ exports.editpost = function(req, res) {
 						title: '编辑工单记录',
 						inst: inst,
 						msg: err,
-						where:where,
-						pageindex:pageindex,
+						where: where,
+						pageindex: pageindex,
 						util: util
 					});
 				} else {
@@ -353,8 +359,8 @@ exports.editpost = function(req, res) {
 						title: '编辑工单记录',
 						inst: inst,
 						msg: null,
-						pageindex:pageindex,
-						where:where,
+						pageindex: pageindex,
+						where: where,
 						util: util
 					});
 				}
@@ -368,8 +374,8 @@ exports.editpost = function(req, res) {
 //详细GET
 exports.detail = function(req, res) {
 	var id = req.query.id;
-	var where =req.query.where;
-	var pageindex=req.query.distart;
+	var where = req.query.where;
+	var pageindex = req.query.distart;
 	DbMode.findOne({
 		where: {
 			id: id
@@ -388,8 +394,8 @@ exports.detail = function(req, res) {
 				title: '工单记录详细',
 				inst: inst,
 				msg: null,
-				where:where,
-				pageindex:pageindex,
+				where: where,
+				pageindex: pageindex,
 				util: util
 			});
 		}
@@ -492,10 +498,10 @@ exports.getOrder = function(req, res) {
 						success: false,
 						msg: "该工单已经处理了！"
 					});
-				} else if (huifang == 1) {
+				} else if (huifang == 1 && inst.OrderOptions == 0) {
 					res.send({
 						success: false,
-						msg: "工单已经回访了！"
+						msg: "请先派单！"
 					});
 				} else {
 					var data = {};
@@ -570,8 +576,8 @@ exports.paiDan = function(req, res) {
 							Sms_mod.mobile = inst12.__cachedRelations.UserInfo2.uPhone;
 							Sms_mod.content = sms;
 							Sms_mod.agentname = inst12.__cachedRelations.UserInfo3.uName || '--';
-							Sms_mod.pdyname = req.session.username  || '--';
-							Sms_mod.wxsname = inst12.__cachedRelations.UserInfo2.uName  || '--';
+							Sms_mod.pdyname = req.session.username || '--';
+							Sms_mod.wxsname = inst12.__cachedRelations.UserInfo2.uName || '--';
 							Sms_mod.shuoming = shuoming;
 							console.log(Sms_mod);
 							Sms_mod.save(function(err, instsms) {

@@ -60,7 +60,7 @@ exports.post = function(req, res){
 		    	req.session.roleid=db.uRolyId;
 		    	//console.log(req.session);
 		    	
-		    	extenold.doymicaccount=usexten;
+		    	extenold.doymicaccount=db.uExten;
 		    	Extension.updateOrCreate(extenold,function(err,exten){
 			    RoelMenmuRlations.all({where:{roleID:db.uRolyId}},function(e,dbs1){
 				  if(dbs1==null || dbs1.length<1){

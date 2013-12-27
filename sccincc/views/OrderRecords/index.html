@@ -6,8 +6,8 @@ var aoColumns=[
                { mData: "id", sClass: "center",bSearchable: false },
                { mData: "cID", sClass: "center" },
                { mData: "uaddr", sClass: "center" },
- //              { mData: "OrderTypeid", sClass: "center" },
- { mData: "orderContent", sClass: "center" },
+               { mData: "OrderTypeid", sClass: "center" },
+// { mData: "orderContent", sClass: "center" },
  { mData: "uphone", sClass: "center" },  
                
                
@@ -27,7 +27,7 @@ var aoColumns=[
                  { mData: "id", sClass: "center",bSearchable: false }
                  
              ];
-var vKeys=["id","cID.idcard","uaddr","orderContent","uphone","DepID.depName","dactorName.uName","orderReslut","serMan.uName","OrderOptions","orderTime","id"];
+var vKeys=["id","cID.idcard","uaddr","OrderTypeid.typeName","uphone","DepID.depName","dactorName.uName","orderReslut","serMan.uName","OrderOptions","orderTime","id"];
 var where='';
 where+=',,,,,'+'serMan:::::'+$('#serMan').val();
 where+=',,,,,'+'DepID:::::'+$('#DepID').val();
@@ -81,15 +81,15 @@ var MyDataTable=$('#datatable').dataTable( {
     sAjaxSource: geturl,
     aoColumns:aoColumns ,
     aoColumnDefs: [
-                  // {
-                	//   aTargets:[1],
-                	//   mRender: function (data, type,full) {
-                    //   var str='';
-                    //   str+=data.typeName||'';
+                  {
+                	  aTargets:[3],
+                	  mRender: function (data, type,full) {
+                      var str='';
+                      str+=data.typeName||'--';
                        
-                     //  return str;
-                	//   }
-                    //   },
+                      return str;
+                	  }
+                      },
                    {
                 	   aTargets:[5],
                 	   mRender: function (data, type,full) {
@@ -154,7 +154,7 @@ var MyDataTable=$('#datatable').dataTable( {
                                     str+='<li><a href="javascript:cdsms('+data+');" ><i class="icon-trash icon-white"></i> 短信催单</a></li>';
                                     str+='<li><a href="javascript:huifang('+data+');" ><i class="icon-trash icon-white"></i>回访 </a></li>';
                                     }
-                                   // str+='<li><a href="javascript:deleterow('+data+');" ><i class="icon-trash icon-white"></i> 删除</a></li>';
+                                    str+='<li><a href="javascript:deleterow('+data+');" ><i class="icon-trash icon-white"></i> 删除</a></li>';
                                     str+='</ul></div>';
                                       return str;
                                    }

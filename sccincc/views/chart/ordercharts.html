@@ -4,10 +4,11 @@
 <div class="box-content">
 <form class="form-horizontal" method="POST">
 <fieldset>
-<div class="span4">
+<div class="span12">
 <div class="control-group">
 <label class="control-label" for="id">范围类型 </label>
 <div class="controls">
+<label class="radio"> <input type="radio" id="day" name="iswork" value=0  />日</label>
 <label class="radio"> <input type="radio" id="weakly" name="iswork" value=1  />周</label>
 <label class="radio"> <input type="radio" id="month" name="iswork" value=2 />月</label>
 <label class="radio"> <input type="radio" id="jidu" name="iswork" value=3 />季度</label>
@@ -16,18 +17,30 @@
 </div>
 </div>
 
-<div class="span3">
+<div class="span12">
 <div class="control-group">
- <label class="control-label" for="dactorName">时间范围</label>
+ <label class="control-label" for="dactorName">周期范围</label>
 <div class="controls">
 <select id="dactorName" name="dactorName">
 	<option value=""></option>
 </select></div>
 </div>
 </div>
-<div class="span2">
+
+<div class="span12">
+<div class="control-group span6">
+ <label class="control-label" for="dactorName">日期范围 从</label>
+<div class="controls">
+    <input type="text" name="dayform" class="typeahead datepicker" id="dayfrom" value=""/>
 </div>
-<div class="span3">
+</div>
+<div class="control-group span6">
+ <label class="control-label" for="dactorName">到</label>
+<div class="controls">
+    <input type="text" class="typeahead datepicker" name="dayto" id="dayto" value="" />
+</div>
+</div>
+<div class="span12">
 <button type="button" class="btn btn-small btn-info" onclick="javascript:starttj();">开始统计</button>
 </div>
 </fieldset>
@@ -172,6 +185,10 @@ $("input[name='iswork']").bind("click",function(){
 var ckval=$('input[name="iswork"]:checked').val();
 $("#dactorName").empty();
 //alert(ckval);
+if(ckval==="0"){
+$('#thshow').html('日期\\部门');
+}
+
 if(ckval==="1"){
 	var now = new Date(); //当前日期 
 	var nowDayOfWeek = now.getDay(); //今天本周的第几天 
