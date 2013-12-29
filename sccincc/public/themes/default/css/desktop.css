@@ -56,6 +56,20 @@ a:active {
 	right:20px;
 	bottom:60px;
 }
+/*信息提示*/
+#infoBar{
+	width:350px;
+	height:60px;
+	line-height:32px;
+	position:absolute;
+	left:0px;
+	margin-left:0px;
+	top:0px;
+	/*background:url(../images/framebg.png) repeat left center;*/
+	text-align:left;
+	z-index:99;
+	}
+
 /*桌面导航按钮*/
 #navBar{
 	width:450px;
@@ -67,7 +81,7 @@ a:active {
 	top:10px;
 	background:url(../images/navBg0.png) no-repeat center center;
 	text-align:center;
-	z-index:99;
+	z-index:100;
 	}
 #navBar a{
 	display:inline-block;
@@ -101,6 +115,7 @@ a:active {
 #navBar a.currTab{
 	background-position: 0 -60px;
 	}
+/**
 #navBar a.m1{
 	background-image:url(../images/topmenua1.png)
 	}
@@ -112,7 +127,9 @@ a:active {
 	}
 #navBar a.m4{
 	background-image:url(../images/topmenua4.png)
-	}			
+	}	
+**/	
+
 /*任务栏样式*/
 #taskBarWrap{
 	width:100%;

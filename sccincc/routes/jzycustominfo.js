@@ -75,7 +75,7 @@
   exports.getCalls = function(req, res) {
     var card_id = req.body["Card_id"] || req.query["Card_id"];
     var keywords = req.body["KeyWords"] || req.query["KeyWords"];
-    var dostate = req.body["DoState"] || req.query["DoState"] ||"";
+    var dostate = req.body["DoState"] || req.query["DoState"] || "";
     var timefrom = req.body["TimeFrom"] || req.query["TimeFrom"];
     var timeto = req.body["TimeTo"] || req.query["TimeTo"];
     var jieguo = {};
@@ -361,7 +361,7 @@
     custom.Mobile = req.body['Mobile'] || req.query['Mobile'] || '';
     custom.Company = req.body['Company'] || req.query['Company'] || '';
     custom.Vip_add = req.body['Vip_add'] || req.query['Vip_add'] || '';
-
+    var thjlstatus = req.body['thjlstatus'] || req.query['thjlstatus'] || 0;
 
     // custom.Jbr = req.body['Jbr'] || req.query['Jbr']||'';
 
@@ -382,7 +382,13 @@
           res.send({});
         } else {
           console.log("insertCustom:", result['insertCustomResult']);
-          res.send(result['insertCustomResult']);
+          // res.send(result['insertCustomResult']);
+          if (thjlstatus == 0) {
+            createpostThjlInsert(req, res);
+          } else {
+            createpostThjlUpdate(req, res);
+          }
+
 
         }
 
@@ -405,7 +411,7 @@
     custom.Mobile = req.body['Mobile'] || req.query['Mobile'] || '';
     custom.Company = req.body['Company'] || req.query['Company'] || '';
     custom.Vip_add = req.body['Vip_add'] || req.query['Vip_add'] || '';
-
+    var thjlstatus = req.body['thjlstatus'] || req.query['thjlstatus'] || 0;
 
     // custom.Jbr = req.body['Jbr'] || req.query['Jbr']||'';
     soap.createClient(wcfurl, function(err, client) {
@@ -424,7 +430,13 @@
           res.send({});
         } else {
           console.log("updateCustom:", result['updateCustomResult']);
-          res.send(result['updateCustomResult']);
+          //res.send(result['updateCustomResult']);
+          if (thjlstatus == 0) {
+            createpostThjlInsert(req, res);
+          } else {
+            createpostThjlUpdate(req, res);
+          }
+
 
         }
 
@@ -455,6 +467,102 @@
       inst: inst
     });
   }
+
+  var createpostThjlInsert = function(req, res) {
+
+    var unitid = req.body["unid"] || req.query["unid"] || '';
+    var cid = req.body['Card_id'] || req.query['Card_id'] || '';
+    var content = req.body["content"] || req.query["content"] || '';
+    var dostate = req.body["dostate"] || req.query["dostate"] || '';
+    var donesth = req.body["donesth"] || req.query["donesth"] || '';
+
+    var exten = req.session.exten;
+    var agentname = req.session.username;
+    var inst = {};
+    inst.Unid = unitid;
+    inst.Cid = cid;
+    inst.Content = content;
+    inst.DoState = dostate;
+    inst.DoneSth = donesth;
+    inst.AgentName = agentname;
+    inst.Exten = exten;
+
+    soap.createClient(wcfurl, function(err, client) {
+      if (err) {
+        console.log("连接服务发生异常！", err);
+        res.send("连接服务发生异常！", util.inspect(err, null, null));
+      }
+
+      if (!client) {
+        console.log("无法正常连接服务！");
+        res.send("连接服务发生异常！");
+      }
+
+      client.insertCalls(inst, function(err, result, body) {
+        if (err) {
+          console.log("insertCalls err:", util.inspect(err, null, null));
+          res.send("连接服务发生异常！", util.inspect(err, null, null));
+        } else {
+          console.log("insertCalls:", result['insertCallsResult']);
+          res.send(result['insertCallsResult']);
+
+
+        }
+
+
+      });
+
+    });
+
+
+  }
+
+  var createpostThjlUpdate = function(req, res) {
+    var unitid = req.body["unid"] || req.query["unid"] || '';
+    var cid = req.body['Card_id'] || req.query['Card_id'] || '';
+    var content = req.body["content"] || req.query["content"] || '';
+    var dostate = req.body["dostate"] || req.query["dostate"] || '';
+    var donesth = req.body["donesth"] || req.query["donesth"] || '';
+
+   // var exten = req.session.exten;
+   // var agentname = req.session.username;
+    var inst = {};
+    inst.Unid = unitid;
+    inst.Cid = cid;
+    inst.Content = content;
+    inst.DoState = dostate;
+    inst.DoneSth = donesth;
+   // inst.AgentName = agentname;
+   // inst.Exten = exten;
+
+    soap.createClient(wcfurl, function(err, client) {
+      if (err) {
+        console.log("连接服务发生异常！", err);
+        res.send("连接服务发生异常！", util.inspect(err, null, null));
+      }
+
+      if (!client) {
+        console.log("无法正常连接服务！");
+        res.send("连接服务发生异常！");
+      }
+
+      client.updateCalls(inst, function(err, result, body) {
+        if (err) {
+          console.log("updateCalls err:", util.inspect(err, null, null));
+          res.send("连接服务发生异常！", util.inspect(err, null, null));
+        } else {
+          console.log("updateCalls:", result['updateCallsResult']);
+          res.send(result['updateCallsResult']);
+
+
+        }
+
+
+      });
+
+    });
+  }
+
 
   exports.createThjlPost = function(req, res) {
     var unitid = req.body["unid"] || req.query["unid"] || '';
@@ -564,14 +672,14 @@
           inst.id = result['findCallsResult'].Id;
           inst.unid = result['findCallsResult'].Unid;
           inst.card_id = result['findCallsResult'].Cid
-          inst.vipname = result['findCallsResult'].Vip_name;
-          inst.content = result['findCallsResult'].Content;
+          inst.vipname = result['findCallsResult'].Vip_name || '';
+          inst.content = result['findCallsResult'].Content || '';
           inst.dostate = result['findCallsResult'].DoState;
           inst.donesth = result['findCallsResult'].DoneSth || '';
-          inst.exten = result['findCallsResult'].Exten;
-          inst.agentname = result['findCallsResult'].AgentName;
+          inst.exten = result['findCallsResult'].Exten || '';
+          inst.agentname = result['findCallsResult'].AgentName || '';
 
-          console.log("INST:",inst);
+          console.log("INST:", inst);
 
           res.render('jzycustominfo/editThjl.html', {
             title: '通话记录',
@@ -611,7 +719,7 @@
     inst.AgentName = agentname;
     inst.Exten = exten;
 
-    //console.log(inst);
+    console.log("UPDATE CALLS：",inst);
     soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);
@@ -631,7 +739,13 @@
           inst: inst
         });
       }
-      client.updateCalls({Id:id,Content:content,DoState:dostate,DoneSth:donesth}, function(err, result, body) {
+      client.updateCalls({
+        Unid: unitid,
+        Cid:cid,
+        Content: content,
+        DoState: dostate,
+        DoneSth: donesth
+      }, function(err, result, body) {
         if (err) {
           console.log("updateCalls err:", util.inspect(err, null, null));
           res.render('jzycustominfo/editThjl.html', {

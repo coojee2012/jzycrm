@@ -82,7 +82,7 @@ namespace SMSWcfService
 
          [OperationContract]
          [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
-         boolReturn updateCalls(int Id, string Content, int DoState, string DoneSth);
+         boolReturn updateCalls(string Unid, string Cid, string Content, int DoState, string DoneSth);
 
          [OperationContract]
          [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]

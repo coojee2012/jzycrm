@@ -233,8 +233,8 @@
                                 iframSrc: '/jzy/screenpop?callid=' + data.callid + "&unid=" + data.unid + "&caller=" + data.caller + "&called=" + data.called + "&poptype=" + data.poptype,
                                 WindowsId: data.unid,
                                 WindowAnimation: 'none',
-                                WindowWidth: 960,
-                                WindowHeight: 660
+                                WindowWidth: 1024,
+                                WindowHeight: 800
                             });
                         }
                         //  startRequest();
@@ -280,13 +280,21 @@
 <div><a href="#" class="powered_by">版权所有©SCCIN，2008-2013</a>
 
 <div id="wallpapers"></div>
-
+<div id="infoBar">
+<marquee style="WIDTH:100%; HEIGHT:40px" scrollamount="4" direction="left" ><a href="#">1、您有N条信息未处理，请及时处理！</a></marquee>
+</div>
 <!-- 导航菜单开始 -->
-<div id="navBar"><a href="#" class="m1 currTab" title="客服平台">
-</a><a href="#" class="m2" title="短信平台"> </a><a href="#" class="m3"
-	title="知识库"> </a><a href="#" class="m4" title="统计分析"> </a><a href="#"
-	class="m5" title="综合设置"> </a><a href="#" class="m6" title="系统管理"></a></div>
-<!-- 导航菜单结束 --> <!-- 桌面开始 -->
+<div id="navBar">
+<a href="#" class="m1 currTab" title="客户服务"></a>
+<a href="#" class="m2" title="客户管理"></a>
+<a href="#" class="m3" title="协作办公"></a>
+<a href="#" class="m4" title="市场活动"></a>
+<a href="#" class="m5" title="文档中心"></a>
+<a href="#" class="m6" title="个人管理"></a>
+</div>
+<!-- 导航菜单结束 -->
+
+<!-- 桌面开始 -->
 
 <div id="desktopPanel">
 
@@ -295,12 +303,12 @@
 <ul class="deskIcon currDesktop">
 	<% umenmus.forEach(function(item){%> <% if(item.mgID==1){%>
 
-	<li class="desktop_icon" id="menmu_<%= item.id%>"> <span
-		class="icon"> <img src="/themes/default/icon/<%=
+	<li class="desktop_icon" id="menmu_<%= item.id%>"> 
+        <span class="icon"> <img src="/themes/default/icon/<%=
 	item.iconName%>" alt="无图片"/></span>
 	<div class="text"><%= item.menName%><s></s></div>
 	</li>
-	<% }%> <%})%>
+	<% }%><%})%>
 
 
 
@@ -383,7 +391,8 @@
 </div>
 
 </div>
-<!-- 桌面结束  --> <!-- 任务栏 开始-->
+<!-- 桌面结束  --> 
+<!-- 任务栏 开始-->
 
 <div id="taskBarWrap">
 

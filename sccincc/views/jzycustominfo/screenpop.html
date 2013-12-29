@@ -10,6 +10,7 @@
               {
                   //alert("ddd");
                   var cdid=$("#cdid").val();
+
                   var url="/jzy/screenPopInsert";
                   if(cdid!="")
                     url="/jzy/screenPopUpdate";
@@ -24,6 +25,7 @@
                       var Card_id=$("#Card_id").val();
                       $("#Card_id").attr("readonly","readonly");
                       $("#cdid").val(Card_id);
+                      $("#thjlstatus").val(1);
                       alert(result.Message);
                       //$("#id").val(result.id);
                       }
@@ -57,7 +59,7 @@
     }
     
     function historyzx() {
-        var customid = $("#cdid").val();
+        /*var customid = $("#cdid").val();
         if (customid == "") {
             alert("请先保存来电者信息！");
             return false;
@@ -69,12 +71,14 @@
             WindowAnimation: 'none',
             WindowWidth: 960,
             WindowHeight: 540
-        });
+        });*/
+
+   alert("功能尚未开发，感谢期待...正在努力！");
 
     }
 
     function historyyy() {
-        var customid = $("#cdid").val();
+       /* var customid = $("#cdid").val();
         if (customid == "") {
            // alert("请先保存来电者信息！");
             //return false;
@@ -86,7 +90,8 @@
             WindowAnimation: 'none',
             WindowWidth: 960,
             WindowHeight: 540
-        });
+        });*/
+ alert("功能尚未开发，感谢期待...正在努力！");
     }
 
 
@@ -188,15 +193,15 @@
 </label>
 <div class="controls">
 <select id="Card_type" name="Card_type">
-  <option value=0  <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 4){%>
+  <option value=4  <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 4){%>
         selected="selected"<%}%>>普通卡</option> 
-    <option value=0  <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 0){%>
+  <option value=0  <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 0){%>
         selected="selected"<%}%>>会员卡</option>  
-     <option value=1  <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 1){%>
+  <option value=1  <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 1){%>
         selected="selected"<%}%>>单位88</option>
-     <option value=2  <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 2){%>
+  <option value=2  <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 2){%>
         selected="selected"<%}%>>单位85</option>
-        <option value=3 <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 3){%>
+  <option value=3 <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 3){%>
         selected="selected"<%}%>>单位82</option>
 </select>
 </div>
@@ -205,8 +210,7 @@
 <div class="control-group"> <label class="control-label" for="Discount">折扣
 </label>
 <div class="controls"><input type="text" class="span12" readonly="readonly" id="Discount"
-    name="Discount" value="<% if(inst!=null && typeof(inst.Discount)!=='object'){%><%=
-inst.Discount %><% }%>" /> </div>
+    name="Discount" value="<% if(inst!=null && typeof(inst.Discount)!=='object'){%><%= inst.Discount%><%}%>" /> </div>
 </div>
 
 <div class="control-group"> <label class="control-label"
@@ -218,8 +222,8 @@ inst.Discount %><% }%>" /> </div>
 
 <div class="control-group"> <label class="control-label"
     for="Jbr">经办人 </label>
-<div class="controls"><textarea class="span12 autogrow"
-    id="Jbr" name="Jbr"><% if(inst!=null && typeof(inst.Jbr)!=='object'){%><%= inst.Jbr %>   <% }%></textarea>
+<div class="controls"><textarea class="span12 autogrow" id="Jbr"
+ name="Jbr"><% if(inst!=null && typeof(inst.Jbr)!=='object'){%><%= inst.Jbr%><%}%></textarea>
 </div>
 </div>
 
@@ -236,7 +240,7 @@ inst.Discount %><% }%>" /> </div>
 <div class="box-content span12">
 <div class="box-content span5">
               <div class="control-group"> 
-              <label class="control-label" for="content">通话内容 </label> 
+              <label class="control-label" for="content">通话内容</label> 
               <div class="controls"> 
               <textarea  id="content" name="content"></textarea>
               
@@ -260,7 +264,8 @@ inst.Discount %><% }%>" /> </div>
               <option value='0'>未处理</option>
               <option value='1'>处理中</option>
               <option value='2'>已处理</option>
-                 </select> 
+              </select> 
+              <input type="hidden" name="thjlstatus" id="thjlstatus" value="0" />
                </div> 
               </div> 
 

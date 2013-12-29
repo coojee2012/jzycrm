@@ -342,14 +342,14 @@ namespace SMSWcfService
             }
             else
             {
-                string str = "insert into t_rm_vip_info (vip_name,card_id,vip_sex,card_type,oper_id,oper_date,vip_tel,mobile,company,vip_add) values('" + SafePramas(Vip_name);
+                string str = "insert into t_rm_vip_info (vip_name,card_id,vip_sex,card_type,card_status,oper_id,oper_date,vip_tel,mobile,company,vip_add) values('" + SafePramas(Vip_name);
 
                 str += "','" + SafePramas(Card_id);
 
                 str += "','" + SafePramas(Vip_sex);
                 str += "'," + SafePramas(Card_type);
 
-                str += ",'2001',GETDATE(),'" + SafePramas(Vip_tel);
+                str += ",0,'2001',GETDATE(),'" + SafePramas(Vip_tel);
 
                 str += "','" + SafePramas(Mobile);
 
@@ -387,22 +387,22 @@ namespace SMSWcfService
             }
         }
         //更新通话记录
-        public boolReturn updateCalls(int Id,string Content, int DoState, string DoneSth) {
+        public boolReturn updateCalls(string Unid,string Cid,string Content, int DoState, string DoneSth) {
 
 
             string str = "update callrecords set updatetime=GETDATE() " ;
 
 
             if (!string.IsNullOrEmpty(Content))
-                str += ",content='" + SafePramas(Content);
+                str += ",content='" + SafePramas(Content)+"'";
 
-            str += "',dostate=" + DoState;
+            str += ",dostate=" + DoState;
 
             if (!string.IsNullOrEmpty(DoneSth))
-                str += ",donesth='" + SafePramas(DoneSth);
+                str += ",donesth='" + SafePramas(DoneSth)+"'";
 
 
-            str += "' where id=" + Id ;
+            str += " where unid='" + Unid + "' and cid='" + Cid + "'";
                 return NoneQuery(str);
             
         }
@@ -529,7 +529,7 @@ namespace SMSWcfService
                 sqlCommand.CommandType = CommandType.Text;
                 sqlCommand.CommandText = str;
                 br.Code = sqlCommand.ExecuteNonQuery();
-                br.Message = "执行成功";
+                br.Message = "执行成功!" + str;
                 return br;
                 
             }

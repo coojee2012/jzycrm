@@ -32,8 +32,8 @@ function  play() {
 							<div class="control-group"> 
 							<label class="control-label" for="unid">通话编号 </label> 
 							<div class="controls"> 
-							<input type="text" class="span6" readonly="readonly" id="unid" name="unid" value="<%if(inst!=null){%><%= inst.unid %><%}%>" />
-							<input type="hidden" id="agentname" name="agentname" value="<% if(inst!=null){%><%= inst.agentname%><%}%>" />
+							<input type="text" class="span6" readonly="readonly" id="unid" name="unid" value="<%if(inst!=null && typeof(inst.unid)!=='object'){%><%= inst.unid %><%}%>" />
+							<input type="hidden" id="agentname" name="agentname" value="<% if(inst!=null && typeof(inst.content)!=='agentname'){%><%= inst.agentname%><%}%>" />
 							<input type="hidden" id="id" name="id" value="<% if(inst!=null){%><%= inst.id %><%}%>" />
 							</div> 
 							</div> 
@@ -41,7 +41,7 @@ function  play() {
 							<div class="control-group"> 
 							<label class="control-label" for="vipname">客户姓名 </label> 
 							<div class="controls"> 
-							<input type="text" class="span6" readonly="readonly" id="vipname" name="vipname" value="<% if(inst!=null){%><%= inst.vipname %><% }%>" />
+							<input type="text" class="span6" readonly="readonly" id="vipname" name="vipname" value="<% if(inst!=null && typeof(inst.vipname)!=='object'){%><%= inst.vipname %><% }%>" />
 							</div> 
 							</div> 
 
@@ -57,7 +57,7 @@ function  play() {
 							<div class="control-group"> 
 							<label class="control-label" for="content">通话内容 </label> 
 							<div class="controls"> 
-							<textarea class="span6" id="content" name="content"><%if(inst!=null){%><%= inst.content%><%}%></textarea>
+							<textarea class="span6" id="content" name="content"><%if(inst!=null  && typeof(inst.content)!=='object'){%><%= inst.content%><%}%></textarea>
 							
 																					 </div> 
 							</div> 
@@ -76,7 +76,7 @@ function  play() {
 							<div class="control-group"> 
 							<label class="control-label" for="donesth">处理内容</label> 
 							<div class="controls"> 
-							<textarea class="span6" id="donesth" name="donesth"><%if(inst!=null){%><%= inst.donesth%><%}%></textarea>
+							<textarea class="span6" id="donesth" name="donesth"><%if(inst!=null && typeof(inst.donesth)!=='object'){%><%= inst.donesth%><%}%></textarea>
 							
 																					 </div> 
 							</div> 
