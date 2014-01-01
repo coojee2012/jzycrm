@@ -326,6 +326,14 @@ namespace SMSWcfService
             set { _vipname = value; }
 
         }
+        private string _phone;//当次来电
+        [DataMember]
+        public string Phone
+        {
+            get { return _phone; }
+            set { _phone = value; }
+
+        }
 
         private string _content;//通话内容
         [DataMember]

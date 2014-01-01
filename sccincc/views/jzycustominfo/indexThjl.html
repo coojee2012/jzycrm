@@ -6,6 +6,7 @@ var aoColumns=[
                { mData: "Vip_name", sClass: "center" },
              //  { mData: "AgentName", sClass: "center",bSearchable: false},
                {mData:'Cid', sClass: "center",bSearchable: false},
+               {mData:'Phone', sClass: "center",bSearchable: false},
                	{ mData: "Content", sClass: "center",bSearchable: false},              	
                { mData: "DoState", sClass: "center" },
                { mData: "DoneSth", sClass: "center",bSearchable: false},                                 
@@ -84,9 +85,20 @@ $('#datatable').dataTable( {
                                	return data;
                                    }
                                },
+                               {
+                                 aTargets: [4],
+                            
+                                   mRender: function (data, type,full) {
+                               if(typeof(data)==='object' || !data)
+                                return '--';
+                               else
+                                return data;
+                                   }
+                               },
+
 
                                {
-                               	aTargets: [4],
+                               	aTargets: [5],
                                	  mRender: function (data, type,full) {
                                if(data==0)
                                	return '未处理';
@@ -97,7 +109,7 @@ $('#datatable').dataTable( {
                                    }
                                },
                               {
-                            	   aTargets: [5],
+                            	   aTargets: [6],
                             
                                    mRender: function (data, type,full) {
                                if(typeof(data)==='object' || data==='undefined')
@@ -107,7 +119,7 @@ $('#datatable').dataTable( {
                                    }
                                },
                               {
-                            	   aTargets: [6],
+                            	   aTargets: [7],
                             
                                    mRender: function (data, type,full) {
                                if(typeof(data)==='object' || !data)
@@ -117,7 +129,7 @@ $('#datatable').dataTable( {
                                    }
                                },
                                {
-                               	aTargets: [7],
+                               	aTargets: [8],
                                	  mRender: function (data, type,full) {
                                	  	var filename="我";
                                	  	if(data!="-1")
@@ -279,9 +291,9 @@ name="TimeTo" value="<%= where.TimeTo %>">
 			<th width="6%">编号</th>
 			  
 			<th width="8%">客户姓名</th>
-			<th width="8%">会员卡号</th>
-			  
-			<th width="20%">通话内容</th>
+			<th width="7%">会员卡号</th>
+			<th width="7%">来电号码</th>  
+			<th width="14%">通话内容</th>
 			  
 			<th width="8%">处理状态</th>
 			      

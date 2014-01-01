@@ -248,6 +248,7 @@ namespace SMSWcfService
                     callinfo.Id = int.Parse(row["id"].ToString());
                     callinfo.Unid = row["unid"].ToString();
                     callinfo.Cid = row["cid"].ToString();
+                    callinfo.Phone = row["phone"].ToString();
                     callinfo.Vip_name = row["vip_name"].ToString();
                     callinfo.Content = row["content"].ToString();
                     callinfo.DoState = int.Parse(row["dostate"].ToString());
@@ -283,6 +284,7 @@ namespace SMSWcfService
                     callinfo.Id = int.Parse(row["id"].ToString());
                     callinfo.Unid = row["unid"].ToString();
                     callinfo.Cid = row["cid"].ToString();
+                    callinfo.Phone = row["phone"].ToString();
                     callinfo.Vip_name = row["vip_name"].ToString();
                     callinfo.Content = row["content"].ToString();
                     callinfo.DoState = int.Parse(row["dostate"].ToString());
@@ -362,7 +364,7 @@ namespace SMSWcfService
             }
         }
         //插入通话记录
-        public boolReturn insertCalls(string Unid, string Cid, string Content, int DoState, string DoneSth,string AgentName,string Exten) {
+        public boolReturn insertCalls(string Unid, string Cid,string Phone, string Content, int DoState, string DoneSth,string AgentName,string Exten) {
             if (string.IsNullOrEmpty(Unid) || string.IsNullOrEmpty(Cid))
             {
                 boolReturn br = new boolReturn();
@@ -372,10 +374,10 @@ namespace SMSWcfService
             }
             else
             {
-                string str = "insert into callrecords (unid,cid,content,dostate,donesth,agentname,exten,recordtime,updatetime) values('" + SafePramas(Unid);
+                string str = "insert into callrecords (unid,cid,phone,content,dostate,donesth,agentname,exten,recordtime,updatetime) values('" + SafePramas(Unid);
 
                 str += "','" + SafePramas(Cid);
-
+str += "','" + SafePramas(Phone);
                 str += "','" + SafePramas(Content);
                 str += "'," + DoState;
                 str += ",'" + SafePramas(DoneSth);

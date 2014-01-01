@@ -170,7 +170,9 @@
 <div class="control-group"> <label class="control-label"
     for="Vip_tel">联系电话一</label>
 <div class="controls"><input type="text" class="span12" id="Vip_tel"
-    name="Vip_tel" value="<% if(inst!=null && typeof(inst.Vip_tel)!=='object'){%><%= inst.Vip_tel%><%}else{%><%= phone%><%}%>" /> </div>
+    name="Vip_tel" value="<% if(inst!=null && typeof(inst.Vip_tel)!=='object'){%><%= inst.Vip_tel%><%}else{%><%= phone%><%}%>" /> 
+<input type="hidden" name="phone" id="phone" value="<%= phone%>" />
+  </div>
 </div>
 
 <div class="control-group"> <label class="control-label"

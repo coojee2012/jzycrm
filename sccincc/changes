@@ -1,0 +1,3 @@
+2014-01-01
+修改表
+alter table callrecords ADD phone  nvarchar(50) NULL; 

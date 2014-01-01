@@ -78,7 +78,7 @@ namespace SMSWcfService
          
          [OperationContract]
          [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
-         boolReturn insertCalls(string Unid, string Cid, string Content, int DoState, string DoneSth,string AgentName,string Exten);
+         boolReturn insertCalls(string Unid, string Cid, string Phone, string Content, int DoState, string DoneSth, string AgentName, string Exten);
 
          [OperationContract]
          [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]

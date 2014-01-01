@@ -472,6 +472,7 @@
 
     var unitid = req.body["unid"] || req.query["unid"] || '';
     var cid = req.body['Card_id'] || req.query['Card_id'] || '';
+    var phone=req.body["phone"] || req.query["phone"] || '';
     var content = req.body["content"] || req.query["content"] || '';
     var dostate = req.body["dostate"] || req.query["dostate"] || '';
     var donesth = req.body["donesth"] || req.query["donesth"] || '';
@@ -481,6 +482,7 @@
     var inst = {};
     inst.Unid = unitid;
     inst.Cid = cid;
+    inst.Phone=phone;
     inst.Content = content;
     inst.DoState = dostate;
     inst.DoneSth = donesth;
@@ -519,6 +521,7 @@
 
   var createpostThjlUpdate = function(req, res) {
     var unitid = req.body["unid"] || req.query["unid"] || '';
+    var phone=req.body["phone"] || req.query["phone"] || '';
     var cid = req.body['Card_id'] || req.query['Card_id'] || '';
     var content = req.body["content"] || req.query["content"] || '';
     var dostate = req.body["dostate"] || req.query["dostate"] || '';
