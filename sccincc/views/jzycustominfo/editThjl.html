@@ -21,7 +21,7 @@ function  play() {
 					<div class="box-content"> 
 						<form class="form-horizontal" method="POST"> 
 						<div>
-					    <a href="/jzy/listThjl?cid=<%if(inst!=null){%><%= inst.card_id%><%}else{%>-1<%}%>" class="btn btn-small btn-primary">
+					    <a href="/jzy/listThjl?cid=<%if(inst!=null){%><%= inst.card_id%><%}else{%>-1<%}%>&DoState=<%= DoState%>" class="btn btn-small btn-primary">
 						<i class="icon-chevron-left icon-white"></i>列表</a>  
 
 						<a href="javascript:play();" class="btn btn-small btn-warning">

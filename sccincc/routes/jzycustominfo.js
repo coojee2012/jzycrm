@@ -36,6 +36,7 @@
   exports.indexThjl = function(req, res) {
     var cid = req.body["Card_id"] || req.query["Card_id"] || "";
     var dostate = req.body["DoState"] || req.query["DoState"] || -1;
+    console.log(dostate);
     var where = {};
     where.KeyWords = '';
     where.Card_id = cid;
@@ -633,6 +634,7 @@
   exports.editThjlGet = function(req, res) {
     var id = req.body["id"] || req.query["id"] || '';
     var cid = req.body["cid"] || req.query["cid"] || '-1';
+    var dostate = req.body["DoState"] || req.query["DoState"] || -1;
     var where = {};
     where.KeyWords = '';
     where.Card_id = cid;
@@ -687,6 +689,7 @@
           res.render('jzycustominfo/editThjl.html', {
             title: '通话记录',
             msg: null,
+            DoState:dostate,
             inst: inst
           });
 
@@ -759,7 +762,7 @@
         } else {
           console.log("updateCalls:", result['updateCallsResult']);
           //res.send(result['updateCustomResult']);
-          res.redirect('/jzy/listThjl?cid=' + cid);
+          res.redirect('/jzy/listThjl?cid=' + cid+'&DoState='+dostate);
 
         }
 

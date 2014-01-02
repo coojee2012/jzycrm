@@ -4,8 +4,8 @@ var aoColumns=[
                
                { mData: "Id", sClass: "center" },
                { mData: "Vip_name", sClass: "center" },
-               { mData: "Jbr", sClass: "center" },
-             //  { mData: "AgentName", sClass: "center",bSearchable: false},
+             //  { mData: "Jbr", sClass: "center" },
+               { mData: "AgentName", sClass: "center",bSearchable: false},
                {mData:'Cid', sClass: "center",bSearchable: false},
                {mData:'Phone', sClass: "center",bSearchable: false},
                	{ mData: "Content", sClass: "center",bSearchable: false},              	
@@ -63,7 +63,7 @@ $('#datatable').dataTable( {
                                	var str="--";
                                	if(typeof(data)!=='object')
                                		str=data;
-                               return '<a href="/jzy/editThjl?id='+full.Id+'&cid='+cid+'">'+str+'</a>';
+                               return '<a href="/jzy/editThjl?id='+full.Id+'&cid='+cid+'&DoState=<%= where.DoState%>">'+str+'</a>';
                                }
                            },
                               {

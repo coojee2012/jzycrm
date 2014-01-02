@@ -25,7 +25,7 @@
         _HOSTURL = "";
         _OUTPREX = "";
     </script>
-<script type="text/javascript"><!--
+<script type="text/javascript">
         $(function () {
             if(_USERID=='')
                 location.href='/';
@@ -126,14 +126,14 @@
             iframSrc: '/RemindReacords/index?uid='+_USERID,
             WindowsId: "welcome_RemindReacords",
             WindowAnimation: 'none',
-            WindowWidth: 800,
-            WindowHeight: 600
+            WindowWidth: 400,
+            WindowHeight: 300
         });
 
 
     });
         //自定义对话框
-        $(function () {
+$(function () {
             $("#transfer-confirm").dialog({
                 autoOpen: false,
                 modal: true,
@@ -182,7 +182,9 @@
             });
 
             //
+            getremined();
             setInterval("startRequest()", 3000);
+            setInterval("getremined()", 60000);
             // startRequest();
             //setInterval这个函数会根据后面定义的1000既每隔1秒执行一次前面那个函数
 
@@ -209,7 +211,7 @@
             }
         
         }
-        function startRequest() {
+  function startRequest() {
             $.ajax({
                 type: "POST",
                 url: '/asami/GetCallInfo',
@@ -233,7 +235,7 @@
                                 iframSrc: '/jzy/screenpop?callid=' + data.callid + "&unid=" + data.unid + "&caller=" + data.caller + "&called=" + data.called + "&poptype=" + data.poptype,
                                 WindowsId: data.unid,
                                 WindowAnimation: 'none',
-                                WindowWidth: 1024,
+                                WindowWidth: 1200,
                                 WindowHeight: 800
                             });
                         }
@@ -266,14 +268,61 @@
                 }
             });
         }
---></script>
+  function getremined(){
+         $.ajax({
+                type: "POST",
+                url: 'RemindReacords/jsonget',
+                dataType: "json",
+                data: { ajax: "1", time: "180000", 'fromexten': _USEREXTEN },
+                success: function (data, textStatus) {
+                    if (data.success == true) {
+
+$("#thjlwcl").html("1、您有<span style='color:red;'>"+data.inst.gd.notdo+"</span>条信息未处理，请及时处理！");
+$("#thjlclz").html("2、您有<span style='color:blue;'>"+data.inst.gd.waitdo+"</span>条信息正在处理，请及时处理！");
+                       
+                    }
+                    //超时  
+                    else if (data.success == "0") {
+
+                    }
+                    else {
+                        alert("与服务器数据交互出现异常，请联系管理员！");
+                    }
+
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    if (XMLHttpRequest.readyState == "4") {
+                        //alert(XMLHttpRequest.responseText);
+                    }
+                    XMLHttpRequest = null;
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    
+                }
+            });
+  }
+</script>
 <script type="text/javascript">
     $(function () { 
     if(_DIDSTATUS==="on")
     $("#app0img").attr("src", "/themes/default/icon/leftmenubtn1-1.png");
     
     });
+
+function openthjl(sta){
+      myLib.desktop.win.newWin({
+                    WindowTitle: '通话记录',
+                    iframSrc: '/jzy/listThjl?DoState=' + sta,
+                    WindowsId: "listthjl_"+sta,
+                    WindowAnimation: 'none',
+                    WindowWidth: 1200,
+                    WindowHeight: 800
+                });
+}
+
 </script>
+
+
 </head>
 
 <body>
@@ -281,7 +330,11 @@
 
 <div id="wallpapers"></div>
 <div id="infoBar">
-<marquee style="WIDTH:100%; HEIGHT:40px" scrollamount="4" direction="left" ><a href="#">1、您有N条信息未处理，请及时处理！</a></marquee>
+    
+<marquee style="WIDTH:100%; HEIGHT:40px" scrollamount="4" direction="left" >
+    <a href="javascript:;" onclick="openthjl(0)" name="thjlwcl" id="thjlwcl"></a>
+    <a href="#javascript:;" onclick="openthjl(1)" name="thjlclz" id="thjlclz"></a>
+</marquee>
 </div>
 <!-- 导航菜单开始 -->
 <div id="navBar">

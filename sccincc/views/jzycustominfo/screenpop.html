@@ -140,14 +140,14 @@
   <div class="span4"><span style="font-weight:bold;">基本信息</span></div>
   <div class="span6"></div>
   <div class="span2">
-  <button type="button" class="btn btn-primary" id="addyy" name="addyy" onclick="javascript:addyy2();">已有客户</button>
+  <button type="button" class="btn btn-primary" id="addyy" name="addyy" onclick="javascript:addyy2();">已有档案</button>
   </div>
   <input type="hidden"  id="unid" name="unid" value="<%= callmsg.unid%>" />
 </div>
 
 <div class="span12">
 <div class="box-content span5">
-<div class="control-group"> <label class="control-label" for="Vip_name">客户姓名 </label>
+<div class="control-group"> <label class="control-label" for="Vip_name">单位名称 </label>
 <div class="controls"><input type="text" class="span12" id="Vip_name" name="Vip_name" value="<% if(inst!=null && typeof(inst.Vip_name)!=='object'){%><%=inst.Vip_name %><% }else{%><%}%>" /></div>
 </div>
 <div class="control-group"> <label class="control-label"
@@ -162,7 +162,7 @@
 </div>
 </div>
 <div class="control-group"> <label class="control-label"
-	for="Company">单位名称 </label>
+	for="Company">其他 </label>
 <div class="controls"><input type="text" class="span12"
 	id="Company" name="Company" value="<% if(inst!=null && typeof(inst.Company)!=='object'){%><%= inst.Company%><%}%>" /> </div>
 </div>
