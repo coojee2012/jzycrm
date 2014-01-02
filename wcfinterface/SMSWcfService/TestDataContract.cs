@@ -326,6 +326,16 @@ namespace SMSWcfService
             set { _vipname = value; }
 
         }
+
+        private string _jbr;//经办人
+        [DataMember]
+        public string Jbr
+        {
+            get { return _jbr; }
+            set { _jbr = value; }
+
+        }
+
         private string _phone;//当次来电
         [DataMember]
         public string Phone

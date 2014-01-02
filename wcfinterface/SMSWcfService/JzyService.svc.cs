@@ -215,7 +215,7 @@ namespace SMSWcfService
         /// <returns></returns>
         public List<CallRecords> getCalls(string keywords ,string card_id, string dostate,string timefrom,string timeto) {
             List<CallRecords> calls = new List<CallRecords>();
-            string sql = "select a.*,b.vip_name from callrecords a left join t_rm_vip_info b on b.card_id = a.cid where 1=1 ";
+            string sql = "select a.*,b.vip_name,b.social_id from callrecords a left join t_rm_vip_info b on b.card_id = a.cid where 1=1 ";
             if (!string.IsNullOrEmpty(card_id)) {
                 sql += " and a.cid = '" + card_id + "'";
             }
@@ -250,6 +250,7 @@ namespace SMSWcfService
                     callinfo.Cid = row["cid"].ToString();
                     callinfo.Phone = row["phone"].ToString();
                     callinfo.Vip_name = row["vip_name"].ToString();
+                    callinfo.Jbr = row["social_id"].ToString();
                     callinfo.Content = row["content"].ToString();
                     callinfo.DoState = int.Parse(row["dostate"].ToString());
                     callinfo.DoneSth = row["donesth"].ToString();
