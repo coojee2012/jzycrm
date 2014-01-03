@@ -48,7 +48,7 @@
 							<div class="control-group"> 
 							<label class="control-label" for="sendState">发送状态 </label> 
 							<div class="controls"> 
-							 <select disabled="disabled" id="sendState" name="sendState" data-rel="chosen">
+							 <select disabled="disabled" id="sendState" name="sendState">
 							<option  value="0"  <%if(inst.sendState=='0'){%>selected="selected"<%}%> >
 							 未发送 
 							</option> 
@@ -57,6 +57,9 @@
 							</option> 
 							<option  value="2"  <%if(inst.sendState=='2'){%>selected="selected"<%}%> >
 							 发送成功 
+							</option> 
+							<option  value="-1"  <%if(inst.sendState=='-1'){%>selected="selected"<%}%> >
+							 发送失败
 							</option> 
 						
 								  </select> 

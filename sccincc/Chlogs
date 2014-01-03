@@ -13,3 +13,9 @@ MODIFY COLUMN `memo`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NU
 ALTER TABLE `OrderRecords`
 MODIFY COLUMN `OrderContent`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `dactorName`,
 MODIFY COLUMN `OrderReslut`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `orderContent`;
+
+
+2014年1月3号
+
+ALTER TABLE `orderrecords`
+MODIFY COLUMN `memo`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `OrderTypeid`;

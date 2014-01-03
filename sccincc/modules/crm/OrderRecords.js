@@ -17,7 +17,7 @@ var OrderRecords = schema.define('OrderRecords', {
 	paidanTime:   {type: Date, default: function () { return null;}},
 	orderTime:   {type: Date, default: function () { return moment().format("YYYY-MM-DD HH:mm:ss"); }},
 	orderReslut:	{type:String,limit:500, default: function () { return '';}},
-	memo:{type:String,limit:500, default: function () { return '';}}
+	memo:{type:String,limit:1000, default: function () { return '';}}
 	//serMan:	{type:Number,default:function () { return 540 }},
 	//cID:	{type:Number,default:function () { return 0 }}
 }, {

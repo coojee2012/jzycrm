@@ -19,9 +19,9 @@
 						 <i class="icon-chevron-left icon-white"></i>列表</a> 
 						 </div>
 						  <fieldset> 
-							<legend>工单类别</legend> 
+							<legend>故障现象</legend> 
 							<div class="control-group <%if(msg!=null && msg.typeName!=null){%>error<%}%>"> 
-							<label class="control-label" for="typeName">工单类别 </label> 
+							<label class="control-label" for="typeName">故障现象 </label> 
 							<div class="controls"> 
 							<input type="text" class="span6" id="typeName" name="typeName" value="<% if(inst!=null){%><%= inst.typeName %><% }%>" />
 							<span class="help-inline"><%if(msg!=null && msg.typeName!=null){%><%= msg.typeName%><%}%></span>

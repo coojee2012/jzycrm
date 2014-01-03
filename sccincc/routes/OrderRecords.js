@@ -194,8 +194,8 @@ exports.createpost = function(req, res) {
 														var Sms_mod = new sms2();
 														Sms_mod.mobile = users[i5].uPhone;
 														Sms_mod.content = smscontent;
-														Sms_mod.shuoming = "发送给派单员";
-														Sms_mod.agentname = req.session.username || '--';
+														Sms_mod.shuoming = "发送短信给派单员";
+														Sms_mod.agentname = req.session.username || '工作时间段';
 														Sms_mod.pdyname =  '--';
 														Sms_mod.wxsname =  '--';
 														Sms_mod.save(function(err, instsms) {
@@ -226,8 +226,8 @@ exports.createpost = function(req, res) {
 											Sms_mod.mobile = user.uPhone;
 											Sms_mod.content = smscontent;
 											Sms_mod.shuoming = "非工作时间段派单短信";
-											Sms_mod.agentname = req.session.username || '--';
-											Sms_mod.pdyname = req.session.username || '--';
+											Sms_mod.agentname = req.session.username || '非工作时间';
+											Sms_mod.pdyname = req.session.username || '非工作时间';
 											Sms_mod.wxsname = user.uName || '--';
 											Sms_mod.save(function(err, instsms) {
 												if (err) {
@@ -575,9 +575,9 @@ exports.paiDan = function(req, res) {
 							var Sms_mod = new sms2();
 							Sms_mod.mobile = inst12.__cachedRelations.UserInfo2.uPhone;
 							Sms_mod.content = sms;
-							Sms_mod.agentname = inst12.__cachedRelations.UserInfo3.uName || '--';
-							Sms_mod.pdyname = req.session.username || '--';
-							Sms_mod.wxsname = inst12.__cachedRelations.UserInfo2.uName || '--';
+							Sms_mod.agentname = inst12.__cachedRelations.UserInfo3.uName || '无坐席';
+							Sms_mod.pdyname = req.session.username || '无派单员';
+							Sms_mod.wxsname = inst12.__cachedRelations.UserInfo2.uName || '无师傅';
 							Sms_mod.shuoming = shuoming;
 							console.log(Sms_mod);
 							Sms_mod.save(function(err, instsms) {
