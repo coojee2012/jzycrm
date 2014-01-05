@@ -1,4 +1,8 @@
-
+<script type="text/javascript">
+	$(function(){
+$("#agentname").val(parent._USERNAME);
+	});
+</script>
 <div class="container-fluid"><%if(msg!=null){%>
 <div class="alert alert-block">
 <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -18,7 +22,7 @@ if(inst!=null){%><%= inst.callUnitID %><% }%>" /> <input type="hidden"
 	id="cID" name="cID" value="<% if(inst!=null){%><%= inst.cID
 %><% }%>" /> <input type="hidden" id="serMan" name="serMan" value="<%
 if(inst!=null){%><%= inst.serMan %><% }%>" />
-
+ <input type="hidden" id="agentname" name="agentname" value="" />
 
 <div class="control-group<%if(msg!=null &&
 msg.uphone!=null){%>error<%}%>"> <label class="control-label"

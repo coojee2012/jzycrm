@@ -97,6 +97,7 @@ exports.createget = function(req, res) {
 
 exports.createpost = function(req, res) {
 	var iswork = req.body['iswork']; //工作时间段标识，由座席自己决定
+	var agentname=req.body['agentname'];
 	DbMode.all({
 		where: {
 			id: req.body["id"]
@@ -195,7 +196,7 @@ exports.createpost = function(req, res) {
 														Sms_mod.mobile = users[i5].uPhone;
 														Sms_mod.content = smscontent;
 														Sms_mod.shuoming = "发送短信给派单员";
-														Sms_mod.agentname = req.session.username || '工作时间段';
+														Sms_mod.agentname =agentname || req.session.username || '工作时间段';
 														Sms_mod.pdyname =  '--';
 														Sms_mod.wxsname =  '--';
 														Sms_mod.save(function(err, instsms) {
@@ -226,8 +227,8 @@ exports.createpost = function(req, res) {
 											Sms_mod.mobile = user.uPhone;
 											Sms_mod.content = smscontent;
 											Sms_mod.shuoming = "非工作时间段派单短信";
-											Sms_mod.agentname = req.session.username || '非工作时间';
-											Sms_mod.pdyname = req.session.username || '非工作时间';
+											Sms_mod.agentname = agentname || req.session.username || '非工作时间';
+											Sms_mod.pdyname = agentname || req.session.username || '非工作时间';
 											Sms_mod.wxsname = user.uName || '--';
 											Sms_mod.save(function(err, instsms) {
 												if (err) {
@@ -538,6 +539,7 @@ exports.paiDan = function(req, res) {
 	sms = req.body["sms"];
 	paid = req.body["paid"];
 	var shuoming = req.body["shuoming"];
+	var agentname=req.body['agentname'];
 	DbMode.findOne({
 		include: inld,
 		where: {
@@ -576,7 +578,7 @@ exports.paiDan = function(req, res) {
 							Sms_mod.mobile = inst12.__cachedRelations.UserInfo2.uPhone;
 							Sms_mod.content = sms;
 							Sms_mod.agentname = inst12.__cachedRelations.UserInfo3.uName || '无坐席';
-							Sms_mod.pdyname = req.session.username || '无派单员';
+							Sms_mod.pdyname = agentname || req.session.username || '无派单员';
 							Sms_mod.wxsname = inst12.__cachedRelations.UserInfo2.uName || '无师傅';
 							Sms_mod.shuoming = shuoming;
 							console.log(Sms_mod);

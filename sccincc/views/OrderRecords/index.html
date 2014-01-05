@@ -329,6 +329,7 @@ function paidan(orderId,depid1){
 
 		$("#danhao").val(data.id);
 		$("#smscontent2").val(content);
+
 		$("#shuoming").val(data.OrderType.typeName);
 		$('#paidan').modal('show');
 				});	
@@ -464,7 +465,7 @@ $.ajax(
             dataType: 'json',
             type: 'POST',
             async: false,
-            data:{id:orderid,manid:manid,sms:sms,shuoming:shuoming,paid:paid},
+            data:{id:orderid,manid:manid,sms:sms,shuoming:shuoming,paid:paid,agentname:parent._USERNAME},
             success: function (data, textStatus) {
                 if(data.success){	                    
                     //fn(data.phone);	

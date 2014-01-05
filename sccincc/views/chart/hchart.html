@@ -5,7 +5,7 @@ $('#container').highcharts({
             type: 'column'
         },
         title: {
-            text: '通话统计'
+            text: '话务统计'
         },
         xAxis: {
             categories: [<%= Agent%>]
@@ -32,7 +32,7 @@ $('#container').highcharts({
 </script>
 <form class="form-horizontal" method="POST">
 <fieldset>
-    <legend>通话统计</legend>
+    <legend>话务统计</legend>
     <input type="hidden" name="agents" id="agents" value="<%= Agent.join(',')%>" />
     <div class="box-content span5">
 <div class="control-group"><label class="control-label" for="Timefrom">通话时间 从</label>

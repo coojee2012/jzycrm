@@ -1,0 +1,118 @@
+<div class="container-fluid"><%if(msg!=null){%>
+<div class="alert alert-block">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<h4>注意!</h4>
+<%= util.inspect(msg,false,null)%></div>
+<%}%>
+
+<script type="text/javascript">
+function  play() {
+	var unid=$('#unid').val();
+    var filename='/SoundPlayer?filename='+unid;
+    $("#playerframeid").attr("src", filename);
+    $("#showplayer").modal("show");       
+    }
+
+</script>
+<div class="container-fluid"> 
+
+			<div class="row-fluid sortable"> 
+				<div class="box span12"> 
+					<div class="box-content"> 
+						<form class="form-horizontal" method="POST"> 
+						<div>
+					    <a href="/jzy/listThjl?cid=<%if(inst!=null){%><%= inst.card_id%><%}else{%>-1<%}%>&DoState=<%= DoState%>" class="btn btn-small btn-primary">
+						<i class="icon-chevron-left icon-white"></i>列表</a>  
+
+						<a href="javascript:play();" class="btn btn-small btn-warning">
+						<i class="icon-music icon-white"></i>播放录音</a> 
+						 </div>
+						  <fieldset> 
+							<legend>新增通话记录</legend> 
+							<div class="control-group"> 
+							<label class="control-label" for="unid">通话编号 </label> 
+							<div class="controls"> 
+							<input type="text" class="span6" readonly="readonly" id="unid" name="unid" value="<%if(inst!=null && typeof(inst.unid)!=='object'){%><%= inst.unid %><%}%>" />
+							<input type="hidden" id="agentname" name="agentname" value="<% if(inst!=null && typeof(inst.content)!=='agentname'){%><%= inst.agentname%><%}%>" />
+							<input type="hidden" id="id" name="id" value="<% if(inst!=null){%><%= inst.id %><%}%>" />
+							</div> 
+							</div> 
+
+							<div class="control-group"> 
+							<label class="control-label" for="vipname">客户姓名 </label> 
+							<div class="controls"> 
+							<input type="text" class="span6" readonly="readonly" id="vipname" name="vipname" value="<% if(inst!=null && typeof(inst.vipname)!=='object'){%><%= inst.vipname %><% }%>" />
+							</div> 
+							</div> 
+
+							<div class="control-group"> 
+							<label class="control-label" for="card_id">会员卡号</label> 
+							<div class="controls"> 
+							<input type="text" class="span6" readonly="readonly" id="card_id" name="card_id" value="<% if(inst!=null && typeof(inst.card_id)!=='object'){%><%= inst.card_id%><%}%>" />
+							<input type="hidden" id="exten" name="exten" value="<% if(inst!=null){%><%= inst.extent%><%}%>" />
+							</div> 
+							</div> 
+
+
+							<div class="control-group"> 
+							<label class="control-label" for="content">通话内容 </label> 
+							<div class="controls"> 
+							<textarea class="span6" id="content" name="content"><%if(inst!=null  && typeof(inst.content)!=='object'){%><%= inst.content%><%}%></textarea>
+							
+																					 </div> 
+							</div> 
+
+							<div class="control-group"> 
+							<label class="control-label" for="dostate">处理状态 </label> 
+							<div class="controls"> 
+							<select id="dostate" name="dostate">
+							<option value='0' <%if(inst!=null && inst.dostate==0){%>selected='selected'<%}%>>未处理</option>
+							<option value='1' <%if(inst!=null && inst.dostate==1){%>selected='selected'<%}%>>处理中</option>
+							<option value='2' <%if(inst!=null && inst.dostate==2){%>selected='selected'<%}%>>已处理</option>
+						     </select> 
+							 </div> 
+							</div> 
+
+							<div class="control-group"> 
+							<label class="control-label" for="donesth">处理内容</label> 
+							<div class="controls"> 
+							<textarea class="span6" id="donesth" name="donesth"><%if(inst!=null && typeof(inst.donesth)!=='object'){%><%= inst.donesth%><%}%></textarea>
+							
+																					 </div> 
+							</div> 
+							
+						
+							<div class="form-actions"> 
+							  <button type="submit" class="btn btn-primary">保存</button> 
+							  <button type="reset" class="btn">取消</button> 
+							</div> 
+						  </fieldset> 
+						</form>   
+ 
+					</div> 
+				</div><!--/span--> 
+ 
+			</div><!--/row--> 
+			</div><!-- div containt -->
+	
+	
+
+
+<div id="showplayer" class="modal hide fade" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal"
+	aria-hidden="true">×</button>
+<h3 id="myModalLabel">录音播放</h3>
+</div>
+<div class="modal-body">
+<div class="row-fluid sortable">
+<div class="box span12">
+<div class="box-content">
+<iframe id="playerframeid"></iframe>
+</div>
+</div>
+</div>
+</div>
+
+</div>
