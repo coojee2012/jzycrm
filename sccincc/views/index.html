@@ -235,8 +235,8 @@ $(function () {
                                 iframSrc: '/jzy/screenpop?callid=' + data.callid + "&unid=" + data.unid + "&caller=" + data.caller + "&called=" + data.called + "&poptype=" + data.poptype,
                                 WindowsId: data.unid,
                                 WindowAnimation: 'none',
-                                WindowWidth: 1200,
-                                WindowHeight: 800
+                                WindowWidth: 960,
+                                WindowHeight: 540
                             });
                         }
                         //  startRequest();
@@ -315,8 +315,8 @@ function openthjl(sta){
                     iframSrc: '/jzy/listThjl?DoState=' + sta,
                     WindowsId: "listthjl_"+sta,
                     WindowAnimation: 'none',
-                    WindowWidth: 1200,
-                    WindowHeight: 800
+                    WindowWidth: 960,
+                    WindowHeight: 540
                 });
 }
 
@@ -332,8 +332,8 @@ function openthjl(sta){
 <div id="infoBar">
     
 <marquee style="WIDTH:100%; HEIGHT:40px" scrollamount="4" direction="left" >
-    <a href="javascript:;" onclick="openthjl(0)" name="thjlwcl" id="thjlwcl"></a>
-    <a href="#javascript:;" onclick="openthjl(1)" name="thjlclz" id="thjlclz"></a>
+    <a href="javascript:;" onclick="openthjl(0)" name="thjlwcl" id="thjlwcl" style="font-size:14px;"></a>
+    <a href="#javascript:;" onclick="openthjl(1)" name="thjlclz" id="thjlclz" style="font-size:14px;"></a>
 </marquee>
 </div>
 <!-- 导航菜单开始 -->
