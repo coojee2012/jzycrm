@@ -1,0 +1,21 @@
+2013年12月19日
+1、修改modules.crm.sms
+新增3字段
+ALTER TABLE `Sms`
+ADD COLUMN `agentname`  varchar(50) NULL DEFAULT '' AFTER `mobile`,
+ADD COLUMN `pdyname`  varchar(50) NULL DEFAULT '' AFTER `agentname`,
+ADD COLUMN `wxsname`  varchar(50) NULL DEFAULT '' AFTER `pdyname`;
+
+2013年12月25日
+
+ALTER TABLE `OrderRecords`
+MODIFY COLUMN `memo`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `OrderTypeid`;
+ALTER TABLE `OrderRecords`
+MODIFY COLUMN `OrderContent`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `dactorName`,
+MODIFY COLUMN `OrderReslut`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `orderContent`;
+
+
+2014年1月3号
+
+ALTER TABLE `OrderRecords`
+MODIFY COLUMN `memo`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `OrderTypeid`;
