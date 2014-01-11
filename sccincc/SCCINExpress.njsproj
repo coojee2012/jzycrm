@@ -3714,6 +3714,7 @@
     <Content Include="README.md" />
     <Content Include="routes\route-part.html" />
     <Content Include="sftp-config.json" />
+    <Content Include="True\README.html" />
     <Content Include="views\404.ejs" />
     <Content Include="views\actionmodes\create.html" />
     <Content Include="views\actionmodes\detail.html" />
@@ -4498,6 +4499,7 @@
     <Folder Include="public\themes\smoothness\" />
     <Folder Include="public\themes\smoothness\images\" />
     <Folder Include="routes\" />
+    <Folder Include="True\" />
     <Folder Include="views\" />
     <Folder Include="views\actionmodes\" />
     <Folder Include="views\AreaCodeTown\" />

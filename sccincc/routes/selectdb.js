@@ -1107,7 +1107,70 @@ exports.callreportchart = function(req, res) {
 	var output = {};
 	var now = new Date(); //当前日期 
 	var nowYear = now.getFullYear(); //当前年 
+    if (tjtype == 0) {
+		var dayfrom = req.query['dayform'] || req.body['dayform'] || nowYear + "-01" + "-01";
+	var dayto=req.query['dayto'] || req.body['dayto'] || nowYear+"-12"+"-31";
+    var sql = "SELECT count(*) as number,accountcode,routerline,DATE_FORMAT(cretime,'%Y-%m-%d') as week  FROM `callsession` where 1=1 ";
+		sql += " and cretime > '" + dayfrom + " 00:00:00' and cretime < '" + dayto + " 23:59:59'  group by accountcode,DATE_FORMAT(cretime,'%Y-%m-%d') order by DATE_FORMAT(cretime,'%Y-%m-%d') asc";
 
+		callsession.query(sql, function(err, dbs) {
+			if (err) {
+				res.send({
+					success: false,
+					msg: '数据库查询发生错误：！' + util.inspect(err, false, null)
+				});
+			} else {
+
+				var redata = [];
+               
+
+			
+                for (var j = 0; j <= dbs.length; j++) {
+					var tmp = {};
+					if (j == days)
+						tmp.tags = '总计';
+					else {
+					
+						tmp.tags = dbs[j].week;
+					}
+					for (var kk = 0; kk < clomunsarray.length; kk++) {
+						tmp[clomunsarray[kk]] = [0, 0];
+					}
+					tmp.zj = [0, 0];
+					redata[j] = tmp;
+				}
+				for (var i = 0; i < dbs.length; i++) {
+
+					if (contains(clomunsarray, dbs[i].accountcode)) {
+						if (dbs[i].routerline == 1) {
+							redata[i][dbs[i].accountcode][0] = dbs[i].number;
+							redata[i].zj[0] += dbs[i].number;
+							redata[dbs.length][dbs[i].accountcode][0] += dbs[i].number;
+							redata[dbs.length].zj[0] += dbs[i].number;
+						} else {
+							redata[i][dbs[i].accountcode][1] = dbs[i].number;
+							redata[i].zj[1] += dbs[i].number;
+							redata[dbs.length][dbs[i].accountcode][1] += dbs[i].number;
+							redata[dbs.length].zj[1] += dbs[i].number;
+						}
+
+					}
+
+
+
+				}
+                                                            
+				output.iTotalRecords = dbs.length;
+				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
+				output.iTotalDisplayRecords = dbs.length;
+				output.aaData = redata;
+				res.send(output);
+			}
+
+		});
+
+
+    }
 	if (tjtype == 1) {
 
 		var kaishijieshu = mm(nowYear, tjvalue);
