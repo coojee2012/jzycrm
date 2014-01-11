@@ -3905,6 +3905,7 @@
     <Content Include="views\wateruses\detail.html" />
     <Content Include="views\wateruses\edit.html" />
     <Content Include="views\wateruses\index.html" />
+    <Content Include="用户需求变更.MD" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="asconf\" />
