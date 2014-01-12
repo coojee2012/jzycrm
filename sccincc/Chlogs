@@ -19,3 +19,8 @@ MODIFY COLUMN `OrderReslut`  varchar(500) CHARACTER SET utf8 COLLATE utf8_genera
 
 ALTER TABLE `orderrecords`
 MODIFY COLUMN `memo`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `OrderTypeid`;
+
+2014年1月12号
+ALTER TABLE `Sms`
+ADD COLUMN `depid`  int NULL DEFAULT '-1' AFTER `pdyname`,
+ADD COLUMN `pdtype`  int NULL DEFAULT '-1' AFTER `depid`;

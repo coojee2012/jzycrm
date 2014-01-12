@@ -110,6 +110,12 @@ msg.memo!=null){%><%= msg.memo%><%}%></span></div>
 <!-- div containt --> <script type="text/javascript">
 $(function(){
 $("#serMan").val(parent._USERID);	
+
+$('#OrderTypeid').change(function(){ 
+//alert($(this).children('option:selected').val()); 
+$("#orderContent").html($(this).children('option:selected').text()+".");
+}); 
+
 });
 </script> 
 

@@ -6,8 +6,8 @@ var aoColumns=[
                { mData: "id", sClass: "center",bSearchable: false },
                { mData: "cID", sClass: "center" },
                { mData: "uaddr", sClass: "center" },
-               { mData: "OrderTypeid", sClass: "center" },
-// { mData: "orderContent", sClass: "center" },
+              // { mData: "OrderTypeid", sClass: "center" },
+ { mData: "orderContent", sClass: "center" },
  { mData: "uphone", sClass: "center" },  
                
                
@@ -85,7 +85,7 @@ var MyDataTable=$('#datatable').dataTable( {
                 	  aTargets:[3],
                 	  mRender: function (data, type,full) {
                       var str='';
-                      str+=data.typeName||'--';
+                      str+=data||'--';
                        
                       return str;
                 	  }
@@ -952,7 +952,7 @@ $(function(){
 			<th style="width:80px;">工单编号</th>
       <th style="width:40px;">用户户号</th>
       <th>联系地址</th>
-      <th>故障现象</th>
+      <th>受理内容</th>
        <th>联系电话</th>
 			
        

@@ -29,13 +29,13 @@
 
 <div class="span12">
 <div class="control-group span6">
- <label class="control-label" for="dactorName">日期范围 从</label>
+ <label class="control-label" for="dayform">日期范围 从</label>
 <div class="controls">
     <input type="text" name="dayform" class="typeahead datepicker" id="dayfrom" value=""/>
 </div>
 </div>
 <div class="control-group span6">
- <label class="control-label" for="dactorName">到</label>
+ <label class="control-label" for="dayto">到</label>
 <div class="controls">
     <input type="text" class="typeahead datepicker" name="dayto" id="dayto" value="" />
 </div>
@@ -87,7 +87,8 @@
 function starttj(){
 var tjtype=$('input[name="iswork"]:checked').val() || -1;
 var tjvalue=$('#dactorName').val();
-
+var dayfrom=$('#dayfrom').val();
+var dayto=$('#dayto').val();
 if(tjtype ==-1)
 {
 alert('请选择统计类型');
@@ -128,7 +129,7 @@ $('#datatable').dataTable({
     bSort: false,
     bFilter:false,
     bPaginate:false,
-    sAjaxSource: "/selectdb/orderchart?tjtype="+tjtype+"&tjvalue="+tjvalue,
+    sAjaxSource: "/selectdb/orderchart?tjtype="+tjtype+"&tjvalue="+tjvalue+"&dayfrom="+dayfrom+"&dayto="+dayto,
     aoColumns:aoColumns ,
     aoColumnDefs: [],
              oTableTools: {

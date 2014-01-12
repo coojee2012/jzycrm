@@ -580,6 +580,11 @@ exports.paiDan = function(req, res) {
 							Sms_mod.agentname = inst12.__cachedRelations.UserInfo3.uName || '无坐席';
 							Sms_mod.pdyname = agentname || req.session.username || '无派单员';
 							Sms_mod.wxsname = inst12.__cachedRelations.UserInfo2.uName || '无师傅';
+							Sms_mod.depid=inst12.__cachedRelations.UserInfo2.uDepId || -1;
+							if(Sms_mod.agentname == Sms_mod.pdyname)
+							{
+								Sms_mod.pdtype=1;
+							}
 							Sms_mod.shuoming = shuoming;
 							console.log(Sms_mod);
 							Sms_mod.save(function(err, instsms) {
@@ -590,6 +595,21 @@ exports.paiDan = function(req, res) {
 										msg: "发送失败！"
 									});
 								} else {
+									var myDate = new Date();
+									var hours=myDate.getHours(); 
+
+									if(hours<9 || hours>17){
+							var Sms_mod2 = new sms2();
+							Sms_mod2.mobile = '13550716066';
+							Sms_mod2.content = sms;
+							Sms_mod2.agentname = inst12.__cachedRelations.UserInfo3.uName || '无坐席';
+							Sms_mod2.pdyname = agentname || req.session.username || '无派单员';
+							Sms_mod2.wxsname ='--';
+							Sms_mod2.pdtype=3;
+							Sms_mod2.shuoming = "给彭叙军非工作时间派单短信！";
+							Sms_mod2.save(function(){});
+
+									}
 									res.send({
 										success: true,
 										msg: "派单成功，短信发送成功！"

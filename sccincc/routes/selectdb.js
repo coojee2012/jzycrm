@@ -1108,8 +1108,9 @@ exports.callreportchart = function(req, res) {
 	var now = new Date(); //当前日期 
 	var nowYear = now.getFullYear(); //当前年 
     if (tjtype == 0) {
-		var dayfrom = req.query['dayform'] || req.body['dayform'] || nowYear + "-01" + "-01";
+	var dayfrom = req.query['dayfrom'] || req.body['dayfrom'] || nowYear + "-01" + "-01";
 	var dayto=req.query['dayto'] || req.body['dayto'] || nowYear+"-12"+"-31";
+
     var sql = "SELECT count(*) as number,accountcode,routerline,DATE_FORMAT(cretime,'%Y-%m-%d') as week  FROM `callsession` where 1=1 ";
 		sql += " and cretime > '" + dayfrom + " 00:00:00' and cretime < '" + dayto + " 23:59:59'  group by accountcode,DATE_FORMAT(cretime,'%Y-%m-%d') order by DATE_FORMAT(cretime,'%Y-%m-%d') asc";
 
@@ -1127,9 +1128,10 @@ exports.callreportchart = function(req, res) {
 			
                 for (var j = 0; j <= dbs.length; j++) {
 					var tmp = {};
-					if (j == days)
+					if (j == dbs.length)
 						tmp.tags = '总计';
 					else {
+						console.log(dbs[j]);
 					
 						tmp.tags = dbs[j].week;
 					}

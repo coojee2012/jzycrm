@@ -9,6 +9,8 @@ var Sms = schema.define('Sms', {
 	agentname:    {type:String,limit:50,default:function(){return '';}},
 	pdyname:    {type:String,limit:50,default:function(){return '';}},
 	wxsname:    {type:String,limit:50,default:function(){return '';}},
+	depid:  {type:Number,default:function () { return -1 }},
+	pdtype:  {type:Number,default:function () { return -1 }},
 	shuoming:    {type:String,limit:256,default:function(){return '';}},
 	SendTime:   {type: Date, default: function () { return moment().format("YYYY-MM-DD HH:mm:ss"); }},
 	WorkTime:   {type: Date, default: function () { return moment().format("YYYY-MM-DD HH:mm:ss"); }},
@@ -27,6 +29,8 @@ Sms.cloums={
 		shuoming:    {name:"说明",input:Inputs.Text,search:true,create:true,table:true},
 		SendTime:  {name:"发送时间",input:Inputs.Date,search:false,create:false,table:false},
 		WorkTime:  {name:"更新时间",input:Inputs.Date,search:false,create:false,table:false},
+		depid:  {name:"维修部门",input:Inputs.Text,search:false,create:false,table:false},
+		pdtype:  {name:"派单类型",input:Inputs.Text,search:false,create:false,table:false},
 		sendState:  {name:"发送状态",input:Inputs.Selects,search:true,create:false,table:true,selects:smsstate}
 };
 Sms.views={
