@@ -227,7 +227,7 @@ function dialout(phonenumber){
          alert("为能获取到有效手机号码，呼叫将失败！");
          return false;
      }
-     if(parent._OUTPREX!=null)
+     if(parent._OUTPREX!=null && phonenumber.test(/^0\d+/))
      phonenumber = parent._OUTPREX + phonenumber;
    
      $.ajax(

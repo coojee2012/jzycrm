@@ -5,7 +5,7 @@ var moment = require('moment');
 var localnumber = schema.define('localnumber', {
 	number:   {type:String,limit:50},
 	"typeof":   {type:String,limit:50},
-	assign:   {type: String,limit:50}
+	assign:   {type: String,limit:100}
 	
 
 }, {
