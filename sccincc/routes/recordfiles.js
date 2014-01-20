@@ -30,9 +30,20 @@ where['extennum']='';
 where['extennum']='';
 
 
+var UserInfo = require('../modules/crm/UserInfo.js');
+	var agents = {};
+	UserInfo.all({
+		where: {
+			isAgent: 1
+		}
+	}, function(err, dbs) {
+		for (var i = 0; i < dbs.length; i++) {
+			agents[dbs[i].uExten] = dbs[i].uName;
+		}
+		res.render('recordfiles/index.html', { title: '录音记录列表',agents:util.inspect(agents),where:where});
+	});
 
 
-res.render('recordfiles/index.html', { title: '录音记录列表',where:where});
 };
 /**
 POST 获取列表
@@ -43,7 +54,19 @@ var query=req.body;
 for(var key in query){
 where[key]=query[key]||'';	
 }
-res.render('recordfiles/index.html', { title: '录音记录列表',where:where});	
+
+var UserInfo = require('../modules/crm/UserInfo.js');
+	var agents = {};
+	UserInfo.all({
+		where: {
+			isAgent: 1
+		}
+	}, function(err, dbs) {
+		for (var i = 0; i < dbs.length; i++) {
+			agents[dbs[i].uExten] = dbs[i].uName;
+		}
+		res.render('recordfiles/index.html', { title: '录音记录列表',agents:util.inspect(agents),where:where});
+	});
 };
 /**
 GET新建

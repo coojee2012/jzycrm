@@ -511,6 +511,7 @@ exports.getOrder = function(req, res) {
 					data.memo = inst.memo;
 					data.CustomInfo = inst.__cachedRelations.CustomInfo;
 					data.OrderType = inst.__cachedRelations.OrderType;
+					data.orderReslut=inst.orderReslut;
 					//console.log(data);
 					res.send({
 						success: true,

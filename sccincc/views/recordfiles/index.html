@@ -1,18 +1,19 @@
 <script type="text/javascript">
 $(document).ready(function() {
 var aoColumns=[
-               { mData: "filename", sClass: "center",bSearchable: false},
-               	{ mData: "extname", sClass: "center",bSearchable: false},
-               	{ mData: "filesize", sClass: "center",bSearchable: false},
-               	{ mData: "associate", sClass: "center",bSearchable: false},
-               	{ mData: "calltype", sClass: "center",bSearchable: false},
+{ mData: "doymicac", sClass: "center",bSearchable: false,"bSortable": false },
+               { mData: "filename", sClass: "center",bSearchable: false,"bSortable": false },
+               	{ mData: "extname", sClass: "center",bSearchable: false,"bSortable": false },
+               	{ mData: "filesize", sClass: "center",bSearchable: false,"bSortable": false },
+               	{ mData: "associate", sClass: "center",bSearchable: false,"bSortable": false },
+               	{ mData: "calltype", sClass: "center",bSearchable: false,"bSortable": false },
                	
                { mData: "cretime", sClass: "center" },
                
-               { mData: "extennum", sClass: "center" },
-               { mData: "doymicac", sClass: "center",bSearchable: false},
+               { mData: "extennum", sClass: "center","bSortable": false  },
+               
                	
-                 { mData: "id", sClass: "center",bSearchable: false }
+                 { mData: "id", sClass: "center",bSearchable: false,"bSortable": false  }
                  
              ];
 var where='';
@@ -60,9 +61,17 @@ $('#datatable').dataTable( {
     bServerSide: true,
     bSort: true,
     bFilter:false,
-    sAjaxSource: "/selectdb/pagingsearch?dbname=ippbx/recordfiles&cls=filename___extname___filesize___associate___calltype___cretime___extennum___doymicac___id&where="+where,
+    aaSorting: [[6, "desc"]],
+    sAjaxSource: "/selectdb/pagingsearch?dbname=ippbx/recordfiles&cls=doymicac___filename___extname___filesize___associate___calltype___cretime___extennum___id&where="+where,
     aoColumns:aoColumns ,
     aoColumnDefs: [
+    {
+    	aTargets: [0],
+        mRender: function (data, type,full) {
+                	   	return getagentname(data);
+                	   }
+    	
+    },
                    
                 	  {
                             	   aTargets: [aoColumns.length-1],
@@ -77,56 +86,25 @@ $('#datatable').dataTable( {
                 	  }
                                //{bVisible:false,aTargets: [4]}
                               ],
-             oTableTools: {
+                              oTableTools: {
              sSwfPath: "/css/swf/copy_csv_xls_pdf.swf",
-             aButtons: [                          
-                                {
-					"sExtends": "copy",
-					"sButtonText": "复制"
-				},
-				  {
-					"sExtends": "print",
-					"sButtonText": "打印"
-				},
+             aButtons: [
                                  {
                  					"sExtends":    "collection",
                  					"sButtonText": '导出 <span class="caret" />',
-                 					"aButtons":    [ "csv", "xls", "pdf" ],
+                 					"aButtons":    [ "csv", "xls"],
                  					"mColumns": daochu
                  				}
                                 
                                                    
                               ]
 	}
+	
   // "fnServerData": fnDataTablesPipeline
 } );
 } );
 
-function deleterow(data){
-	var oTable = $('#datatable').dataTable();
-	   
-	  // Immediately remove the first row
-	  //oTable.fnDeleteRow( data );
-	  
-	   $.ajax(
-	            {
-	                url: '/recordfiles/del',
-	                dataType: 'json',
-	                type: 'POST',
-	                async: false,
-	                data:{ids:data},
-	                success: function (data, textStatus) {	                    
-		                    alert(data.msg);
-		                   // location.href='/UserInfo/';	
-		                    oTable.fnDraw();	                    
-	                },
-	                error: function (XMLHttpRequest, textStatus, errorThrown) {
-	                    alert('服务器访问发生异常！' + textStatus);
-	                    return;
-	                }
-	            }
-	            );	       
-	 }
+
 </script>
 
 <script type="text/javascript">
@@ -156,13 +134,14 @@ function del(ids){
 	            );	
 }
 </script>
-<script type="text/javascript">
 
-</script>
 
 <script type="text/javascript">
+	function getagentname(exten){
+		var agents=<%= agents%>;
+		return agents[exten]||exten;
 
-
+	}
 </script>
 <div class="container-fluid">
 <div id="mysearch" class="modal hide fade" tabindex="-1" role="dialog"
@@ -229,12 +208,11 @@ data-provide="typeahead" data-items="4" data-source='["Alabama"]'>
 </div>
 </div>
 <div class="box-content">
-<table
-	class="table table-striped table-bordered bootstrap-datatable datatable"
-	id="datatable">
+<table class="table table-striped table-bordered bootstrap-datatable datatable" id="datatable">
 	<caption></caption>
 	<thead>
 		<tr>
+			<th>动态帐号</th>
 			 
 			<th>文件名</th>
 			  
@@ -250,7 +228,7 @@ data-provide="typeahead" data-items="4" data-source='["Alabama"]'>
 			  
 			<th>分机号</th>
 			    
-			<th>动态帐号</th>
+			
 			 
 			<th>操作</th>
 		</tr>
