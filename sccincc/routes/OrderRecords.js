@@ -509,6 +509,7 @@ exports.getOrder = function(req, res) {
 					data.id = inst.id;
 					data.orderContent = inst.orderContent;
 					data.memo = inst.memo;
+					data.OrderOptions=inst.OrderOptions;
 					data.CustomInfo = inst.__cachedRelations.CustomInfo;
 					data.OrderType = inst.__cachedRelations.OrderType;
 					data.orderReslut=inst.orderReslut;
