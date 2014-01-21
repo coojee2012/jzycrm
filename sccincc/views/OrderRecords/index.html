@@ -31,6 +31,7 @@ var vKeys=["id","cID.idcard","uaddr","OrderTypeid.typeName","uphone","DepID.depN
 var where='';
 where+=',,,,,'+'serMan:::::'+$('#serMan').val();
 where+=',,,,,'+'DepID:::::'+$('#DepID').val();
+where+=',,,,,'+'OrderOptions:::::'+$('#options').val();
 where+=',,,,,'+'dactorName:::::'+$('#dactorName').val();
 where+=',,,,,'+'orderReslut:::::'+$('#orderReslut').val();
 where+=',,,,,'+'orderContent:::::like|||||'+$('#orderContent').val();
@@ -227,7 +228,8 @@ function dialout(phonenumber){
          alert("为能获取到有效手机号码，呼叫将失败！");
          return false;
      }
-     if(parent._OUTPREX!=null && phonenumber.test(/^0\d+/))
+     var re=/^0\d+/;
+     if(parent._OUTPREX!=null && !re.test(phonenumber))
      phonenumber = parent._OUTPREX + phonenumber;
    
      $.ajax(
@@ -885,7 +887,10 @@ $(function(){
 <div class="control-group"><label class="control-label"
 	for="id">工单编号 </label>
 <div class="controls">
-<input type="text" class="span6 typeahead" id="id" name="id" value="<%= where.id%>" /></div>
+<input type="text" class="span6 typeahead" id="id" name="id" value="<%= where.id%>" />
+<input type="hidden" id="options" name="options" value="<%= where.OrderOptions%>" />
+</div>
+
 </div>
 
 

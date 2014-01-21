@@ -67,6 +67,39 @@ exports.get=function(req,res){
 	
 		
 }
+exports.jsonget=function(req,res){
+    var ep = new EventProxy();
+  ep.all('gd', function (gd) {
+      // 在所有指定的事件触发后，将会被调用执行
+      // 参数对应各自的事件名
+      var tonum={gd:gd};
+      res.send({success:true,inst:tonum,error:null,callmsg:null});
+    });
+
+  var OrderRecords = require('../modules/crm/OrderRecords');
+	var where={};
+	if(req.session.roleid == 8 )//派单部门只能看到自己部门的
+		where.DepID=req.session.deptid;
+		
+	OrderRecords.all({where:where},function(err,dbs){
+		var count=dbs.length;
+		var notdo=0;
+		var waitdo=0;
+		var harddo=0;
+		for(var i=0;i<count;i++){
+			if(dbs[i].OrderOptions==0)
+				notdo++;
+			else if(dbs[i].OrderOptions==1)
+				waitdo++;
+			else
+				harddo++;
+
+
+		}
+		ep.emit('gd', {notdo:notdo,waitdo:waitdo,harddo:harddo});	
+	});
+
+    }
 
 exports.post=function(req,res){
 	res.render('RemindReacords/index.html',{inst:null,error:null,callmsg:null});	
