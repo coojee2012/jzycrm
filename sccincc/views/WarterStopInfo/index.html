@@ -2,15 +2,15 @@
 $(document).ready(function() {
 var aoColumns=[
                
-               { mData: "stopReson", sClass: "center" },
+               { mData: "stopReson", sClass: "center","bSortable": false },
                
-               { mData: "smsTell", sClass: "center" },
+               { mData: "smsTell", sClass: "center","bSortable": false },
                
              //  { mData: "areaID", sClass: "center" },
                
              //  { mData: "isres", sClass: "center" },
                { mData: "startTime", sClass: "center",bSearchable: false},
-               	{ mData: "endTime", sClass: "center",bSearchable: false},
+               	{ mData: "endTime", sClass: "center",bSearchable: false,"bSortable": false},
               // 	{ mData: "resTime", sClass: "center",bSearchable: false},
                	
                  { mData: "id", sClass: "center",bSearchable: false }
@@ -58,6 +58,7 @@ $('#datatable').dataTable( {
     bServerSide: true,
     bSort: true,
     bFilter:false,
+    aaSorting: [[2, "desc"]],
     sAjaxSource: "/selectdb/pagingsearch?dbname=crm/WarterStopInfo&cls=stopReson___smsTell___startTime___endTime___id&where="+where,
     aoColumns:aoColumns ,
     aoColumnDefs: [{
