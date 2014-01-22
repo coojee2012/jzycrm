@@ -81,7 +81,7 @@ exports.pagingsearch = function(req, res) {
 			for (var tmtm in tmp) {
 				//console.log('old：',tmp[tmtm].value);
 				//console.log('new：',value);
-				if (tmp[tmtm].value == value) {
+				if (tmp[tmtm].value === value) {
 					return tmp[tmtm].name;
 				}
 			}
@@ -396,8 +396,9 @@ exports.orderchart = function(req, res) {
 	var now = new Date(); //当前日期 
 	var nowYear = now.getFullYear(); //当前年 
 
+
 if (tjtype == 0) {
-		var dayfrom = req.query['dayform'] || req.body['dayform'] || nowYear + "-01" + "-01";
+	var dayfrom = req.query['dayform'] || req.body['dayform'] || nowYear + "-01" + "-01";
 	var dayto=req.query['dayto'] || req.body['dayto'] || nowYear+"-12"+"-31";
 	var sql = "SELECT count(*) as number,DepId, DATE_FORMAT(orderTime,'%Y-%m-%d') as week  FROM `OrderRecords` where 1=1 ";
 		sql += " and orderTime > '" + dayfrom + " 00:00:00' and orderTime < '" + dayto + " 23:59:59'  group by DepId,DATE_FORMAT(orderTime,'%Y-%m-%d') order by DATE_FORMAT(orderTime,'%Y-%m-%d') asc";
@@ -409,10 +410,33 @@ if (tjtype == 0) {
 				});
 			} else {
 
-				var redata = [];
+				var redata = {};
 
 				
-				redata[dbs.length]={};
+				
+
+				for(var j=0;j< dbs.length; j++){
+					
+					if(typeof(redata[dbs[j].week])==='object'){
+					console.log(typeof(redata[dbs[j].week]));
+					continue;	
+					}
+						
+					redata[dbs[j].week]={};
+					redata[dbs[j].week].tags = dbs[j].week;
+				    redata[dbs[j].week].wxjl = 0;
+					redata[dbs[j].week].shbxjl = 0;
+					redata[dbs[j].week].sjsjl = 0;
+					redata[dbs[j].week].ecgsjl = 0;
+					redata[dbs[j].week].jck = 0;
+					redata[dbs[j].week].yys = 0;
+					redata[dbs[j].week].szk = 0;
+					redata[dbs[j].week].zj = 0;
+
+
+					}
+
+					redata[dbs.length]={};
 				redata[dbs.length].tags = '总计';
 				redata[dbs.length].wxjl = 0;
 					redata[dbs.length].shbxjl = 0;
@@ -423,63 +447,57 @@ if (tjtype == 0) {
 					redata[dbs.length].szk = 0;
 					redata[dbs.length].zj = 0;
 
+
+					console.log(redata);
+
 				for (var i = 0; i < dbs.length; i++) {
-					redata[i]={};
-					redata[i].tags = dbs[i].week;
-				    redata[i].wxjl = 0;
-					redata[i].shbxjl = 0;
-					redata[i].sjsjl = 0;
-					redata[i].ecgsjl = 0;
-					redata[i].jck = 0;
-					redata[i].yys = 0;
-					redata[i].szk = 0;
-					redata[i].zj = 0;
+					
 
 					if (dbs[i].DepId == 1) {
-						redata[i].wxjl = dbs[i].number;
-						redata[i].zj += dbs[i].number;
+						redata[dbs[i].week].wxjl = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
 						redata[dbs.length].wxjl += dbs[i].number;
 						redata[dbs.length].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 3) {
-						redata[i].shbxjl = dbs[i].number;
-						redata[i].zj += dbs[i].number;
+						redata[dbs[i].week].shbxjl = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
 						redata[dbs.length].shbxjl += dbs[i].number;
 						redata[dbs.length].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 7) {
-						redata[i].sjsjl = dbs[i].number;
-						redata[i].zj += dbs[i].number;
+						redata[dbs[i].week].sjsjl = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
 						redata[dbs.length].sjsjl += dbs[i].number;
 						redata[dbs.length].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 8) {
-						redata[i].ecgsjl = dbs[i].number;
-						redata[i].zj += dbs[i].number;
+						redata[dbs[i].week].ecgsjl = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
 						redata[dbs.length].ecgsjl += dbs[i].number;
 						redata[dbs.length].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 6) {
-						redata[i].jck = dbs[i].number;
-						redata[i].zj += dbs[i].number;
+						redata[dbs[i].week].jck = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
 						redata[dbs.length].jck += dbs[i].number;
 						redata[dbs.length].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 5) {
-						redata[i].yys = dbs[i].number;
-						redata[i].zj += dbs[i].number;
+						redata[dbs[i].week].yys = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
 						redata[dbs.length].yys += dbs[i].number;
 						redata[dbs.length].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 11) {
-						redata[i].szk = dbs[i].number;
-						redata[i].zj += dbs[i].number;
+						redata[dbs[i].week].szk = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
 						redata[dbs.length].szk += dbs[i].number;
 						redata[dbs.length].zj += dbs[i].number;
 					}
@@ -487,15 +505,19 @@ if (tjtype == 0) {
 
 
 				}
-				output.iTotalRecords = dbs.length;
+				var redata2=[];
+				for(var key in redata){
+					redata2.push(redata[key]);
+				}
+				output.iTotalRecords = redata2.length;
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
-				output.iTotalDisplayRecords = dbs.length;
-				output.aaData = redata;
+				output.iTotalDisplayRecords = redata2.length;
+				output.aaData = redata2;
 				res.send(output);
 			}
 
 		});
-}
+     }
 //end0
 	else if (tjtype == 1) {
 
@@ -1107,12 +1129,15 @@ exports.callreportchart = function(req, res) {
 	var output = {};
 	var now = new Date(); //当前日期 
 	var nowYear = now.getFullYear(); //当前年 
-    if (tjtype == 0) {
+
+
+
+ if (tjtype == 0) {
 	var dayfrom = req.query['dayfrom'] || req.body['dayfrom'] || nowYear + "-01" + "-01";
 	var dayto=req.query['dayto'] || req.body['dayto'] || nowYear+"-12"+"-31";
 
     var sql = "SELECT count(*) as number,accountcode,routerline,DATE_FORMAT(cretime,'%Y-%m-%d') as week  FROM `callsession` where 1=1 ";
-		sql += " and cretime > '" + dayfrom + " 00:00:00' and cretime < '" + dayto + " 23:59:59'  group by accountcode,DATE_FORMAT(cretime,'%Y-%m-%d') order by DATE_FORMAT(cretime,'%Y-%m-%d') asc";
+		sql += " and cretime > '" + dayfrom + " 00:00:00' and cretime < '" + dayto + " 23:59:59'  group by accountcode,routerline,DATE_FORMAT(cretime,'%Y-%m-%d') order by DATE_FORMAT(cretime,'%Y-%m-%d') asc";
 
 		callsession.query(sql, function(err, dbs) {
 			if (err) {
@@ -1122,10 +1147,14 @@ exports.callreportchart = function(req, res) {
 				});
 			} else {
 
-				var redata = [];
+				var redata = {};
+				
+
+
                
 
 			
+<<<<<<< HEAD
                 for (var j = 0; j <= dbs.length; j++) {
 
                 	if(j < dbs.length && typeof(redata[dbs[j].week])==='object')
@@ -1133,18 +1162,19 @@ exports.callreportchart = function(req, res) {
                 		continue;
                 	}
 
+=======
+                for (var j = 0; j < dbs.length; j++) {
+                	if(typeof(redata[dbs[j].week])==='object'){
+                		continue;
+                	}
+>>>>>>> e8bf94e6f6d78e02e55714d672996e5a2c913b49
 					var tmp = {};
-					if (j == dbs.length)
-						tmp.tags = '总计';
-					else {
-						console.log(dbs[j]);
-					
-						tmp.tags = dbs[j].week;
-					}
-					for (var kk = 0; kk < clomunsarray.length; kk++) {
+					 tmp.tags = dbs[j].week;
+					 for (var kk = 0; kk < clomunsarray.length; kk++) {
 						tmp[clomunsarray[kk]] = [0, 0];
 					}
 					tmp.zj = [0, 0];
+<<<<<<< HEAD
 					if(j == dbs.length)
 						redata["zongji"] = tmp;
 					else
@@ -1164,6 +1194,34 @@ exports.callreportchart = function(req, res) {
 							redata[dbs[i].week].zj[1] += dbs[i].number;
 							redata["zongji"][dbs[i].accountcode][1] += dbs[i].number;
 							redata["zongji"].zj[1] += dbs[i].number;
+=======
+					redata[dbs[j].week] = tmp;
+				}
+				
+				redata[dbs.length]={};
+				redata[dbs.length].tags= '总计';
+				
+				for (var kk = 0; kk < clomunsarray.length; kk++) {
+						redata[dbs.length][clomunsarray[kk]] = [0, 0];
+					}
+
+				redata[dbs.length].zj = [0, 0];
+
+
+				for (var i = 0; i < dbs.length; i++) {
+
+					if (contains(clomunsarray, dbs[i].accountcode)) {
+						if (dbs[i].routerline == 1) {
+							redata[dbs[i].week][dbs[i].accountcode][0] = dbs[i].number;
+							redata[dbs[i].week].zj[0] += dbs[i].number;
+							redata[dbs.length][dbs[i].accountcode][0] += dbs[i].number;
+							redata[dbs.length].zj[0] += dbs[i].number;
+						} else {
+							redata[dbs[i].week][dbs[i].accountcode][1] = dbs[i].number;
+							redata[dbs[i].week].zj[1] += dbs[i].number;
+							redata[dbs.length][dbs[i].accountcode][1] += dbs[i].number;
+							redata[dbs.length].zj[1] += dbs[i].number;
+>>>>>>> e8bf94e6f6d78e02e55714d672996e5a2c913b49
 						}
 
 					}
@@ -1171,6 +1229,7 @@ exports.callreportchart = function(req, res) {
 
 
 				}
+<<<<<<< HEAD
 				var redatanew=[];
 
 				for(var k in redata)
@@ -1179,13 +1238,24 @@ exports.callreportchart = function(req, res) {
 
 
 			
+=======
+				var redata2=[];
+				for(var key in redata){
+					redata2.push(redata[key]);
+				}
+>>>>>>> e8bf94e6f6d78e02e55714d672996e5a2c913b49
                                                             
-				output.iTotalRecords = dbs.length;
+				output.iTotalRecords = redata2.length;
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
+<<<<<<< HEAD
 				output.iTotalDisplayRecords = dbs.length;
 				
 				output.aaData = redatanew;
 				console.log(output.aaData);
+=======
+				output.iTotalDisplayRecords = redata2.length;
+				output.aaData = redata2;
+>>>>>>> e8bf94e6f6d78e02e55714d672996e5a2c913b49
 				res.send(output);
 			}
 
@@ -1193,7 +1263,8 @@ exports.callreportchart = function(req, res) {
 
 
     }
-	if (tjtype == 1) {
+
+	else if (tjtype == 1) {
 
 		var kaishijieshu = mm(nowYear, tjvalue);
 		var sql = "SELECT count(*) as number,accountcode,routerline,WEEKDAY(date(cretime)) as week  FROM `callsession` where 1=1 ";

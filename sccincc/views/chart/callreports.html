@@ -63,7 +63,7 @@
 <table class="table table-striped table-bordered bootstrap-datatable datatable" id="datatable">
 	<caption></caption>
 	<thead>
-        <tr><td colspan="9">说明：各项数据依次代表【<span style="color:#B5B5B5;">呼入</span>|<span style="color:#EAEAEA;">呼出</span>】</td></tr>
+        <tr><td colspan="<%= Agent.length%>">说明：各项数据依次代表【<span style="color:blue;">呼入</span>|<span style="color:red;">呼出</span>】</td></tr>
 		<tr>
 			<th id='thshow'>星期\座席</th>
             <%for(var i=0;i<Agent.length;i++){%>
@@ -134,9 +134,9 @@ $('#datatable').dataTable({
     aoColumnDefs: [{
                        aTargets:showcols,
                        mRender: function (data, type,full) {
-                       var str='<span style="background-color:#B5B5B5;width:10px;">&nbsp;&nbsp;&nbsp;&nbsp;'+data[0]+'&nbsp;&nbsp;&nbsp;&nbsp;</span>';
+                       var str='<span style="color:blue;">'+data[0]+'</span>';
                            str+="|";
-                           str+='<span style="background-color:#EAEAEA;width:10px;">&nbsp;&nbsp;&nbsp;&nbsp;'+data[1]+'&nbsp;&nbsp;&nbsp;&nbsp;</span>';
+                           str+='<span style="color:red;">'+data[1]+'</span>';
                            
 
                        return str;

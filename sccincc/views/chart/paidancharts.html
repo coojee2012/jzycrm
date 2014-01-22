@@ -39,7 +39,7 @@
 <table class="table table-striped table-bordered bootstrap-datatable datatable" id="datatable">
 	<caption></caption>
 	<thead>
-        <tr><td colspan="9">说明：各项数据依次代表【<span style="color:#B5B5B5;">未处理</span>|<span style="color:#EAEAEA;">处理中</span>|<span style="color:#CDC0B0;">已完成</span>】</td></tr>
+        <tr><td colspan="9">说明：各项数据依次代表【<span style="color:red;">未处理</span>|<span style="color:#FFA500;">处理中</span>|<span style="color:blue;">已完成</span>】</td></tr>
 		<tr>
 			<th>星期\部门</th>
 			<th>维修</th>
@@ -105,9 +105,9 @@ $('#datatable').dataTable({
                     {
                        aTargets:[1,2,3,4,5,6,7,8],
                        mRender: function (data, type,full) {
-                       var str='<span style="background-color:#B5B5B5;width:10px;">&nbsp;&nbsp;&nbsp;&nbsp;'+data[0]+'&nbsp;&nbsp;&nbsp;&nbsp;</span>';
-                           str+='|<span style="background-color:#EAEAEA;width:10px;">&nbsp;&nbsp;&nbsp;&nbsp;'+data[1]+'&nbsp;&nbsp;&nbsp;&nbsp;</span>';
-                           str+='|<span style="background-color:#CDC0B0;width:10px;">&nbsp;&nbsp;&nbsp;&nbsp;'+data[2]+'&nbsp;&nbsp;&nbsp;&nbsp;</span>';
+                       var str='<span style="color:red;">'+data[0]+'</span>';
+                           str+='|<span style="color:#FFA500;">'+data[1]+'</span>';
+                           str+='|<span style="color:blue;">'+data[2]+'</span>';
 
                        return str;
                        }

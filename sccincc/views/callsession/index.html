@@ -2,17 +2,17 @@
 $(document).ready(function() {
 var aoColumns=[
                
-               { mData: "accountcode", sClass: "center" },
+               { mData: "accountcode", sClass: "center","bSortable": false },
                
-               { mData: "callernumber", sClass: "center" },
+               { mData: "callernumber", sClass: "center","bSortable": false  },
                
-               { mData: "extension", sClass: "center" },
+               { mData: "extension", sClass: "center","bSortable": false  },
                
-               { mData: "routerline", sClass: "center" },
+               { mData: "routerline", sClass: "center","bSortable": false  },
                { mData: "cretime", sClass: "center",bSearchable: false},
-               	{ mData: "hanguptime", sClass: "center",bSearchable: false},
+               	{ mData: "hanguptime", sClass: "center",bSearchable: false,"bSortable": false },
                	
-                 { mData: "id", sClass: "center",bSearchable: false }
+                 { mData: "id", sClass: "center",bSearchable: false,"bSortable": false  }
                  
              ];
 var where='';
@@ -54,19 +54,23 @@ $('#datatable').dataTable( {
 	},
     bProcessing: true,
     bServerSide: true,
-    bSort: false,
+    bSort: true,
     bFilter:false,
-    aaSorting: [[ 4, "desc" ]],
+    aaSorting: [[4, "desc"]],
     sAjaxSource: "/selectdb/pagingsearch?dbname=ippbx/callsession&cls=accountcode___callernumber___extension___routerline___cretime___hanguptime___id&where="+where,
     aoColumns:aoColumns ,
     aoColumnDefs: [
+    {
+    	aTargets: [0],
+                	   mRender: function (data, type,full) {
+                	   	return getagentname(data);
+                	   }
+    	
+    },
                    {
                 	   aTargets: [3],
                 	   mRender: function (data, type,full) {
-                		   if(data==2)
-                			   return '呼入';
-                		   else
-                			   return '呼出';
+                	   	return data;
                 	   }
                 	   
                    },
@@ -87,7 +91,7 @@ $('#datatable').dataTable( {
                                 var str='<div class="btn-group"><button class="btn btn-small ">操作</button> ';
 						            str+='<button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>';
 						            str+='<ul class="dropdown-menu"> ';
-                                    str+='<li><a href="/callsession/detail?id='+data+'"><i class="icon-zoom-in icon-white"></i>查看</a></li>';
+                                    //str+='<li><a href="/callsession/detail?id='+data+'"><i class="icon-zoom-in icon-white"></i>查看</a></li>';
                                     str+='<li><a href="/screenpop/index?callid=?'+data+'&unid=&caller='+caller+'&called='+called+'&poptype="><i class="icon-edit icon-white"></i> 补单</a></li> ';
                                   //  str+='<li><a href="javascript:deleterow('+data+');"><i class="icon-trash icon-white"></i> 删除</a></li> ';
                                     str+='</ul></div>';
@@ -98,19 +102,11 @@ $('#datatable').dataTable( {
                               ],
              oTableTools: {
              sSwfPath: "/css/swf/copy_csv_xls_pdf.swf",
-             aButtons: [                          
-                                {
-					"sExtends": "copy",
-					"sButtonText": "复制"
-				},
-				  {
-					"sExtends": "print",
-					"sButtonText": "打印"
-				},
+             aButtons: [
                                  {
                  					"sExtends":    "collection",
                  					"sButtonText": '导出 <span class="caret" />',
-                 					"aButtons":    [ "csv", "xls", "pdf" ],
+                 					"aButtons":    [ "csv", "xls"],
                  					"mColumns": daochu
                  				}
                                 
@@ -121,42 +117,10 @@ $('#datatable').dataTable( {
 } );
 } );
 
-function deleterow(data){
-	var oTable = $('#datatable').dataTable();
-	   
-	  // Immediately remove the first row
-	  //oTable.fnDeleteRow( data );
-	  
-	   $.ajax(
-	            {
-	                url: '/callsession/del',
-	                dataType: 'json',
-	                type: 'POST',
-	                async: false,
-	                data:{ids:data},
-	                success: function (data, textStatus) {	                    
-		                    alert(data.msg);
-		                   // location.href='/UserInfo/';	
-		                    oTable.fnDraw();	                    
-	                },
-	                error: function (XMLHttpRequest, textStatus, errorThrown) {
-	                    alert('服务器访问发生异常！' + textStatus);
-	                    return;
-	                }
-	            }
-	            );	       
-	 }
+
 </script>
 
 <script type="text/javascript">
-
-
-
-
-
-
-
-
 function get_routerline(value){
 var tm=	{ name: '呼叫方向',
   input: { type: 'selects', ops: [] },
@@ -164,7 +128,7 @@ var tm=	{ name: '呼叫方向',
   create: false,
   table: true,
   selects: 
-   [ { checked: ' selected=&quot;selected&quot;', value: 1, name: '呼出' },
+   [{ checked: '', value: 1, name: '呼出' },
      { checked: '', value: 2, name: '呼入' } ] }.selects;
 for(var tmtm in tm)
 	if(tm[tmtm].value==value){
@@ -174,40 +138,16 @@ return tm[tmtm].name;
 
 
 
-
-
-
-
-
-function delmut(){}
-function del(ids){
-	 $.ajax(
-	            {
-	                url: '/callsession/del',
-	                dataType: 'json',
-	                type: 'POST',
-	                async: false,
-	                data:{ids:ids},
-	                success: function (data, textStatus) {	                    
-		                    alert(data.msg);
-		                    location.href='/callsession/';		                    
-	                },
-	                error: function (XMLHttpRequest, textStatus, errorThrown) {
-	                    alert('服务器访问发生异常！' + textStatus);
-	                    return;
-	                }
-	            }
-	            );	
-}
-</script>
-<script type="text/javascript">
-
 </script>
 
 <script type="text/javascript">
+	function getagentname(exten){
+		var agents=<%= agents%>;
+		return agents[exten]||exten;
 
-
+	}
 </script>
+
 <div class="container-fluid">
 <div id="mysearch" class="modal hide fade" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
@@ -241,10 +181,13 @@ name="accountcode" value="<%= where.accountcode%>" />
 <div class="control-group"><label class="control-label" for="routerline">呼叫方向 </label>
 <div class="controls">
     <select id="routerline" name="routerline"> 
-							<option value="1"  selected=&quot;selected&quot; >
+    	  <option value="-1" <%if(where.routerline==-1){%> selected="selected" <%}%>>
+							 请选择 
+							</option> 
+							<option value="1" <%if(where.routerline==1){%> selected="selected" <%}%>>
 							 呼出 
 							</option> 
-							<option value="2"  >
+							<option value="2" <%if(where.routerline==2){%> selected="selected" <%}%>  >
 							 呼入 
 							</option> 
 								  </select>   </div>
@@ -279,18 +222,16 @@ name="accountcode" value="<%= where.accountcode%>" />
 </div>
 </div>
 <div class="box-content">
-<table
-	class="table table-striped table-bordered bootstrap-datatable datatable"
-	id="datatable">
+<table class="table table-striped table-bordered bootstrap-datatable datatable" id="datatable">
 	<caption></caption>
 	<thead>
 		<tr>
 			 
-			<th>呼叫帐号</th>
+			<th>座席姓名</th>
 			  
 			<th>主叫号码</th>
 			  
-			<th>分机号</th>
+			<th>被叫号码</th>
 			  
 			<th>呼叫方向</th>
 			  

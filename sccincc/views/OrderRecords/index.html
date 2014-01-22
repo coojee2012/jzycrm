@@ -31,6 +31,7 @@ var vKeys=["id","cID.idcard","uaddr","OrderTypeid.typeName","uphone","DepID.depN
 var where='';
 where+=',,,,,'+'serMan:::::'+$('#serMan').val();
 where+=',,,,,'+'DepID:::::'+$('#DepID').val();
+where+=',,,,,'+'OrderOptions:::::'+$('#options').val();
 where+=',,,,,'+'dactorName:::::'+$('#dactorName').val();
 where+=',,,,,'+'orderReslut:::::'+$('#orderReslut').val();
 where+=',,,,,'+'orderContent:::::like|||||'+$('#orderContent').val();
@@ -227,7 +228,8 @@ function dialout(phonenumber){
          alert("为能获取到有效手机号码，呼叫将失败！");
          return false;
      }
-     if(parent._OUTPREX!=null)
+     var re=/^0\d+/;
+     if(parent._OUTPREX!=null && !re.test(phonenumber))
      phonenumber = parent._OUTPREX + phonenumber;
    
      $.ajax(
@@ -493,11 +495,37 @@ function huifang(orderId){
 		return false;	
 		}
 		//alert(data.callUnitID);
+    $("#danhao2").val(); 
+    $("#guzhang").val();   
+    $("#customname").val();
+    $("#customphone").val();
+    $("#smscontent3").val();
+    $("#memo3").val();
 		
 		$("#danhao2").val(data.id);	
-		$("#guzhang").val(data.OrderType.typeName);		
+		$("#guzhang").val(data.orderContent);		
 		$("#customname").val(data.CustomInfo.cname);
 		$("#customphone").val(data.CustomInfo.phone);
+    $("#smscontent3").val(data.orderReslut);
+    $("#memo3").val(data.memo);
+    $("#OrderOptions3").val(data.OrderOptions);
+    /*if(data.OrderOptions==1){
+      var ttt2=$("#OrderOptions_2");
+      ttt2.removeAttr("checked");
+      var ttt1=$("#OrderOptions_1");
+
+      ttt1.attr("checked","checked");
+      ttt1.click();
+      alert($('input[type="radio"][name="OrderOptions3"]:checked').val());
+
+      $("input[type='radio'][name='OrderOptions3']").get(0).checked = true; 
+
+    }else{
+      $("#OrderOptions_1").removeAttr("checked");
+      $("#OrderOptions_2").attr("checked","checked");
+       alert($('input[type="radio"][name="OrderOptions3"]:checked').val());
+      $("input[type='radio'][name='OrderOptions3']").get(1).checked = true; 
+    }*/
 		$('#huifang').modal('show');
 				});		
 }
@@ -507,7 +535,7 @@ var oTable = $('#datatable').dataTable();
 var orderid=$("#danhao2").val();
 var manid=parent._USERID;
 var content=$("#smscontent3").val();
-var options=$("input[name='OrderOptions3'][type='radio']:checked").val();
+var options=$("#OrderOptions3").val();
 if(options==1){
 //alert("仍在处理中的工单不能保存！");
 //return false;
@@ -859,7 +887,10 @@ $(function(){
 <div class="control-group"><label class="control-label"
 	for="id">工单编号 </label>
 <div class="controls">
-<input type="text" class="span6 typeahead" id="id" name="id" value="<%= where.id%>" /></div>
+<input type="text" class="span6 typeahead" id="id" name="id" value="<%= where.id%>" />
+<input type="hidden" id="options" name="options" value="<%= where.OrderOptions%>" />
+</div>
+
 </div>
 
 
@@ -1098,9 +1129,10 @@ $(function(){
 </div>
 
 <div class="control-group"><label class="control-label"
-	for="guzhang">故障类别</label>
-<div class="controls"><input type="text" class="span6 typeahead"
-	id="guzhang" name="guzhang" readonly="readonly" /></div>
+	for="guzhang">故障内容</label>
+<div class="controls">
+<textarea id="guzhang" name="guzhang" class="autogrow"></textarea>
+</div>
 </div>
 
 <div class="control-group"><label class="control-label"
@@ -1118,16 +1150,22 @@ $(function(){
 </div>
 
 <div class="control-group"><label class="control-label"
+  for="memo3">备注</label>
+<div class="controls"><textarea id="memo3" name="memo3" readonly="readonly"></textarea>
+  </div>
+</div>
+
+<div class="control-group"><label class="control-label"
 	for="smscontent3">处理结果</label>
-<div class="controls"><textarea id="smscontent3" name="smscontent3"
-	class="autogrow"></textarea></div>
+<div class="controls"><textarea id="smscontent3" name="smscontent3" class="autogrow"></textarea></div>
 </div>
 <div class="control-group"> <label class="control-label" for="OrderOptions3">工单状态 </label>
 <div class="controls">
-<label class="radio"> <input type="radio"
-	id="OrderOptions_1" checked="checked" name="OrderOptions3" value="1" /> 处理中 </label> 
-	<label class="radio">
-<input type="radio" id="OrderOptions_2" name="OrderOptions3" value="2" /> 已完成 </label></div>
+<select id="OrderOptions3" name="OrderOptions3">
+  <option value="1">处理中</option>
+  <option value="2">已完成</option>
+</select>
+</div>
 </div>
 
 <div class="modal-footer">

@@ -23,9 +23,9 @@
         _DIDSTATUS = "<%= exten.dndinfo%>";
         // _HOSTURL = "@ViewBag.URLHOST";
         _HOSTURL = "";
-        _OUTPREX = "";
+        _OUTPREX = "0";
     </script>
-<script type="text/javascript"><!--
+<script type="text/javascript">
         $(function () {
             if(_USERID=='')
                 location.href='/';
@@ -182,7 +182,9 @@
             });
 
             //
+            getremined();
             setInterval("startRequest()", 3000);
+            setInterval("getremined()", 60000);
             // startRequest();
             //setInterval这个函数会根据后面定义的1000既每隔1秒执行一次前面那个函数
 
@@ -265,21 +267,85 @@
                 }
             });
         }
---></script>
+
+         function getremined(){
+         $.ajax({
+                type: "POST",
+                url: '/RemindReacords/jsonget',
+                dataType: "json",
+                data: { ajax: "1", time: "180000", 'fromexten': _USEREXTEN },
+                success: function (data, textStatus) {
+                    if (data.success == true) {
+
+$("#thjlwcl").html("1、您有<span style='color:red;'>"+data.inst.gd.notdo+"</span>条工单未处理，请及时处理！");
+$("#thjlclz").html("2、您有<span style='color:#FFA500;'>"+data.inst.gd.waitdo+"</span>条工单正在处理，请及时处理！");
+$("#thjlywc").html("3、您有<span style='color:blue;'>"+data.inst.gd.harddo+"</span>条工单已完成！");
+ tipplay();                      
+                    }
+                    //超时  
+                    else if (data.success == "0") {
+
+                    }
+                    else {
+                        alert("与服务器数据交互出现异常，请联系管理员！");
+                    }
+
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    if (XMLHttpRequest.readyState == "4") {
+                        //alert(XMLHttpRequest.responseText);
+                    }
+                    XMLHttpRequest = null;
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    
+                }
+            });
+  }
+
+  function tipplay(){
+    //$("#AlartMusic").play();
+    //$("#AlartMusic").src("Alarm.wav");
+      var div = $('#AlartMusic');
+     div.html('<embed src="Alarm.wav" height="0" width="0" border="0" name="1" />');
+}
+
+</script>
 <script type="text/javascript">
     $(function () { 
     if(_DIDSTATUS==="on")
     $("#app0img").attr("src", "/themes/default/icon/leftmenubtn1-1.png");
     
     });
+
+    function openthjl(sta){
+      myLib.desktop.win.newWin({
+                    WindowTitle: '工单记录',
+                    iframSrc: '/OrderRecords/?options=' + sta,
+                    WindowsId: "listthjl_"+sta,
+                    WindowAnimation: 'none',
+                    WindowWidth: 960,
+                    WindowHeight: 540
+                });
+  }
 </script>
 </head>
 
 <body>
+<div id="AlarmMusic">
+</div>
+<!-- embed name="AlarmMusic" id="AlarmMusic"  src="Alarm.wav" height="0" width="0" border="0" /-->
+<!-- audio id="AlarmMusic" src="" autoplay="autoplay"></audio-->
 <div><a href="#" class="powered_by">版权所有©中国电信，2008-2013</a>
 
 <div id="wallpapers"></div>
-
+<div id="infoBar">
+<marquee style="WIDTH:100%; HEIGHT:40px" scrollamount="4" direction="left" >
+    <a href="javascript:;" onclick="openthjl(0)" name="thjlwcl" id="thjlwcl" style="font-size:18px;font-weight:bold;"></a>
+    <a href="javascript:;" onclick="openthjl(1)" name="thjlclz" id="thjlclz" style="font-size:18px;font-weight:bold;"></a>
+    <a href="javascript:;" onclick="openthjl(2)" name="thjlywc" id="thjlywc" style="font-size:18px;font-weight:bold;"></a>
+</marquee>
+</div>
 <!-- 导航菜单开始 -->
 <div id="navBar"><a href="#" class="m1 currTab" title="客服平台">
 </a><a href="#" class="m2" title="短信平台"> </a><a href="#" class="m3"
@@ -294,8 +360,7 @@
 <ul class="deskIcon currDesktop">
 	<% umenmus.forEach(function(item){%> <% if(item.mgID==1){%>
 
-	<li class="desktop_icon" id="menmu_<%= item.id%>"> <span
-		class="icon"> <img src="/themes/default/icon/<%=
+	<li class="desktop_icon" id="menmu_<%= item.id%>"> <span class="icon"> <img src="/themes/default/icon/<%=
 	item.iconName%>" alt="无图片"/></span>
 	<div class="text"><%= item.menName%><s></s></div>
 	</li>

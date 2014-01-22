@@ -315,6 +315,13 @@ routes.RemindReacords = [
 		file: '/routes/RemindReacords',
 		method: 'post',
 		fn: 'post'
+	},
+
+	{
+		urlreg: '/RemindReacords/jsonget',
+		file: '/routes/RemindReacords',
+		method: 'post',
+		fn: 'jsonget'
 	}
 ];
 //自动添加于：2013-07-17 18:43:33

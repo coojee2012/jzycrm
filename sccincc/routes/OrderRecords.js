@@ -20,6 +20,7 @@ exports.get = function(req, res) {
 	var pageindex = req.query['pageindex'] || 0;
 	var cID = req.query['cID'] || req.body['cID'];
 	var serMan = req.query['serMan'] || req.body['serMan'];
+	var options= req.query['options'] || req.body['options'] || -1;
 	//if(where!=null){}
 	if (cID !== '')
 		where.cID = cID;
@@ -37,6 +38,7 @@ exports.get = function(req, res) {
 	where.orderTime_from = '';
 	where.orderTime_to = '';
 	where.OrderTypeid = -1;
+	where.OrderOptions = options;
 	if (req.session.roleid == 8) //派单部门只能看到自己部门的
 		where.DepID = req.session.deptid;
 	else
@@ -499,18 +501,22 @@ exports.getOrder = function(req, res) {
 						success: false,
 						msg: "该工单已经处理了！"
 					});
-				} else if (huifang == 1 && inst.OrderOptions == 0) {
+				} 
+				/*else if (huifang == 1 && inst.OrderOptions == 0) {
 					res.send({
 						success: false,
 						msg: "请先派单！"
 					});
-				} else {
+				}*/ 
+				else {
 					var data = {};
 					data.id = inst.id;
 					data.orderContent = inst.orderContent;
 					data.memo = inst.memo;
+					data.OrderOptions=inst.OrderOptions;
 					data.CustomInfo = inst.__cachedRelations.CustomInfo;
 					data.OrderType = inst.__cachedRelations.OrderType;
+					data.orderReslut=inst.orderReslut;
 					//console.log(data);
 					res.send({
 						success: true,
