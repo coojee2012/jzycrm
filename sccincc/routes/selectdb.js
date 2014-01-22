@@ -1127,6 +1127,12 @@ exports.callreportchart = function(req, res) {
 
 			
                 for (var j = 0; j <= dbs.length; j++) {
+
+                	if(j < dbs.length && typeof(redata[dbs[j].week])==='object')
+                	{
+                		continue;
+                	}
+
 					var tmp = {};
 					if (j == dbs.length)
 						tmp.tags = '总计';
@@ -1139,21 +1145,25 @@ exports.callreportchart = function(req, res) {
 						tmp[clomunsarray[kk]] = [0, 0];
 					}
 					tmp.zj = [0, 0];
-					redata[j] = tmp;
+					if(j == dbs.length)
+						redata["zongji"] = tmp;
+					else
+					redata[dbs[j].week] = tmp;
 				}
+			
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
-						if (dbs[i].routerline == 1) {
-							redata[i][dbs[i].accountcode][0] = dbs[i].number;
-							redata[i].zj[0] += dbs[i].number;
-							redata[dbs.length][dbs[i].accountcode][0] += dbs[i].number;
-							redata[dbs.length].zj[0] += dbs[i].number;
+						if (dbs[i].routerline == 2) {
+							redata[dbs[i].week][dbs[i].accountcode][0] = dbs[i].number;
+							redata[dbs[i].week].zj[0] += dbs[i].number;
+							redata["zongji"][dbs[i].accountcode][0] += dbs[i].number;
+							redata["zongji"].zj[0] += dbs[i].number;
 						} else {
-							redata[i][dbs[i].accountcode][1] = dbs[i].number;
-							redata[i].zj[1] += dbs[i].number;
-							redata[dbs.length][dbs[i].accountcode][1] += dbs[i].number;
-							redata[dbs.length].zj[1] += dbs[i].number;
+							redata[dbs[i].week][dbs[i].accountcode][1] = dbs[i].number;
+							redata[dbs[i].week].zj[1] += dbs[i].number;
+							redata["zongji"][dbs[i].accountcode][1] += dbs[i].number;
+							redata["zongji"].zj[1] += dbs[i].number;
 						}
 
 					}
@@ -1161,11 +1171,21 @@ exports.callreportchart = function(req, res) {
 
 
 				}
+				var redatanew=[];
+
+				for(var k in redata)
+					redatanew.push(redata[k]);
+
+
+
+			
                                                             
 				output.iTotalRecords = dbs.length;
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
 				output.iTotalDisplayRecords = dbs.length;
-				output.aaData = redata;
+				
+				output.aaData = redatanew;
+				console.log(output.aaData);
 				res.send(output);
 			}
 
