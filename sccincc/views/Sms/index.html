@@ -22,11 +22,19 @@ var where='';
 
 where+=',,,,,'+'mobile:::::like|||||'+$('#mobile').val();
 
-
 where+=',,,,,'+'content:::::like|||||'+$('#content').val();
 
-
 where+=',,,,,'+'sendState:::::'+$('#sendState').val();
+if($('#sendtime_from').val()!='' && $('#sendtime_to').val()!=''){
+where+=',,,,,'+'sendtime:::::between|||||'+$('#sendtime_from').val()+' 00:00:00====='+$('#sendtime_to').val()+' 23:59:59';
+}
+if($('#sendtime_from').val()!='' && $('#sendtime_to').val()==''){
+  where+=',,,,,'+'sendtime:::::gte|||||'+$('#sendtime_from').val()+' 00:00:00';
+}
+if($('#sendtime_from').val()=='' && $('#sendtime_to').val()!=''){
+  where+=',,,,,'+'sendtime:::::lte|||||'+$('#sendtime_to').val()+' 23:59:59';
+}
+
 var depid=parent.__USERDEPT;
 //维修和水检所看到自己的
 if(depid==1 || depid==7){
@@ -46,7 +54,7 @@ var daochu=[];
 for(var i=0;i<aoColumns.length-1;i++){
 	daochu[i]=i;	
 }
-$('#datatable').dataTable( {
+var MyDataTable=$('#datatable').dataTable( {
 	sDom: " <'row-fluid'<'span4'l><'span4'f><'span4'T>r>t<'row-fluid'<'span4'i><'span8 center'p>>",
 	//sDom: 'T<"clear">lfrtip',
 	sPaginationType: "bootstrap",
@@ -79,10 +87,12 @@ $('#datatable').dataTable( {
                             	//   mData : "id",
                                    mRender: function (data, type,full) {
                                 //    return 100;
+                                 var oSettings = MyDataTable.fnSettings();
+                                 var displaystart=oSettings._iDisplayStart;
                                 var str='<div class="btn-group"><button class="btn btn-small ">操作</button> ';
 						            str+='<button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>';
 						            str+='<ul class="dropdown-menu"> ';
-                                    str+='<li><a href="/Sms/detail?id='+data+'"><i class="icon-zoom-in icon-white"></i>查看</a></li>';
+                                    str+='<li><a href="/Sms/detail?id='+data+"&display="+displaystart+'"><i class="icon-zoom-in icon-white"></i>查看</a></li>';
                                    // str+='<li><a href="/Sms/edit?id='+data+'"><i class="icon-edit icon-white"></i> 编辑</a></li> ';
                                     //str+='<li><a href="javascript:deleterow('+data+');"><i class="icon-trash icon-white"></i> 删除</a></li> ';
                                     str+='</ul></div>';
@@ -220,6 +230,18 @@ function del(ids){
   
 <div class="control-group"><label class="control-label" for="content">短信内容 </label>
 <div class="controls"> <input type="text" class="span6 typeahead" id="content" name="content" value="<%= where.content%>" /> 
+     </div>
+</div>
+
+<div class="control-group"><label class="control-label" for="sendtime_from">记录时间 从</label>
+<div class="controls">
+ <input type="text" class="input-xlarge datepicker" id="sendtime_from" name="sendtime_from" value="<%= where.sendtime_from%>"> 
+     </div>
+</div>
+
+<div class="control-group"><label class="control-label" for="sendtime_to">到</label>
+<div class="controls">
+<input type="text" class="input-xlarge datepicker" id="sendtime_to" name="sendtime_to" value="<%= where.sendtime_to%>">
      </div>
 </div>
       

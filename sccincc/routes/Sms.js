@@ -14,6 +14,8 @@ exports.get = function(req, res){
 var where={};
 where['mobile']='';
 where['content']='';
+where.sendtime_from = '';
+where.sendtime_to = '';
 where['sendState']=-1;
 res.render('Sms/index.html', { title: '短信列表',where:where});
 };

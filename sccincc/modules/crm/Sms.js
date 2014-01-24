@@ -12,8 +12,8 @@ var Sms = schema.define('Sms', {
 	depid:  {type:Number,default:function () { return -1 }},
 	pdtype:  {type:Number,default:function () { return -1 }},
 	shuoming:    {type:String,limit:256,default:function(){return '';}},
-	SendTime:   {type: Date, default: function () { return moment().format("YYYY-MM-DD HH:mm:ss"); }},
-	WorkTime:   {type: Date, default: function () { return moment().format("YYYY-MM-DD HH:mm:ss"); }},
+	SendTime:   {type: String, default: function () { return moment().format("YYYY-MM-DD HH:mm:ss"); }},
+	WorkTime:   {type: String, default: function () { return moment().format("YYYY-MM-DD HH:mm:ss"); }},
 	sendState:  {type:Number,default:function () { return 0 }}
 
 }, {
