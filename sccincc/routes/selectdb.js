@@ -1154,49 +1154,22 @@ exports.callreportchart = function(req, res) {
                
 
 			
-<<<<<<< HEAD
-                for (var j = 0; j <= dbs.length; j++) {
 
-                	if(j < dbs.length && typeof(redata[dbs[j].week])==='object')
-                	{
-                		continue;
-                	}
-
-=======
                 for (var j = 0; j < dbs.length; j++) {
                 	if(typeof(redata[dbs[j].week])==='object'){
                 		continue;
                 	}
->>>>>>> e8bf94e6f6d78e02e55714d672996e5a2c913b49
 					var tmp = {};
 					 tmp.tags = dbs[j].week;
 					 for (var kk = 0; kk < clomunsarray.length; kk++) {
 						tmp[clomunsarray[kk]] = [0, 0];
 					}
 					tmp.zj = [0, 0];
-<<<<<<< HEAD
-					if(j == dbs.length)
-						redata["zongji"] = tmp;
-					else
+
 					redata[dbs[j].week] = tmp;
 				}
 			
-				for (var i = 0; i < dbs.length; i++) {
 
-					if (contains(clomunsarray, dbs[i].accountcode)) {
-						if (dbs[i].routerline == 2) {
-							redata[dbs[i].week][dbs[i].accountcode][0] = dbs[i].number;
-							redata[dbs[i].week].zj[0] += dbs[i].number;
-							redata["zongji"][dbs[i].accountcode][0] += dbs[i].number;
-							redata["zongji"].zj[0] += dbs[i].number;
-						} else {
-							redata[dbs[i].week][dbs[i].accountcode][1] = dbs[i].number;
-							redata[dbs[i].week].zj[1] += dbs[i].number;
-							redata["zongji"][dbs[i].accountcode][1] += dbs[i].number;
-							redata["zongji"].zj[1] += dbs[i].number;
-=======
-					redata[dbs[j].week] = tmp;
-				}
 				
 				redata[dbs.length]={};
 				redata[dbs.length].tags= '总计';
@@ -1221,7 +1194,7 @@ exports.callreportchart = function(req, res) {
 							redata[dbs[i].week].zj[1] += dbs[i].number;
 							redata[dbs.length][dbs[i].accountcode][1] += dbs[i].number;
 							redata[dbs.length].zj[1] += dbs[i].number;
->>>>>>> e8bf94e6f6d78e02e55714d672996e5a2c913b49
+
 						}
 
 					}
@@ -1229,33 +1202,19 @@ exports.callreportchart = function(req, res) {
 
 
 				}
-<<<<<<< HEAD
-				var redatanew=[];
 
-				for(var k in redata)
-					redatanew.push(redata[k]);
-
-
-
-			
-=======
 				var redata2=[];
 				for(var key in redata){
 					redata2.push(redata[key]);
 				}
->>>>>>> e8bf94e6f6d78e02e55714d672996e5a2c913b49
+
                                                             
 				output.iTotalRecords = redata2.length;
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
-<<<<<<< HEAD
-				output.iTotalDisplayRecords = dbs.length;
-				
-				output.aaData = redatanew;
-				console.log(output.aaData);
-=======
+
 				output.iTotalDisplayRecords = redata2.length;
 				output.aaData = redata2;
->>>>>>> e8bf94e6f6d78e02e55714d672996e5a2c913b49
+
 				res.send(output);
 			}
 
