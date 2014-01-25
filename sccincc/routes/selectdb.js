@@ -398,7 +398,7 @@ exports.orderchart = function(req, res) {
 
 
 if (tjtype == 0) {
-	var dayfrom = req.query['dayform'] || req.body['dayform'] || nowYear + "-01" + "-01";
+	var dayfrom = req.query['dayfrom'] || req.body['dayfrom'] || nowYear + "-01" + "-01";
 	var dayto=req.query['dayto'] || req.body['dayto'] || nowYear+"-12"+"-31";
 	var sql = "SELECT count(*) as number,DepId, DATE_FORMAT(orderTime,'%Y-%m-%d') as week  FROM `OrderRecords` where 1=1 ";
 		sql += " and orderTime > '" + dayfrom + " 00:00:00' and orderTime < '" + dayto + " 23:59:59'  group by DepId,DATE_FORMAT(orderTime,'%Y-%m-%d') order by DATE_FORMAT(orderTime,'%Y-%m-%d') asc";

@@ -15,6 +15,20 @@ callmsg.unid=unid || -1;
 callmsg.caller=caller;
 callmsg.called=called;
 callmsg.poptype=poptype;
+var re=/(^01\d+)|(^1\d+)/;
+var where={};
+var Phone="";
+var Tel="";
+if(re.test(phone)){
+where={phone:phone};
+Phone=phone;
+}
+else
+{
+	where={tel:phone};
+	Tel=phone;
+}
+
 
 try{
 
@@ -30,7 +44,7 @@ try{
 		//inst.csex=0;
 	}
 	
-	res.render('screenpop/index.html',{inst:inst,phone:phone,error:null,callmsg:callmsg});
+	res.render('screenpop/index.html',{inst:inst,phone:Phone,tel:Tel,error:null,callmsg:callmsg});
 	});	
 }
 catch(e){

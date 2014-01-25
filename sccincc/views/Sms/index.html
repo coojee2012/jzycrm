@@ -71,6 +71,7 @@ var MyDataTable=$('#datatable').dataTable( {
     oPaginate: { "sFirst": "第一页", "sPrevious": "上一页 ", "sNext": "下一页 ", "sLast": "末页 " }
 	},
     bProcessing: true,
+    <%if(pageindex>0){%>iDisplayStart: <%= pageindex%>,<%}%>
     bServerSide: true,
     bSort: false,
     bFilter:false,

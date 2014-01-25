@@ -8,7 +8,8 @@ var DepInfo=require('./DepInfo');
 var moment = require('moment');
 var OrderRecords = schema.define('OrderRecords', {
 	callUnitID:   {type:String,limit:50},
-	uphone:   {type:String,limit:100},
+	uphone:   {type:String,limit:100, default: function () { return '';}},
+	utel:   {type:String,limit:100, default: function () { return '';}},
 	uaddr:   {type:String,limit:200},
 	//dactorName:    {type:String,limit:150},
 	orderContent:  {type:String,limit:500, default: function () { return '';}},
@@ -27,6 +28,7 @@ OrderRecords.autotpl=false;
 OrderRecords.cloums={
 		callUnitID:   {name:"通话编号",input:Inputs.Hidden,search:true,create:true,table:true},
 		uphone:   {name:"联系手机",input:Inputs.Hidden,search:true,create:true,table:true},
+		utel:   {name:"联系固话",input:Inputs.Hidden,search:true,create:true,table:true},
 		uaddr:   {name:"联系地址",input:Inputs.Hidden,search:true,create:true,table:true},
 		OrderTypeid: {name:"故障现象",input:Inputs.SelectDB,search:true,create:true,table:true,selectdb:{dbname:'crm/OrderType',key:'id',value:'typeName'}},
 		orderContent:    {name:"受理内容",input:Inputs.TextArea,search:false,create:true,table:false},

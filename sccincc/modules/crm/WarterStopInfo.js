@@ -17,6 +17,7 @@ var isornot=[
 var WarterStopInfo = schema.define('WarterStopInfo', {
 	stopReson:   {type:String,limit:100},
 	smsTell:    {type:String,limit:150},
+	leaders:    {type:String,limit:150, default: function () { return ''; }},
 	isres:    {type: Number, default: function () { return 0 }},
 	startTime:   {type: Date, default: function () { return moment().format("YYYY-MM-DD HH:mm:ss"); }},
 	endTime:   {type: Date, default: function () { return null; }},
@@ -28,6 +29,7 @@ WarterStopInfo.autotpl=false;
 WarterStopInfo.cloums={
 		stopReson:   {name:"停水原因",input:Inputs.Text,search:true,create:true,table:true},
 		smsTell: {name:"短信内容",input:Inputs.Text,search:true,create:true,table:true},
+		leaders: {name:"通知领导",input:Inputs.Text,search:false,create:true,table:true},
 		areaID: {name:"停水区域",input:Inputs.SelectDB,search:true,create:true,table:true,selectdb:{dbname:'crm/AreaCode',key:'id',value:'AreaName'}},
 		isres:  {name:"恢复供水",input:Inputs.Radios,search:true,create:true,table:true,radios:isornot},
 		startTime:   {name:"开始时间",input:Inputs.Date,search:false,create:true,table:true},     		                                                                             

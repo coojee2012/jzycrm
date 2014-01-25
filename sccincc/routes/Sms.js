@@ -17,7 +17,8 @@ where['content']='';
 where.sendtime_from = '';
 where.sendtime_to = '';
 where['sendState']=-1;
-res.render('Sms/index.html', { title: '短信列表',where:where});
+var pageindex = req.query['pageindex'] || 0;
+res.render('Sms/index.html', { title: '短信列表',where:where,pageindex:pageindex});
 };
 /**
 POST 获取列表
@@ -170,12 +171,13 @@ GET详细
 **/
 exports.detail=function(req,res){
 var id=req.query.id;
+var pageindex = req.query.display;
 DbMode.findOne({where:{id:id}}, function(err,inst){
 if(err){
 res.render('Sms/detail.html', { title: '短信详细',inst:null,msg:err,util:util});
 	}
 else{
-res.render('Sms/detail.html', { title: '短信详细',inst:inst,msg:null,util:util});
+res.render('Sms/detail.html', { title: '短信详细',inst:inst,pageindex:pageindex,msg:null,util:util});
 }
 }
 );

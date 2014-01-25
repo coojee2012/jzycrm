@@ -9,7 +9,7 @@ var aoColumns=[
               // { mData: "OrderTypeid", sClass: "center" },
  { mData: "orderContent", sClass: "center" },
  { mData: "uphone", sClass: "center" },  
-               
+ { mData: "utel", sClass: "center" },                
                
                
               
@@ -27,7 +27,7 @@ var aoColumns=[
                  { mData: "id", sClass: "center",bSearchable: false }
                  
              ];
-var vKeys=["id","cID.idcard","uaddr","OrderTypeid.typeName","uphone","DepID.depName","dactorName.uName","orderReslut","serMan.uName","OrderOptions","orderTime","id"];
+var vKeys=["id","cID.idcard","uaddr","OrderTypeid.typeName","uphone","utel","DepID.depName","dactorName.uName","orderReslut","serMan.uName","OrderOptions","orderTime","id"];
 var where='';
 where+=',,,,,'+'serMan:::::'+$('#serMan').val();
 where+=',,,,,'+'DepID:::::'+$('#DepID').val();
@@ -54,7 +54,7 @@ for(var i=0;i<aoColumns.length-1;i++){
 	daochu[i]=i;	
 }
 
-var geturl="/selectdb/pagingsearch?dbname=crm/OrderRecords&cls=id___OrderTypeid___orderContent___uphone___uaddr___orderReslut___DepID___dactorName___serMan___cID___OrderOptions___recordTime___orderTime___id&where="+where+"&random="+Math.random();
+var geturl="/selectdb/pagingsearch?dbname=crm/OrderRecords&cls=id___OrderTypeid___orderContent___uphone___utel___uaddr___orderReslut___DepID___dactorName___serMan___cID___OrderOptions___recordTime___orderTime___id&where="+where+"&random="+Math.random();
 
 
 var MyDataTable=$('#datatable').dataTable( {
@@ -92,7 +92,7 @@ var MyDataTable=$('#datatable').dataTable( {
                 	  }
                       },
                    {
-                	   aTargets:[5],
+                	   aTargets:[6],
                 	   mRender: function (data, type,full) {
                        var str='';
                        str+=data.depName||'';
@@ -110,7 +110,7 @@ var MyDataTable=$('#datatable').dataTable( {
                 	   }
                        },
                         {
-                	   aTargets:[6],
+                	   aTargets:[7],
                 	   mRender: function (data, type,full) {
                        var str="--";
                       if(data!=null  &&　data.uName)
@@ -119,7 +119,7 @@ var MyDataTable=$('#datatable').dataTable( {
                 	   }
                        },
                         {
-                     aTargets:[8],
+                     aTargets:[9],
                      mRender: function (data, type,full) {
                        var str="--";
                       if(data!=null  && 　data.uName)
@@ -128,7 +128,7 @@ var MyDataTable=$('#datatable').dataTable( {
                      }
                        },
                 	     {
-                	   aTargets:[7],
+                	   aTargets:[8],
                 	   asSorting:["desc"]
                 	   },
                                {
@@ -506,6 +506,7 @@ function huifang(orderId){
 		$("#guzhang").val(data.orderContent);		
 		$("#customname").val(data.CustomInfo.cname);
 		$("#customphone").val(data.CustomInfo.phone);
+    $("#customtel").val(data.CustomInfo.tel);
     $("#smscontent3").val(data.orderReslut);
     $("#memo3").val(data.memo);
     $("#OrderOptions3").val(data.OrderOptions);
@@ -569,6 +570,10 @@ $.ajax(
 function dialouthuifang(){
 	var phone=$("#customphone").val();
 	dialout(phone);
+}
+function dialouthuifang2(){
+  var phone=$("#customtel").val();
+  dialout(phone);
 }
 </script>
 
@@ -984,8 +989,8 @@ $(function(){
       <th style="width:40px;">用户户号</th>
       <th>联系地址</th>
       <th>受理内容</th>
-       <th>联系电话</th>
-			
+       <th>手机号码</th>
+			<th>固定号码</th>
        
 
       <th>处理部门</th>
@@ -1122,11 +1127,7 @@ $(function(){
 <div class="box-content">
 <form class="form-horizontal" method="get">
 <fieldset>
-<div class="control-group"><label class="control-label"
-	for="danhao2">工单号</label>
-<div class="controls"><input type="text" class="span6 typeahead"
-	id="danhao2" name="danhao2" readonly="readonly" /></div>
-</div>
+<input type="hidden" id="danhao2" name="danhao2" />
 
 <div class="control-group"><label class="control-label"
 	for="guzhang">故障内容</label>
@@ -1148,6 +1149,15 @@ $(function(){
 	<input type="button" class="btn btn-small" onclick="javascript:dialouthuifang();" value="拨打"/>
 	</div>
 </div>
+
+<div class="control-group"><label class="control-label"
+  for="customtel">固话</label>
+<div class="controls"><input type="text" class="span6 typeahead"
+  id="customtel" name="customtel" readonly="readonly" />
+  <input type="button" class="btn btn-small" onclick="javascript:dialouthuifang2();" value="拨打"/>
+  </div>
+</div>
+
 
 <div class="control-group"><label class="control-label"
   for="memo3">备注</label>

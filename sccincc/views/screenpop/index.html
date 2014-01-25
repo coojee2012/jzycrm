@@ -119,6 +119,7 @@
     function addorder() {
         var customid = $("#id").val();
         var uphone=$("#phone").val();
+        var utel=$("#tel").val();
         var uaddr=$("#lifeAddr").val();
 
         if (customid == "") {
@@ -127,7 +128,7 @@
         }
         parent.myLib.desktop.win.newWin({
             WindowTitle: '新增来电：<%= callmsg.caller%>的工单记录',
-            iframSrc: '/OrderRecords/create?unid=<%= callmsg.unid%>&customid=' + customid+'&uphone='+uphone+'&uaddr='+uaddr,
+            iframSrc: '/OrderRecords/create?unid=<%= callmsg.unid%>&customid=' + customid+'&uphone='+uphone+'&utel='+utel+'&uaddr='+uaddr,
             WindowsId: "工单记录_<%= callmsg.unid%>",
             WindowAnimation: 'none',
             WindowWidth: 960,
@@ -291,11 +292,20 @@
         </div>
 
         <div class="control-group<%if(error!=null && error.phone!=null){%>error<%}%>">
-            <label class="control-label" for="phone">联系电话</label>
+            <label class="control-label" for="phone">手机电话</label>
             <div class="controls">
                 <input type="text" class="span12" id="phone" name="phone" value="<% if(phone!=''){%><%= phone%><%}%>" />
                 <span class="help-inline">
                     <%if(error!=null && error.phone!=null){%><%= error.phone%><%}%>
+                </span>
+            </div>
+        </div>
+         <div class="control-group<%if(error!=null && error.tel!=null){%>error<%}%>">
+            <label class="control-label" for="tel">座机电话</label>
+            <div class="controls">
+                <input type="text" class="span12" id="tel" name="tel" value="<% if(tel!=''){%><%= tel%><%}%>" />
+                <span class="help-inline">
+                    <%if(error!=null && error.tel!=null){%><%= error.tel%><%}%>
                 </span>
             </div>
         </div>

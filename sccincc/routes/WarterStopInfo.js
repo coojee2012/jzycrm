@@ -1,4 +1,5 @@
 var DbMode = require('../modules/crm/WarterStopInfo');
+var SMS=require('../modules/crm/Sms');
 var fs = require('fs');
 var util = require('util');
 var crypto = require('crypto');
@@ -87,6 +88,7 @@ var form = new formidable.IncomingForm();
 	var obj = req.files.fileInput;
 	var tmp_path = obj.path;
 	var new_path = "./public/assounds/user_custom/stopwater.wav"; //+obj.name;  
+	 //   new_path ="./"+obj.name;  
 	//console.log("原路径："+tmp_path);  
 	fs.rename(tmp_path, new_path, function(err) {
 		if (err) {
@@ -102,8 +104,8 @@ var form = new formidable.IncomingForm();
 		} else {
 
 			for (var key in req.body) {
-				if (key == 'leaders')
-					continue;
+				//if (key == 'leaders')
+				//	continue;
 				if (key == 'fileInput')
 					continue;
 				WarterStopInfo_mod[key] = req.body[key];
@@ -129,7 +131,11 @@ var form = new formidable.IncomingForm();
 								util: util
 							});
 						} else {
-							res.redirect('/WarterStopInfo');
+							var mobiles=[];
+							if(inst.leaders && inst.leaders!="")
+							mobiles=inst.leaders.split(',');
+							diguiarray(req,res,mobiles,inst.smsTell);
+							
 						}
 					});
 				}
@@ -140,6 +146,22 @@ var form = new formidable.IncomingForm();
 
 
 
+}
+
+
+function diguiarray(req,res,a,c){
+if(a.length>0){
+	var phone=a.pop();
+	var Sms_mod=new SMS();
+	Sms_mod.mobile=phone;
+	Sms_mod.content=c;
+	Sms_mod.save(function(err,inst){
+		diguiarray(req,res,a,c);	
+	});
+}else{
+	res.redirect('/WarterStopInfo');
+		
+}	
 }
 
 /**
