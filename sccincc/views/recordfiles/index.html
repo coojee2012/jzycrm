@@ -32,7 +32,7 @@ where+=',,,,,'+'cretime:::::between|||||'+crtimefrom+ '=====' + crtimeto;
 //where+=',,,,,'+'cretime:::::lte|||||'+$('#cretime_to').val();
 
 
-where+=',,,,,'+'doymicac:::::like|||||'+$('#doymicac').val();
+where+=',,,,,'+'doymicac:::::'+$('#doymicac option:selected').text();
 where+=',,,,,'+'callnumber:::::like|||||'+$('#callnumber').val();
 
 if(where!=='')
@@ -145,11 +145,16 @@ function del(ids){
 	}
   $(function(){
     var agents=<%= agents%>;
-    $("<option value='-1'  >请选择</option>").appendTo("#doymicac");  
+    $("<option value='' selected='selected' >请选择</option>").appendTo("#doymicac");  
     for(var key in agents){
-      $("<option value='"+key+"'  >"+agents[key]+"</option>").appendTo("#doymicac");  
+      if(key=="<%= where.doymicac%>"){
+$("<option value='"+key+"' selected='selected' >"+agents[key]+"</option>").appendTo("#doymicac");  
+      }else{
+        $("<option value='"+key+"'  >"+agents[key]+"</option>").appendTo("#doymicac"); 
+      }
+      
     }
-    $("#doymicac").val("<%= where.doymicac%>");
+   
   });
 </script>
 <div class="container-fluid">
@@ -182,7 +187,8 @@ function del(ids){
 
 
 <div class="control-group"><label class="control-label" for="doymicac">座席</label>
-<div class="controls"><select id="doymicac" name="doymicac">
+<div class="controls">
+<select id="doymicac" name="doymicac">
 </select></div>
 </div>
 

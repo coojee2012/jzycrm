@@ -147,14 +147,14 @@ exports.pagingsearch = function(req, res) {
 	if (wherestr != '') {
 		var tmp0 = wherestr.split(',,,,,');
 		for (var i = 0; i < tmp0.length; i++) {
-			if (tmp0[i] === '' || tmp0[i] == undefined || tmp0[i] === 'undefined')
+			if (tmp0[i] === '' || tmp0[i] == undefined || tmp0[i] === 'undefined' || tmp0[i] == null)
 				continue;
 			var tmp1 = tmp0[i].split(':::::');
-			if (tmp1[1] === 'undefined' || tmp1[1] == undefined || tmp1[1] == -1 || tmp1[1] == '') {
+			if (tmp1[1] === 'undefined' || tmp1[1] == undefined || tmp1[1] == -1 || tmp1[1] == '' || tmp1[1] == null) {
 				continue;
 			}
 			var tmp2 = tmp1[1].split('|||||');
-			if (tmp2[1] === 'undefined' || tmp2[1] == undefined || tmp2[1] == -1 || tmp2[1] == '') {
+			if (tmp2[1] === 'undefined' || tmp2[1] == undefined || tmp2[1] == -1 || tmp2[1] == '' || tmp2[1] == null) {
 				if (tmp2[0] == 'like' || tmp2[0] == 'inq' || tmp2[0] == 'nin' || tmp2[0] == 'gt' || tmp2[0] == 'gte' || tmp2[0] == 'lt' || tmp2[0] == 'lte' || tmp2[0] == 'between' || tmp2[0] == 'neq') {} else {
 					where[tmp1[0]] = tmp2[0];
 				}

@@ -29,7 +29,8 @@ var query=req.body;
 for(var key in query){
 where[key]=query[key]||'';	
 }
-res.render('Sms/index.html', { title: '短信列表',where:where});	
+var pageindex = req.query['pageindex'] || 0;
+res.render('Sms/index.html', { title: '短信列表',where:where,pageindex:pageindex});	
 };
 /**
 GET新建

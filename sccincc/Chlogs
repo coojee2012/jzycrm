@@ -24,3 +24,15 @@ MODIFY COLUMN `memo`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAU
 ALTER TABLE `Sms`
 ADD COLUMN `depid`  int NULL DEFAULT '-1' AFTER `pdyname`,
 ADD COLUMN `pdtype`  int NULL DEFAULT '-1' AFTER `depid`;
+
+
+
+2014年1月27
+ALTER TABLE `recordfiles`
+ADD COLUMN `callnumber`  varchar(50) NULL AFTER `associate`;
+
+ALTER TABLE `orderrecords`
+ADD COLUMN `utel`  varchar(100) NULL AFTER `orderContent`;
+
+ALTER TABLE `warterstopinfo`
+ADD COLUMN `leaders`  varchar(150) NULL AFTER `endTime`;
