@@ -27,7 +27,13 @@ my	$DBH = $self->database_pconnect();			#DBI object
 my	$MYSESS = $self->_callsession('dial_local');
 my	$MYSESSIONID = $MYSESS->{'PBXSESSIONID'};
         $self->_callsession_set($MYSESS->{ACTID},'number',$PARAM->{'callednum'});##设置此次呼叫的内部号码，包括分机号，IVR号等
-#my	$calleridnum = $INPUT->{callerid};        
+my	$calleridnum = $INPUT->{callerid};   
+my calledtime=$AGI->get_variable('FINDTIMES');
+if(calledtime>=4){
+$AGI->exec('playback','./queue-periodic-announce');
+$AGI->exec('hangup');
+exit;
+}
         
         		#具体查找分机类型
 	my	$sth = $DBH->prepare("select * from extension where devicenumber = '".$PARAM->{'callednum'}."'");
@@ -36,21 +42,23 @@ my	$MYSESSIONID = $MYSESS->{'PBXSESSIONID'};
 		$sth->finish;
                 #如果示忙，直接跳过
                 if($row->{dndinfo} eq 'on'){
-                   
+                   $AGI->noop("分机".$PARAM->{'callednum'}."示忙，跳过！");
+		   calledtime++;
+		   $AGI->exec('set','FINDTIMES='.calledtime);
                    exit;
                    }
         my $status= find_extenstatus($PARAM->{'callednum'});
         if($status eq 'OK' || $status eq '在线'){
            #如果这个被叫默认启动自动录音,那么就启动
                
-		$AGI->exec('AGI','agi://127.0.0.1/sysautomon?type=callee&number='.$PARAM->{'callednum'});
+		$AGI->exec('AGI','agi://127.0.0.1/sysautomon?type=callee&number='.$PARAM->{'callednum'}.'&callnum='.$calleridnum);
 
 		#记录当前呼叫方法
 		#$self->_callsession('action=local_extension','local_extension='.$PARAM->{'callednum'});
-		$self->_callsession_set($MYSESS->{ACTID},'typeof','extension');
+		#$self->_callsession_set($MYSESS->{ACTID},'typeof','extension');
 
 		#记录PICKUPMARK
-		$AGI->exec('set','__PICKUPMARK='.$PARAM->{'callednum'});
+		#$AGI->exec('set','__PICKUPMARK='.$PARAM->{'callednum'});
                 
             #设置CDR记录字段的方式    
             my    $doymicaccount;
@@ -80,7 +88,8 @@ my	$MYSESSIONID = $MYSESS->{'PBXSESSIONID'};
 		} 
            
            }else{
- 		
+	   calledtime++;
+ 	$AGI->exec('set','FINDTIMES='.calledtime);	
             exit;
         }
  exit;       

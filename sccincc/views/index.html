@@ -304,10 +304,8 @@ $("#thjlywc").html("3、您有<span style='color:blue;'>"+data.inst.gd.harddo+"<
   }
 
   function tipplay(){
-    //$("#AlartMusic").play();
-    //$("#AlartMusic").src("Alarm.wav");
-      var div = $('#AlartMusic');
-     div.html('<embed src="Alarm.wav" height="0" width="0" border="0" name="1" />');
+    var div = document.getElementById('music');
+    div.src="Alarm.wav";
 }
 
 </script>
@@ -332,8 +330,8 @@ $("#thjlywc").html("3、您有<span style='color:blue;'>"+data.inst.gd.harddo+"<
 </head>
 
 <body>
-<div id="AlarmMusic">
-</div>
+<audio id="music" src="" autoplay="autoplay">
+</audio>
 <!-- embed name="AlarmMusic" id="AlarmMusic"  src="Alarm.wav" height="0" width="0" border="0" /-->
 <!-- audio id="AlarmMusic" src="" autoplay="autoplay"></audio-->
 <div><a href="#" class="powered_by">版权所有©中国电信，2008-2013</a>

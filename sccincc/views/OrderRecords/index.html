@@ -29,14 +29,25 @@ var aoColumns=[
              ];
 var vKeys=["id","cID.idcard","uaddr","OrderTypeid.typeName","uphone","utel","DepID.depName","dactorName.uName","orderReslut","serMan.uName","OrderOptions","orderTime","id"];
 var where='';
+var where2='';
 where+=',,,,,'+'serMan:::::'+$('#serMan').val();
+where2+='serMan='+$('#serMan').val();
 where+=',,,,,'+'DepID:::::'+$('#DepID').val();
+where2+='&DepID='+$('#DepID').val();
 where+=',,,,,'+'OrderOptions:::::'+$('#options').val();
+where2+='&OrderOptions='+$('#options').val();
 where+=',,,,,'+'dactorName:::::'+$('#dactorName').val();
+where2+='&dactorName='+$('#dactorName').val();
 where+=',,,,,'+'orderReslut:::::'+$('#orderReslut').val();
+where2+='&orderReslut='+$('#orderReslut').val();
 where+=',,,,,'+'orderContent:::::like|||||'+$('#orderContent').val();
+where2+='&orderContent='+$('#orderContent').val();
 where+=',,,,,'+'uphone:::::like|||||'+$('#uphone').val();
+where2+='&uphone='+$('#uphone').val();
 where+=',,,,,'+'uaddr:::::like|||||'+$('#uaddr').val();
+where2+='&uaddr='+$('#uaddr').val();
+where2+='&orderTime_from='+$('#orderTime_from').val();
+where2+='&orderTime_to='+$('#orderTime_to').val();
 if($('#orderTime_from').val()!='' && $('#orderTime_to').val()!=''){
 where+=',,,,,'+'orderTime:::::between|||||'+$('#orderTime_from').val()+' 00:00:00====='+$('#orderTime_to').val()+' 23:59:59';
 }
@@ -48,6 +59,7 @@ if($('#orderTime_from').val()=='' && $('#orderTime_to').val()!=''){
 }
 
 where+=',,,,,'+'id:::::'+$('#id').val();
+//where2+='&id='+$('#id').val();
 
 var daochu=[];
 for(var i=0;i<aoColumns.length-1;i++){
@@ -143,8 +155,8 @@ var MyDataTable=$('#datatable').dataTable( {
                             	var str='<div class="btn-group"><button class="btn btn-small ">操作</button> ';
 						            str+='<button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>';
 						            str+='<ul class="dropdown-menu"> ';
-                                    str+='<li><a href="/OrderRecords/detail?id='+data+'&where='+'&distart='+displaystart+'" ><i class="icon-zoom-in icon-white"></i>查看</a></li>';
-                                    str+='<li><a href="/OrderRecords/edit?id='+data+'&where='+'&distart='+displaystart+'" ><i class="icon-edit icon-white"></i> 编辑</a></li>';
+                                    str+='<li><a href="/OrderRecords/detail?id='+data+'&'+where2+'&distart='+displaystart+'" ><i class="icon-zoom-in icon-white"></i>查看</a></li>';
+                                    str+='<li><a href="/OrderRecords/edit?id='+data+'&'+where2+'&distart='+displaystart+'" ><i class="icon-edit icon-white"></i> 编辑</a></li>';
                                     if(roleid==8){
                                     str+='<li><a href="javascript:paidan('+data+','+depid+');" ><i class="icon-trash icon-white"></i>派单 </a></li>';
                                     str+='<li><a href="javascript:cdsms('+data+');" ><i class="icon-trash icon-white"></i> 短信催单</a></li>';
@@ -1161,7 +1173,7 @@ $(function(){
 
 <div class="control-group"><label class="control-label"
   for="memo3">备注</label>
-<div class="controls"><textarea id="memo3" name="memo3" readonly="readonly"></textarea>
+<div class="controls"><textarea id="memo3" name="memo3" readonly="readonly" class="autogrow"></textarea>
   </div>
 </div>
 

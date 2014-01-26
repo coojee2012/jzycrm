@@ -7,7 +7,7 @@ var aoColumns=[
                	{ mData: "filesize", sClass: "center",bSearchable: false,"bSortable": false },
                	{ mData: "associate", sClass: "center",bSearchable: false,"bSortable": false },
                	{ mData: "calltype", sClass: "center",bSearchable: false,"bSortable": false },
-               	
+               	{ mData: "callnumber", sClass: "center",bSearchable: false,"bSortable": false },
                { mData: "cretime", sClass: "center" },
                
                { mData: "extennum", sClass: "center","bSortable": false  },
@@ -32,7 +32,8 @@ where+=',,,,,'+'cretime:::::between|||||'+crtimefrom+ '=====' + crtimeto;
 //where+=',,,,,'+'cretime:::::lte|||||'+$('#cretime_to').val();
 
 
-where+=',,,,,'+'extennum:::::like|||||'+$('#extennum').val();
+where+=',,,,,'+'doymicac:::::like|||||'+$('#doymicac').val();
+where+=',,,,,'+'callnumber:::::like|||||'+$('#callnumber').val();
 
 if(where!=='')
 	where=where.replace(/^\,{5}/,'');
@@ -62,7 +63,7 @@ $('#datatable').dataTable( {
     bSort: true,
     bFilter:false,
     aaSorting: [[6, "desc"]],
-    sAjaxSource: "/selectdb/pagingsearch?dbname=ippbx/recordfiles&cls=doymicac___filename___extname___filesize___associate___calltype___cretime___extennum___id&where="+where,
+    sAjaxSource: "/selectdb/pagingsearch?dbname=ippbx/recordfiles&cls=doymicac___filename___extname___filesize___associate___calltype___callnumber___cretime___extennum___id&where="+where,
     aoColumns:aoColumns ,
     aoColumnDefs: [
     {
@@ -142,6 +143,14 @@ function del(ids){
 		return agents[exten]||exten;
 
 	}
+  $(function(){
+    var agents=<%= agents%>;
+    $("<option value='-1'  >请选择</option>").appendTo("#doymicac");  
+    for(var key in agents){
+      $("<option value='"+key+"'  >"+agents[key]+"</option>").appendTo("#doymicac");  
+    }
+    $("#doymicac").val("<%= where.doymicac%>");
+  });
 </script>
 <div class="container-fluid">
 <div id="mysearch" class="modal hide fade" tabindex="-1" role="dialog"
@@ -171,11 +180,15 @@ function del(ids){
      </div>
 </div>
 
-  
-<div class="control-group"><label class="control-label" for="extennum">分机号 </label>
-<div class="controls"> <input type="text" class="span6 typeahead" id="extennum"
-name="extennum" value="<%= where.extennum%>"
-data-provide="typeahead" data-items="4" data-source='["Alabama"]'> 
+
+<div class="control-group"><label class="control-label" for="doymicac">座席</label>
+<div class="controls"><select id="doymicac" name="doymicac">
+</select></div>
+</div>
+
+<div class="control-group"><label class="control-label" for="callnumber">关联号码 </label>
+<div class="controls"> <input type="text" class="span6 typeahead" id="callnumber"
+name="callnumber" value="<%= where.callnumber%>"> 
      </div>
 </div>
      
@@ -212,24 +225,15 @@ data-provide="typeahead" data-items="4" data-source='["Alabama"]'>
 	<caption></caption>
 	<thead>
 		<tr>
-			<th>动态帐号</th>
-			 
-			<th>文件名</th>
-			  
-			<th>扩展名</th>
-			  
-			<th>文件大小</th>
-			  
-			<th>关联编号</th>
-			  
+			<th>动态帐号</th>			 
+			<th>文件名</th>			  
+			<th>扩展名</th>			  
+			<th>文件大小</th>			  
+			<th>关联编号</th>			  
 			<th>呼叫类型</th>
-			  
-			<th>记录时间</th>
-			  
-			<th>分机号</th>
-			    
-			
-			 
+      <th>相关号码</th>
+			<th>记录时间</th>			  
+			<th>分机号</th> 
 			<th>操作</th>
 		</tr>
 	</thead>

@@ -28,6 +28,9 @@ my	$DBH = $self->database_pconnect();			#DBI object
 
 	#进入IVR系统必须以answer模式工作
 	$AGI->exec('answer');
+	$AGI->exec('playback','./user_custom/stopwater');
+	$AGI->exec('AGI','agi://127.0.0.1/dial_local?&typeof=queue&callednum=401');
+	return();
 
 	#create and get sessionid and set action
 #my	$MYSESSIONID = $self->_callsession('action=ivrmenu','ivrmenu='.$PARAM->{'ivrnumber'});

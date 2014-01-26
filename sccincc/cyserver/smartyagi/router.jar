@@ -164,7 +164,7 @@ my	$ROUTER_PROCESS_EXTENSION = $callednum;
 my	$ROUTER_PROCESS_CALLERIDNUM = $calleridnum;
 
 	#主叫自动录音检测
-	$AGI->exec('AGI','agi://127.0.0.1/sysautomon?type=caller&number='.$accountcode);
+	#$AGI->exec('AGI','agi://127.0.0.1/sysautomon?type=caller&number='.$accountcode);
 
 	#匹配后主叫替换
 	if ($matched_rule->{replace_callerid} ne '') {

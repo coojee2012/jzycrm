@@ -39,6 +39,8 @@ my      $callednumber=$member;
 my      $sessionid=$MYSESSIONID;
 my      $routertype=1;
 
+#$AGI->exec('AGI','agi://127.0.0.1/sysautomon?type=callee&number='.$callednumber);
+
 $AGI->exec('noop',"来电队列弹屏");
 my $sql="update callevent set callernumber = '".$callernumber.
 	                      "',callednumber = '".$callednumber.

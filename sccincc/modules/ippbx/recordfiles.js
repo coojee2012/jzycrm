@@ -11,6 +11,7 @@ var recordfiles = schema.define('recordfiles', {
 	cretime:    {type: Date, default: function () { return moment().format("YYYY-MM-DD HH:mm:ss"); }},
 	extennum:   {type:String,limit:50},
 	folder:     {type:String,limit:50},
+	callnumber: {type:String,limit:50},
 	doymicac:   {type:String,limit:50}
 
 }, {
@@ -25,8 +26,8 @@ recordfiles.cloums={
 		calltype:   {name:"呼叫类型",input:Inputs.Text,search:false,create:false,table:true},
 		cretime:   {name:"记录时间",input:Inputs.Date,search:true,create:false,table:true},
 		extennum:   {name:"分机号",input:Inputs.Text,search:true,create:true,table:true},
+		callnumber:   {name:"相关号码",input:Inputs.Text,search:true,create:true,table:true},
 	    folder:   {name:"文件夹",input:Inputs.Text,search:false,create:false,table:false},
-		
 		doymicac:    {name:"动态帐号",input:Inputs.Text,search:false,create:false,table:true}
 };
 recordfiles.views={

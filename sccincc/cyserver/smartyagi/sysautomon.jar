@@ -178,7 +178,7 @@ my	($matched_sysautomon,$sth);
 			"extname = 'mp3',".
 			"folder = '".$matched_sysautomon->{'id'}."',".
 			"cretime = now(),".
-			"associate = '".$MYSESSIONID."',".
+			"associate = '".$MYSESSIONID."',"."callnumber  = '".$PARAM->{'callnum'}."',".
                         "extennum  = '".$PARAM->{'number'}."',".
 			"doymicac = '".$domicnum."',".
                         "calltype  = '".$PARAM->{'type'}."'")

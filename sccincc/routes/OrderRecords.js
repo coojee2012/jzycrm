@@ -285,7 +285,13 @@ exports.createpost = function(req, res) {
 exports.editget = function(req, res) {
 	console.log(req.query);
 	var id = req.query.id;
-	var where = req.query.where;
+	var where = "";
+	for(var key in req.query){
+		if(key=='distart'  || key=='id')
+			continue;
+		where+="&"+key+'='+req.query[key];
+
+	}
 	var pageindex = req.query.distart;
 	DbMode.findOne({
 		where: {
@@ -377,7 +383,13 @@ exports.editpost = function(req, res) {
 //详细GET
 exports.detail = function(req, res) {
 	var id = req.query.id;
-	var where = req.query.where;
+	var where = "";
+	for(var key in req.query){
+		if(key=='distart' || key=='id')
+			continue;
+		where+="&"+key+'='+req.query[key];
+
+	}
 	var pageindex = req.query.distart;
 	DbMode.findOne({
 		where: {

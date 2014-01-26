@@ -27,6 +27,8 @@ my	$PARAM = $self->{server}{params};			#Call params
 my	$CONF = $self->{server}->{conf};	
 my	$DBH = $self->database_pconnect();			#DBI object
 
+#$AGI->exec('answer');
+
 	#create and get sessionid and set action
 #       $self->{server}{input}{accountcode}=$PARAM->{'callednum'};
 #my	$MYSESSIONID = $self->_callsession('action=local','number='.$PARAM->{'callednum'});
@@ -69,7 +71,7 @@ my	($def_typeof,$def_voicemail,$def_dialargs);
 	if ($row->{'typeof'} eq 'extension' && ($def_typeof eq 'extension' || $def_typeof eq '')) {
 
 		#如果这个被叫默认启动自动录音,那么就启动
-		$AGI->exec('AGI','agi://127.0.0.1/sysautomon?type=callee&number='.$PARAM->{'callednum'});
+		#$AGI->exec('AGI','agi://127.0.0.1/sysautomon?type=callee&number='.$PARAM->{'callednum'});
 
 		#记录当前呼叫方法
 		#$self->_callsession('action=local_extension','local_extension='.$PARAM->{'callednum'});
@@ -126,6 +128,7 @@ my	($def_typeof,$def_voicemail,$def_dialargs);
 		} else {
 		        if($row->{dndinfo} eq 'on'){
 			 $AGI->exec('set','DIALSTATUS='.'BUSY');
+                         $AGI->noop("分机示忙，跳过拨打！");
 			}elsif($row->{diallocal_failed} eq 'noasktransfer'){
                         $AGI->exec('goto','app-exten|'.$row->{transfernumber}.'|1');
 			exit;
@@ -166,6 +169,32 @@ my	($def_typeof,$def_voicemail,$def_dialargs);
 		#记录当前呼叫方法
 		#$self->_callsession('action=local_queue','local_queue='.$PARAM->{'callednum'});
 		$self->_callsession_set($MYSESS->{ACTID},'typeof','queue');
+	my $sth2= $DBH->prepare("select * from extension where devicenumber in ('8001','8002','8003','8004')");
+		$sth2->execute;
+	my $countnum=0;
+while (my $row2 = $sth2->fetchrow_hashref()) {
+if($row2->{dndinfo} eq 'on')
+{
+$countnum+=1;
+$AGI->exec('noop','分机：'.$row2->{'devicenumber'}.'当前示忙'.$countnum);
+}
+else{
+my $status= find_extenstatus($self, $row2->{'devicenumber'});
+ $AGI->exec('noop','状态：'.$status.$countnum);
+if($status eq 'OK' || $status eq '在线'){
+	}
+	else{
+	$countnum+=1;
+	}
+}
+}
+$sth2->finish;
+if($countnum>3)
+{
+$AGI->exec('playback','./queue-periodic-announce');
+$AGI->exec('hangup');
+exit;
+}
 
 		#查找
 	my	$sth = $DBH->prepare("select * from queue where queuenumber = '".$PARAM->{'callednum'}."'");
@@ -180,8 +209,10 @@ my	($def_typeof,$def_voicemail,$def_dialargs);
 		if ($AGI->exec('Queue',$row->{'queuenumber'}.','.$opt.',,'.$row->{'announce'}.','.$row->{'queuetimeout'}.','.'agi://127.0.0.1/queue_answeragent?saymember='.$row->{'saymember'})) {
 		#无人接通转入下一步,fialedon,
 		} elsif ($row->{'failedon'} ne '') {
-
-			$AGI->exec('AGI','agi://127.0.0.1/dial_local?&typeof=extension&dialargs=tk&callednum='.$row->{'failedon'});
+		$AGI->exec('playback','./queue-periodic-announce');
+                $AGI->exec('hangup');
+                exit;
+                #$AGI->exec('AGI','agi://127.0.0.1/dial_local?&typeof=extension&dialargs=tk&callednum='.$row->{'failedon'});
 		}
 
 	#呼叫队列会议类型分机
@@ -196,16 +227,19 @@ my	($def_typeof,$def_voicemail,$def_dialargs);
 
 	#执行AGI特别程序
 	} elsif ($row->{'typeof'} eq 'agi' && ($def_typeof eq 'agi' || $def_typeof eq '')) {
+	$AGI->exec('noop','当前帐号：'.$INPUT->{accountcode});
 
-#		if ($INPUT->{accountcode} && $INPUT->{accountcode} ne '') {
-#		my	$app = $row->{'assign'};
-#
-#			$app =~ s/\$VOICEMAILNUMBER/$INPUT->{accountcode}/ if ($app =~ /\$VOICEMAILNUMBER/);
-#			$app =~ s/\$ACCOUNTCODE/$INPUT->{accountcode}/ if ($app =~ /\$ACCOUNTCODE/);
-#			
-#			$AGI->exec('AGI',$app);
-#		
-#		}
+		if ($INPUT->{accountcode} && $INPUT->{accountcode} ne '') {
+		my	$app = $row->{'assign'};
+		        
+
+			$app =~ s/\$VOICEMAILNUMBER/$INPUT->{accountcode}/ if ($app =~ /\$VOICEMAILNUMBER/);
+			$app =~ s/\$ACCOUNTCODE/$INPUT->{accountcode}/ if ($app =~ /\$ACCOUNTCODE/);
+			
+			$AGI->exec('AGI',$app);
+			exit;
+		
+		}
 		foreach  (($row->{'assign'} =~ /\$([a-zA-Z0-9]+)/g)) {
 			#AGI环境变量
 			if ($INPUT->{$_}) {
@@ -244,8 +278,7 @@ my	$DBH = $self->database_pconnect();			#DBI object
 		
 	my      $callednumber=$AGI->get_variable(ROUTER_PROCESS_EXTENSION);
 	my      $poptype=$AGI->get_variable("POPTYPE");
-	$AGI->exec('noop',"弹屏变量POPTYPE:".$poptype);	
-	$AGI->noop("");
+	$AGI->noop("弹屏变量POPTYPE:".$poptype);
 	my      $sessionid=shift;
 	my      $callernumber=shift;
 	if(!defined$callernumber or $callernumber eq ''){
@@ -279,7 +312,14 @@ my	$PARAM = $self->{server}{params};			#Call params
 my	$CONF = $self->{server}->{conf};	
 my	$DBH = $self->database_pconnect();			#DBI object
 
+
+
+
+
+
+
 use	Asterisk::Manager;	#连接AMI库
+
 
 	#取出用户定义的错误处理方式
 my	($diallocal_failed,$transfernumber);
@@ -526,4 +566,54 @@ my	$row = $sth->fetchrow_hashref();
 
 return(1);
 }
+
+
+sub find_extenstatus{
+my $self=shift;
+  my $exten=shift;
+ 
+        my $asg=astmanager($self);
+        my %command=(Action=>"ExtensionState",Exten=>$exten,Context=>"from-exten-dahdi",ActionID=>"1");
+        my %reslutasg=$$asg->sendcommand(%command);
+	   %reslutasg=$$asg->sendcommand(%command);
+	   $$asg->sendcommand('Action' => 'Logoff');
+        my $status;
+          $$asg->disconnect;
+            if($reslutasg{"Response"} ne "Error"){
+                if($reslutasg{"Status"} == 4){$status="离线";}
+		elsif($reslutasg{"Status"} == 1){$status="使用中";}
+	    elsif($reslutasg{"Status"} == 0){$status="在线";}
+            elsif($reslutasg{"Status"} == 8){$status="响铃";}
+            elsif($reslutasg{"Status"} == 2){$status="通话";}
+            elsif($reslutasg{"Status"} == 16){$status="保持";}
+            elsif($reslutasg{"Status"} == 32){$status="示忙";}
+            else{
+	   
+	    $status=$reslutasg{"Status"};
+	    #$status=Dumper($reslutasg{"Response"});
+	    }
+            return $status;
+
+             }else{return 'error';}#end if
+            
+        
+            
+       
+    
+}
+
+sub astmanager{
+    use Asterisk::Manager;
+    use Asterisk;
+    my $self=shift;
+    my	$CONF = $self->{server}->{conf};
+   my $asg=new Asterisk::Manager;
+   $asg->user($CONF->{'amiserver'}{'amiuser'});
+   $asg->secret($CONF->{'amiserver'}{'amipasswd'});
+   $asg->host($CONF->{'amiserver'}{'amihost'});
+   $asg->port($CONF->{'amiserver'}{'amiport'});
+   $asg->connect || die "can not connect!\n".Dumper($self);
+   return \$asg;
+}
+
 1;

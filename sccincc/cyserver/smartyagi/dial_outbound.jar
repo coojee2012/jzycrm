@@ -32,6 +32,7 @@ my	$MYSESS = $self->_callsession('outbound');
 my	$MYSESSIONID = $MYSESS->{'PBXSESSIONID'};
 	$self->_callsession_set($MYSESS->{ACTID},'number',$PARAM->{'callednum'});
 
+
 	#设置参数，从配置文件读取默认配置或者由程序传递参数
 my	($def_dialargs);
 	if (!defined $PARAM->{'dialargs'}) {
@@ -69,7 +70,8 @@ my	$row1 = $sth1->fetchrow_hashref();
 
 ##end add by coojee
 
-
+my	$accountcode = $INPUT->{accountcode};
+$AGI->exec('AGI','agi://127.0.0.1/sysautomon?type=caller&number='.$accountcode.'&callnum='.$PARAM->{'callednum'});
        
 	if ($row->{trunkproto} eq 'custom') {
 		$AGI->exec('dial',$row->{trunkdevice}.'/'.$PARAM->{'callednum'}.','.$CONF->{'fastagi'}{'dial_ringtime'}.','.$def_dialargs);

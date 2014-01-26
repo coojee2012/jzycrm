@@ -26,8 +26,8 @@ where['cretime_to']='';
 
 
 
-where['extennum']='';
-where['extennum']='';
+where['doymicac']='';
+where['callnumber']='';
 
 
 var UserInfo = require('../modules/crm/UserInfo.js');
