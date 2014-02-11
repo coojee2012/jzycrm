@@ -297,6 +297,55 @@
 
   }
 
+  exports.getYGItems=function(req,res){
+    var ItemName = req.body["ItemName"] || req.query["ItemName"] || "";
+    var Price = req.body["Price"] || req.query["Price"] || "";
+    var Itemrem = req.body["Itemrem"] || req.query["Itemrem"] || "";
+    var tiaocode = req.body["tiaocode"] || req.query["tiaocode"] || "";
+    var jieguo = {};
+    jieguo.iTotalRecords = 10;
+    jieguo.sEcho = req.query['sEcho'] || req.body['sEcho'];
+    jieguo.iTotalDisplayRecords = 10;
+    soap.createClient(wcfurl, function(err, client) {
+      if (err) {
+        console.log("连接服务发生异常！", err);
+        res.send("连接服务发生异常！", util.inspect(err, null, null));
+      }
+
+      if (!client) {
+        console.log("无法正常连接服务！");
+        res.send("无法正常连接服务！");
+      } else {
+        client.getYgItems({
+          itemname: ItemName,
+          price: Price,
+          rembercode: Itemrem,
+          tiaocode: tiaocode
+        }, function(err, result, body) {
+          //client.getCustom({tel:"13699012676"},function(err, result,body){
+          if (err) {
+            console.log("getYgItems err", util.inspect(err, null, null));
+            res.send("getYgItems err:" + util.inspect(err, null, null));
+          } else {
+            console.log("getYgItems", result['getYgItemsResult']);
+            if (Object.prototype.toString.call(result['getYgItemsResult'].shopItemInfo) === '[object Array]') {
+              jieguo.aaData = result['getYgItemsResult'].shopItemInfo;
+            } else if (result['getYgItemsResult'].shopItemInfo) {
+              jieguo.aaData = [];
+              jieguo.aaData.push(result['getYgItemsResult'].shopItemInfo);
+            } else
+              jieguo.aaData = [];
+            res.send(jieguo);
+
+          }
+
+
+        });
+      }
+
+    });
+  }
+
 
   exports.screenPopGet = function(req, res) {
     var callid = req.body['callid'] || req.query['callid'];
