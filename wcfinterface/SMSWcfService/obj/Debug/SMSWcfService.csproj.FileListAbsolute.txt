@@ -12,7 +12,6 @@ E:\WORK\江智勇\WCF接口\SMSWcfService\bin\SMSWcfService.dll
 E:\WORK\江智勇\WCF接口\SMSWcfService\bin\SMSWcfService.pdb
 E:\WORK\江智勇\WCF接口\SMSWcfService\bin\DataAccess.dll
 E:\WORK\江智勇\WCF接口\SMSWcfService\bin\DataAccess.pdb
-E:\GitHub\jzycrm\wcfinterface\SMSWcfService\obj\Debug\ResolveAssemblyReference.cache
 E:\GitHub\jzycrm\wcfinterface\SMSWcfService\obj\Debug\SMSWcfService.dll
 E:\GitHub\jzycrm\wcfinterface\SMSWcfService\obj\Debug\SMSWcfService.pdb
 E:\GitHub\jzycrm\wcfinterface\SMSWcfService\bin\SMSWcfService.dll
@@ -34,3 +33,4 @@ D:\GitHub\jzycrm\wcfinterface\SMSWcfService\bin\DataAccess.pdb
 D:\GitHub\jzycrm\wcfinterface\SMSWcfService\obj\Debug\SMSWcfService.csprojResolveAssemblyReference.cache
 D:\GitHub\jzycrm\wcfinterface\SMSWcfService\obj\Debug\SMSWcfService.dll
 D:\GitHub\jzycrm\wcfinterface\SMSWcfService\obj\Debug\SMSWcfService.pdb
+E:\GitHub\jzycrm\wcfinterface\SMSWcfService\obj\Debug\SMSWcfService.csprojResolveAssemblyReference.cache

@@ -3,8 +3,7 @@
 $(document).ready(function() {
 var aoColumns=[
                
-               { mData: "Flow_no", sClass: "center" },
-               
+               { mData: "Flow_no", sClass: "center" },              
                { mData: "Item_name", sClass: "center" },
                { mData: "Sale_qnty", sClass: "center",bSearchable: false},
                	{ mData: "Sale_money", sClass: "center",bSearchable: false},              	
@@ -16,13 +15,10 @@ var aoColumns=[
 var where='';
 
 //test
-where+='ItemName='+$('#ItemName').val();
-
-
-where+='&'+'Price='+$('#Price').val();
-
-
-where+='&'+'Itemrem='+$('#Itemrem').val();
+where+='KeyWords='+$('#KeyWords').val();
+where+='&'+'TimeFrom='+$('#TimeFrom').val();
+where+='&'+'TimeTo='+$('#TimeTo').val();
+where+='&'+'Card_id='+$('#Card_id').val();
 
 
 var daochu=[];
@@ -142,23 +138,23 @@ function del(ids){
 <div class="box-content">
 <form class="form-horizontal" method="POST">
 <fieldset> 
-<div class="control-group"><label class="control-label" for="ItemName">商品名称 </label>
-<div class="controls"> <input type="text" class="span6 typeahead" id="ItemName"
-name="ItemName" value="<%= where.ItemName%>"> 
+<div class="control-group"><label class="control-label" for="KeyWords">关键字</label>
+<div class="controls"> <input type="text" class="span6 typeahead" id="KeyWords"
+name="KeyWords" value="<%= where.KeyWords %>" /> 
+<input type="hidden"  id="Card_id" name="Card_id" value="<%= where.Card_id %>" /> 
      </div>
 </div>
-  
-<div class="control-group"><label class="control-label" for="Price">价格 </label>
-<div class="controls"> <input type="text" class="span6 typeahead" id="Price"
-name="Price" value="<%= where.Price%>"> 
+            
+    
+<div class="control-group"><label class="control-label" for="TimeFrom">记录时间 从</label>
+<div class="controls"> <input type="text" class="span6 typeahead datepicker" readonly="readonly" id="TimeFrom"
+name="TimeFrom" value="<%= where.TimeFrom %>"> 
      </div>
 </div>
           
-
-    
-<div class="control-group"><label class="control-label" for="Itemrem">助记码 </label>
-<div class="controls"> <input type="text" class="span6 typeahead" id="Itemrem"
-name="Itemrem" value="<%= where.Itemrem%>"> 
+<div class="control-group"><label class="control-label" for="TimeTo">到</label>
+<div class="controls"> <input type="text" class="span6 typeahead datepicker" readonly="readonly" id="TimeTo"
+name="TimeTo" value="<%= where.TimeTo %>"> 
      </div>
 </div>
           

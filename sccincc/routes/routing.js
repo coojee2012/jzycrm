@@ -286,6 +286,16 @@ routes.jzycustominfo = [{
 	file: '/routes/jzycustominfo',
 	method: 'post',
 	fn: 'indexThjlPost'
+},{
+	urlreg: '/jzy/ygshop',
+	file: '/routes/jzycustominfo',
+	method: 'all',
+	fn: 'getYgIndex'
+},{
+	urlreg: '/jzy/getYGItems',
+	file: '/routes/jzycustominfo',
+	method: 'get',
+	fn: 'getYGItems'
 }];
 
 routes.chart = [

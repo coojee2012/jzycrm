@@ -91,5 +91,9 @@ namespace SMSWcfService
          [OperationContract]
          [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
          CallRecords findCalls(int id);
+
+         [OperationContract]
+         [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+         List<YGous> getYgItems(string keywords, string card_id, string timefrom, string timeto);
     }
 }

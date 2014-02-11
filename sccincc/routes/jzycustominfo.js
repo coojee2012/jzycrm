@@ -297,11 +297,32 @@
 
   }
 
+  exports.getYgIndex=function(req,res){
+    var card_id = req.body["Card_id"] || req.query["Card_id"] || "";
+    var keywords = req.body["KeyWords"] || req.query["KeyWords"] || '';
+    var timefrom = req.body["TimeFrom"] || req.query["TimeFrom"] || '';
+    var timeto = req.body["TimeTo"] || req.query["TimeTo"] || '';
+    var where = {};
+    where.KeyWords = keywords;
+    where.Card_id = card_id;
+    where.TimeFrom = timefrom;
+    where.TimeTo = timeto;
+     res.render('jzycustominfo/ygshop.html', {
+      title: '已购商品列表',
+      where: where
+    });
+  }
+//获取已购商品
   exports.getYGItems=function(req,res){
-    var ItemName = req.body["ItemName"] || req.query["ItemName"] || "";
-    var Price = req.body["Price"] || req.query["Price"] || "";
-    var Itemrem = req.body["Itemrem"] || req.query["Itemrem"] || "";
-    var tiaocode = req.body["tiaocode"] || req.query["tiaocode"] || "";
+    var card_id = req.body["Card_id"] || req.query["Card_id"] || "";
+    var keywords = req.body["KeyWords"] || req.query["KeyWords"] || '';
+    var timefrom = req.body["TimeFrom"] || req.query["TimeFrom"] || '';
+    var timeto = req.body["TimeTo"] || req.query["TimeTo"] || '';
+    var where = {};
+    where.KeyWords = keywords;
+    where.Card_id = card_id;
+    where.TimeFrom = timefrom;
+    where.TimeTo = timeto;
     var jieguo = {};
     jieguo.iTotalRecords = 10;
     jieguo.sEcho = req.query['sEcho'] || req.body['sEcho'];
@@ -317,22 +338,21 @@
         res.send("无法正常连接服务！");
       } else {
         client.getYgItems({
-          itemname: ItemName,
-          price: Price,
-          rembercode: Itemrem,
-          tiaocode: tiaocode
+          keywords: keywords,
+          card_id: card_id,
+          timefrom: timefrom,
+          timeto: timeto
         }, function(err, result, body) {
-          //client.getCustom({tel:"13699012676"},function(err, result,body){
           if (err) {
             console.log("getYgItems err", util.inspect(err, null, null));
             res.send("getYgItems err:" + util.inspect(err, null, null));
           } else {
             console.log("getYgItems", result['getYgItemsResult']);
-            if (Object.prototype.toString.call(result['getYgItemsResult'].shopItemInfo) === '[object Array]') {
-              jieguo.aaData = result['getYgItemsResult'].shopItemInfo;
-            } else if (result['getYgItemsResult'].shopItemInfo) {
+            if (Object.prototype.toString.call(result['getYgItemsResult'].YGous) === '[object Array]') {
+              jieguo.aaData = result['getYgItemsResult'].YGous;
+            } else if (result['getYgItemsResult'].YGous) {
               jieguo.aaData = [];
-              jieguo.aaData.push(result['getYgItemsResult'].shopItemInfo);
+              jieguo.aaData.push(result['getYgItemsResult'].YGous);
             } else
               jieguo.aaData = [];
             res.send(jieguo);
