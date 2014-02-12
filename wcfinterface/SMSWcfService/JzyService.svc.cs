@@ -215,7 +215,7 @@ namespace SMSWcfService
         /// <returns></returns>
         public List<CallRecords> getCalls(string keywords ,string card_id, string dostate,string timefrom,string timeto) {
             List<CallRecords> calls = new List<CallRecords>();
-            string sql = "select a.*,b.vip_name,b.social_id from callrecords a left join t_rm_vip_info b on b.card_id = a.cid where 1=1 ";
+            string sql = "select top 10 a.*,b.vip_name,b.social_id from callrecords a left join t_rm_vip_info b on b.card_id = a.cid where 1=1 ";
             if (!string.IsNullOrEmpty(card_id)) {
                 sql += " and a.cid = '" + card_id + "'";
             }
@@ -414,7 +414,7 @@ str += "','" + SafePramas(Phone);
         public List<YGous> getYgItems(string keywords, string card_id,  string timefrom, string timeto)
         {
             List<YGous> calls = new List<YGous>();
-            string sql = " select a.flow_no,a.oper_date,b.sale_qnty,b.sale_money,c.item_no,c.item_name,c.item_rem from t_rm_payflow a ";
+            string sql = " select top 10 a.flow_no,a.oper_date,b.sale_qnty,b.sale_money,c.item_no,c.item_name,c.item_rem from t_rm_payflow a ";
   sql+=" left join t_rm_saleflow b on a.flow_no = b.flow_no";
   sql+=" left join t_bd_item_info c on c.item_no=b.item_no";
   sql += " where 1=1";
@@ -437,6 +437,7 @@ str += "','" + SafePramas(Phone);
   {
       sql += " and a.oper_date < '" + timeto + "'";
   }
+  sql += " order by a.oper_date desc  ";
 
   DataTable dt = Query(sql);
   if (dt != null)
