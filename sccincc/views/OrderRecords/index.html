@@ -27,7 +27,7 @@ var aoColumns=[
                  { mData: "id", sClass: "center",bSearchable: false }
                  
              ];
-var vKeys=["id","cID.idcard","uaddr","OrderTypeid.typeName","uphone","utel","DepID.depName","dactorName.uName","orderReslut","serMan.uName","OrderOptions","orderTime","id"];
+var vKeys=["id","cID.idcard","uaddr","orderContent","uphone","utel","DepID.depName","dactorName.uName","orderReslut","serMan.uName","OrderOptions","orderTime","id"];
 var where='';
 var where2='';
 where+=',,,,,'+'serMan:::::'+$('#serMan').val();
@@ -207,7 +207,7 @@ function deleterow(data){
 	   
 	  // Immediately remove the first row
 	  //oTable.fnDeleteRow( data );
-	  
+	   if (confirm("确认要删除？")) {
 	   $.ajax(
 	            {
 	                url: '/OrderRecords/del',
@@ -227,6 +227,7 @@ function deleterow(data){
 	            }
 	            );	       
 	 }
+  }
 
 function cdtel(orderId){
 	getPhone(orderId,function(udata){
@@ -609,23 +610,26 @@ return tm[tmtm].name;
 
 function delmut(){}
 function del(ids){
-	 $.ajax(
-	            {
-	                url: '/OrderRecords/del',
-	                dataType: 'json',
-	                type: 'POST',
-	                async: false,
-	                data:{ids:ids},
-	                success: function (data, textStatus) {	                    
-		                    alert(data.msg);
-		                    location.href='/OrderRecords/';		                    
-	                },
-	                error: function (XMLHttpRequest, textStatus, errorThrown) {
-	                    alert('服务器访问发生异常！' + textStatus);
-	                    return;
-	                }
-	            }
-	            );	
+  if (!confirm("确认要删除？")) {
+            $.ajax(
+              {
+                  url: '/OrderRecords/del',
+                  dataType: 'json',
+                  type: 'POST',
+                  async: false,
+                  data:{ids:ids},
+                  success: function (data, textStatus) {                      
+                        alert(data.msg);
+                        location.href='/OrderRecords/';                       
+                  },
+                  error: function (XMLHttpRequest, textStatus, errorThrown) {
+                      alert('服务器访问发生异常！' + textStatus);
+                      return;
+                  }
+              }
+              );  
+        }
+	 
 }
 </script>
 <script type="text/javascript"><!--
