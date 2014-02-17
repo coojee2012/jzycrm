@@ -4,20 +4,43 @@
 <div class="box-content">
 <form class="form-horizontal" method="POST">
 <fieldset>
-
-
-<div class="span6">
+<div class="span12">
 <div class="control-group">
- <label class="control-label" for="dactorName">时间范围</label>
+<label class="control-label" for="id">范围类型 </label>
+<div class="controls">
+<label class="radio"> <input type="radio" id="day" name="iswork" value=0  />日</label>
+<label class="radio"> <input type="radio" id="weakly" name="iswork" value=1  />周</label>
+<label class="radio"> <input type="radio" id="month" name="iswork" value=2 />月</label>
+<label class="radio"> <input type="radio" id="jidu" name="iswork" value=3 />季度</label>
+<label class="radio"> <input type="radio" id="year" name="iswork" value=4 />年</label>
+</div>
+</div>
+</div>
+
+<div class="span12">
+<div class="control-group">
+ <label class="control-label" for="dactorName">周期范围</label>
 <div class="controls">
 <select id="dactorName" name="dactorName">
-	<option value=""></option>
+    <option value=""></option>
 </select></div>
 </div>
 </div>
-<div class="span1">
+
+<div class="span12">
+<div class="control-group span6">
+ <label class="control-label" for="dayform">日期范围 从</label>
+<div class="controls">
+    <input type="text" name="dayform" class="typeahead datepicker" id="dayfrom" value=""/>
 </div>
-<div class="span5">
+</div>
+<div class="control-group span6">
+ <label class="control-label" for="dayto">到</label>
+<div class="controls">
+    <input type="text" class="typeahead datepicker" name="dayto" id="dayto" value="" />
+</div>
+</div>
+<div class="span12">
 <button type="button" class="btn btn-small btn-info" onclick="javascript:starttj();">开始统计</button>
 </div>
 </fieldset>
@@ -41,7 +64,7 @@
 	<thead>
         <tr><td colspan="9">说明：各项数据依次代表【<span style="color:red;">未处理</span>|<span style="color:#FFA500;">处理中</span>|<span style="color:blue;">已完成</span>】</td></tr>
 		<tr>
-			<th>星期\部门</th>
+			<th id='thshow'>星期\部门</th>
 			<th>维修</th>
 			<th>售后</th>
 			<th>水检所</th>  
@@ -62,8 +85,16 @@
 
 <script type="text/javascript">
 function starttj(){
-
+var tjtype=$('input[name="iswork"]:checked').val() || -1;
 var tjvalue=$('#dactorName').val();
+var dayfrom=$('#dayfrom').val();
+var dayto=$('#dayto').val();
+if(tjtype ==-1)
+{
+alert('请选择统计类型');
+return;
+}
+
 var aoColumns=[{ mData: "tags", sClass: "center",bSearchable: false },               
                { mData: "wxjl", sClass: "center",bSearchable: false },               
                { mData: "shbxjl", sClass: "center",bSearchable: false },              
@@ -99,7 +130,7 @@ $('#datatable').dataTable({
     bPaginate:false,
     bSort: false,
     bFilter:false,
-    sAjaxSource: "/selectdb/paidanchart?tjvalue="+tjvalue,
+    sAjaxSource: "/selectdb/paidanchart?tjtype="+tjtype+"&tjvalue="+tjvalue+"&dayfrom="+dayfrom+"&dayto="+dayto,
     aoColumns:aoColumns ,
     aoColumnDefs: [
                     {
@@ -133,6 +164,7 @@ $('#datatable').dataTable({
 
 <script type="text/javascript">
 
+
  Date.prototype.getWeek   =   function(flag) 
 { 
     var   first   =   new   Date(this.getFullYear(),0,1); 
@@ -141,6 +173,7 @@ $('#datatable').dataTable({
     n   =   Math.ceil(n/(7*24*60*60*1000)); 
     return   (flag==true&&first.getDay()!=1)?(n+1):n; 
 }; 
+
 Date.prototype.format   =   function(format) 
 { 
     var   o   =   { 
@@ -160,22 +193,80 @@ Date.prototype.format   =   function(format)
                 ("00"+   o[k]).substr(( ""+   o[k]).length)); 
     return   format; 
 }; 
-$(function(){
-    $("#dactorName").empty();
-	var now = new Date(); //当前日期 
-	var nowDayOfWeek = now.getDay(); //今天本周的第几天 
-	var nowDay = now.getDate(); //当前日 
-	var nowMonth = now.getMonth(); //当前月 
-	var nowYear = now.getFullYear(); //当前年 
-	$('#thshow').html('星期\\部门');
-    var i=1;
-	while(i<53){
-		var d=mm(nowYear,i);
-		$("<option value='" + d.week + "'  >" + d.str + "</option>").appendTo("#dactorName");
-		i++;
-	}
-	
+
+//$(
+$("input[name='iswork']").bind("click",function(){
+
+var ckval=$('input[name="iswork"]:checked').val();
+$("#dactorName").empty();
+//alert(ckval);
+if(ckval==="0"){
+$('#thshow').html('日期\\部门');
+}
+
+if(ckval==="1"){
+    var now = new Date(); //当前日期 
+    var nowDayOfWeek = now.getDay(); //今天本周的第几天 
+    var nowDay = now.getDate(); //当前日 
+    var nowMonth = now.getMonth(); //当前月 
+    var nowYear = now.getFullYear(); //当前年 
+    $('#thshow').html('星期\\部门');
+var i=1;
+    while(i<53){
+        var d=mm(nowYear,i);
+        $("<option value='" + d.week + "'  >" + d.str + "</option>").appendTo("#dactorName");
+        i++;
+    }
+    
+}
+
+if(ckval==="2"){
+var i=1;
+$('#thshow').html('日期\\部门');
+while(i<13){
+    $("<option value='" + i + "'  >" + i + "月</option>").appendTo("#dactorName");
+    i++;    
+}
+}
+
+if(ckval==="3"){
+var i=1;
+$('#thshow').html('季度\\部门');
+while(i<5){
+    $("<option value='" + i + "'>第" + i + "季度</option>").appendTo("#dactorName");
+    i++;    
+}
+}
+
+if(ckval==="4"){
+    var now = new Date(); //当前日期 
+    var nowYear = now.getFullYear(); //当前年 
+    var ty=nowYear+5;
+    $('#thshow').html('月份\\部门');
+    $("<option value='" + ty + "'  >" + ty + "年</option>").appendTo("#dactorName");
+     ty=nowYear+4;
+    $("<option value='" + ty + "'  >" + ty + "年</option>").appendTo("#dactorName");
+     ty=nowYear+3;
+    $("<option value='" + ty + "'  >" + ty + "年</option>").appendTo("#dactorName");
+     ty=nowYear+2;
+    $("<option value='" + ty + "'  >" + ty + "年</option>").appendTo("#dactorName");
+     ty=nowYear+1;
+    $("<option value='" + ty + "'  >" + ty + "年</option>").appendTo("#dactorName");
+    $("<option value='" + nowYear + "' selected='selected' >" + nowYear + "年</option>").appendTo("#dactorName");
+     ty=nowYear-1;
+    $("<option value='" + ty + "'  >" + ty + "年</option>").appendTo("#dactorName");
+     ty=nowYear-2;
+    $("<option value='" + ty + "'  >" + ty + "年</option>").appendTo("#dactorName");
+     ty=nowYear-3;
+    $("<option value='" + ty + "'  >" + ty + "年</option>").appendTo("#dactorName");
+     ty=nowYear-4;
+    $("<option value='" + ty+ "'  >" + ty + "年</option>").appendTo("#dactorName");
+     ty=nowYear-5;
+    $("<option value='" + ty + "'  >" + ty + "年</option>").appendTo("#dactorName");
+    
+}
 });
+//);
 //格局化日期：yyyy-MM-dd 
 function formatDate(date) { 
 var myyear = date.getFullYear(); 
