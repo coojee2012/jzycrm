@@ -2270,7 +2270,7 @@ TableTools.BUTTONS ={
   "sAction": "flash_save",
   "sCharSet": "utf16le",
   "bBomInc": true,
-  "sFileName": "*.csv",
+  "sFileName": "*.xls",
   "sFieldBoundary": "",
   "sFieldSeperator": "\t",
   "sNewLine": "auto",
@@ -2288,9 +2288,7 @@ TableTools.BUTTONS ={
   "bSelectedOnly": false,
   "fnMouseover": null,
   "fnMouseout": null,
-  "fnClick": function( nButton, oConfig , flash) {
-                  
-                    
+  "fnClick": function( nButton, oConfig , flash) {                                     
    var sData = this.fnGetExtXlsData(oConfig, "header");
    var vkeys = oConfig.sKeys;
    $.ajax( {
@@ -2371,7 +2369,7 @@ TableTools.BUTTONS ={
 		  "print this table. Press escape when finished.",
 		"sMessage": null,
 		"bShowAll": true,
-		"sToolTip": "View print view",
+		"sToolTip": "",
 		"sButtonClass": "DTTT_button_print",
 		"sButtonText": "Print",
 		"fnClick": function ( nButton, oConfig ) {
