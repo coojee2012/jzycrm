@@ -935,9 +935,11 @@ exports.paidanchart = function(req, res) {
 					msg: '数据库查询发生错误：！' + util.inspect(err, false, null)
 				});
 			} else {
-				var redata = [];
+				var redata = {};
 				for (var j = 0; j < dbs.length; j++) {
-					if (typeof(redata[dbs[j].week]) === 'function') {
+					
+					if (typeof(redata[dbs[j].week]) === 'object') {
+						console.log(dbs[j].week);
 						continue;
 					}
 					var tmp = {};
@@ -962,6 +964,8 @@ exports.paidanchart = function(req, res) {
 				redata[dbs.length].yys = [0, 0, 0];
 				redata[dbs.length].szk = [0, 0, 0];
 				redata[dbs.length].zj = [0, 0, 0];
+
+				console.log(redata);
 
 				for (var i = 0; i < dbs.length; i++) {
 					var depid = dbs[i].DepId;
@@ -1012,10 +1016,15 @@ exports.paidanchart = function(req, res) {
 						}
 					}
 				}
-				output.iTotalRecords = redata.length;
+
+				var redata2 = [];
+				for (var key in redata) {
+					redata2.push(redata[key]);
+				}
+				output.iTotalRecords = redata2.length;
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
-				output.iTotalDisplayRecords = redata.length;
-				output.aaData = redata;
+				output.iTotalDisplayRecords = redata2.length;
+				output.aaData = redata2;
 				res.send(output);
 			}
 		});
