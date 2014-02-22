@@ -2,6 +2,16 @@
   var fs = require('fs');
   var util = require('util');
   var wcfurl = 'http://127.0.0.1:8088/JzyService.svc?wsdl';
+  var sql = require('mssql');
+  var config = {
+    user: 'sa',
+    password: 'sa',
+    server: '192.168.1.2',
+    database: 'hbposv7'
+  }
+  var connection = new sql.Connection(config);
+  var async=require('async');
+  
 
   //获取客户档案列表
   exports.get = function(req, res) {
@@ -297,7 +307,7 @@
 
   }
 
-  exports.getYgIndex=function(req,res){
+  exports.getYgIndex = function(req, res) {
     var card_id = req.body["Card_id"] || req.query["Card_id"] || "";
     var keywords = req.body["KeyWords"] || req.query["KeyWords"] || '';
     var timefrom = req.body["TimeFrom"] || req.query["TimeFrom"] || '';
@@ -307,13 +317,13 @@
     where.Card_id = card_id;
     where.TimeFrom = timefrom;
     where.TimeTo = timeto;
-     res.render('jzycustominfo/ygshop.html', {
+    res.render('jzycustominfo/ygshop.html', {
       title: '已购商品列表',
       where: where
     });
   }
-//获取已购商品
-  exports.getYGItems=function(req,res){
+  //获取已购商品
+  exports.getYGItems = function(req, res) {
     var card_id = req.body["Card_id"] || req.query["Card_id"] || "";
     var keywords = req.body["KeyWords"] || req.query["KeyWords"] || '';
     var timefrom = req.body["TimeFrom"] || req.query["TimeFrom"] || '';
@@ -542,7 +552,7 @@
 
     var unitid = req.body["unid"] || req.query["unid"] || '';
     var cid = req.body['Card_id'] || req.query['Card_id'] || '';
-    var phone=req.body["phone"] || req.query["phone"] || '';
+    var phone = req.body["phone"] || req.query["phone"] || '';
     var content = req.body["content"] || req.query["content"] || '';
     var dostate = req.body["dostate"] || req.query["dostate"] || '';
     var donesth = req.body["donesth"] || req.query["donesth"] || '';
@@ -552,7 +562,7 @@
     var inst = {};
     inst.Unid = unitid;
     inst.Cid = cid;
-    inst.Phone=phone;
+    inst.Phone = phone;
     inst.Content = content;
     inst.DoState = dostate;
     inst.DoneSth = donesth;
@@ -591,22 +601,22 @@
 
   var createpostThjlUpdate = function(req, res) {
     var unitid = req.body["unid"] || req.query["unid"] || '';
-    var phone=req.body["phone"] || req.query["phone"] || '';
+    var phone = req.body["phone"] || req.query["phone"] || '';
     var cid = req.body['Card_id'] || req.query['Card_id'] || '';
     var content = req.body["content"] || req.query["content"] || '';
     var dostate = req.body["dostate"] || req.query["dostate"] || '';
     var donesth = req.body["donesth"] || req.query["donesth"] || '';
 
-   // var exten = req.session.exten;
-   // var agentname = req.session.username;
+    // var exten = req.session.exten;
+    // var agentname = req.session.username;
     var inst = {};
     inst.Unid = unitid;
     inst.Cid = cid;
     inst.Content = content;
     inst.DoState = dostate;
     inst.DoneSth = donesth;
-   // inst.AgentName = agentname;
-   // inst.Exten = exten;
+    // inst.AgentName = agentname;
+    // inst.Exten = exten;
 
     soap.createClient(wcfurl, function(err, client) {
       if (err) {
@@ -758,7 +768,7 @@
           res.render('jzycustominfo/editThjl.html', {
             title: '通话记录',
             msg: null,
-            DoState:dostate,
+            DoState: dostate,
             inst: inst
           });
 
@@ -794,7 +804,7 @@
     inst.AgentName = agentname;
     inst.Exten = exten;
 
-    console.log("UPDATE CALLS：",inst);
+    console.log("UPDATE CALLS：", inst);
     soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);
@@ -816,7 +826,7 @@
       }
       client.updateCalls({
         Unid: unitid,
-        Cid:cid,
+        Cid: cid,
         Content: content,
         DoState: dostate,
         DoneSth: donesth
@@ -831,7 +841,7 @@
         } else {
           console.log("updateCalls:", result['updateCallsResult']);
           //res.send(result['updateCustomResult']);
-          res.redirect('/jzy/listThjl?cid=' + cid+'&DoState='+dostate);
+          res.redirect('/jzy/listThjl?cid=' + cid + '&DoState=' + dostate);
 
         }
 
