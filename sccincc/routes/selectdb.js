@@ -750,50 +750,50 @@ exports.orderchart = function(req, res) {
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (dbs[i].DepId == 1) {
-						redata[i].wxjl = dbs[i].number;
-						redata[i].zj += dbs[i].number;
+						redata[dbs[i].week].wxjl = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
 						redata[3].wxjl += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 3) {
-						redata[i].shbxjl = dbs[i].number;
-						redata[i].zj += dbs[i].number;
+						redata[dbs[i].week].shbxjl = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
 						redata[3].shbxjl += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 7) {
-						redata[i].sjsjl = dbs[i].number;
-						redata[i].zj += dbs[i].number;
+						redata[dbs[i].week].sjsjl = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
 						redata[3].sjsjl += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 8) {
-						redata[i].ecgsjl = dbs[i].number;
-						redata[i].zj += dbs[i].number;
+						redata[dbs[i].week].ecgsjl = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
 						redata[3].ecgsjl += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 6) {
-						redata[i].jck = dbs[i].number;
-						redata[i].zj += dbs[i].number;
+						redata[dbs[i].week].jck = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
 						redata[3].jck += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 5) {
-						redata[i].yys = dbs[i].number;
-						redata[i].zj += dbs[i].number;
+						redata[dbs[i].week].yys = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
 						redata[3].yys += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 11) {
-						redata[i].szk = dbs[i].number;
-						redata[i].zj += dbs[i].number;
+						redata[dbs[i].week].szk = dbs[i].number;
+						redata[dbs[i].week].zj += dbs[i].number;
 						redata[3].szk += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
@@ -937,7 +937,7 @@ exports.paidanchart = function(req, res) {
 			} else {
 				var redata = {};
 				for (var j = 0; j < dbs.length; j++) {
-					
+
 					if (typeof(redata[dbs[j].week]) === 'object') {
 						console.log(dbs[j].week);
 						continue;
@@ -1116,10 +1116,10 @@ exports.paidanchart = function(req, res) {
 		var monthdays = [31, eryuedays, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 		var days = monthdays[tjvalue - 1];
 		var endday = formatDate(new Date(nowYear, tjvalue - 1, days));
-		var dayfrom = req.query['dayfrom'] || req.body['dayfrom'] || nowYear + "-01" + "-01";
-		var dayto = req.query['dayto'] || req.body['dayto'] || nowYear + "-12" + "-31";
+		//var dayfrom = req.query['dayfrom'] || req.body['dayfrom'] || nowYear + "-01" + "-01";
+		//var dayto = req.query['dayto'] || req.body['dayto'] || nowYear + "-12" + "-31";
 		var sql = "SELECT count(*) as number,DepId,OrderOptions,DAYOFMONTH(date(orderTime)) as week  FROM `OrderRecords` where 1=1 ";
-		sql += " and orderTime > '" + dayfrom + " 00:00:00' and orderTime < '" + dayto + " 23:59:59'  group by DepId,OrderOptions,DAYOFMONTH(date(orderTime)) order by DAYOFMONTH(date(orderTime)) asc";
+		sql += " and orderTime > '" + firstday + " 00:00:00' and orderTime < '" + endday + " 23:59:59'  group by DepId,OrderOptions,DAYOFMONTH(date(orderTime)) order by DAYOFMONTH(date(orderTime)) asc";
 		Orders.query(sql, function(err, dbs) {
 			if (err) {
 				res.send({
@@ -1178,20 +1178,20 @@ exports.paidanchart = function(req, res) {
 
 					function tmpfun(str) {
 						if (dbs[i].OrderOptions == 0) {
-							redata[dbs[i].week][str][0] = dbs[i].number;
-							redata[dbs[i].week].zj[0] += dbs[i].number;
+							redata[dbs[i].week-1][str][0] = dbs[i].number;
+							redata[dbs[i].week-1].zj[0] += dbs[i].number;
 							redata[days][str][0] += dbs[i].number;
 							redata[days].zj[0] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 1) {
-							redata[dbs[i].week][str][1] = dbs[i].number;
-							redata[dbs[i].week].zj[1] += dbs[i].number;
+							redata[dbs[i].week-1][str][1] = dbs[i].number;
+							redata[dbs[i].week-1].zj[1] += dbs[i].number;
 							redata[days][str][1] += dbs[i].number;
 							redata[days].zj[1] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 2) {
-							redata[dbs[i].week][str][2] = dbs[i].number;
-							redata[dbs[i].week].zj[2] += dbs[i].number;
+							redata[dbs[i].week-1][str][2] = dbs[i].number;
+							redata[dbs[i].week-1].zj[2] += dbs[i].number;
 							redata[days][str][2] += dbs[i].number;
 							redata[days].zj[2] += dbs[i].number;
 						}
@@ -1226,7 +1226,7 @@ exports.paidanchart = function(req, res) {
 						var month11 = j + 1 + (tjvalue - 1) * 3;
 						tmp.tags = month11 + '月';
 					}
-					
+
 					tmp.wxjl = [0, 0, 0];
 					tmp.shbxjl = [0, 0, 0];
 					tmp.sjsjl = [0, 0, 0];
@@ -1269,20 +1269,20 @@ exports.paidanchart = function(req, res) {
 
 					function tmpfun(str) {
 						if (dbs[i].OrderOptions == 0) {
-							redata[dbs[i].week][str][0] = dbs[i].number;
-							redata[dbs[i].week].zj[0] += dbs[i].number;
+							redata[dbs[i].week - 1][str][0] = dbs[i].number;
+							redata[dbs[i].week - 1].zj[0] += dbs[i].number;
 							redata[3][str][0] += dbs[i].number;
 							redata[3].zj[0] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 1) {
-							redata[dbs[i].week][str][1] = dbs[i].number;
-							redata[dbs[i].week].zj[1] += dbs[i].number;
+							redata[dbs[i].week - 1][str][1] = dbs[i].number;
+							redata[dbs[i].week - 1].zj[1] += dbs[i].number;
 							redata[3][str][1] += dbs[i].number;
 							redata[3].zj[1] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 2) {
-							redata[dbs[i].week][str][2] = dbs[i].number;
-							redata[dbs[i].week].zj[2] += dbs[i].number;
+							redata[dbs[i].week - 1][str][2] = dbs[i].number;
+							redata[dbs[i].week - 1].zj[2] += dbs[i].number;
 							redata[3][str][2] += dbs[i].number;
 							redata[3].zj[2] += dbs[i].number;
 						}
@@ -1316,7 +1316,7 @@ exports.paidanchart = function(req, res) {
 						var month11 = j + 1;
 						tmp.tags = month11 + '月';
 					}
-					
+
 					tmp.wxjl = [0, 0, 0];
 					tmp.shbxjl = [0, 0, 0];
 					tmp.sjsjl = [0, 0, 0];
@@ -1359,20 +1359,20 @@ exports.paidanchart = function(req, res) {
 
 					function tmpfun(str) {
 						if (dbs[i].OrderOptions == 0) {
-							redata[dbs[i].week][str][0] = dbs[i].number;
-							redata[dbs[i].week].zj[0] += dbs[i].number;
+							redata[dbs[i].week-1][str][0] = dbs[i].number;
+							redata[dbs[i].week-1].zj[0] += dbs[i].number;
 							redata[12][str][0] += dbs[i].number;
 							redata[12].zj[0] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 1) {
-							redata[dbs[i].week][str][1] = dbs[i].number;
-							redata[dbs[i].week].zj[1] += dbs[i].number;
+							redata[dbs[i].week-1][str][1] = dbs[i].number;
+							redata[dbs[i].week-1].zj[1] += dbs[i].number;
 							redata[12][str][1] += dbs[i].number;
 							redata[12].zj[1] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 2) {
-							redata[dbs[i].week][str][2] = dbs[i].number;
-							redata[dbs[i].week].zj[2] += dbs[i].number;
+							redata[dbs[i].week-1][str][2] = dbs[i].number;
+							redata[dbs[i].week-1].zj[2] += dbs[i].number;
 							redata[12][str][2] += dbs[i].number;
 							redata[12].zj[2] += dbs[i].number;
 						}

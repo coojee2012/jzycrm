@@ -118,10 +118,12 @@ exports.callhchartpost = function(req, res) {
 			
 
 			for (var i = 0; i < dbs.length; i++) {
-				if (dbs[i].routerline == 1)
+				if (dbs[i].routerline === 1)
 					tmp[dbs[i].uName].outcalls = dbs[i].number;
-				else {
+				else if (dbs[i].routerline == 0) {
 					tmp[dbs[i].uName].incalls = dbs[i].number;
+				}else{
+					
 				}
 
 			}
@@ -167,6 +169,11 @@ exports.callsessionpost = function(req, res) {
 			msg: '查询日期后者比前者早，这不科学！'
 		});
 	} else {
+		/*
+		SELECT COUNT( * ) AS number,routerline, accountcode FROM callsession WHERE 1 =1 and  
+		cretime >= '2014-02-01 00:00:00' and cretime <= '2014-02-10 23:59:59'  
+		GROUP BY routerline, accountcode;
+*/
 		var sql = 'SELECT COUNT( * ) AS number,routerline, accountcode FROM callsession WHERE 1 =1';
 		sql += " and  cretime >= '" + datefrom + "' and cretime <= '" + dateto + "' ";
 		//sql+=' and extension >=9000 ';
@@ -185,10 +192,10 @@ exports.callsessionpost = function(req, res) {
 				for (var i in agent) {
 					var suo = true;
 					for (var j = 0; j < dbs.length; j++) {
-						if (dbs[j].accountcode === agent[i] && dbs[j].routerline === 1) {
+						if (dbs[j].accountcode === agent[i] && dbs[j].routerline === '1') {
 							callin.push([agent[i], dbs[j].number]);
 							suo = false;
-						} else if (dbs[j].accountcode === agent[i] && dbs[j].routerline === 2) {
+						} else if (dbs[j].accountcode === agent[i] && dbs[j].routerline === '0') {
 							callout.push([agent[i], dbs[j].number]);
 							suo = false;
 						} else {
