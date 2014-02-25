@@ -750,50 +750,50 @@ exports.orderchart = function(req, res) {
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (dbs[i].DepId == 1) {
-						redata[dbs[i].week].wxjl = dbs[i].number;
-						redata[dbs[i].week].zj += dbs[i].number;
+						redata[dbs[i].week-(tjvalue - 1) * 3-1].wxjl = dbs[i].number;
+						redata[dbs[i].week-(tjvalue - 1) * 3-1].zj += dbs[i].number;
 						redata[3].wxjl += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 3) {
-						redata[dbs[i].week].shbxjl = dbs[i].number;
-						redata[dbs[i].week].zj += dbs[i].number;
+						redata[dbs[i].week-(tjvalue - 1) * 3-1].shbxjl = dbs[i].number;
+						redata[dbs[i].week-(tjvalue - 1) * 3-1].zj += dbs[i].number;
 						redata[3].shbxjl += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 7) {
-						redata[dbs[i].week].sjsjl = dbs[i].number;
-						redata[dbs[i].week].zj += dbs[i].number;
+						redata[dbs[i].week-(tjvalue - 1) * 3-1].sjsjl = dbs[i].number;
+						redata[dbs[i].week-(tjvalue - 1) * 3-1].zj += dbs[i].number;
 						redata[3].sjsjl += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 8) {
-						redata[dbs[i].week].ecgsjl = dbs[i].number;
-						redata[dbs[i].week].zj += dbs[i].number;
+						redata[dbs[i].week-(tjvalue - 1) * 3-1].ecgsjl = dbs[i].number;
+						redata[dbs[i].week-(tjvalue - 1) * 3-1].zj += dbs[i].number;
 						redata[3].ecgsjl += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 6) {
-						redata[dbs[i].week].jck = dbs[i].number;
-						redata[dbs[i].week].zj += dbs[i].number;
+						redata[dbs[i].week-(tjvalue - 1) * 3-1].jck = dbs[i].number;
+						redata[dbs[i].week-(tjvalue - 1) * 3-1].zj += dbs[i].number;
 						redata[3].jck += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 5) {
-						redata[dbs[i].week].yys = dbs[i].number;
-						redata[dbs[i].week].zj += dbs[i].number;
+						redata[dbs[i].week-(tjvalue - 1) * 3-1].yys = dbs[i].number;
+						redata[dbs[i].week-(tjvalue - 1) * 3-1].zj += dbs[i].number;
 						redata[3].yys += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 11) {
-						redata[dbs[i].week].szk = dbs[i].number;
-						redata[dbs[i].week].zj += dbs[i].number;
+						redata[dbs[i].week-(tjvalue - 1) * 3-1].szk = dbs[i].number;
+						redata[dbs[i].week-(tjvalue - 1) * 3-1].zj += dbs[i].number;
 						redata[3].szk += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
@@ -1269,20 +1269,20 @@ exports.paidanchart = function(req, res) {
 
 					function tmpfun(str) {
 						if (dbs[i].OrderOptions == 0) {
-							redata[dbs[i].week - 1][str][0] = dbs[i].number;
-							redata[dbs[i].week - 1].zj[0] += dbs[i].number;
+							redata[dbs[i].week -(tjvalue - 1) * 3- 1][str][0] = dbs[i].number;
+							redata[dbs[i].week-(tjvalue - 1) * 3 - 1].zj[0] += dbs[i].number;
 							redata[3][str][0] += dbs[i].number;
 							redata[3].zj[0] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 1) {
-							redata[dbs[i].week - 1][str][1] = dbs[i].number;
-							redata[dbs[i].week - 1].zj[1] += dbs[i].number;
+							redata[dbs[i].week-(tjvalue - 1) * 3 - 1][str][1] = dbs[i].number;
+							redata[dbs[i].week-(tjvalue - 1) * 3 - 1].zj[1] += dbs[i].number;
 							redata[3][str][1] += dbs[i].number;
 							redata[3].zj[1] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 2) {
-							redata[dbs[i].week - 1][str][2] = dbs[i].number;
-							redata[dbs[i].week - 1].zj[2] += dbs[i].number;
+							redata[dbs[i].week -(tjvalue - 1) * 3- 1][str][2] = dbs[i].number;
+							redata[dbs[i].week-(tjvalue - 1) * 3 - 1].zj[2] += dbs[i].number;
 							redata[3][str][2] += dbs[i].number;
 							redata[3].zj[2] += dbs[i].number;
 						}
@@ -1639,14 +1639,14 @@ exports.callreportchart = function(req, res) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
 						if (dbs[i].routerline == 1) {
-							redata[dbs[i].week - (tjvalue - 1) * 3][dbs[i].accountcode][0] = dbs[i].number;
-							redata[dbs[i].week - (tjvalue - 1) * 3].zj[0] += dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3-1][dbs[i].accountcode][0] = dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3-1].zj[0] += dbs[i].number;
 							redata[3][dbs[i].accountcode][0] += dbs[i].number;
 							redata[3].zj[0] += dbs[i].number;
 						} else {
 							console.log(redata[i], "--" + i + "--", dbs[i].accountcode);
-							redata[dbs[i].week - (tjvalue - 1) * 3][dbs[i].accountcode][1] = dbs[i].number;
-							redata[dbs[i].week - (tjvalue - 1) * 3].zj[1] += dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3-1][dbs[i].accountcode][1] = dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3-1].zj[1] += dbs[i].number;
 							redata[3][dbs[i].accountcode][1] += dbs[i].number;
 							redata[3].zj[1] += dbs[i].number;
 						}

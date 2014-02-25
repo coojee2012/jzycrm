@@ -199,7 +199,14 @@ var MyDataTable=$('#datatable').dataTable( {
 	}
   // "fnServerData": fnDataTablesPipeline
 } );
-} );
+//如果不是坐席，每分钟循环刷新列表
+if(roleid!==8){
+var intervalid=setInterval(function(){
+MyDataTable.fnDraw();
+}, 60000);
+}
+
+});
 
 
 function deleterow(data){

@@ -4,7 +4,7 @@
 <div class="box-content">
 <form class="form-horizontal" method="POST">
     <fieldset>
-        <div class="span4">
+        <div class="span12">
             <div class="control-group">
                 <label class="control-label" for="id">范围类型 </label>
                 <div class="controls">
@@ -65,11 +65,29 @@
 	<thead>
         <tr><td colspan="<%= Agent.length%>">说明：各项数据依次代表【<span style="color:blue;">呼入</span>|<span style="color:red;">呼出</span>】</td></tr>
 		<tr>
-			<th id='thshow'>星期\座席</th>
+			<th id='thshow' style='width:8%;'>
+
+<table>
+    <tr><td colspan='3'  align="center">星期\座席</td></tr>
+    <tr><td colspan='3' style="height:55px;"></td></tr>
+</table>
+            </th>
             <%for(var i=0;i<Agent.length;i++){%>
-            <th><%= Agent[i].uName%></th>
+            <th style='width:80px;'>
+<table>
+    <tr><td colspan='3'  align="center"><%= Agent[i].uName%></td></tr>
+    <tr><td style='width:5px;color:blue;'>呼入</td>
+        <td style='width:5px;color:red;'>呼出</td></tr>
+</table>
+            </th>
             <%}%>
-			<th>总计</th>
+			<th>
+<table>
+    <tr><td colspan='3'  align="center" style='width:8%;'>总计</td></tr>
+    <tr><td style='width:5px;color:blue;'>呼入</td>
+        <td style='width:5px;color:red;'>呼出</td></tr>
+</table>
+            </th>
 		</tr>
 	</thead>
 	<tbody>
