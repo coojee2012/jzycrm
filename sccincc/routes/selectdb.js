@@ -94,6 +94,9 @@ exports.pagingsearch = function(req, res) {
 	var iDisplayStart = req.query['iDisplayStart'] || req.body['iDisplayStart'];
 	//每页长度
 	var iDisplayLength = req.query['iDisplayLength'] || req.body['iDisplayLength'];
+	if(iDisplayLength=='-1'){
+		iDisplayLength=1000;
+	}
 	var iSortCol_0 = req.query['iSortCol_0'] || req.body['iSortCol_0'];
 
 	//排序字符串

@@ -90,7 +90,7 @@ var MyDataTable=$('#datatable').dataTable( {
                                 //    return 100;
                                  var oSettings = MyDataTable.fnSettings();
                                  var displaystart=oSettings._iDisplayStart;
-                                var str='<div class="btn-group"><button class="btn btn-small ">操作</button> ';
+                                var str='<div class="btn-group print"><button class="btn btn-small ">操作</button> ';
 						            str+='<button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>';
 						            str+='<ul class="dropdown-menu"> ';
                                     str+='<li><a href="/Sms/detail?id='+data+"&display="+displaystart+'"><i class="icon-zoom-in icon-white"></i>查看</a></li>';
@@ -104,21 +104,25 @@ var MyDataTable=$('#datatable').dataTable( {
                               ],
              oTableTools: {
              sSwfPath: "/css/swf/copy_csv_xls_pdf.swf",
-             aButtons: [                          
-                                {
-					"sExtends": "copy",
-					"sButtonText": "复制"
-				},
-				  {
-					"sExtends": "print",
-					"sButtonText": "打印"
-				},
+             aButtons: [ 
                                  {
                  					"sExtends":    "collection",
                  					"sButtonText": '导出 <span class="caret" />',
                  					"aButtons":    [ "csv", "xls", "pdf" ],
                  					"mColumns": daochu
-                 				}
+                 				},{
+      "sExtends":"text",
+      "sButtonText": "新开窗口" ,
+      "fnClick": function ( nButton, oConfig, oFlash ) {
+                       window.open('/Sms');
+                    }
+     },{
+      "sExtends":"print",
+      "sButtonText": "打印结果" ,
+      "sInfo": "<h6>打印本页</h6><p>请使用浏览器的打印功能 " + "打印本页. 按ESC键退出.</p>",
+      //"sMessage": "列表打印",
+      "bShowAll": true
+     }
                                 
                                                    
                               ]

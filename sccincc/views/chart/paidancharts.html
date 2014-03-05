@@ -194,7 +194,19 @@ $('#datatable').dataTable({
                  					"sButtonText": '导出 <span class="caret" />',
                  					"aButtons":    [ "xls"],
                  					"mColumns": daochu
-                 				}
+                 				},{
+      "sExtends":"text",
+      "sButtonText": "新开窗口" ,
+      "fnClick": function ( nButton, oConfig, oFlash ) {
+                       window.open('/chart/paidancharts');
+                    }
+     },{
+      "sExtends":"print",
+      "sButtonText": "打印结果" ,
+      "sInfo": "<h6>打印本页</h6><p>请使用浏览器的打印功能 " + "打印本页. 按ESC键退出.</p>",
+      //"sMessage": "列表打印",
+      "bShowAll": true
+     }
                                 
                                                    
                               ]
