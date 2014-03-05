@@ -1290,7 +1290,7 @@ legend+.control-group {
 
 table {
 	max-width: 100%;
-	background-color: transparent;
+	background-color: #FFFFFF;
 	border-collapse: collapse;
 	border-spacing: 0;
 }
@@ -1381,7 +1381,7 @@ table {
 
 .table-striped tbody tr:nth-child(odd) td,.table-striped tbody tr:nth-child(odd) th
 	{
-	background-color: #f9f9f9;
+	/* background-color: #f9f9f9; */
 }
 
 .table tbody tr:hover td,.table tbody tr:hover th {
