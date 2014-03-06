@@ -3,28 +3,28 @@ $(document).ready(function() {
 var roleid=<%= roleid%>;
 var aoColumns=[
                
-               { mData: "id", sClass: "center",bSearchable: false },
-               { mData: "cID", sClass: "center" },
-               { mData: "uaddr", sClass: "center" },
+               { mData: "id", "sWidth": "40px",bSearchable: false },
+               { mData: "cID", "sWidth": "40px" },
+               { mData: "uaddr", sClass: "center","sWidth": "100px" },
               // { mData: "OrderTypeid", sClass: "center" },
- { mData: "orderContent", sClass: "center" },
- { mData: "uphone", sClass: "center" },  
- { mData: "utel", sClass: "center" },                
+ { mData: "orderContent", sClass: "center","sWidth": "200px"  },
+ { mData: "uphone", sClass: "center","sWidth": "80px"  },  
+ { mData: "utel", sClass: "center","sWidth": "40px"  },                
                
                
               
-               { mData: "DepID", sClass: "center" },               
-               { mData: "dactorName", sClass: "center" },  
-               { mData: "orderReslut", sClass: "center" }, 
+               { mData: "DepID", sClass: "center","sWidth": "40px"  },               
+               { mData: "dactorName", sClass: "center","sWidth": "40px"  },  
+               { mData: "orderReslut", sClass: "center" ,"sWidth": "100px" }, 
                 
                                
-                { mData: "serMan", sClass: "center" },               
+                { mData: "serMan", sClass: "center","sWidth": "40px" },               
                
-               { mData: "OrderOptions", sClass: "center",bSearchable: false},
+               { mData: "OrderOptions", sClass: "center","sWidth": "40px" ,bSearchable: false},
    //            	{ mData: "recordTime", sClass: "center",bSearchable: false},
-               	{ mData: "orderTime", sClass: "center",bSearchable: false},
+               	{ mData: "orderTime", sClass: "center","sWidth": "100px" ,bSearchable: false},
                	
-                 { mData: "id", sClass: "center",bSearchable: false }
+                 { mData: "id", sClass: "center","sWidth": "40px" ,bSearchable: false }
                  
              ];
 var vKeys=["id","cID.idcard","uaddr","orderContent","uphone","utel","DepID.depName","dactorName.uName","orderReslut","serMan.uName","OrderOptions","orderTime","id"];
@@ -86,8 +86,13 @@ var MyDataTable=$('#datatable').dataTable( {
     sInfoEmpty: "显示 0 至 0 共 0 项",
    oPaginate: { "sFirst": "第一页", "sPrevious": "上一页 ", "sNext": "下一页 ", "sLast": "末页 " }
 	},
+   bAutoWidth:false,
     bProcessing: true,
     bServerSide: true,
+     sScrollx:"100%",
+     bScrollCollapse: true,
+    
+    
     bSort: false,
     aaSorting: [[7, "desc"],[8,"desc"]],
     bFilter:false,
@@ -95,7 +100,7 @@ var MyDataTable=$('#datatable').dataTable( {
     aoColumns:aoColumns ,
     aoColumnDefs: [
                   {
-                	  aTargets:[3],
+                	  aTargets:[3],"sWidth": "300px",
                 	  mRender: function (data, type,full) {
                       var str='';
                       str+=data||'--';
@@ -152,7 +157,7 @@ var MyDataTable=$('#datatable').dataTable( {
                                  var oSettings = MyDataTable.fnSettings();
                                  var displaystart=oSettings._iDisplayStart;
 
-                            	var str='<div class="btn-group"><button class="btn btn-small ">操作</button> ';
+                            	var str='<div class="btn-group print"><button class="btn btn-small ">操作</button> ';
 						            str+='<button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>';
 						            str+='<ul class="dropdown-menu"> ';
                                     str+='<li><a href="/OrderRecords/detail?id='+data+'&'+where2+'&distart='+displaystart+'" ><i class="icon-zoom-in icon-white"></i>查看</a></li>';
@@ -192,7 +197,19 @@ var MyDataTable=$('#datatable').dataTable( {
     //  "sParameters": parameters, 
       "sKeys": vKeys, 
       "sButtonText": "导出全部" 
-     } 
+     } ,{
+      "sExtends":"text",
+      "sButtonText": "新开窗口" ,
+      "fnClick": function ( nButton, oConfig, oFlash ) {
+                       window.open('/OrderRecords');
+                    }
+     },{
+      "sExtends":"print",
+      "sButtonText": "打印结果" ,
+      "sInfo": "<h6>打印本页</h6><p>请使用浏览器的打印功能 " + "打印本页. 按ESC键退出.</p>",
+      //"sMessage": "列表打印",
+      "bShowAll": true
+     }
                                 
                                                    
                               ]
@@ -1002,28 +1019,26 @@ $(function(){
 </div>
 </div>
 <div class="box-content">
-<table
-	class="table table-striped table-bordered bootstrap-datatable datatable"
-	id="datatable">
-	<caption></caption>
+<!-- <table class="table table-striped table-bordered bootstrap-datatable datatable" id="datatable"> -->
+<table class="table table-striped table-bordered" id="datatable">
 	<thead>
 		<tr>
 			<th style="width:80px;">工单编号</th>
       <th style="width:40px;">用户户号</th>
-      <th>联系地址</th>
-      <th>受理内容</th>
-       <th>手机号码</th>
-			<th>固定号码</th>
+      <th style="width:40px;">联系地址</th>
+      <th style="width:40px;">受理内容</th>
+       <th style="width:40px;">手机号码</th>
+			<th style="width:40px;">固定号码</th>
        
 
-      <th>处理部门</th>
-      <th>处理人员</th>
-      <th>回访内容</th>      
+      <th style="width:40px;">处理部门</th>
+      <th style="width:40px;">处理人员</th>
+      <th style="width:40px;">回访内容</th>      
            
 			<th style="width:60px;">服务座席</th>
-			<th>工单状态</th>
-			<th>记录时间</th>
-			<th style="width:60px;">操作</th>
+			<th style="width:40px;">工单状态</th>
+			<th style="width:40px;">记录时间</th>
+			<th class="print" style="width:60px;">操作</th>
 		</tr>
 	</thead>
 	<tbody>
