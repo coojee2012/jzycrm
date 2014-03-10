@@ -1,17 +1,45 @@
   var soap = require('soap');
   var fs = require('fs');
   var util = require('util');
+  var MSSQL = require('../lib/mssqltds');
+  var async = require('async');
   var wcfurl = 'http://127.0.0.1:8088/JzyService.svc?wsdl';
-  var sql = require('mssql');
+
   var config = {
-    user: 'sa',
-    password: 'sa',
     server: '192.168.1.2',
-    database: 'hbposv7'
+    userName: 'sa',
+    password: 'sa',
+    options: {
+      debug: {
+        packet: false,
+        data: false,
+        payload: false,
+        token: false,
+        log: false
+      },
+      tdsVersion: '7_1',
+      database: 'hbposv7' //'bjexpert' //
+    }
+
+  };
+
+  var mssql = new MSSQL(config);
+
+
+  function SafePramas(str) {
+    if (!str || str == '')
+      return "";
+    else {
+      str = str.replace(/\'/g, '’');
+      str = str.replace(/"/g, '”');
+      str = str.replace(/\%/g, '%');
+      str = str.replace(/\!/g, '！');
+      str = str.replace(/\@/g, '@');
+      str = str.replace(/\;/g, '；');
+      return str;
+    }
   }
-  var connection = new sql.Connection(config);
-  var async=require('async');
-  
+
 
   //获取客户档案列表
   exports.get = function(req, res) {
@@ -94,9 +122,41 @@
     jieguo.sEcho = req.query['sEcho'] || req.body['sEcho'];
     jieguo.iTotalDisplayRecords = 10;
 
+    /*
+   WHERE id NOT IN
+          (
+          SELECT TOP 页大小*(页数-1) id FROM table1 ORDER BY id
+          )
+ORDER BY id
+   */
+    var sql = "select top 10 a.*,b.vip_name,b.social_id from callrecords a left join t_rm_vip_info b on b.card_id = a.cid where 1=1 ";
+    if (card_id !== '') {
+      sql += " and a.cid = '" + card_id + "'";
+    }
+    if (keywords !== = '') {
+      sql += " and (a.content like '%" + keywords + "%' or a.donesth like '%" + keywords + "%'";
+      if (card_id !== '') {
+        sql += " or b.vip_name like '%" + keywords + "%'";
+      }
+      sql += ")";
+    }
+    if (dostate !== '' && (dostate == "0" || dostate == "1" || dostate == "2")) {
+      sql += " and a.dostate = " + dostate;
+    }
+    if (timefrom !== '') {
+      sql += " and a.recordtime > '" + timefrom + "'";
+    }
+    if (timeto !== '') {
+      sql += " and a.recordtime < '" + timeto + "'";
+    }
+    sql += " order by a.recordtime desc ";
 
+    mssql.exec(sql, function(err, dbs) {
+      jieguo.aaData = dbs;
+      res.send(jieguo);
+    });
 
-    soap.createClient(wcfurl, function(err, client) {
+    /*soap.createClient(wcfurl, function(err, client) {
 
       if (err) {
         console.log("连接服务发生异常！", err);
@@ -136,7 +196,7 @@
         });
       }
 
-    });
+    });*/
 
 
   }
@@ -149,7 +209,25 @@
     jieguo.iTotalRecords = 10;
     jieguo.sEcho = req.query['sEcho'] || req.body['sEcho'];
     jieguo.iTotalDisplayRecords = 10;
-    //console.log(soap);
+
+    var sql = "select top 10  a.card_id,a.card_type,b.type_name,b.discount,a.vip_name,a.vip_sex,a.oper_id,c.oper_name,a.social_id,a.vip_add,a.vip_email,a.vip_tel,a.company,a.duty,a.mobile from t_rm_vip_info a ";
+    sql += " left join t_rm_vip_type b on b.type_id=a.card_type ";
+    sql += " left join t_sys_operator c on a.oper_id = c.oper_id where 1=1  ";
+    if (cunit !== '') {
+      sql += " and a.vip_name like '%" + SafePramas(cunit) + "%' ";
+    }
+    if (cardnum !== '') {
+      sql += " and a.card_id like '%" + SafePramas(cardnum) + "%' ";
+    }
+    if (jbr !== '') {
+      sql += " and a.social_id like '%" + SafePramas(jbr) + "%' ";
+    }
+    mssql.exec(sql, function(err, dbs) {
+      jieguo.aaData = dbs;
+      res.send(jieguo);
+    });
+
+    /* //console.log(soap);
     soap.createClient(wcfurl, function(err, client) {
       // console.log(client);
       if (err) {
@@ -188,7 +266,7 @@
         });
       }
 
-    });
+    });*/
 
 
 
@@ -197,8 +275,15 @@
   //根据会员卡号获取客户信息，唯一的
   exports.getCustomById = function(req, res) {
     var card_id = req.body["id"] || req.query['id'] || '';
+    var sql = "select a.card_id,a.card_type,b.type_name,b.discount,a.vip_name,a.vip_sex,a.oper_id,c.oper_name,a.social_id,a.vip_add,a.vip_email,a.vip_tel,a.company,a.duty,a.mobile from t_rm_vip_info a ";
+    sql += " left join t_rm_vip_type b on b.type_id=a.card_type ";
+    sql += " left join t_sys_operator c on a.oper_id = c.oper_id where 1=1  ";
+    sql += " and a.card_id='" + card_id + "'";
+    mssql.exec(sql, function(err, dbs) {
+      res.send(bds[0]);
+    });
 
-    soap.createClient(wcfurl, function(err, client) {
+    /*    soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);
         res.send("连接服务发生异常！", util.inspect(err, null, null));
@@ -224,7 +309,7 @@
 
       });
 
-    });
+    });*/
   }
 
   //获取商品档案列表
@@ -266,7 +351,24 @@
     jieguo.iTotalRecords = 10;
     jieguo.sEcho = req.query['sEcho'] || req.body['sEcho'];
     jieguo.iTotalDisplayRecords = 10;
-    soap.createClient(wcfurl, function(err, client) {
+    var sql = "select top 10 a.item_no,a.item_subno, a.item_name,a.item_subname,a.item_clsno,b.item_clsname,a.unit_no,a.price,a.sale_price,a.en_dis,a.change_price,a.main_supcust,a.item_rem,c.stock_qty from t_bd_item_info a";
+    sql += " left join t_bd_item_cls b  on a.item_clsno = b.item_clsno"; //获取商品类别
+    sql += " left join t_im_branch_stock c on c.item_no = a.item_no where 1=1 "; //获取库存
+    if (ItemName !== '') {
+      sql += " and a.item_name like '%" + SafePramas(ItemName) + "%'";
+    }
+    if (Price !== '') {
+      sql += " and a.price like '%" + Price + "%'";
+    }
+    if (Itemrem !== '') {
+      sql += " and a.item_rem like '%" + SafePramas(Itemrem) + "%'";
+    }
+    mssql.exec(sql, function(err, dbs) {
+      jieguo.aaData = dbs;
+      res.send(jieguo);
+    });
+
+    /*soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);
         res.send("连接服务发生异常！", util.inspect(err, null, null));
@@ -303,7 +405,7 @@
         });
       }
 
-    });
+    });*/
 
   }
 
@@ -337,7 +439,34 @@
     jieguo.iTotalRecords = 10;
     jieguo.sEcho = req.query['sEcho'] || req.body['sEcho'];
     jieguo.iTotalDisplayRecords = 10;
-    soap.createClient(wcfurl, function(err, client) {
+
+    var sql = " select top 10 a.flow_no,a.oper_date,b.sale_qnty,b.sale_money,c.item_no,c.item_name,c.item_rem from t_rm_payflow a ";
+    sql += " left join t_rm_saleflow b on a.flow_no = b.flow_no";
+    sql += " left join t_bd_item_info c on c.item_no=b.item_no";
+    sql += " where 1=1";
+    if (card_id !== '') {
+      sql += " and a.vip_no = '" + card_id + "'";
+    }
+    if (keywords !== '') {
+      sql += " and (c.item_name like '%" + keywords + "%' or c.item_rem like '%" + keywords + "%'";
+
+      sql += ")";
+    }
+
+    if (timefrom !== '') {
+      sql += " and a.oper_date > '" + timefrom + "'";
+    }
+    if (timeto !== '') {
+      sql += " and a.oper_date < '" + timeto + "'";
+    }
+    sql += " order by a.oper_date desc  ";
+
+    mssql.exec(sql, function(err, dbs) {
+      jieguo.aaData = dbs;
+      res.send(jieguo);
+    });
+
+    /*  soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);
         res.send("连接服务发生异常！", util.inspect(err, null, null));
@@ -373,7 +502,7 @@
         });
       }
 
-    });
+    });*/
   }
 
 
@@ -390,7 +519,22 @@
     callmsg.caller = caller;
     callmsg.called = called;
     callmsg.poptype = poptype;
-    soap.createClient(wcfurl, function(err, client) {
+
+    var sql = "select a.card_id,a.card_type,b.type_name,b.discount,a.vip_name,a.vip_sex,a.oper_id,c.oper_name,a.social_id,a.vip_add,a.vip_email,a.vip_tel,a.company,a.duty,a.mobile from t_rm_vip_info a ";
+    sql += " left join t_rm_vip_type b on b.type_id=a.card_type ";
+    sql += " left join t_sys_operator c on a.oper_id = c.oper_id where 1=1  ";
+    sql += " and a.vip_tel='" + phone + "' or a.mobile='" + phone + "'";
+
+    mssql.exec(sql, function(err, dbs) {
+      res.render('jzycustominfo/screenpop.html', {
+        inst: dbs[0],
+        phone: phone,
+        error: null,
+        callmsg: callmsg
+      });
+    });
+
+    /*  soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);
         res.send("连接服务发生异常！", util.inspect(err, null, null));
@@ -426,7 +570,7 @@
 
       });
 
-    });
+    });*/
 
 
   }
@@ -445,8 +589,36 @@
 
     // custom.Jbr = req.body['Jbr'] || req.query['Jbr']||'';
 
+    var sql = "insert into t_rm_vip_info (vip_name,card_id,vip_sex,card_type,card_status,oper_id,oper_date,vip_tel,mobile,company,vip_add) values('" + SafePramas(Vip_name);
 
-    soap.createClient(wcfurl, function(err, client) {
+    sql += "','" + SafePramas(custom.Card_id);
+
+    sql += "','" + SafePramas(custom.Vip_sex);
+    sql += "'," + SafePramas(custom.Card_type);
+
+    sql += ",0,'2001',GETDATE(),'" + SafePramas(custom.Vip_tel);
+
+    sql += "','" + SafePramas(custom.Mobile);
+
+    sql += "','" + SafePramas(custom.Company);
+
+    sql += "','" + SafePramas(custom.Vip_add);
+
+    sql += "')";
+
+
+    mssql.exec(sql, function(err, dbs) {
+      res.render('jzycustominfo/screenpop.html', {
+        if (thjlstatus == 0) {
+          createpostThjlInsert(req, res);
+        } else {
+          createpostThjlUpdate(req, res);
+        }
+
+      });
+    });
+
+    /*   soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);
         res.send("连接服务发生异常！", util.inspect(err, null, null));
@@ -475,7 +647,7 @@
 
       });
 
-    });
+    });*/
 
 
   }
@@ -493,7 +665,36 @@
     custom.Vip_add = req.body['Vip_add'] || req.query['Vip_add'] || '';
     var thjlstatus = req.body['thjlstatus'] || req.query['thjlstatus'] || 0;
 
-    // custom.Jbr = req.body['Jbr'] || req.query['Jbr']||'';
+    var sql = "update t_rm_vip_info set vip_name='" + SafePramas(custom.Vip_name);
+
+
+    if (custom.Vip_sex !== '')
+      sql += "',vip_sex='" + SafePramas(custom.Vip_sex);
+    str += "',card_type=" + SafePramas(custom.Card_type);
+    if (custom.Vip_tel !== '')
+      sql += ",vip_tel='" + SafePramas(custom.Vip_tel);
+    if (custom.Mobile !== '')
+      sql += "',mobile='" + SafePramas(custom.Mobile);
+    if (custom.Company !== '')
+      sql += "',company='" + SafePramas(custom.Company);
+    if (custom.Vip_add !== '')
+      sql += "',vip_add='" + SafePramas(custom.Vip_add);
+
+    sql += "' where card_id='" + SafePramas(custom.Card_id) + "'";
+
+    mssql.exec(sql, function(err, dbs) {
+      res.render('jzycustominfo/screenpop.html', {
+        if (thjlstatus == 0) {
+          createpostThjlInsert(req, res);
+        } else {
+          createpostThjlUpdate(req, res);
+        }
+
+      });
+    });
+
+
+    /*  // custom.Jbr = req.body['Jbr'] || req.query['Jbr']||'';
     soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);
@@ -523,7 +724,7 @@
 
       });
 
-    });
+    });*/
   }
 
   exports.createThjlGet = function(req, res) {
@@ -569,7 +770,24 @@
     inst.AgentName = agentname;
     inst.Exten = exten;
 
-    soap.createClient(wcfurl, function(err, client) {
+    var sql = "insert into callrecords (unid,cid,phone,content,dostate,donesth,agentname,exten,recordtime,updatetime) values('" + SafePramas(Unid);
+
+    sql += "','" + SafePramas(inst.Cid);
+    sql += "','" + SafePramas(inst.Phone);
+    sql += "','" + SafePramas(inst.Content);
+    sql += "'," + inst.DoState;
+    sql += ",'" + SafePramas(inst.DoneSth);
+    sql += "','" + SafePramas(inst.AgentName);
+    sql += "','" + SafePramas(inst.Exten);
+    sql += "',GETDATE(),GETDATE()";
+    sql += ")";
+
+    mssql.exec(sql, function(err, dbs) {
+      res.send({});
+    });
+
+
+    /* soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);
         res.send("连接服务发生异常！", util.inspect(err, null, null));
@@ -595,7 +813,7 @@
       });
 
     });
-
+*/
 
   }
 
@@ -617,6 +835,20 @@
     inst.DoneSth = donesth;
     // inst.AgentName = agentname;
     // inst.Exten = exten;
+
+    var sql = "update callrecords set updatetime=GETDATE() ";
+
+
+    if (inst.Content!=='')
+      sql += ",content='" + SafePramas(inst.Content) + "'";
+
+    sql += ",dostate=" + inst.DoState;
+
+    if (inst.DoneSth!=='')
+      sql += ",donesth='" + SafePramas(inst.DoneSth) + "'";
+
+
+    sql += " where unid='" + inst.Unid + "' and cid='" + inst.Cid + "'";
 
     soap.createClient(wcfurl, function(err, client) {
       if (err) {

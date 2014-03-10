@@ -23,6 +23,8 @@
     "guid":"*",
     "xmldom":"*",
     "soap":"*",  
+    "async": ">=0.2.9",
+    "tedious":">=0.1.5",
     "connect-mysql":"*",
     "connect-jugglingdb":"*",
     "eventproxy":"*",
