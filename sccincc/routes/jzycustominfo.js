@@ -5,7 +5,7 @@
   var async = require('async');
   var wcfurl = 'http://127.0.0.1:8088/JzyService.svc?wsdl';
 
-  var config = {
+/*  var config = {
     server: '192.168.1.2',
     userName: 'sa',
     password: 'sa',
@@ -21,7 +21,26 @@
       database: 'hbposv7' //'bjexpert' //
     }
 
+  };*/
+
+   var config = {
+    server: '127.0.0.1',
+    userName: 'sa',
+    password: '123',
+    options: {
+      debug: {
+        packet: false,
+        data: false,
+        payload: false,
+        token: false,
+        log: false
+      },
+      tdsVersion: '7_2',
+      database: 'hbpos7' //'bjexpert' //
+    }
+
   };
+
 
   var mssql = new MSSQL(config);
 
@@ -133,7 +152,7 @@ ORDER BY id
     if (card_id !== '') {
       sql += " and a.cid = '" + card_id + "'";
     }
-    if (keywords !== = '') {
+    if (keywords !== '') {
       sql += " and (a.content like '%" + keywords + "%' or a.donesth like '%" + keywords + "%'";
       if (card_id !== '') {
         sql += " or b.vip_name like '%" + keywords + "%'";
@@ -152,6 +171,7 @@ ORDER BY id
     sql += " order by a.recordtime desc ";
 
     mssql.exec(sql, function(err, dbs) {
+      console.log(dbs);
       jieguo.aaData = dbs;
       res.send(jieguo);
     });
@@ -608,14 +628,13 @@ ORDER BY id
 
 
     mssql.exec(sql, function(err, dbs) {
-      res.render('jzycustominfo/screenpop.html', {
-        if (thjlstatus == 0) {
+
+        if(thjlstatus == 0) {
           createpostThjlInsert(req, res);
         } else {
           createpostThjlUpdate(req, res);
         }
 
-      });
     });
 
     /*   soap.createClient(wcfurl, function(err, client) {
@@ -683,14 +702,11 @@ ORDER BY id
     sql += "' where card_id='" + SafePramas(custom.Card_id) + "'";
 
     mssql.exec(sql, function(err, dbs) {
-      res.render('jzycustominfo/screenpop.html', {
         if (thjlstatus == 0) {
           createpostThjlInsert(req, res);
         } else {
           createpostThjlUpdate(req, res);
         }
-
-      });
     });
 
 
@@ -839,18 +855,24 @@ ORDER BY id
     var sql = "update callrecords set updatetime=GETDATE() ";
 
 
-    if (inst.Content!=='')
+    if (inst.Content !== '')
       sql += ",content='" + SafePramas(inst.Content) + "'";
 
     sql += ",dostate=" + inst.DoState;
 
-    if (inst.DoneSth!=='')
+    if (inst.DoneSth !== '')
       sql += ",donesth='" + SafePramas(inst.DoneSth) + "'";
 
 
     sql += " where unid='" + inst.Unid + "' and cid='" + inst.Cid + "'";
 
-    soap.createClient(wcfurl, function(err, client) {
+
+    mssql.exec(sql, function(err, dbs) {
+      res.send({});
+    });
+
+
+    /*soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);
         res.send("连接服务发生异常！", util.inspect(err, null, null));
@@ -875,7 +897,7 @@ ORDER BY id
 
       });
 
-    });
+    });*/
   }
 
 
@@ -897,8 +919,25 @@ ORDER BY id
     inst.AgentName = agentname;
     inst.Exten = exten;
 
+
+    var sql = "insert into callrecords (unid,cid,phone,content,dostate,donesth,agentname,exten,recordtime,updatetime) values('" + SafePramas(Unid);
+
+    sql += "','" + SafePramas(inst.Cid);
+    sql += "','" + SafePramas(inst.Phone);
+    sql += "','" + SafePramas(inst.Content);
+    sql += "'," + inst.DoState;
+    sql += ",'" + SafePramas(inst.DoneSth);
+    sql += "','" + SafePramas(inst.AgentName);
+    sql += "','" + SafePramas(inst.Exten);
+    sql += "',GETDATE(),GETDATE()";
+    sql += ")";
+
+    mssql.exec(sql, function(err, dbs) {
+      res.send({});
+    });
+
     //console.log(inst);
-    soap.createClient(wcfurl, function(err, client) {
+    /*    soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);
         res.render('jzycustominfo/createThjl.html', {
@@ -936,7 +975,7 @@ ORDER BY id
       });
 
     });
-
+*/
 
 
   }
@@ -953,7 +992,19 @@ ORDER BY id
     where.TimeTo = '';
     where.DoState = 0;
 
-    soap.createClient(wcfurl, function(err, client) {
+    var sql = "select a.*,b.vip_name from callrecords a left join t_rm_vip_info b on b.card_id = a.cid where 1=1 ";
+    sql += " and a.id = " + id + "";
+    mssql.exec(sql, function(err, dbs) {
+      res.render('jzycustominfo/editThjl.html', {
+        title: '通话记录',
+        msg: null,
+        DoState: dostate,
+        inst: dbs[0]
+      });
+    });
+
+
+    /*  soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);
         res.render('jzycustominfo/indexThjl.html', {
@@ -1009,7 +1060,7 @@ ORDER BY id
 
       });
 
-    });
+    });*/
 
 
 
@@ -1037,7 +1088,26 @@ ORDER BY id
     inst.Exten = exten;
 
     console.log("UPDATE CALLS：", inst);
-    soap.createClient(wcfurl, function(err, client) {
+
+    var sql = "update callrecords set updatetime=GETDATE() ";
+
+
+    if (inst.Content!=='')
+      sql += ",content='" + SafePramas(inst.Content) + "'";
+
+    sql += ",dostate=" + inst.DoState;
+
+    if (inst.DoneSth!=='')
+      sql += ",donesth='" + SafePramas(inst.DoneSth) + "'";
+
+
+    sql += " where unid='" + inst.Unid + "' and cid='" +inst. Cid + "'";
+
+  mssql.exec(sql, function(err, dbs) {
+      res.send({});
+    });
+
+  /* soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);
         res.render('jzycustominfo/editThjl.html', {
@@ -1080,7 +1150,7 @@ ORDER BY id
 
       });
 
-    });
+    });*/
 
 
 
