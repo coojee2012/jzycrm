@@ -1526,9 +1526,12 @@ exports.callreportchart = function(req, res) {
 					var tmp = {};
 					tmp.tags = dbs[j].week;
 					for (var kk = 0; kk < clomunsarray.length; kk++) {
-						tmp[clomunsarray[kk]] = [0, 0];
+						tmp[clomunsarray[kk]+'0'] = 0;
+						tmp[clomunsarray[kk]+'1'] = 0;
+						
 					}
-					tmp.zj = [0, 0];
+					tmp['zj0'] =0;
+					tmp['zj1'] =0;
 
 					redata[dbs[j].week] = tmp;
 				}
@@ -1539,25 +1542,28 @@ exports.callreportchart = function(req, res) {
 				redata[dbs.length].tags = '总计';
 
 				for (var kk = 0; kk < clomunsarray.length; kk++) {
-					redata[dbs.length][clomunsarray[kk]] = [0, 0];
+					redata[dbs.length][clomunsarray[kk]+'0'] =0;
+					redata[dbs.length][clomunsarray[kk]+'1'] =0;
+					
 				}
 
-				redata[dbs.length].zj = [0, 0];
+				redata[dbs.length]['zj0'] =0;
+				redata[dbs.length]['zj1'] =0; 
 
 
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
 						if (dbs[i].routerline == 1) {
-							redata[dbs[i].week][dbs[i].accountcode][0] = dbs[i].number;
-							redata[dbs[i].week].zj[0] += dbs[i].number;
-							redata[dbs.length][dbs[i].accountcode][0] += dbs[i].number;
-							redata[dbs.length].zj[0] += dbs[i].number;
+							redata[dbs[i].week][dbs[i].accountcode+'0'] = dbs[i].number;
+							redata[dbs[i].week].zj0 += dbs[i].number;
+							redata[dbs.length][dbs[i].accountcode+'0'] += dbs[i].number;
+							redata[dbs.length].zj0 += dbs[i].number;
 						} else {
-							redata[dbs[i].week][dbs[i].accountcode][1] = dbs[i].number;
-							redata[dbs[i].week].zj[1] += dbs[i].number;
-							redata[dbs.length][dbs[i].accountcode][1] += dbs[i].number;
-							redata[dbs.length].zj[1] += dbs[i].number;
+							redata[dbs[i].week][dbs[i].accountcode+'1']= dbs[i].number;
+							redata[dbs[i].week].zj1 += dbs[i].number;
+							redata[dbs.length][dbs[i].accountcode+'1'] += dbs[i].number;
+							redata[dbs.length].zj1 += dbs[i].number;
 
 						}
 
@@ -1603,25 +1609,27 @@ exports.callreportchart = function(req, res) {
 					var tmp = {};
 					tmp.tags = weekcn[j];
 					for (var kk = 0; kk < clomunsarray.length; kk++) {
-						tmp[clomunsarray[kk]] = [0, 0];
+						tmp[clomunsarray[kk]+'0'] = 0;
+						tmp[clomunsarray[kk]+'1'] = 0;
 					}
 
-					tmp.zj = [0, 0];
+					tmp['zj0'] =0;
+					tmp['zj1'] =0;
 					redata[j] = tmp;
 				}
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
 						if (dbs[i].routerline == 1) {
-							redata[dbs[i].week][dbs[i].accountcode][0] = dbs[i].number;
-							redata[dbs[i].week].zj[0] += dbs[i].number;
-							redata[7][dbs[i].accountcode][0] += dbs[i].number;
-							redata[7].zj[0] += dbs[i].number;
+							redata[dbs[i].week][dbs[i].accountcode+'0'] = dbs[i].number;
+							redata[dbs[i].week].zj0 += dbs[i].number;
+							redata[7][dbs[i].accountcode+'0'] += dbs[i].number;
+							redata[7].zj0 += dbs[i].number;
 						} else {
-							redata[dbs[i].week][dbs[i].accountcode][1] = dbs[i].number;
-							redata[dbs[i].week].zj[1] += dbs[i].number;
-							redata[7][dbs[i].accountcode][1] += dbs[i].number;
-							redata[7].zj[1] += dbs[i].number;
+							redata[dbs[i].week][dbs[i].accountcode+'1']= dbs[i].number;
+							redata[dbs[i].week].zj1 += dbs[i].number;
+							redata[7][dbs[i].accountcode+'1'] += dbs[i].number;
+							redata[7].zj1 += dbs[i].number;
 						}
 
 					}

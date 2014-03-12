@@ -65,30 +65,21 @@
 	<thead>
         <tr><td colspan="<%= Agent.length%>">说明：各项数据依次代表【<span style="color:blue;">呼入</span>|<span style="color:red;">呼出</span>】</td></tr>
 		<tr>
-			<th id='thshow' style='width:8%;'>
-
-<table>
-    <tr><td colspan='3'  align="center">星期\座席</td></tr>
-    <tr><td colspan='3' style="height:55px;"></td></tr>
-</table>
+			<th id='thshow' rowspan='2' style='width:8%;text-align:center;padding-bottom:45px;'>星期\座席
             </th>
             <%for(var i=0;i<Agent.length;i++){%>
-            <th style='width:80px;'>
-<table>
-    <tr><td colspan='2'  align="center"><%= Agent[i].uName%></td></tr>
-    <tr><td style='width:5px;color:blue;'>呼入</td>
-        <td style='width:5px;color:red;'>呼出</td></tr>
-</table>
+            <th style='width:80px;text-align:center;' colspan='2'><%= Agent[i].uName%>
             </th>
             <%}%>
-			<th>
-<table>
-    <tr><td colspan='2'  align="center" style='width:8%;'>总计</td></tr>
-    <tr><td style='width:5px;color:blue;'>呼入</td>
-        <td style='width:5px;color:red;'>呼出</td></tr>
-</table>
+			<th colspan='2' style='width:80px;text-align:center;'>总计
             </th>
 		</tr>
+        <tr>
+             <%for(var i=0;i<=Agent.length;i++){%>
+             <td style='width:5px;color:blue;text-align:center;'>呼入</td>
+        <td style='width:5px;color:red;text-align:center;'>呼出</td>
+             <%}%> 
+        </tr>
 	</thead>
 	<tbody>
 	</tbody>
@@ -114,9 +105,11 @@ clms+="zj";
 var aoColumns=[
 { mData: "tags", sClass: "center",bSearchable: false }, 
 <%for(var i=0;i<Agent.length;i++){%>
-            {mData:"<%= Agent[i].uExten%>", sClass: "center",bSearchable: false },
+            {mData:"<%= Agent[i].uExten%>0", sClass: "center red",bSearchable: false },
+            {mData:"<%= Agent[i].uExten%>1", sClass: "center blue",bSearchable: false },
             <%}%>
-               { mData: "zj", sClass: "center",bSearchable: false }
+               { mData: "zj0", sClass: "center red",bSearchable: false },
+                { mData: "zj1", sClass: "center blue",bSearchable: false }
                ];
 var daochu=[];
 var showcols=[];
@@ -149,16 +142,7 @@ $('#datatable').dataTable({
     bPaginate:false,
     sAjaxSource: "/selectdb/callreportchart?tjtype="+tjtype+"&tjvalue="+tjvalue+"&clomuns="+clms+"&dayfrom="+dayfrom+"&dayto="+dayto,
     aoColumns:aoColumns ,
-    aoColumnDefs: [{
-                       aTargets:showcols,
-                       mRender: function (data, type,full) {
-                       var str='<table>';
-    str+='<tr><td style="width:5px;color:blue;">'+data[0]+'</td>';
-        str+=='<td style="width:5px;color:red;">'+data[1]+'</td></tr>';
-str+="</table>";
-                       return str;
-                       }
-                    }],
+    aoColumnDefs: [],
              oTableTools: {
              sSwfPath: "/css/swf/copy_csv_xls_pdf.swf",
              aButtons: [                          
