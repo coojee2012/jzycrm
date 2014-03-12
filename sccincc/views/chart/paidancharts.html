@@ -1,131 +1,152 @@
 <div class="container-fluid">
-<div class="row-fluid sortable">
-<div class="box span12">
-<div class="box-content">
-<form class="form-horizontal" method="POST">
-<fieldset>
-<div class="span12">
-<div class="control-group">
-<label class="control-label" for="id">范围类型 </label>
-<div class="controls">
-<label class="radio"> <input type="radio" id="day" name="iswork" value=0  />日</label>
-<label class="radio"> <input type="radio" id="weakly" name="iswork" value=1  />周</label>
-<label class="radio"> <input type="radio" id="month" name="iswork" value=2 />月</label>
-<label class="radio"> <input type="radio" id="jidu" name="iswork" value=3 />季度</label>
-<label class="radio"> <input type="radio" id="year" name="iswork" value=4 />年</label>
-</div>
-</div>
-</div>
+    <div class="row-fluid sortable">
+        <div class="box span12">
+            <div class="box-content">
+                <form class="form-horizontal" method="POST">
+                    <fieldset>
+                        <div class="span12">
+                            <div class="control-group">
+                                <label class="control-label" for="id">范围类型</label>
+                                <div class="controls">
+                                    <label class="radio">
+                                        <input type="radio" id="day" name="iswork" value=0  />
+                                        日
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" id="weakly" name="iswork" value=1  />
+                                        周
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" id="month" name="iswork" value=2 />
+                                        月
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" id="jidu" name="iswork" value=3 />
+                                        季度
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" id="year" name="iswork" value=4 />
+                                        年
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
 
-<div class="span12">
-<div class="control-group">
- <label class="control-label" for="dactorName">周期范围</label>
-<div class="controls">
-<select id="dactorName" name="dactorName">
-    <option value=""></option>
-</select></div>
-</div>
-</div>
+                        <div class="span12">
+                            <div class="control-group">
+                                <label class="control-label" for="dactorName">周期范围</label>
+                                <div class="controls">
+                                    <select id="dactorName" name="dactorName">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
-<div class="span12">
-<div class="control-group span6">
- <label class="control-label" for="dayform">日期范围 从</label>
-<div class="controls">
-    <input type="text" name="dayform" class="typeahead datepicker" id="dayfrom" value=""/>
-</div>
-</div>
-<div class="control-group span6">
- <label class="control-label" for="dayto">到</label>
-<div class="controls">
-    <input type="text" class="typeahead datepicker" name="dayto" id="dayto" value="" />
-</div>
-</div>
-<div class="span12">
-<button type="button" class="btn btn-small btn-info" onclick="javascript:starttj();">开始统计</button>
-</div>
-</fieldset>
-</form>
-</div>
-</div>
-</div>
+                        <div class="span12">
+                            <div class="control-group span6">
+                                <label class="control-label" for="dayform">日期范围 从</label>
+                                <div class="controls">
+                                    <input type="text" name="dayform" class="typeahead datepicker" id="dayfrom" value=""/>
+                                </div>
+                            </div>
+                            <div class="control-group span6">
+                                <label class="control-label" for="dayto">到</label>
+                                <div class="controls">
+                                    <input type="text" class="typeahead datepicker" name="dayto" id="dayto" value="" />
+                                </div>
+                            </div>
+                            <div class="span12">
+                                <button type="button" class="btn btn-small btn-info" onclick="javascript:starttj();">开始统计</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
 
+        <div class="row-fluid sortable">
+            <div class="box span12">
+                <div class="box-header well" data-original-title>
+                    <h2> <i class="icon-user"></i>
+                        统计结果
+                    </h2>
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-minimize btn-round"> <i class="icon-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    <table class="table table-striped table-bordered bootstrap-datatable datatable" id="datatable">
+                        <caption></caption>
+                        <thead>
+                            <tr>
+                                <td colspan="9">
+                                    说明：各项数据依次代表【
+                                    <span style="color:red;">未处理</span>
+                                    |
+                                    <span style="color:#FFA500;">处理中</span>
+                                    |
+                                    <span style="color:blue;">已完成</span>
+                                    】
+                                </td>
+                            </tr>
+                            <tr>
+                                <th id='thshow' rowspan='2'  style='width:100px;text-align:center;padding-bottom:45px;'>星期\部门
+                                </th>
+                                <th style='width:80px;text-align:center;' colspan='3'>维修
+                                </th>
+                                <th style='width:80px;text-align:center;' colspan='3'>售后
+                                </th>
+                                <th style='width:80px;text-align:center;' colspan='3'>水检所
+                                </th>
+                                <th style='width:80px;text-align:center;' colspan='3'>二次供水
+                                </th>
+                                <th style='width:80px;text-align:center;' colspan='3'>稽查科
+                                </th>
+                                <th style='width:80px;text-align:center;' colspan='3'>营业所
+                                </th>
+                                <th style='width:80px;text-align:center;' colspan='3'>水质科
+                                </th>
+                                <th style='width:80px;text-align:center;' colspan='3'>总计
+                                </th>
+                            </tr>
+                            <tr>
+                               
+                                <td style='width:5px;color:red;'>未<br/>处<br/>理</td>
+                                         <td style='width:5px;color:#FFA500;'>处<br/>理<br/>中</td>
+                                         <td style='width:5px;color:blue;'>已<br/>完<br/>成</td>
+                                           <td style='width:5px;color:red;'>未<br/>处<br/>理</td>
+                                         <td style='width:5px;color:#FFA500;'>处<br/>理<br/>中</td>
+                                         <td style='width:5px;color:blue;'>已<br/>完<br/>成</td>
+                                           <td style='width:5px;color:red;'>未<br/>处<br/>理</td>
+                                         <td style='width:5px;color:#FFA500;'>处<br/>理<br/>中</td>
+                                         <td style='width:5px;color:blue;'>已<br/>完<br/>成</td>
+                                           <td style='width:5px;color:red;'>未<br/>处<br/>理</td>
+                                         <td style='width:5px;color:#FFA500;'>处<br/>理<br/>中</td>
+                                         <td style='width:5px;color:blue;'>已<br/>完<br/>成</td>
+                                           <td style='width:5px;color:red;'>未<br/>处<br/>理</td>
+                                         <td style='width:5px;color:#FFA500;'>处<br/>理<br/>中</td>
+                                         <td style='width:5px;color:blue;'>已<br/>完<br/>成</td>
+                                           <td style='width:5px;color:red;'>未<br/>处<br/>理</td>
+                                         <td style='width:5px;color:#FFA500;'>处<br/>理<br/>中</td>
+                                         <td style='width:5px;color:blue;'>已<br/>完<br/>成</td>
+                                           <td style='width:5px;color:red;'>未<br/>处<br/>理</td>
+                                         <td style='width:5px;color:#FFA500;'>处<br/>理<br/>中</td>
+                                         <td style='width:5px;color:blue;'>已<br/>完<br/>成</td>
+                                           <td style='width:5px;color:red;'>未<br/>处<br/>理</td>
+                                         <td style='width:5px;color:#FFA500;'>处<br/>理<br/>中</td>
+                                         <td style='width:5px;color:blue;'>已<br/>完<br/>成</td>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
-
-<div class="row-fluid sortable">
-<div class="box span12">
-<div class="box-header well" data-original-title>
-<h2><i class="icon-user"></i> 统计结果</h2>
-<div class="box-icon"><a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-</div>
-</div>
-<div class="box-content">
-<table class="table table-striped table-bordered bootstrap-datatable datatable" id="datatable">
-	<caption></caption>
-	<thead>
-        <tr><td colspan="9">说明：各项数据依次代表【<span style="color:red;">未处理</span>|<span style="color:#FFA500;">处理中</span>|<span style="color:blue;">已完成</span>】</td></tr>
-		<tr>
-			<th id='thshow' style='width:100px;'>
-<table>
-    <tr><td colspan='3'  style="text-align:center;">星期\部门</td></tr>
-    <tr><td colspan='3' style="height:55px;"></td></tr>
-</table>
-            </th>
-			<th style='width:80px;'><table>
-    <tr><td colspan='3'   style="text-align:center;">维修</td></tr>
-    <tr><td style='width:5px;color:red;'>未处理</td><td style='width:5px;color:#FFA500;'>处理中</td><td style='width:5px;color:blue;'>已完成</td></tr>
-</table></th>
-			<th style='width:80px;'>
-<table>
-    <tr><td colspan='3' style="text-align:center;">售后</td></tr>
-    <tr><td style='width:5px;color:red;'>未处理</td><td style='width:5px;color:#FFA500;'>处理中</td><td style='width:5px;color:blue;'>已完成</td></tr>
-</table>
-                </th>
-			<th style='width:80px;'><table>
-    <tr><td colspan='3'  style="text-align:center;">水检所</td></tr>
-    <tr><td style='width:5px;color:red;'>未处理</td><td style='width:5px;color:#FFA500;'>处理中</td><td style='width:5px;color:blue;'>已完成</td></tr>
-</table></th>  
-            <th style='width:80px;'>
-                <table>
-    <tr><td colspan='3'  style="text-align:center;">二次供水</td></tr>
-    <tr><td style='width:5px;color:red;'>未处理</td><td style='width:5px;color:#FFA500;'>处理中</td><td style='width:5px;color:blue;'>已完成</td></tr>
-</table>
-            </th>    
-             <th style='width:80px;'>
-  <table>
-    <tr><td colspan='3'  style="text-align:center;">稽查科</td></tr>
-    <tr><td style='width:5px;color:red;'>未处理</td><td style='width:5px;color:#FFA500;'>处理中</td><td style='width:5px;color:blue;'>已完成</td></tr>
-</table>
-             </th>
-			 <th style='width:80px;'>
- <table>
-    <tr><td colspan='3'  style="text-align:center;">营业所</td></tr>
-    <tr><td style='width:5px;color:red;'>未处理</td><td style='width:5px;color:#FFA500;'>处理中</td><td style='width:5px;color:blue;'>已完成</td></tr>
-</table>
-             </th>
-			 <th style='width:80px;'>
- <table>
-    <tr><td colspan='3'  style="text-align:center;">水质科</td></tr>
-    <tr><td style='width:5px;color:red;'>未处理</td><td style='width:5px;color:#FFA500;'>处理中</td><td style='width:5px;color:blue;'>已完成</td></tr>
-</table>
-             </th>
-			<th style='width:80px;'>
- <table>
-    <tr><td colspan='3'  style="text-align:center;">总计</td></tr>
-    <tr><td style='width:5px;color:red;'>未处理</td><td style='width:5px;color:#FFA500;'>处理中</td><td style='width:5px;color:blue;'>已完成</td></tr>
-</table>
-
-            </th>
-		</tr>
-	</thead>
-	<tbody>
-	</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-
-<script type="text/javascript">
+    <script type="text/javascript">
 function starttj(){
 var tjtype=$('input[name="iswork"]:checked').val() || -1;
 var tjvalue=$('#dactorName').val();
@@ -138,26 +159,42 @@ return;
 }
 
 var aoColumns=[{ mData: "tags", sClass: "center",bSearchable: false },               
-               { mData: "wxjl", sClass: "center",bSearchable: false },               
-               { mData: "shbxjl", sClass: "center",bSearchable: false },              
-               { mData: "sjsjl", sClass: "center",bSearchable: false },
-               { mData: "ecgsjl", sClass: "center" ,bSearchable: false}, 
-			   { mData: "jck", sClass: "center" ,bSearchable: false}, 
-			   { mData: "yys", sClass: "center" ,bSearchable: false}, 
-			   { mData: "szk", sClass: "center" ,bSearchable: false}, 
-               { mData: "zj", sClass: "center",bSearchable: false }
+               { mData: "wxjl0", sClass: "center red0",bSearchable: false }, 
+               { mData: "wxjl1", sClass: "center yellow",bSearchable: false },  
+               { mData: "wxjl2", sClass: "center blue",bSearchable: false },                
+               { mData: "shbxjl0", sClass: "center red0",bSearchable: false }, 
+               { mData: "shbxjl1", sClass: "center yellow",bSearchable: false }, 
+               { mData: "shbxjl2", sClass: "center blue",bSearchable: false },              
+               { mData: "sjsjl0", sClass: "center red0",bSearchable: false },
+               { mData: "sjsjl1", sClass: "center yellow",bSearchable: false },
+               { mData: "sjsjl2", sClass: "center blue",bSearchable: false },
+               { mData: "ecgsjl0", sClass: "center red0" ,bSearchable: false}, 
+               { mData: "ecgsjl1", sClass: "center yellow" ,bSearchable: false}, 
+               { mData: "ecgsjl2", sClass: "center blue" ,bSearchable: false}, 
+               { mData: "jck0", sClass: "center red0" ,bSearchable: false}, 
+               { mData: "jck1", sClass: "center yellow" ,bSearchable: false}, 
+               { mData: "jck2", sClass: "center blue" ,bSearchable: false}, 
+               { mData: "yys0", sClass: "center red0" ,bSearchable: false}, 
+               { mData: "yys1", sClass: "center yellow" ,bSearchable: false}, 
+               { mData: "yys2", sClass: "center blue" ,bSearchable: false}, 
+               { mData: "szk0", sClass: "center red0" ,bSearchable: false}, 
+               { mData: "szk1", sClass: "center yellow" ,bSearchable: false},
+               { mData: "szk2", sClass: "center blue" ,bSearchable: false},
+               { mData: "zj0", sClass: "center red0",bSearchable: false },
+               { mData: "zj1", sClass: "center yellow",bSearchable: false },
+               { mData: "zj2", sClass: "center blue",bSearchable: false }
                ];
 var daochu=[];
 for(var i=0;i<aoColumns.length;i++){
-	daochu[i]=i;	
+    daochu[i]=i;    
 }
 
 $('#datatable').dataTable({
-	sDom: " <'row-fluid'<'span4'l><'span4'f><'span4'T>r>t<'row-fluid'<'span4'i><'span8 center'p>>",
-	sPaginationType: "bootstrap",
-	bDestroy:true,
-	oLanguage: {
-	sLengthMenu: "每页显示 _MENU_ 条记录",
+    sDom: " <'row-fluid'<'span4'l><'span4'f><'span4'T>r>t<'row-fluid'<'span4'i><'span8 center'p>>",
+    sPaginationType: "bootstrap",
+    bDestroy:true,
+    oLanguage: {
+    sLengthMenu: "每页显示 _MENU_ 条记录",
     sZeroRecords: "对不起，查询不到任何相关数据",
     sInfo: "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
     sInfoEmtpy: "找不到相关数据",
@@ -166,35 +203,24 @@ $('#datatable').dataTable({
     sSearch: "搜索",
     sInfoEmpty: "显示 0 至 0 共 0 项",
     oPaginate: { "sFirst": "第一页", "sPrevious": "上一页 ", "sNext": "下一页 ", "sLast": "末页 " }
-	},
+    },
     bProcessing: true,
     bServerSide: true,
     bPaginate:false,
     bSort: false,
     bFilter:false,
     sAjaxSource: "/selectdb/paidanchart?tjtype="+tjtype+"&tjvalue="+tjvalue+"&dayfrom="+dayfrom+"&dayto="+dayto,
-    aoColumns:aoColumns ,
-    aoColumnDefs: [
-                    {
-                       aTargets:[1,2,3,4,5,6,7,8],
-                       mRender: function (data, type,full) {
-                       var str='<span style="color:red;">'+data[0]+'</span>';
-                           str+='|<span style="color:#FFA500;">'+data[1]+'</span>';
-                           str+='|<span style="color:blue;">'+data[2]+'</span>';
-
-                       return str;
-                       }
-                    },
-    ],
+    aoColumns:aoColumns,
+    aoColumnDefs: [],
              oTableTools: {
              sSwfPath: "/css/swf/copy_csv_xls_pdf.swf",
              aButtons: [                          
             {
-                 					"sExtends":    "collection",
-                 					"sButtonText": '导出 <span class="caret" />',
-                 					"aButtons":    [ "xls"],
-                 					"mColumns": daochu
-                 				},{
+                                    "sExtends":    "collection",
+                                    "sButtonText": '导出 <span class="caret" />',
+                                    "aButtons":    [ "xls"],
+                                    "mColumns": daochu
+                                },{
       "sExtends":"text",
       "sButtonText": "新开窗口" ,
       "fnClick": function ( nButton, oConfig, oFlash ) {
@@ -210,13 +236,13 @@ $('#datatable').dataTable({
                                 
                                                    
                               ]
-	}
+    }
 
 });
 } 
 </script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
 
  Date.prototype.getWeek   =   function(flag) 

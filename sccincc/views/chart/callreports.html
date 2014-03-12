@@ -75,7 +75,7 @@
             <%for(var i=0;i<Agent.length;i++){%>
             <th style='width:80px;'>
 <table>
-    <tr><td colspan='3'  align="center"><%= Agent[i].uName%></td></tr>
+    <tr><td colspan='2'  align="center"><%= Agent[i].uName%></td></tr>
     <tr><td style='width:5px;color:blue;'>呼入</td>
         <td style='width:5px;color:red;'>呼出</td></tr>
 </table>
@@ -83,7 +83,7 @@
             <%}%>
 			<th>
 <table>
-    <tr><td colspan='3'  align="center" style='width:8%;'>总计</td></tr>
+    <tr><td colspan='2'  align="center" style='width:8%;'>总计</td></tr>
     <tr><td style='width:5px;color:blue;'>呼入</td>
         <td style='width:5px;color:red;'>呼出</td></tr>
 </table>
@@ -152,11 +152,10 @@ $('#datatable').dataTable({
     aoColumnDefs: [{
                        aTargets:showcols,
                        mRender: function (data, type,full) {
-                       var str='<span style="color:blue;">'+data[0]+'</span>';
-                           str+="|";
-                           str+='<span style="color:red;">'+data[1]+'</span>';
-                           
-
+                       var str='<table>';
+    str+='<tr><td style="width:5px;color:blue;">'+data[0]+'</td>';
+        str+=='<td style="width:5px;color:red;">'+data[1]+'</td></tr>';
+str+="</table>";
                        return str;
                        }
                     }],

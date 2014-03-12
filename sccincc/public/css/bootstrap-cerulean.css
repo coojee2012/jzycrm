@@ -38,6 +38,16 @@ a:hover,a:active {
 	outline: 0;
 }
 
+.red0{
+	color: red;
+}
+.yellow{
+	color: yellow;
+}
+.blue{
+	color: blue;
+}
+
 sub,sup {
 	position: relative;
 	font-size: 75%;

@@ -212,10 +212,10 @@ myLib.desktop.win = {
         var defaults = {
             WindowTitle: null,
             WindowsId: null,
-            WindowPositionTop: 'center',                          /* Posible are pixels or 'center' */
-            WindowPositionLeft: 'center',                          /* Posible are pixels or 'center' */
-            WindowWidth: Math.round(wh['w'] * 0.6),           /* Only pixels */
-            WindowHeight: Math.round(wh['h'] * 0.8),           /* Only pixels */
+            WindowPositionTop: 10,                          /* Posible are pixels or 'center' */
+            WindowPositionLeft: 50,                          /* Posible are pixels or 'center' */
+            WindowWidth: Math.round(wh['w'] * 0.88),           /* Only pixels */
+            WindowHeight: Math.round(wh['h'] * 0.78),           /* Only pixels */
             WindowMinWidth: 250,                               /* Only pixels */
             WindowMinHeight: 250,                               /* Only pixels */
             iframSrc: null,                              /* 框架的src路径*/
@@ -232,7 +232,7 @@ myLib.desktop.win = {
         var options = $.extend(defaults, options);
 
         //判断窗口位置，否则使用默认值
-        var dxy = Math.floor((Math.random() * 100)) + 30;
+        var dxy = Math.floor((Math.random() * 10)) + 10;
         var panelLeft = $("#desktopInnerPanel").position();
 
         var wLeft = myLib._is(options['WindowPositionLeft'], "Number") ? options['WindowPositionLeft'] + dxy - panelLeft.left : (wh['w'] - options['WindowWidth']) / 2 + dxy - panelLeft.left;

@@ -947,28 +947,60 @@ exports.paidanchart = function(req, res) {
 					}
 					var tmp = {};
 					tmp.tags = [dbs[j].week];
-					tmp.wxjl = [0, 0, 0];
-					tmp.shbxjl = [0, 0, 0];
-					tmp.sjsjl = [0, 0, 0];
-					tmp.ecgsjl = [0, 0, 0];
-					tmp.jck = [0, 0, 0];
-					tmp.yys = [0, 0, 0];
-					tmp.szk = [0, 0, 0];
-					tmp.zj = [0, 0, 0];
+					tmp.wxjl0 = 0;
+					tmp.wxjl1 = 0;
+					tmp.wxjl2 = 0;
+					tmp.shbxjl0 = 0;
+					tmp.shbxjl1 = 0;
+					tmp.shbxjl2= 0;
+					tmp.sjsjl0 = 0;
+					tmp.sjsjl1 = 0;
+					tmp.sjsjl2 = 0;
+					tmp.ecgsjl0 = 0;
+					tmp.ecgsjl1 = 0;
+					tmp.ecgsjl2 = 0;
+					tmp.jck0 = 0;
+					tmp.jck1 = 0;
+					tmp.jck2 = 0;
+					tmp.yys0 = 0;
+					tmp.yys1 = 0;
+					tmp.yys2 = 0;
+					tmp.szk0 = 0;
+					tmp.szk1 = 0;
+					tmp.szk2 = 0;
+					tmp.zj0 = 0;
+					tmp.zj1 = 0;
+					tmp.zj2 = 0;
 					redata[dbs[j].week] = tmp;
 				}
 				redata[dbs.length] = {};
 				redata[dbs.length].tags = '总计';
-				redata[dbs.length].wxjl = [0, 0, 0];
-				redata[dbs.length].shbxjl = [0, 0, 0];
-				redata[dbs.length].sjsjl = [0, 0, 0];
-				redata[dbs.length].ecgsjl = [0, 0, 0];
-				redata[dbs.length].jck = [0, 0, 0];
-				redata[dbs.length].yys = [0, 0, 0];
-				redata[dbs.length].szk = [0, 0, 0];
-				redata[dbs.length].zj = [0, 0, 0];
+				redata[dbs.length].wxjl0 = 0;
+					redata[dbs.length].wxjl1 = 0;
+					redata[dbs.length].wxjl2 = 0;
+					redata[dbs.length].shbxjl0 = 0;
+					redata[dbs.length].shbxjl1 = 0;
+					redata[dbs.length].shbxjl2= 0;
+					redata[dbs.length].sjsjl0 = 0;
+					redata[dbs.length].sjsjl1 = 0;
+					redata[dbs.length].sjsjl2 = 0;
+					redata[dbs.length].ecgsjl0 = 0;
+					redata[dbs.length].ecgsjl1 = 0;
+					redata[dbs.length].ecgsjl2 = 0;
+					redata[dbs.length].jck0 = 0;
+					redata[dbs.length].jck1 = 0;
+					redata[dbs.length].jck2 = 0;
+					redata[dbs.length].yys0 = 0;
+					redata[dbs.length].yys1 = 0;
+					redata[dbs.length].yys2 = 0;
+					redata[dbs.length].szk0 = 0;
+					redata[dbs.length].szk1 = 0;
+					redata[dbs.length].szk2 = 0;
+					redata[dbs.length].zj0 = 0;
+					redata[dbs.length].zj1 = 0;
+					redata[dbs.length].zj2 = 0;
+			
 
-				console.log(redata);
 
 				for (var i = 0; i < dbs.length; i++) {
 					var depid = dbs[i].DepId;
@@ -1000,22 +1032,22 @@ exports.paidanchart = function(req, res) {
 
 					function tmpfun(str) {
 						if (dbs[i].OrderOptions == 0) {
-							redata[dbs[i].week][str][0] = dbs[i].number;
-							redata[dbs[i].week].zj[0] += dbs[i].number;
-							redata[dbs.length][str][0] += dbs[i].number;
-							redata[dbs.length].zj[0] += dbs[i].number;
+							redata[dbs[i].week][str+'0'] = dbs[i].number;
+							redata[dbs[i].week]['zj0'] += dbs[i].number;
+							redata[dbs.length][str+'0'] += dbs[i].number;
+							redata[dbs.length]['zj0'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 1) {
-							redata[dbs[i].week][str][1] = dbs[i].number;
-							redata[dbs[i].week].zj[1] += dbs[i].number;
-							redata[dbs.length][str][1] += dbs[i].number;
-							redata[dbs.length].zj[1] += dbs[i].number;
+							redata[dbs[i].week][str+'1'] = dbs[i].number;
+							redata[dbs[i].week]['zj1'] += dbs[i].number;
+							redata[dbs.length][str+'1'] += dbs[i].number;
+							redata[dbs.length]['zj1'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 2) {
-							redata[dbs[i].week][str][2] = dbs[i].number;
-							redata[dbs[i].week].zj[2] += dbs[i].number;
-							redata[dbs.length][str][2] += dbs[i].number;
-							redata[dbs.length].zj[2] += dbs[i].number;
+							redata[dbs[i].week][str+'2'] = dbs[i].number;
+							redata[dbs[i].week]['zj2'] += dbs[i].number;
+							redata[dbs.length][str+'2'] += dbs[i].number;
+							redata[dbs.length]['zj2'] += dbs[i].number;
 						}
 					}
 				}
@@ -1044,17 +1076,33 @@ exports.paidanchart = function(req, res) {
 			} else {
 				var redata = [];
 				var weekcn = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日', '总计'];
-				for (var j = 0; j < weekcn.length; j++) {
+				for (var j = 0; j <= weekcn.length; j++) {
 					var tmp = {};
 					tmp.tags = [weekcn[j]];
-					tmp.wxjl = [0, 0, 0];
-					tmp.shbxjl = [0, 0, 0];
-					tmp.sjsjl = [0, 0, 0];
-					tmp.ecgsjl = [0, 0, 0];
-					tmp.jck = [0, 0, 0];
-					tmp.yys = [0, 0, 0];
-					tmp.szk = [0, 0, 0];
-					tmp.zj = [0, 0, 0];
+				tmp.wxjl0 = 0;
+					tmp.wxjl1 = 0;
+					tmp.wxjl2 = 0;
+					tmp.shbxjl0 = 0;
+					tmp.shbxjl1 = 0;
+					tmp.shbxjl2= 0;
+					tmp.sjsjl0 = 0;
+					tmp.sjsjl1 = 0;
+					tmp.sjsjl2 = 0;
+					tmp.ecgsjl0 = 0;
+					tmp.ecgsjl1 = 0;
+					tmp.ecgsjl2 = 0;
+					tmp.jck0 = 0;
+					tmp.jck1 = 0;
+					tmp.jck2 = 0;
+					tmp.yys0 = 0;
+					tmp.yys1 = 0;
+					tmp.yys2 = 0;
+					tmp.szk0 = 0;
+					tmp.szk1 = 0;
+					tmp.szk2 = 0;
+					tmp.zj0 = 0;
+					tmp.zj1 = 0;
+					tmp.zj2 = 0;
 					redata[j] = tmp;
 				}
 				for (var i = 0; i < dbs.length; i++) {
@@ -1087,22 +1135,22 @@ exports.paidanchart = function(req, res) {
 
 					function tmpfun(str) {
 						if (dbs[i].OrderOptions == 0) {
-							redata[dbs[i].week][str][0] = dbs[i].number;
-							redata[dbs[i].week].zj[0] += dbs[i].number;
-							redata[7][str][0] += dbs[i].number;
-							redata[7].zj[0] += dbs[i].number;
+							redata[dbs[i].week][str+'0'] = dbs[i].number;
+							redata[dbs[i].week]['zj0'] += dbs[i].number;
+							redata[7][str+'0'] += dbs[i].number;
+							redata[7]['zj0'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 1) {
-							redata[dbs[i].week][str][1] = dbs[i].number;
-							redata[dbs[i].week].zj[1] += dbs[i].number;
-							redata[7][str][1] += dbs[i].number;
-							redata[7].zj[1] += dbs[i].number;
+							redata[dbs[i].week][str+'1'] = dbs[i].number;
+							redata[dbs[i].week]['zj1'] += dbs[i].number;
+							redata[7][str+'1'] += dbs[i].number;
+							redata[7]['zj1'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 2) {
-							redata[dbs[i].week][str][2] = dbs[i].number;
-							redata[dbs[i].week].zj[2] += dbs[i].number;
-							redata[7][str][2] += dbs[i].number;
-							redata[7].zj[2] += dbs[i].number;
+							redata[dbs[i].week][str+'2'] = dbs[i].number;
+							redata[dbs[i].week]['zj2'] += dbs[i].number;
+							redata[7][str+'2'] += dbs[i].number;
+							redata[7]['zj2'] += dbs[i].number;
 						}
 					}
 				}
@@ -1140,14 +1188,30 @@ exports.paidanchart = function(req, res) {
 						tmp.tags = nowYear + '-' + tjvalue + '-' + day1111;
 					}
 
-					tmp.wxjl = [0, 0, 0];
-					tmp.shbxjl = [0, 0, 0];
-					tmp.sjsjl = [0, 0, 0];
-					tmp.ecgsjl = [0, 0, 0];
-					tmp.jck = [0, 0, 0];
-					tmp.yys = [0, 0, 0];
-					tmp.szk = [0, 0, 0];
-					tmp.zj = [0, 0, 0];
+					tmp.wxjl0 = 0;
+					tmp.wxjl1 = 0;
+					tmp.wxjl2 = 0;
+					tmp.shbxjl0 = 0;
+					tmp.shbxjl1 = 0;
+					tmp.shbxjl2= 0;
+					tmp.sjsjl0 = 0;
+					tmp.sjsjl1 = 0;
+					tmp.sjsjl2 = 0;
+					tmp.ecgsjl0 = 0;
+					tmp.ecgsjl1 = 0;
+					tmp.ecgsjl2 = 0;
+					tmp.jck0 = 0;
+					tmp.jck1 = 0;
+					tmp.jck2 = 0;
+					tmp.yys0 = 0;
+					tmp.yys1 = 0;
+					tmp.yys2 = 0;
+					tmp.szk0 = 0;
+					tmp.szk1 = 0;
+					tmp.szk2 = 0;
+					tmp.zj0 = 0;
+					tmp.zj1 = 0;
+					tmp.zj2 = 0;
 					redata[j] = tmp;
 				}
 
@@ -1181,22 +1245,22 @@ exports.paidanchart = function(req, res) {
 
 					function tmpfun(str) {
 						if (dbs[i].OrderOptions == 0) {
-							redata[dbs[i].week-1][str][0] = dbs[i].number;
-							redata[dbs[i].week-1].zj[0] += dbs[i].number;
-							redata[days][str][0] += dbs[i].number;
-							redata[days].zj[0] += dbs[i].number;
+							redata[dbs[i].week][str+'0'] = dbs[i].number;
+							redata[dbs[i].week]['zj0'] += dbs[i].number;
+							redata[days][str+'0'] += dbs[i].number;
+							redata[days]['zj0'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 1) {
-							redata[dbs[i].week-1][str][1] = dbs[i].number;
-							redata[dbs[i].week-1].zj[1] += dbs[i].number;
-							redata[days][str][1] += dbs[i].number;
-							redata[days].zj[1] += dbs[i].number;
+							redata[dbs[i].week][str+'1'] = dbs[i].number;
+							redata[dbs[i].week]['zj1'] += dbs[i].number;
+							redata[days][str+'1'] += dbs[i].number;
+							redata[days]['zj1'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 2) {
-							redata[dbs[i].week-1][str][2] = dbs[i].number;
-							redata[dbs[i].week-1].zj[2] += dbs[i].number;
-							redata[days][str][2] += dbs[i].number;
-							redata[days].zj[2] += dbs[i].number;
+							redata[dbs[i].week][str+'2'] = dbs[i].number;
+							redata[dbs[i].week]['zj2'] += dbs[i].number;
+							redata[days][str+'2'] += dbs[i].number;
+							redata[days]['zj2'] += dbs[i].number;
 						}
 					}
 				}
@@ -1230,14 +1294,30 @@ exports.paidanchart = function(req, res) {
 						tmp.tags = month11 + '月';
 					}
 
-					tmp.wxjl = [0, 0, 0];
-					tmp.shbxjl = [0, 0, 0];
-					tmp.sjsjl = [0, 0, 0];
-					tmp.ecgsjl = [0, 0, 0];
-					tmp.jck = [0, 0, 0];
-					tmp.yys = [0, 0, 0];
-					tmp.szk = [0, 0, 0];
-					tmp.zj = [0, 0, 0];
+					tmp.wxjl0 = 0;
+					tmp.wxjl1 = 0;
+					tmp.wxjl2 = 0;
+					tmp.shbxjl0 = 0;
+					tmp.shbxjl1 = 0;
+					tmp.shbxjl2= 0;
+					tmp.sjsjl0 = 0;
+					tmp.sjsjl1 = 0;
+					tmp.sjsjl2 = 0;
+					tmp.ecgsjl0 = 0;
+					tmp.ecgsjl1 = 0;
+					tmp.ecgsjl2 = 0;
+					tmp.jck0 = 0;
+					tmp.jck1 = 0;
+					tmp.jck2 = 0;
+					tmp.yys0 = 0;
+					tmp.yys1 = 0;
+					tmp.yys2 = 0;
+					tmp.szk0 = 0;
+					tmp.szk1 = 0;
+					tmp.szk2 = 0;
+					tmp.zj0 = 0;
+					tmp.zj1 = 0;
+					tmp.zj2 = 0;
 					redata[j] = tmp;
 				}
 
@@ -1272,22 +1352,22 @@ exports.paidanchart = function(req, res) {
 
 					function tmpfun(str) {
 						if (dbs[i].OrderOptions == 0) {
-							redata[dbs[i].week -(tjvalue - 1) * 3- 1][str][0] = dbs[i].number;
-							redata[dbs[i].week-(tjvalue - 1) * 3 - 1].zj[0] += dbs[i].number;
-							redata[3][str][0] += dbs[i].number;
-							redata[3].zj[0] += dbs[i].number;
+							redata[dbs[i].week -(tjvalue - 1) * 3- 1][str+'0'] = dbs[i].number;
+							redata[dbs[i].week-(tjvalue - 1) * 3 - 1]['zj0'] += dbs[i].number;
+							redata[3][str+'0'] += dbs[i].number;
+							redata[3]['zj0'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 1) {
-							redata[dbs[i].week-(tjvalue - 1) * 3 - 1][str][1] = dbs[i].number;
-							redata[dbs[i].week-(tjvalue - 1) * 3 - 1].zj[1] += dbs[i].number;
-							redata[3][str][1] += dbs[i].number;
-							redata[3].zj[1] += dbs[i].number;
+								redata[dbs[i].week -(tjvalue - 1) * 3- 1][str+'1'] = dbs[i].number;
+							redata[dbs[i].week-(tjvalue - 1) * 3 - 1]['zj1'] += dbs[i].number;
+							redata[3][str+'1'] += dbs[i].number;
+							redata[3]['zj1'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 2) {
-							redata[dbs[i].week -(tjvalue - 1) * 3- 1][str][2] = dbs[i].number;
-							redata[dbs[i].week-(tjvalue - 1) * 3 - 1].zj[2] += dbs[i].number;
-							redata[3][str][2] += dbs[i].number;
-							redata[3].zj[2] += dbs[i].number;
+								redata[dbs[i].week -(tjvalue - 1) * 3- 1][str+'2'] = dbs[i].number;
+							redata[dbs[i].week-(tjvalue - 1) * 3 - 1]['zj2'] += dbs[i].number;
+							redata[3][str+'2'] += dbs[i].number;
+							redata[3]['zj2'] += dbs[i].number;
 						}
 					}
 				}
@@ -1320,14 +1400,30 @@ exports.paidanchart = function(req, res) {
 						tmp.tags = month11 + '月';
 					}
 
-					tmp.wxjl = [0, 0, 0];
-					tmp.shbxjl = [0, 0, 0];
-					tmp.sjsjl = [0, 0, 0];
-					tmp.ecgsjl = [0, 0, 0];
-					tmp.jck = [0, 0, 0];
-					tmp.yys = [0, 0, 0];
-					tmp.szk = [0, 0, 0];
-					tmp.zj = [0, 0, 0];
+					tmp.wxjl0 = 0;
+					tmp.wxjl1 = 0;
+					tmp.wxjl2 = 0;
+					tmp.shbxjl0 = 0;
+					tmp.shbxjl1 = 0;
+					tmp.shbxjl2= 0;
+					tmp.sjsjl0 = 0;
+					tmp.sjsjl1 = 0;
+					tmp.sjsjl2 = 0;
+					tmp.ecgsjl0 = 0;
+					tmp.ecgsjl1 = 0;
+					tmp.ecgsjl2 = 0;
+					tmp.jck0 = 0;
+					tmp.jck1 = 0;
+					tmp.jck2 = 0;
+					tmp.yys0 = 0;
+					tmp.yys1 = 0;
+					tmp.yys2 = 0;
+					tmp.szk0 = 0;
+					tmp.szk1 = 0;
+					tmp.szk2 = 0;
+					tmp.zj0 = 0;
+					tmp.zj1 = 0;
+					tmp.zj2 = 0;
 					redata[j] = tmp;
 				}
 
@@ -1362,22 +1458,22 @@ exports.paidanchart = function(req, res) {
 
 					function tmpfun(str) {
 						if (dbs[i].OrderOptions == 0) {
-							redata[dbs[i].week-1][str][0] = dbs[i].number;
-							redata[dbs[i].week-1].zj[0] += dbs[i].number;
-							redata[12][str][0] += dbs[i].number;
-							redata[12].zj[0] += dbs[i].number;
+							redata[dbs[i].week-1][str+'0'] = dbs[i].number;
+							redata[dbs[i].week-1]['zj0'] += dbs[i].number;
+							redata[12][str+'0'] += dbs[i].number;
+							redata[12]['zj0'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 1) {
-							redata[dbs[i].week-1][str][1] = dbs[i].number;
-							redata[dbs[i].week-1].zj[1] += dbs[i].number;
-							redata[12][str][1] += dbs[i].number;
-							redata[12].zj[1] += dbs[i].number;
+							redata[dbs[i].week-1][str+'1'] = dbs[i].number;
+							redata[dbs[i].week-1]['zj1'] += dbs[i].number;
+							redata[12][str+'1'] += dbs[i].number;
+							redata[12]['zj1'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 2) {
-							redata[dbs[i].week-1][str][2] = dbs[i].number;
-							redata[dbs[i].week-1].zj[2] += dbs[i].number;
-							redata[12][str][2] += dbs[i].number;
-							redata[12].zj[2] += dbs[i].number;
+							redata[dbs[i].week-1][str+'2'] = dbs[i].number;
+							redata[dbs[i].week-1]['zj2'] += dbs[i].number;
+							redata[12][str+'2'] += dbs[i].number;
+							redata[12]['zj2'] += dbs[i].number;
 						}
 					}
 				}

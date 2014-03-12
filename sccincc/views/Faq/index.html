@@ -46,7 +46,14 @@ $('#datatable').dataTable( {
     bFilter:false,
     sAjaxSource: "/selectdb/pagingsearch?dbname=crm/Faq&cls=titile___faqCodeId___id&where="+where,
     aoColumns:aoColumns ,
-    aoColumnDefs: [
+    aoColumnDefs: [{
+    	 aTargets: [0],
+                            	//   mData : "id",
+                                   mRender: function (data, type,full) {
+var str='<a href="/Faq/detail?id='+full.id+'">'+data+'</a>';
+return str;
+                                   }
+    },
                                {
                             	   aTargets: [aoColumns.length-1],
                             	//   mData : "id",
