@@ -39,12 +39,15 @@ a:hover,a:active {
 }
 
 .red0{
+	text-align:center !important;
 	color: red;
 }
 .yellow{
+	text-align:center !important;
 	color: yellow;
 }
 .blue{
+	text-align:center !important;
 	color: blue;
 }
 

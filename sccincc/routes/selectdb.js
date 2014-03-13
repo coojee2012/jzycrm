@@ -1676,24 +1676,26 @@ exports.callreportchart = function(req, res) {
 						tmp.tags = nowYear + '-' + tjvalue + '-' + day1111;
 					}
 					for (var kk = 0; kk < clomunsarray.length; kk++) {
-						tmp[clomunsarray[kk]] = [0, 0];
+						tmp[clomunsarray[kk]+'0'] = 0;
+						tmp[clomunsarray[kk]+'1'] = 0;
 					}
-					tmp.zj = [0, 0];
+					tmp['zj0'] =0;
+					tmp['zj1'] =0;
 					redata[j] = tmp;
 				}
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
 						if (dbs[i].routerline == 1) {
-							redata[dbs[i].week - 1][dbs[i].accountcode][0] = dbs[i].number;
-							redata[dbs[i].week - 1].zj[0] += dbs[i].number;
-							redata[days][dbs[i].accountcode][0] += dbs[i].number;
-							redata[days].zj[0] += dbs[i].number;
+							redata[dbs[i].week - 1][dbs[i].accountcode+'0'] = dbs[i].number;
+							redata[dbs[i].week - 1].zj0 += dbs[i].number;
+							redata[days][dbs[i].accountcode+'0'] += dbs[i].number;
+							redata[days].zj0 += dbs[i].number;
 						} else {
-							redata[dbs[i].week - 1][dbs[i].accountcode][1] = dbs[i].number;
-							redata[dbs[i].week - 1].zj[1] += dbs[i].number;
-							redata[days][dbs[i].accountcode][1] += dbs[i].number;
-							redata[days].zj[1] += dbs[i].number;
+							redata[dbs[i].week - 1][dbs[i].accountcode+'1'] = dbs[i].number;
+							redata[dbs[i].week - 1].zj1 += dbs[i].number;
+							redata[days][dbs[i].accountcode+'1'] += dbs[i].number;
+							redata[days].zj0 += dbs[i].number;
 						}
 
 					}
@@ -1736,9 +1738,11 @@ exports.callreportchart = function(req, res) {
 						tmp.tags = month11 + '月';
 					}
 					for (var kk = 0; kk < clomunsarray.length; kk++) {
-						tmp[clomunsarray[kk]] = [0, 0];
+						tmp[clomunsarray[kk]+'0'] = 0;
+						tmp[clomunsarray[kk]+'1'] = 0;
 					}
-					tmp.zj = [0, 0];
+					tmp['zj0'] =0;
+					tmp['zj1'] =0;
 					redata[j] = tmp;
 				}
 				console.log(redata);
@@ -1746,16 +1750,16 @@ exports.callreportchart = function(req, res) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
 						if (dbs[i].routerline == 1) {
-							redata[dbs[i].week - (tjvalue - 1) * 3-1][dbs[i].accountcode][0] = dbs[i].number;
-							redata[dbs[i].week - (tjvalue - 1) * 3-1].zj[0] += dbs[i].number;
-							redata[3][dbs[i].accountcode][0] += dbs[i].number;
-							redata[3].zj[0] += dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3-1][dbs[i].accountcode+'0'] = dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3-1].zj0 += dbs[i].number;
+							redata[3][dbs[i].accountcode+'0'] += dbs[i].number;
+							redata[3].zj0 += dbs[i].number;
 						} else {
 							console.log(redata[i], "--" + i + "--", dbs[i].accountcode);
-							redata[dbs[i].week - (tjvalue - 1) * 3-1][dbs[i].accountcode][1] = dbs[i].number;
-							redata[dbs[i].week - (tjvalue - 1) * 3-1].zj[1] += dbs[i].number;
-							redata[3][dbs[i].accountcode][1] += dbs[i].number;
-							redata[3].zj[1] += dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3-1][dbs[i].accountcode+'1'] = dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3-1].zj1 += dbs[i].number;
+							redata[3][dbs[i].accountcode+'1'] += dbs[i].number;
+							redata[3].zj1 += dbs[i].number;
 						}
 					}
 				}
@@ -1793,24 +1797,26 @@ exports.callreportchart = function(req, res) {
 						tmp.tags = month11 + '月';
 					}
 					for (var kk = 0; kk < clomunsarray.length; kk++) {
-						tmp[clomunsarray[kk]] = [0, 0];
+						tmp[clomunsarray[kk]+'0'] = 0;
+						tmp[clomunsarray[kk]+'1'] = 0;
 					}
-					tmp.zj = [0, 0];
+					tmp['zj0'] =0;
+					tmp['zj1'] =0;
 					redata[j] = tmp;
 				}
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
 						if (dbs[i].routerline == 1) {
-							redata[dbs[i].week - 1][dbs[i].accountcode][0] = dbs[i].number;
-							redata[dbs[i].week - 1].zj[0] += dbs[i].number;
-							redata[12][dbs[i].accountcode][0] += dbs[i].number;
-							redata[12].zj[0] += dbs[i].number;
+							redata[dbs[i].week - 1][dbs[i].accountcode+'0'] = dbs[i].number;
+							redata[dbs[i].week - 1].zj0 += dbs[i].number;
+							redata[12][dbs[i].accountcode+'0'] += dbs[i].number;
+							redata[12].zj0 += dbs[i].number;
 						} else {
-							redata[dbs[i].week - 1][dbs[i].accountcode][1] = dbs[i].number;
-							redata[dbs[i].week - 1].zj[1] += dbs[i].number;
-							redata[12][dbs[i].accountcode][1] += dbs[i].number;
-							redata[12].zj[1] += dbs[i].number;
+							redata[dbs[i].week - 1][dbs[i].accountcode+'1'] = dbs[i].number;
+							redata[dbs[i].week - 1].zj1 += dbs[i].number;
+							redata[12][dbs[i].accountcode+'1'] += dbs[i].number;
+							redata[12].zj1 += dbs[i].number;
 						}
 					}
 				}

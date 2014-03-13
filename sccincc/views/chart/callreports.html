@@ -59,8 +59,8 @@
 <div class="box-icon"><a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
 </div>
 </div>
-<div class="box-content">
-<table class="table table-striped table-bordered bootstrap-datatable datatable" id="datatable">
+<div>
+<table class="table table-striped table-bordered bootstrap-datatable datatable" style="margin-bottom: 0px;" id="datatable">
 	<caption></caption>
 	<thead>
         <tr><td colspan="<%= Agent.length%>">说明：各项数据依次代表【<span style="color:blue;">呼入</span>|<span style="color:red;">呼出</span>】</td></tr>
@@ -105,11 +105,11 @@ clms+="zj";
 var aoColumns=[
 { mData: "tags", sClass: "center",bSearchable: false }, 
 <%for(var i=0;i<Agent.length;i++){%>
-            {mData:"<%= Agent[i].uExten%>0", sClass: "center red",bSearchable: false },
-            {mData:"<%= Agent[i].uExten%>1", sClass: "center blue",bSearchable: false },
+            {mData:"<%= Agent[i].uExten%>0", sClass: "blue",bSearchable: false },
+            {mData:"<%= Agent[i].uExten%>1", sClass: "red0",bSearchable: false },
             <%}%>
-               { mData: "zj0", sClass: "center red",bSearchable: false },
-                { mData: "zj1", sClass: "center blue",bSearchable: false }
+               { mData: "zj0", sClass: "blue",bSearchable: false },
+                { mData: "zj1", sClass: "red0",bSearchable: false }
                ];
 var daochu=[];
 var showcols=[];

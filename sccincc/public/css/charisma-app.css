@@ -231,6 +231,7 @@ select {
 }
 
 .box-content {
+	background-color: #FFFFFF !important;
 	padding: 10px;
 }
 
