@@ -278,6 +278,10 @@ exports.pagingsearch = function(req, res) {
 
 }
 
+exports.pagingexcel=function(req,res){
+
+}
+
 exports.pagingsearch2 = function(req, res) {
 	var dbname = req.query['dbname'] || req.body['dbname'];
 	var searchDb = require('../modules/' + dbname);

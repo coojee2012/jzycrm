@@ -77,6 +77,12 @@ routes.selectdb = [{
 	}
 
 ];
+routes.excel=[{
+	    urlreg: '/excel/orderrecords',
+		file: '/routes/excel',
+		method: 'get',
+		fn: 'orderrecords'
+}];
 routes.asami = [
 
 	{
@@ -886,6 +892,11 @@ routes.OrderRecords = [{
 		file: '/routes/OrderRecords',
 		method: 'get',
 		fn: 'createget'
+	},{
+		urlreg: '/OrderRecords/excel',
+		file: '/routes/OrderRecords',
+		method: 'get',
+		fn: 'excel'
 	}
 ];
 //自动添加于：2013-07-17 18:43:33

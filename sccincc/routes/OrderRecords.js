@@ -1,6 +1,6 @@
 var DbMode = require('../modules/crm/OrderRecords');
 var syslog = require('../common/syslog');
-
+var nodeExcel = require('excel-export');
 var util = require('util');
 var crypto = require('crypto');
 var md5 = crypto.createHash('md5');
@@ -20,7 +20,7 @@ exports.get = function(req, res) {
 	var pageindex = req.query['pageindex'] || 0;
 	var cID = req.query['cID'] || req.body['cID'];
 	var serMan = req.query['serMan'] || req.body['serMan'];
-	var options= req.query['options'] || req.body['options'] || -1;
+	var options = req.query['options'] || req.body['options'] || -1;
 	//if(where!=null){}
 	if (cID !== '')
 		where.cID = cID;
@@ -54,6 +54,251 @@ exports.get = function(req, res) {
 		where: where
 	});
 };
+
+exports.excel = function(req, res) {
+	console.log(req.query);
+	var where = {};
+	if (req.query['serMan'] && req.query['serMan'] != '' && req.query['serMan'] != -1) {
+		where.serMan = req.query['serMan'];
+	}
+	if (req.query['DepID'] && req.query['DepID'] != '' && req.query['DepID'] != -1) {
+		where.DepID = req.query['DepID'];
+	}
+	if (req.query['OrderOptions']!='undefined' && req.query['OrderOptions'] != '' && req.query['OrderOptions'] != -1) {
+		where.OrderOptions = req.query['OrderOptions'];
+	}
+	if (req.query['dactorName']!='undefined' && req.query['dactorName'] != '' && req.query['dactorName'] != -1) {
+		where.dactorName = req.query['dactorName'];
+	}
+	if (req.query['orderReslut']!='undefined' && req.query['orderReslut'] != '' && req.query['orderReslut'] != -1) {
+		where.orderReslut = {
+			'like': req.query['orderReslut']
+		};
+	}
+	if (req.query['orderContent'] && req.query['orderContent'] != '' && req.query['orderContent'] != -1) {
+		where.orderContent = {
+			'like': req.query['orderContent']
+		};
+	}
+	if (req.query['uphone'] != '' && req.query['uphone'] != -1) {
+		where.uphone = {
+			'like': req.query['uphone']
+		};
+	}
+	if (req.query['uaddr'] != '' && req.query['uaddr'] != -1) {
+		where.uaddr = {
+			'like': req.query['uaddr']
+		};
+	}
+
+	var fromtime = moment().format("YYYY-MM-DD");
+	var totime = moment().format("YYYY-MM-DD");
+	if (req.query['orderTime_from'] != '' && req.query['orderTime_from'] != -1) {
+		fromtime = req.query['orderTime_from'];
+	} 
+
+	if (req.query['orderTime_to'] != '' && req.query['orderTime_to'] != -1) {
+		totime = req.query['orderTime_to'];
+		
+	} 
+	where.orderTime={'between':[fromtime,totime]};
+
+	
+
+	
+
+	var order = 'orderTime ASC';
+
+	var searchDb = require('../modules/crm/OrderRecords');
+	var serverfn = {};
+
+	for (var cl in searchDb.cloums) {
+		var inputype = searchDb.cloums[cl].input.type;
+		if (inputype == 'radios' || inputype == 'selects' || inputype == 'checkboxes') {
+			var tmp = searchDb.cloums[cl][inputype];
+			//console.log(tmp);
+			createfn(cl, tmp);
+		}
+
+	}
+
+	function createfn(cl, tmp) {
+		serverfn["get_" + cl] = function(value) {
+
+
+			for (var tmtm in tmp) {
+				//console.log('old：',tmp[tmtm].value);
+				//console.log('new：',value);
+				if (tmp[tmtm].value === value) {
+					return tmp[tmtm].name;
+				}
+			}
+			return '--';
+
+		}
+	}
+
+	var inld = new Array();
+	for (var key in searchDb.relations) {
+		inld.push(key);
+	}
+	var aColumns = ["id","cID","uaddr","orderContent","uphone","utel","DepID","dactorName","orderReslut","serMan","OrderOptions","orderTime"];
+
+	console.log(where);
+	searchDb.all({
+		include: inld,
+		where: where,
+		order: order
+	}, function(err, dbs) {
+		console.log('dbs:', dbs);
+		if (err)
+			res.send('导出数据发生异常！');
+
+		var redata = [];
+		for (var i = 0; i < dbs.length; i++) {
+			var tmppnj = [];
+			for (var j = 0; j < aColumns.length; j++) {
+				if (aColumns[j] != 'id' && searchDb.cloums[aColumns[j]].input.type == 'selectdb') {
+					var finddb = searchDb.cloums[aColumns[j]].selectdb.dbname.split("/");
+					var dbname = finddb[finddb.length - 1];
+					if (searchDb.cloums[aColumns[j]].selectdb && searchDb.cloums[aColumns[j]].selectdb.as !== undefined) {
+						dbname = searchDb.cloums[aColumns[j]].selectdb.as
+					}
+					var dbcl = searchDb.cloums[aColumns[j]].selectdb.value;
+					if (!dbs[i].__cachedRelations[dbname] || dbs[i].__cachedRelations[dbname] == null) {
+						tmppnj.push('--');
+					} else {
+						if(aColumns[j]=='cID')
+						tmppnj.push(dbs[i].__cachedRelations[dbname].idcard);
+					if(aColumns[j]=='DepID')
+						tmppnj.push(dbs[i].__cachedRelations[dbname].depName);
+					if(aColumns[j]=='dactorName')
+						tmppnj.push(dbs[i].__cachedRelations[dbname].uName);
+					if(aColumns[j]=='serMan')
+						tmppnj.push(dbs[i].__cachedRelations[dbname].serMan);
+					}
+
+				} else if (aColumns[j] != 'id' && searchDb.cloums[aColumns[j]].input.type == 'selectdbGroup') {
+					var finddb = searchDb.cloums[aColumns[j]].selectdbGroup.dbname.split("/");
+					var dbname = finddb[finddb.length - 1];
+					if (searchDb.cloums[aColumns[j]].selectdbGroup && searchDb.cloums[aColumns[j]].selectdbGroup.as !== undefined) {
+						dbname = searchDb.cloums[aColumns[j]].selectdbGroup.as
+					}
+					var dbcl = searchDb.cloums[aColumns[j]].selectdbGroup.value;
+
+					if (!dbs[i].__cachedRelations[dbname] || dbs[i].__cachedRelations[dbname] == null) {
+						tmppnj.push('--');
+					} else {
+						if(aColumns[j]=='cID')
+						tmppnj.push(dbs[i].__cachedRelations[dbname].idcard);
+					if(aColumns[j]=='DepID')
+						tmppnj.push(dbs[i].__cachedRelations[dbname].depName);
+					if(aColumns[j]=='dactorName')
+						tmppnj.push(dbs[i].__cachedRelations[dbname].uName);
+					if(aColumns[j]=='serMan')
+						tmppnj.push(dbs[i].__cachedRelations[dbname].serMan);
+					}
+
+				} else if (aColumns[j] != 'id' && (searchDb.cloums[aColumns[j]].input.type == 'radios' || searchDb.cloums[aColumns[j]].input.type == 'selects' || searchDb.cloums[aColumns[j]].input.type == 'checkboxes')) {
+					tmppnj.push(serverfn["get_" + aColumns[j]](dbs[i][aColumns[j]]));
+				} else {
+					tmppnj.push(dbs[i][aColumns[j]]);
+				}
+
+			}
+			redata.push(tmppnj);
+		}
+
+
+
+		console.log(redata);
+		var conf = {};
+		conf.stylesXmlFile = "./public/excel/styles.xml";
+		conf.title = '工单记录['+fromtime+' 至 '+totime+']';
+		conf.cols = [{
+				caption: '工单编号',
+				type: 'string',
+				width: 10.7
+			}, {
+				caption: '用户户号',
+				type: 'string',
+				width: 10.7
+			}, {
+				caption: '联系地址',
+				type: 'string',
+				width: 18.7
+			}, {
+				caption: '受理内容',
+				type: 'string',
+				width: 18.7
+			}, {
+				caption: '手机号码',
+				type: 'string',
+				width: 10.7
+			}, {
+				caption: '固定号码',
+				type: 'string',
+				width: 10.7
+			}, {
+				caption: '处理部门',
+				type: 'string',
+				width: 9.7
+			}, {
+				caption: '处理人员',
+				type: 'string',
+				width: 8.7
+			}, {
+				caption: '回访内容',
+				type: 'string',
+				width: 11.7
+			}, {
+				caption: '服务座席',
+				type: 'string',
+				width: 8.7
+			}, {
+				caption: '工单状态',
+				type: 'string',
+				width: 6.7
+			}, {
+				caption: '记录时间',
+				type: 'string',
+				width: 8
+			}
+			/*,{
+		caption: '记录时间',
+		type: 'date',
+		beforeCellWrite: function() {
+			var originDate = new Date(Date.UTC(1899, 11, 30));
+			return function(row, cellData, eOpt) {
+				if (eOpt.rowNum % 2) {
+					eOpt.styleIndex = 1;
+				} else {
+					eOpt.styleIndex = 2;
+				}
+				if (cellData === null) {
+					eOpt.cellType = 'string';
+					return 'N/A';
+				} else
+					return (cellData - originDate) / (24 * 60 * 60 * 1000);
+			}
+		}()
+	}*/
+			/*, {
+		caption: 'bool',
+		type: 'bool'
+	}, {
+		caption: 'number',
+		type: 'number'
+	}*/
+		];
+		conf.rows = redata;
+		var result = nodeExcel.execute(conf);
+		res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+		res.setHeader("Content-Disposition", "attachment; filename=" + "orderrecords.xlsx");
+		res.end(result, 'binary');
+	});
+
+}
 
 exports.post = function(req, res) {
 	var where = {};
@@ -99,7 +344,7 @@ exports.createget = function(req, res) {
 
 exports.createpost = function(req, res) {
 	var iswork = req.body['iswork']; //工作时间段标识，由座席自己决定
-	var agentname=req.body['agentname'];
+	var agentname = req.body['agentname'];
 	DbMode.all({
 		where: {
 			id: req.body["id"]
@@ -198,9 +443,9 @@ exports.createpost = function(req, res) {
 														Sms_mod.mobile = users[i5].uPhone;
 														Sms_mod.content = smscontent;
 														Sms_mod.shuoming = "发送短信给派单员";
-														Sms_mod.agentname =agentname || req.session.username || '工作时间段';
-														Sms_mod.pdyname =  '--';
-														Sms_mod.wxsname =  '--';
+														Sms_mod.agentname = agentname || req.session.username || '工作时间段';
+														Sms_mod.pdyname = '--';
+														Sms_mod.wxsname = '--';
 														Sms_mod.save(function(err, instsms) {
 															if (err) {
 																syslog.add(req, res, 'sql', err);
@@ -286,10 +531,10 @@ exports.editget = function(req, res) {
 	console.log(req.query);
 	var id = req.query.id;
 	var where = "";
-	for(var key in req.query){
-		if(key=='distart'  || key=='id')
+	for (var key in req.query) {
+		if (key == 'distart' || key == 'id')
 			continue;
-		where+="&"+key+'='+req.query[key];
+		where += "&" + key + '=' + req.query[key];
 
 	}
 	var pageindex = req.query.distart;
@@ -384,10 +629,10 @@ exports.editpost = function(req, res) {
 exports.detail = function(req, res) {
 	var id = req.query.id;
 	var where = "";
-	for(var key in req.query){
-		if(key=='distart' || key=='id')
+	for (var key in req.query) {
+		if (key == 'distart' || key == 'id')
 			continue;
-		where+="&"+key+'='+req.query[key];
+		where += "&" + key + '=' + req.query[key];
 
 	}
 	var pageindex = req.query.distart;
@@ -513,22 +758,22 @@ exports.getOrder = function(req, res) {
 						success: false,
 						msg: "该工单已经处理了！"
 					});
-				} 
+				}
 				/*else if (huifang == 1 && inst.OrderOptions == 0) {
 					res.send({
 						success: false,
 						msg: "请先派单！"
 					});
-				}*/ 
+				}*/
 				else {
 					var data = {};
 					data.id = inst.id;
 					data.orderContent = inst.orderContent;
 					data.memo = inst.memo;
-					data.OrderOptions=inst.OrderOptions;
+					data.OrderOptions = inst.OrderOptions;
 					data.CustomInfo = inst.__cachedRelations.CustomInfo;
 					data.OrderType = inst.__cachedRelations.OrderType;
-					data.orderReslut=inst.orderReslut;
+					data.orderReslut = inst.orderReslut;
 					//console.log(data);
 					res.send({
 						success: true,
@@ -557,7 +802,7 @@ exports.paiDan = function(req, res) {
 	sms = req.body["sms"];
 	paid = req.body["paid"];
 	var shuoming = req.body["shuoming"];
-	var agentname=req.body['agentname'];
+	var agentname = req.body['agentname'];
 	DbMode.findOne({
 		include: inld,
 		where: {
@@ -598,10 +843,9 @@ exports.paiDan = function(req, res) {
 							Sms_mod.agentname = inst12.__cachedRelations.UserInfo3.uName || '无坐席';
 							Sms_mod.pdyname = agentname || req.session.username || '无派单员';
 							Sms_mod.wxsname = inst12.__cachedRelations.UserInfo2.uName || '无师傅';
-							Sms_mod.depid=inst12.__cachedRelations.UserInfo2.uDepId || -1;
-							if(Sms_mod.agentname == Sms_mod.pdyname)
-							{
-								Sms_mod.pdtype=1;
+							Sms_mod.depid = inst12.__cachedRelations.UserInfo2.uDepId || -1;
+							if (Sms_mod.agentname == Sms_mod.pdyname) {
+								Sms_mod.pdtype = 1;
 							}
 							Sms_mod.shuoming = shuoming;
 							console.log(Sms_mod);
@@ -614,18 +858,18 @@ exports.paiDan = function(req, res) {
 									});
 								} else {
 									var myDate = new Date();
-									var hours=myDate.getHours(); 
+									var hours = myDate.getHours();
 
-									if(hours<9 || hours>17){
-							var Sms_mod2 = new sms2();
-							Sms_mod2.mobile = '13550716066';
-							Sms_mod2.content = sms;
-							Sms_mod2.agentname = inst12.__cachedRelations.UserInfo3.uName || '无坐席';
-							Sms_mod2.pdyname = agentname || req.session.username || '无派单员';
-							Sms_mod2.wxsname ='--';
-							Sms_mod2.pdtype=3;
-							Sms_mod2.shuoming = "给彭叙军非工作时间派单短信！";
-							Sms_mod2.save(function(){});
+									if (hours < 9 || hours > 17) {
+										var Sms_mod2 = new sms2();
+										Sms_mod2.mobile = '13550716066';
+										Sms_mod2.content = sms;
+										Sms_mod2.agentname = inst12.__cachedRelations.UserInfo3.uName || '无坐席';
+										Sms_mod2.pdyname = agentname || req.session.username || '无派单员';
+										Sms_mod2.wxsname = '--';
+										Sms_mod2.pdtype = 3;
+										Sms_mod2.shuoming = "给彭叙军非工作时间派单短信！";
+										Sms_mod2.save(function() {});
 
 									}
 									res.send({

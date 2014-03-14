@@ -17,6 +17,7 @@
     "socket.io":"*",
     "xmlhttprequest":"*",
     "node-conf":"*",
+    "excel-export":">=0.3.11",
     "xml":"*",
     "urlencode":"*",
     "agi":"*",
