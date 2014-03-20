@@ -60,11 +60,11 @@
 </div>
 <div>
 <table class="table table-striped table-bordered bootstrap-datatable datatable " style="margin-bottom: 0px;" id="datatable">
-	<caption></caption>
 	<thead>
+         <tr>
+                            <th colspan="9" style="text-align:center;" id="tabtle"></th>
+                            </tr>
 		<tr>
-
-
 			<th id='thshow' style="text-align:center;">星期\部门</th>
 			<th style="text-align:center;">维修</th>
 			<th style="text-align:center;">售后</th>
@@ -83,26 +83,53 @@
 </div>
 </div>
 </div>
+
+<div style="display:none;">
+<form action="/chart/getCSV" method ="post" > 
+<input type="hidden" name="csv_text" id="csv_text" />
+<input type="submit"  value="" id="getcsv" />
+</form>
+</div>
+
 <script type="text/javascript">
 function starttj(){
 var tjtype=$('input[name="iswork"]:checked').val() || -1;
 var tjvalue=$('#dactorName').val();
-var dayfrom=$('#dayfrom').val();
-var dayto=$('#dayto').val();
+var dayfrom=$('#dayfrom').val() || '';
+var dayto=$('#dayto').val() || '';
 if(tjtype ==-1)
 {
 alert('请选择统计类型');
 return;
+}else{
+    var tistr="统计时间范围：";
+    var tjstr=$('#dactorName').find("option:selected").text();
+    if(tjtype==='0'){
+        tistr+='从'+dayfrom+'到'+dayto;
+    }
+    else if(tjtype==='1'){
+        tistr+=tjstr;
+    }
+    else if(tjtype==='2'){
+        tistr+='第'+tjstr;
+    }
+    else if(tjtype==='3'){
+        tistr+=tjstr;
+    }
+    else if(tjtype==='4'){
+        tistr+=tjstr+'度';
+    }
+    $('#tabtle').html(tistr);
 }
-var aoColumns=[{ mData: "tags", sClass: "center",bSearchable: false },               
-               { mData: "wxjl", sClass: "center",bSearchable: false },               
-               { mData: "shbxjl", sClass: "center",bSearchable: false },              
-               { mData: "sjsjl", sClass: "center",bSearchable: false },
-               { mData: "ecgsjl", sClass: "center" ,bSearchable: false}, 
-			   { mData: "jck", sClass: "center" ,bSearchable: false}, 
-			   { mData: "yys", sClass: "center" ,bSearchable: false}, 
-			   { mData: "szk", sClass: "center" ,bSearchable: false}, 
-               { mData: "zj", sClass: "center",bSearchable: false }
+var aoColumns=[{ mData: "tags", sClass: "center blue",bSearchable: false },               
+               { mData: "wxjl", sClass: "center blue",bSearchable: false },               
+               { mData: "shbxjl", sClass: "center blue",bSearchable: false },              
+               { mData: "sjsjl", sClass: "center blue",bSearchable: false },
+               { mData: "ecgsjl", sClass: "center blue" ,bSearchable: false}, 
+			   { mData: "jck", sClass: "center blue" ,bSearchable: false}, 
+			   { mData: "yys", sClass: "center blue" ,bSearchable: false}, 
+			   { mData: "szk", sClass: "center blue" ,bSearchable: false}, 
+               { mData: "zj", sClass: "center blue",bSearchable: false }
                ];
 var daochu=[];
 for(var i=0;i<aoColumns.length;i++){
@@ -134,13 +161,15 @@ $('#datatable').dataTable({
     aoColumnDefs: [],
              oTableTools: {
              sSwfPath: "/css/swf/copy_csv_xls_pdf.swf",
-             aButtons: [                          
-            {
-                 					"sExtends":    "collection",
-                 					"sButtonText": '导出 <span class="caret" />',
-                 					"aButtons":    [ "xls"],
-                 					"mColumns": daochu
-                 				},{
+             aButtons: [{
+      "sExtends":"text",
+      "sButtonText": "导出报表" ,
+      "fnClick": function ( nButton, oConfig, oFlash ) {
+         var csv_value=$('#datatable').table2CSV({delivery:'value'});
+      $("#csv_text").val(csv_value); 
+    $("#getcsv").click();
+                    }
+     },{
       "sExtends":"text",
       "sButtonText": "新开窗口" ,
       "fnClick": function ( nButton, oConfig, oFlash ) {

@@ -276,6 +276,11 @@ routes.chart = [
 		file: '/routes/chart',
 		method: 'get',
 		fn: 'callreportsget'
+	},{
+		urlreg: '/chart/getCSV',
+		file: '/routes/chart',
+		method: 'post',
+		fn: 'getCSV'
 	}
 
 

@@ -20,6 +20,7 @@
     "excel-export":">=0.3.11",
     "xml":"*",
     "urlencode":"*",
+    "iconv-lite":"*",
     "agi":"*",
     "moment":"*",
     "guid":"*",

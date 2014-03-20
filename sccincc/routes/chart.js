@@ -343,3 +343,14 @@ exports.callreportsget = function(req, res) {
 	});
 
 }
+
+exports.getCSV=function(req,res){
+	var iconv = require('iconv-lite');
+	var data=req.body['csv_text'];
+	var str = iconv.encode(data, 'gbk');
+	//console.log(str);
+	res.setHeader("Content-type","application/csv;charset=gbk");
+	//res.setHeader("Content-type","application/octet-stream");
+	res.setHeader("Content-Disposition", "attachment;filename=\"Reports.csv\"");
+	res.send(str);
+}
