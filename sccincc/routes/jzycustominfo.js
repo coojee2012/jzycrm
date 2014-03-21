@@ -5,7 +5,7 @@
   var async = require('async');
   var wcfurl = 'http://127.0.0.1:8088/JzyService.svc?wsdl';
 
-/*  var config = {
+  /*  var config = {
     server: '192.168.1.2',
     userName: 'sa',
     password: 'sa',
@@ -23,7 +23,7 @@
 
   };*/
 
-   var config = {
+  var config = {
     server: '127.0.0.1',
     userName: 'sa',
     password: '123',
@@ -137,6 +137,8 @@
     var timefrom = req.body["TimeFrom"] || req.query["TimeFrom"];
     var timeto = req.body["TimeTo"] || req.query["TimeTo"];
     var jieguo = {};
+    var iDisplayStart = req.query['iDisplayStart'] || req.body['iDisplayStart'] || 0;
+    var iDisplayLength = req.query['iDisplayLength'] || req.body['iDisplayLength'] || 10;
     jieguo.iTotalRecords = 10;
     jieguo.sEcho = req.query['sEcho'] || req.body['sEcho'];
     jieguo.iTotalDisplayRecords = 10;
@@ -148,33 +150,45 @@
           )
 ORDER BY id
    */
-    var sql = "select top 10 a.*,b.vip_name,b.social_id from callrecords a left join t_rm_vip_info b on b.card_id = a.cid where 1=1 ";
+    var sql = "select top " + iDisplayLength + " a.*,b.vip_name,b.social_id from callrecords a left join t_rm_vip_info b on b.card_id = a.cid ";
+    var where = " where 1=1 ";
     if (card_id !== '') {
-      sql += " and a.cid = '" + card_id + "'";
+      where += " and a.cid = '" + card_id + "'";
     }
     if (keywords !== '') {
-      sql += " and (a.content like '%" + keywords + "%' or a.donesth like '%" + keywords + "%'";
+      where += " and (a.content like '%" + keywords + "%' or a.donesth like '%" + keywords + "%'";
       if (card_id !== '') {
-        sql += " or b.vip_name like '%" + keywords + "%'";
+        where += " or b.vip_name like '%" + keywords + "%'";
       }
-      sql += ")";
+      where += ")";
     }
     if (dostate !== '' && (dostate == "0" || dostate == "1" || dostate == "2")) {
-      sql += " and a.dostate = " + dostate;
+      where += " and a.dostate = " + dostate;
     }
     if (timefrom !== '') {
-      sql += " and a.recordtime > '" + timefrom + "'";
+      where += " and a.recordtime > '" + timefrom + "'";
     }
     if (timeto !== '') {
-      sql += " and a.recordtime < '" + timeto + "'";
+      where += " and a.recordtime < '" + timeto + "'";
     }
-    sql += " order by a.recordtime desc ";
+    var order = " order by a.recordtime desc ";
+    var skiprows = iDisplayLength * iDisplayStart;
+    var sql2 = "select top " + skiprows + " a.cid from callrecords a left join t_rm_vip_info b on b.card_id = a.cid ";
+    sql2 += where + order;
 
-    mssql.exec(sql, function(err, dbs) {
-      console.log(dbs);
-      jieguo.aaData = dbs;
-      res.send(jieguo);
+    sql += where + ' and a.cid not in (' + sql2 + ')' + order;
+
+    var countsql = "select count(1) from callrecords a left join t_rm_vip_info b on b.card_id = a.cid ";
+    countsql += where;
+    mssql.exec(countsql, function(err, count) {
+      console.log(count);
+      mssql.exec(sql, function(err, dbs) {
+        console.log(dbs);
+        jieguo.aaData = dbs;
+        res.send(jieguo);
+      });
     });
+
 
     /*soap.createClient(wcfurl, function(err, client) {
 
@@ -629,11 +643,11 @@ ORDER BY id
 
     mssql.exec(sql, function(err, dbs) {
 
-        if(thjlstatus == 0) {
-          createpostThjlInsert(req, res);
-        } else {
-          createpostThjlUpdate(req, res);
-        }
+      if (thjlstatus == 0) {
+        createpostThjlInsert(req, res);
+      } else {
+        createpostThjlUpdate(req, res);
+      }
 
     });
 
@@ -702,11 +716,11 @@ ORDER BY id
     sql += "' where card_id='" + SafePramas(custom.Card_id) + "'";
 
     mssql.exec(sql, function(err, dbs) {
-        if (thjlstatus == 0) {
-          createpostThjlInsert(req, res);
-        } else {
-          createpostThjlUpdate(req, res);
-        }
+      if (thjlstatus == 0) {
+        createpostThjlInsert(req, res);
+      } else {
+        createpostThjlUpdate(req, res);
+      }
     });
 
 
@@ -1092,22 +1106,22 @@ ORDER BY id
     var sql = "update callrecords set updatetime=GETDATE() ";
 
 
-    if (inst.Content!=='')
+    if (inst.Content !== '')
       sql += ",content='" + SafePramas(inst.Content) + "'";
 
     sql += ",dostate=" + inst.DoState;
 
-    if (inst.DoneSth!=='')
+    if (inst.DoneSth !== '')
       sql += ",donesth='" + SafePramas(inst.DoneSth) + "'";
 
 
-    sql += " where unid='" + inst.Unid + "' and cid='" +inst. Cid + "'";
+    sql += " where unid='" + inst.Unid + "' and cid='" + inst.Cid + "'";
 
-  mssql.exec(sql, function(err, dbs) {
+    mssql.exec(sql, function(err, dbs) {
       res.send({});
     });
 
-  /* soap.createClient(wcfurl, function(err, client) {
+    /* soap.createClient(wcfurl, function(err, client) {
       if (err) {
         console.log("连接服务发生异常！", err);
         res.render('jzycustominfo/editThjl.html', {
