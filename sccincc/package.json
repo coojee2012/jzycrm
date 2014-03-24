@@ -18,6 +18,7 @@
     "xmlhttprequest":"*",
     "node-conf":"*",
     "excel-export":">=0.3.11",
+    "msexcel-builder":">=0.0.2",
     "xml":"*",
     "urlencode":"*",
     "iconv-lite":"*",

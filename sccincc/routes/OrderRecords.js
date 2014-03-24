@@ -1,6 +1,7 @@
 var DbMode = require('../modules/crm/OrderRecords');
 var syslog = require('../common/syslog');
 var nodeExcel = require('excel-export');
+var excelbuilder = require('msexcel-builder');
 var util = require('util');
 var crypto = require('crypto');
 var md5 = crypto.createHash('md5');
@@ -58,19 +59,19 @@ exports.get = function(req, res) {
 exports.excel = function(req, res) {
 	console.log(req.query);
 	var where = {};
-	if (req.query['serMan'] && req.query['serMan'] != '' && req.query['serMan'] != -1) {
+	/*if (req.query['serMan'] && req.query['serMan'] != '' && req.query['serMan'] != -1) {
 		where.serMan = req.query['serMan'];
-	}
+	}*/
 	if (req.query['DepID'] && req.query['DepID'] != '' && req.query['DepID'] != -1) {
 		where.DepID = req.query['DepID'];
 	}
-	if (req.query['OrderOptions']!='undefined' && req.query['OrderOptions'] != '' && req.query['OrderOptions'] != -1) {
+	if (req.query['OrderOptions'] != 'undefined' && req.query['OrderOptions'] != '' && req.query['OrderOptions'] != -1) {
 		where.OrderOptions = req.query['OrderOptions'];
 	}
-	if (req.query['dactorName']!='undefined' && req.query['dactorName'] != '' && req.query['dactorName'] != -1) {
+	if (req.query['dactorName'] != 'undefined' && req.query['dactorName'] != '' && req.query['dactorName'] != -1) {
 		where.dactorName = req.query['dactorName'];
 	}
-	if (req.query['orderReslut']!='undefined' && req.query['orderReslut'] != '' && req.query['orderReslut'] != -1) {
+	if (req.query['orderReslut'] != 'undefined' && req.query['orderReslut'] != '' && req.query['orderReslut'] != -1) {
 		where.orderReslut = {
 			'like': req.query['orderReslut']
 		};
@@ -95,17 +96,17 @@ exports.excel = function(req, res) {
 	var totime = moment().format("YYYY-MM-DD");
 	if (req.query['orderTime_from'] != '' && req.query['orderTime_from'] != -1) {
 		fromtime = req.query['orderTime_from'];
-	} 
+	}
 
 	if (req.query['orderTime_to'] != '' && req.query['orderTime_to'] != -1) {
 		totime = req.query['orderTime_to'];
-		
-	} 
-	where.orderTime={'between':[fromtime,totime]};
 
-	
+	}
+	where.orderTime = {
+		'between': [fromtime, totime]
+	};
 
-	
+
 
 	var order = 'orderTime ASC';
 
@@ -142,7 +143,7 @@ exports.excel = function(req, res) {
 	for (var key in searchDb.relations) {
 		inld.push(key);
 	}
-	var aColumns = ["id","cID","uaddr","orderContent","uphone","utel","DepID","dactorName","orderReslut","serMan","OrderOptions","orderTime"];
+	var aColumns = ["id", "cID", "uaddr", "orderContent", "uphone", "utel", "DepID", "dactorName", "orderReslut", "serMan", "OrderOptions", "orderTime"];
 
 	console.log(where);
 	searchDb.all({
@@ -168,14 +169,14 @@ exports.excel = function(req, res) {
 					if (!dbs[i].__cachedRelations[dbname] || dbs[i].__cachedRelations[dbname] == null) {
 						tmppnj.push('--');
 					} else {
-						if(aColumns[j]=='cID')
-						tmppnj.push(dbs[i].__cachedRelations[dbname].idcard);
-					if(aColumns[j]=='DepID')
-						tmppnj.push(dbs[i].__cachedRelations[dbname].depName);
-					if(aColumns[j]=='dactorName')
-						tmppnj.push(dbs[i].__cachedRelations[dbname].uName);
-					if(aColumns[j]=='serMan')
-						tmppnj.push(dbs[i].__cachedRelations[dbname].serMan);
+						if (aColumns[j] == 'cID')
+							tmppnj.push(dbs[i].__cachedRelations[dbname].idcard);
+						if (aColumns[j] == 'DepID')
+							tmppnj.push(dbs[i].__cachedRelations[dbname].depName);
+						if (aColumns[j] == 'dactorName')
+							tmppnj.push(dbs[i].__cachedRelations[dbname].uName);
+						if (aColumns[j] == 'serMan')
+							tmppnj.push(dbs[i].__cachedRelations[dbname].serMan);
 					}
 
 				} else if (aColumns[j] != 'id' && searchDb.cloums[aColumns[j]].input.type == 'selectdbGroup') {
@@ -189,14 +190,14 @@ exports.excel = function(req, res) {
 					if (!dbs[i].__cachedRelations[dbname] || dbs[i].__cachedRelations[dbname] == null) {
 						tmppnj.push('--');
 					} else {
-						if(aColumns[j]=='cID')
-						tmppnj.push(dbs[i].__cachedRelations[dbname].idcard);
-					if(aColumns[j]=='DepID')
-						tmppnj.push(dbs[i].__cachedRelations[dbname].depName);
-					if(aColumns[j]=='dactorName')
-						tmppnj.push(dbs[i].__cachedRelations[dbname].uName);
-					if(aColumns[j]=='serMan')
-						tmppnj.push(dbs[i].__cachedRelations[dbname].serMan);
+						if (aColumns[j] == 'cID')
+							tmppnj.push(dbs[i].__cachedRelations[dbname].idcard);
+						if (aColumns[j] == 'DepID')
+							tmppnj.push(dbs[i].__cachedRelations[dbname].depName);
+						if (aColumns[j] == 'dactorName')
+							tmppnj.push(dbs[i].__cachedRelations[dbname].uName);
+						if (aColumns[j] == 'serMan')
+							tmppnj.push(dbs[i].__cachedRelations[dbname].serMan);
 					}
 
 				} else if (aColumns[j] != 'id' && (searchDb.cloums[aColumns[j]].input.type == 'radios' || searchDb.cloums[aColumns[j]].input.type == 'selects' || searchDb.cloums[aColumns[j]].input.type == 'checkboxes')) {
@@ -210,59 +211,60 @@ exports.excel = function(req, res) {
 		}
 
 
+		var workbook = excelbuilder.createWorkbook('./public', 'sample.xlsx')
+		var sheet1 = workbook.createSheet('sheet1', aColumns.length, redata.length + 2);
 
-		console.log(redata);
 		var conf = {};
 		conf.stylesXmlFile = "./public/excel/styles.xml";
-		conf.title = '工单记录['+fromtime+' 至 '+totime+']';
+		conf.title = '工单记录[' + fromtime + ' 至 ' + totime + ']';
 		conf.cols = [{
-				caption: '工单编号',
+				caption: '编号',
 				type: 'string',
-				width: 10.7
+				width: 6
 			}, {
-				caption: '用户户号',
+				caption: '户号',
 				type: 'string',
-				width: 10.7
+				width: 8
 			}, {
 				caption: '联系地址',
 				type: 'string',
-				width: 18.7
+				width: 16
 			}, {
 				caption: '受理内容',
 				type: 'string',
-				width: 18.7
+				width: 18
 			}, {
 				caption: '手机号码',
 				type: 'string',
-				width: 10.7
+				width: 14
 			}, {
 				caption: '固定号码',
 				type: 'string',
-				width: 10.7
+				width: 10
 			}, {
 				caption: '处理部门',
 				type: 'string',
-				width: 9.7
+				width: 10
 			}, {
 				caption: '处理人员',
 				type: 'string',
-				width: 8.7
+				width: 10
 			}, {
 				caption: '回访内容',
 				type: 'string',
-				width: 11.7
+				width: 20
 			}, {
 				caption: '服务座席',
 				type: 'string',
-				width: 8.7
+				width: 10
 			}, {
 				caption: '工单状态',
 				type: 'string',
-				width: 6.7
+				width: 10
 			}, {
 				caption: '记录时间',
 				type: 'string',
-				width: 8
+				width: 12
 			}
 			/*,{
 		caption: '记录时间',
@@ -292,10 +294,78 @@ exports.excel = function(req, res) {
 	}*/
 		];
 		conf.rows = redata;
-		var result = nodeExcel.execute(conf);
-		res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-		res.setHeader("Content-Disposition", "attachment; filename=" + "orderrecords.xlsx");
-		res.end(result, 'binary');
+		sheet1.set(1, 1, '工单记录 ：' + fromtime + ' 至 ' + totime + '');
+		sheet1.merge({
+			col: 1,
+			row: 1
+		}, {
+			col: aColumns.length,
+			row: 1
+		});
+		sheet1.height(1, 30);
+		sheet1.align(1, 1, 'center');
+		sheet1.valign(1, 1, 'center');
+		sheet1.font(1, 1, {
+			name: '宋体',
+			sz: '18',
+			family: '3',
+			scheme: '-',
+			bold: true,
+			iter: false
+		});
+	for(var ii=0;ii<aColumns.length;ii++){
+		sheet1.border(ii+1, 1, {left:'thin',top:'thin',right:'thin',bottom:'thin'});
+	}
+
+		for (var i = 0; i < conf.cols.length; i++) {
+			sheet1.set(i + 1, 2, conf.cols[i].caption);
+			sheet1.width(i + 1, conf.cols[i].width);
+			sheet1.align(i + 1, 2, 'center');
+			sheet1.valign(i + 1, 2, 'center');
+			sheet1.wrap(i + 1, 2, 'true');
+			sheet1.font(i + 1, 2, {
+				name: '宋体',
+				sz: '11',
+				family: '3',
+				scheme: '-',
+				bold: true,
+				iter: false
+			});
+			sheet1.border(i+1, 2, {left:'thin',top:'thin',right:'thin',bottom:'thin'});
+		}
+		for (var j = 0; j < redata.length; j++) {
+			for (var jj = 0; jj < redata[j].length; jj++) {
+				sheet1.set(jj + 1, j + 3, redata[j][jj]);
+				sheet1.wrap(jj + 1, j + 3, 'true');
+				//sheet1.height(1, 30);
+				sheet1.align(jj + 1, j + 3, 'center');
+				sheet1.valign(jj + 1, j + 3, 'center');
+				sheet1.font(jj + 1, j + 3, {
+				name: '宋体',
+				sz: '11',
+				family: '3',
+				scheme: '-',
+				bold: false,
+				iter: false
+			});
+				sheet1.border(jj+1, j+3, {left:'thin',top:'thin',right:'thin',bottom:'thin'});
+			}
+		}
+		workbook.save(function(err) {
+			console.log('生成xlsx：', err);
+			res.sendfile('./public/sample.xlsx', function(err) {
+				if (err) {
+					// handle error, keep in mind the response may be partially-sent
+					// so check res.headerSent
+				} else {
+					// decrement a download credit etc
+				}
+			});
+		});
+		//var result = nodeExcel.execute(conf);
+		//res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+		//res.setHeader("Content-Disposition", "attachment; filename=" + "orderrecords.xlsx");
+		//res.end(result, 'binary');
 	});
 
 }
