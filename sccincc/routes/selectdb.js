@@ -1,5 +1,6 @@
 var syslog = require('../common/syslog');
 var util = require('util');
+var excelbuilder = require('msexcel-builder');
 
 exports.all = function(req, res) {
 	var tbname = req.query['tbname'] || req.body['tbname'];
@@ -94,8 +95,8 @@ exports.pagingsearch = function(req, res) {
 	var iDisplayStart = req.query['iDisplayStart'] || req.body['iDisplayStart'];
 	//每页长度
 	var iDisplayLength = req.query['iDisplayLength'] || req.body['iDisplayLength'];
-	if(iDisplayLength=='-1'){
-		iDisplayLength=1000;
+	if (iDisplayLength == '-1') {
+		iDisplayLength = 1000;
 	}
 	var iSortCol_0 = req.query['iSortCol_0'] || req.body['iSortCol_0'];
 
@@ -278,7 +279,7 @@ exports.pagingsearch = function(req, res) {
 
 }
 
-exports.pagingexcel=function(req,res){
+exports.pagingexcel = function(req, res) {
 
 }
 
@@ -757,50 +758,50 @@ exports.orderchart = function(req, res) {
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (dbs[i].DepId == 1) {
-						redata[dbs[i].week-(tjvalue - 1) * 3-1].wxjl = dbs[i].number;
-						redata[dbs[i].week-(tjvalue - 1) * 3-1].zj += dbs[i].number;
+						redata[dbs[i].week - (tjvalue - 1) * 3 - 1].wxjl = dbs[i].number;
+						redata[dbs[i].week - (tjvalue - 1) * 3 - 1].zj += dbs[i].number;
 						redata[3].wxjl += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 3) {
-						redata[dbs[i].week-(tjvalue - 1) * 3-1].shbxjl = dbs[i].number;
-						redata[dbs[i].week-(tjvalue - 1) * 3-1].zj += dbs[i].number;
+						redata[dbs[i].week - (tjvalue - 1) * 3 - 1].shbxjl = dbs[i].number;
+						redata[dbs[i].week - (tjvalue - 1) * 3 - 1].zj += dbs[i].number;
 						redata[3].shbxjl += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 7) {
-						redata[dbs[i].week-(tjvalue - 1) * 3-1].sjsjl = dbs[i].number;
-						redata[dbs[i].week-(tjvalue - 1) * 3-1].zj += dbs[i].number;
+						redata[dbs[i].week - (tjvalue - 1) * 3 - 1].sjsjl = dbs[i].number;
+						redata[dbs[i].week - (tjvalue - 1) * 3 - 1].zj += dbs[i].number;
 						redata[3].sjsjl += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 8) {
-						redata[dbs[i].week-(tjvalue - 1) * 3-1].ecgsjl = dbs[i].number;
-						redata[dbs[i].week-(tjvalue - 1) * 3-1].zj += dbs[i].number;
+						redata[dbs[i].week - (tjvalue - 1) * 3 - 1].ecgsjl = dbs[i].number;
+						redata[dbs[i].week - (tjvalue - 1) * 3 - 1].zj += dbs[i].number;
 						redata[3].ecgsjl += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 6) {
-						redata[dbs[i].week-(tjvalue - 1) * 3-1].jck = dbs[i].number;
-						redata[dbs[i].week-(tjvalue - 1) * 3-1].zj += dbs[i].number;
+						redata[dbs[i].week - (tjvalue - 1) * 3 - 1].jck = dbs[i].number;
+						redata[dbs[i].week - (tjvalue - 1) * 3 - 1].zj += dbs[i].number;
 						redata[3].jck += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 5) {
-						redata[dbs[i].week-(tjvalue - 1) * 3-1].yys = dbs[i].number;
-						redata[dbs[i].week-(tjvalue - 1) * 3-1].zj += dbs[i].number;
+						redata[dbs[i].week - (tjvalue - 1) * 3 - 1].yys = dbs[i].number;
+						redata[dbs[i].week - (tjvalue - 1) * 3 - 1].zj += dbs[i].number;
 						redata[3].yys += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
 
 					if (dbs[i].DepId == 11) {
-						redata[dbs[i].week-(tjvalue - 1) * 3-1].szk = dbs[i].number;
-						redata[dbs[i].week-(tjvalue - 1) * 3-1].zj += dbs[i].number;
+						redata[dbs[i].week - (tjvalue - 1) * 3 - 1].szk = dbs[i].number;
+						redata[dbs[i].week - (tjvalue - 1) * 3 - 1].zj += dbs[i].number;
 						redata[3].szk += dbs[i].number;
 						redata[3].zj += dbs[i].number;
 					}
@@ -956,7 +957,7 @@ exports.paidanchart = function(req, res) {
 					tmp.wxjl2 = 0;
 					tmp.shbxjl0 = 0;
 					tmp.shbxjl1 = 0;
-					tmp.shbxjl2= 0;
+					tmp.shbxjl2 = 0;
 					tmp.sjsjl0 = 0;
 					tmp.sjsjl1 = 0;
 					tmp.sjsjl2 = 0;
@@ -980,30 +981,30 @@ exports.paidanchart = function(req, res) {
 				redata[dbs.length] = {};
 				redata[dbs.length].tags = '总计';
 				redata[dbs.length].wxjl0 = 0;
-					redata[dbs.length].wxjl1 = 0;
-					redata[dbs.length].wxjl2 = 0;
-					redata[dbs.length].shbxjl0 = 0;
-					redata[dbs.length].shbxjl1 = 0;
-					redata[dbs.length].shbxjl2= 0;
-					redata[dbs.length].sjsjl0 = 0;
-					redata[dbs.length].sjsjl1 = 0;
-					redata[dbs.length].sjsjl2 = 0;
-					redata[dbs.length].ecgsjl0 = 0;
-					redata[dbs.length].ecgsjl1 = 0;
-					redata[dbs.length].ecgsjl2 = 0;
-					redata[dbs.length].jck0 = 0;
-					redata[dbs.length].jck1 = 0;
-					redata[dbs.length].jck2 = 0;
-					redata[dbs.length].yys0 = 0;
-					redata[dbs.length].yys1 = 0;
-					redata[dbs.length].yys2 = 0;
-					redata[dbs.length].szk0 = 0;
-					redata[dbs.length].szk1 = 0;
-					redata[dbs.length].szk2 = 0;
-					redata[dbs.length].zj0 = 0;
-					redata[dbs.length].zj1 = 0;
-					redata[dbs.length].zj2 = 0;
-			
+				redata[dbs.length].wxjl1 = 0;
+				redata[dbs.length].wxjl2 = 0;
+				redata[dbs.length].shbxjl0 = 0;
+				redata[dbs.length].shbxjl1 = 0;
+				redata[dbs.length].shbxjl2 = 0;
+				redata[dbs.length].sjsjl0 = 0;
+				redata[dbs.length].sjsjl1 = 0;
+				redata[dbs.length].sjsjl2 = 0;
+				redata[dbs.length].ecgsjl0 = 0;
+				redata[dbs.length].ecgsjl1 = 0;
+				redata[dbs.length].ecgsjl2 = 0;
+				redata[dbs.length].jck0 = 0;
+				redata[dbs.length].jck1 = 0;
+				redata[dbs.length].jck2 = 0;
+				redata[dbs.length].yys0 = 0;
+				redata[dbs.length].yys1 = 0;
+				redata[dbs.length].yys2 = 0;
+				redata[dbs.length].szk0 = 0;
+				redata[dbs.length].szk1 = 0;
+				redata[dbs.length].szk2 = 0;
+				redata[dbs.length].zj0 = 0;
+				redata[dbs.length].zj1 = 0;
+				redata[dbs.length].zj2 = 0;
+
 
 
 				for (var i = 0; i < dbs.length; i++) {
@@ -1036,21 +1037,21 @@ exports.paidanchart = function(req, res) {
 
 					function tmpfun(str) {
 						if (dbs[i].OrderOptions == 0) {
-							redata[dbs[i].week][str+'0'] = dbs[i].number;
+							redata[dbs[i].week][str + '0'] = dbs[i].number;
 							redata[dbs[i].week]['zj0'] += dbs[i].number;
-							redata[dbs.length][str+'0'] += dbs[i].number;
+							redata[dbs.length][str + '0'] += dbs[i].number;
 							redata[dbs.length]['zj0'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 1) {
-							redata[dbs[i].week][str+'1'] = dbs[i].number;
+							redata[dbs[i].week][str + '1'] = dbs[i].number;
 							redata[dbs[i].week]['zj1'] += dbs[i].number;
-							redata[dbs.length][str+'1'] += dbs[i].number;
+							redata[dbs.length][str + '1'] += dbs[i].number;
 							redata[dbs.length]['zj1'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 2) {
-							redata[dbs[i].week][str+'2'] = dbs[i].number;
+							redata[dbs[i].week][str + '2'] = dbs[i].number;
 							redata[dbs[i].week]['zj2'] += dbs[i].number;
-							redata[dbs.length][str+'2'] += dbs[i].number;
+							redata[dbs.length][str + '2'] += dbs[i].number;
 							redata[dbs.length]['zj2'] += dbs[i].number;
 						}
 					}
@@ -1083,12 +1084,12 @@ exports.paidanchart = function(req, res) {
 				for (var j = 0; j <= weekcn.length; j++) {
 					var tmp = {};
 					tmp.tags = [weekcn[j]];
-				tmp.wxjl0 = 0;
+					tmp.wxjl0 = 0;
 					tmp.wxjl1 = 0;
 					tmp.wxjl2 = 0;
 					tmp.shbxjl0 = 0;
 					tmp.shbxjl1 = 0;
-					tmp.shbxjl2= 0;
+					tmp.shbxjl2 = 0;
 					tmp.sjsjl0 = 0;
 					tmp.sjsjl1 = 0;
 					tmp.sjsjl2 = 0;
@@ -1139,21 +1140,21 @@ exports.paidanchart = function(req, res) {
 
 					function tmpfun(str) {
 						if (dbs[i].OrderOptions == 0) {
-							redata[dbs[i].week][str+'0'] = dbs[i].number;
+							redata[dbs[i].week][str + '0'] = dbs[i].number;
 							redata[dbs[i].week]['zj0'] += dbs[i].number;
-							redata[7][str+'0'] += dbs[i].number;
+							redata[7][str + '0'] += dbs[i].number;
 							redata[7]['zj0'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 1) {
-							redata[dbs[i].week][str+'1'] = dbs[i].number;
+							redata[dbs[i].week][str + '1'] = dbs[i].number;
 							redata[dbs[i].week]['zj1'] += dbs[i].number;
-							redata[7][str+'1'] += dbs[i].number;
+							redata[7][str + '1'] += dbs[i].number;
 							redata[7]['zj1'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 2) {
-							redata[dbs[i].week][str+'2'] = dbs[i].number;
+							redata[dbs[i].week][str + '2'] = dbs[i].number;
 							redata[dbs[i].week]['zj2'] += dbs[i].number;
-							redata[7][str+'2'] += dbs[i].number;
+							redata[7][str + '2'] += dbs[i].number;
 							redata[7]['zj2'] += dbs[i].number;
 						}
 					}
@@ -1197,7 +1198,7 @@ exports.paidanchart = function(req, res) {
 					tmp.wxjl2 = 0;
 					tmp.shbxjl0 = 0;
 					tmp.shbxjl1 = 0;
-					tmp.shbxjl2= 0;
+					tmp.shbxjl2 = 0;
 					tmp.sjsjl0 = 0;
 					tmp.sjsjl1 = 0;
 					tmp.sjsjl2 = 0;
@@ -1249,21 +1250,21 @@ exports.paidanchart = function(req, res) {
 
 					function tmpfun(str) {
 						if (dbs[i].OrderOptions == 0) {
-							redata[dbs[i].week][str+'0'] = dbs[i].number;
+							redata[dbs[i].week][str + '0'] = dbs[i].number;
 							redata[dbs[i].week]['zj0'] += dbs[i].number;
-							redata[days][str+'0'] += dbs[i].number;
+							redata[days][str + '0'] += dbs[i].number;
 							redata[days]['zj0'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 1) {
-							redata[dbs[i].week][str+'1'] = dbs[i].number;
+							redata[dbs[i].week][str + '1'] = dbs[i].number;
 							redata[dbs[i].week]['zj1'] += dbs[i].number;
-							redata[days][str+'1'] += dbs[i].number;
+							redata[days][str + '1'] += dbs[i].number;
 							redata[days]['zj1'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 2) {
-							redata[dbs[i].week][str+'2'] = dbs[i].number;
+							redata[dbs[i].week][str + '2'] = dbs[i].number;
 							redata[dbs[i].week]['zj2'] += dbs[i].number;
-							redata[days][str+'2'] += dbs[i].number;
+							redata[days][str + '2'] += dbs[i].number;
 							redata[days]['zj2'] += dbs[i].number;
 						}
 					}
@@ -1303,7 +1304,7 @@ exports.paidanchart = function(req, res) {
 					tmp.wxjl2 = 0;
 					tmp.shbxjl0 = 0;
 					tmp.shbxjl1 = 0;
-					tmp.shbxjl2= 0;
+					tmp.shbxjl2 = 0;
 					tmp.sjsjl0 = 0;
 					tmp.sjsjl1 = 0;
 					tmp.sjsjl2 = 0;
@@ -1356,21 +1357,21 @@ exports.paidanchart = function(req, res) {
 
 					function tmpfun(str) {
 						if (dbs[i].OrderOptions == 0) {
-							redata[dbs[i].week -(tjvalue - 1) * 3- 1][str+'0'] = dbs[i].number;
-							redata[dbs[i].week-(tjvalue - 1) * 3 - 1]['zj0'] += dbs[i].number;
-							redata[3][str+'0'] += dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3 - 1][str + '0'] = dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3 - 1]['zj0'] += dbs[i].number;
+							redata[3][str + '0'] += dbs[i].number;
 							redata[3]['zj0'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 1) {
-								redata[dbs[i].week -(tjvalue - 1) * 3- 1][str+'1'] = dbs[i].number;
-							redata[dbs[i].week-(tjvalue - 1) * 3 - 1]['zj1'] += dbs[i].number;
-							redata[3][str+'1'] += dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3 - 1][str + '1'] = dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3 - 1]['zj1'] += dbs[i].number;
+							redata[3][str + '1'] += dbs[i].number;
 							redata[3]['zj1'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 2) {
-								redata[dbs[i].week -(tjvalue - 1) * 3- 1][str+'2'] = dbs[i].number;
-							redata[dbs[i].week-(tjvalue - 1) * 3 - 1]['zj2'] += dbs[i].number;
-							redata[3][str+'2'] += dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3 - 1][str + '2'] = dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3 - 1]['zj2'] += dbs[i].number;
+							redata[3][str + '2'] += dbs[i].number;
 							redata[3]['zj2'] += dbs[i].number;
 						}
 					}
@@ -1409,7 +1410,7 @@ exports.paidanchart = function(req, res) {
 					tmp.wxjl2 = 0;
 					tmp.shbxjl0 = 0;
 					tmp.shbxjl1 = 0;
-					tmp.shbxjl2= 0;
+					tmp.shbxjl2 = 0;
 					tmp.sjsjl0 = 0;
 					tmp.sjsjl1 = 0;
 					tmp.sjsjl2 = 0;
@@ -1462,21 +1463,21 @@ exports.paidanchart = function(req, res) {
 
 					function tmpfun(str) {
 						if (dbs[i].OrderOptions == 0) {
-							redata[dbs[i].week-1][str+'0'] = dbs[i].number;
-							redata[dbs[i].week-1]['zj0'] += dbs[i].number;
-							redata[12][str+'0'] += dbs[i].number;
+							redata[dbs[i].week - 1][str + '0'] = dbs[i].number;
+							redata[dbs[i].week - 1]['zj0'] += dbs[i].number;
+							redata[12][str + '0'] += dbs[i].number;
 							redata[12]['zj0'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 1) {
-							redata[dbs[i].week-1][str+'1'] = dbs[i].number;
-							redata[dbs[i].week-1]['zj1'] += dbs[i].number;
-							redata[12][str+'1'] += dbs[i].number;
+							redata[dbs[i].week - 1][str + '1'] = dbs[i].number;
+							redata[dbs[i].week - 1]['zj1'] += dbs[i].number;
+							redata[12][str + '1'] += dbs[i].number;
 							redata[12]['zj1'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 2) {
-							redata[dbs[i].week-1][str+'2'] = dbs[i].number;
-							redata[dbs[i].week-1]['zj2'] += dbs[i].number;
-							redata[12][str+'2'] += dbs[i].number;
+							redata[dbs[i].week - 1][str + '2'] = dbs[i].number;
+							redata[dbs[i].week - 1]['zj2'] += dbs[i].number;
+							redata[12][str + '2'] += dbs[i].number;
 							redata[12]['zj2'] += dbs[i].number;
 						}
 					}
@@ -1496,7 +1497,10 @@ exports.callreportchart = function(req, res) {
 	var tjtype = req.query['tjtype'] || req.body['tjtype'];
 	var tjvalue = req.query['tjvalue'] || req.body['tjvalue'];
 	var clomuns = req.query['clomuns'] || req.body['clomuns'] || '';
+	var daochu = req.query['daochu'] || req.body['daochu'] || 'false';
 	var clomunsarray = clomuns.split(',');
+	var clmsn = req.query['clmsn'] || req.body['clmsn'] || '';
+	var clmsns = clmsn.split(',');
 	var callsession = require('../modules/ippbx/callsession.js');
 	var output = {};
 	var now = new Date(); //当前日期 
@@ -1518,11 +1522,7 @@ exports.callreportchart = function(req, res) {
 					msg: '数据库查询发生错误：！' + util.inspect(err, false, null)
 				});
 			} else {
-
 				var redata = {};
-
-
-
 				for (var j = 0; j < dbs.length; j++) {
 					if (typeof(redata[dbs[j].week]) === 'object') {
 						continue;
@@ -1530,12 +1530,12 @@ exports.callreportchart = function(req, res) {
 					var tmp = {};
 					tmp.tags = dbs[j].week;
 					for (var kk = 0; kk < clomunsarray.length; kk++) {
-						tmp[clomunsarray[kk]+'0'] = 0;
-						tmp[clomunsarray[kk]+'1'] = 0;
-						
+						tmp[clomunsarray[kk] + '0'] = 0;
+						tmp[clomunsarray[kk] + '1'] = 0;
+
 					}
-					tmp['zj0'] =0;
-					tmp['zj1'] =0;
+					tmp['zj0'] = 0;
+					tmp['zj1'] = 0;
 
 					redata[dbs[j].week] = tmp;
 				}
@@ -1546,27 +1546,27 @@ exports.callreportchart = function(req, res) {
 				redata[dbs.length].tags = '总计';
 
 				for (var kk = 0; kk < clomunsarray.length; kk++) {
-					redata[dbs.length][clomunsarray[kk]+'0'] =0;
-					redata[dbs.length][clomunsarray[kk]+'1'] =0;
-					
+					redata[dbs.length][clomunsarray[kk] + '0'] = 0;
+					redata[dbs.length][clomunsarray[kk] + '1'] = 0;
+
 				}
 
-				redata[dbs.length]['zj0'] =0;
-				redata[dbs.length]['zj1'] =0; 
+				redata[dbs.length]['zj0'] = 0;
+				redata[dbs.length]['zj1'] = 0;
 
 
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
 						if (dbs[i].routerline == 1) {
-							redata[dbs[i].week][dbs[i].accountcode+'0'] = dbs[i].number;
+							redata[dbs[i].week][dbs[i].accountcode + '0'] = dbs[i].number;
 							redata[dbs[i].week].zj0 += dbs[i].number;
-							redata[dbs.length][dbs[i].accountcode+'0'] += dbs[i].number;
+							redata[dbs.length][dbs[i].accountcode + '0'] += dbs[i].number;
 							redata[dbs.length].zj0 += dbs[i].number;
 						} else {
-							redata[dbs[i].week][dbs[i].accountcode+'1']= dbs[i].number;
+							redata[dbs[i].week][dbs[i].accountcode + '1'] = dbs[i].number;
 							redata[dbs[i].week].zj1 += dbs[i].number;
-							redata[dbs.length][dbs[i].accountcode+'1'] += dbs[i].number;
+							redata[dbs.length][dbs[i].accountcode + '1'] += dbs[i].number;
 							redata[dbs.length].zj1 += dbs[i].number;
 
 						}
@@ -1585,11 +1585,21 @@ exports.callreportchart = function(req, res) {
 
 				output.iTotalRecords = redata2.length;
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
-
 				output.iTotalDisplayRecords = redata2.length;
 				output.aaData = redata2;
+				if (daochu === 'true') {
+					var conf = {};
+					conf.title = '通话记录：' + dayfrom + ' 至 ' + dayto;
+					conf.atitle = '日期/坐席';
+					conf.filename = 'callreportchart.xlsx';
+					conf.clmsns = clmsns;
+					conf.clomunsarray = clomunsarray;
+					conf.datas = redata2
+					callreportsExcel(conf, res);
+				} else {
+					res.send(output);
+				}
 
-				res.send(output);
 			}
 
 		});
@@ -1613,26 +1623,26 @@ exports.callreportchart = function(req, res) {
 					var tmp = {};
 					tmp.tags = weekcn[j];
 					for (var kk = 0; kk < clomunsarray.length; kk++) {
-						tmp[clomunsarray[kk]+'0'] = 0;
-						tmp[clomunsarray[kk]+'1'] = 0;
+						tmp[clomunsarray[kk] + '0'] = 0;
+						tmp[clomunsarray[kk] + '1'] = 0;
 					}
 
-					tmp['zj0'] =0;
-					tmp['zj1'] =0;
+					tmp['zj0'] = 0;
+					tmp['zj1'] = 0;
 					redata[j] = tmp;
 				}
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
 						if (dbs[i].routerline == 1) {
-							redata[dbs[i].week][dbs[i].accountcode+'0'] = dbs[i].number;
+							redata[dbs[i].week][dbs[i].accountcode + '0'] = dbs[i].number;
 							redata[dbs[i].week].zj0 += dbs[i].number;
-							redata[7][dbs[i].accountcode+'0'] += dbs[i].number;
+							redata[7][dbs[i].accountcode + '0'] += dbs[i].number;
 							redata[7].zj0 += dbs[i].number;
 						} else {
-							redata[dbs[i].week][dbs[i].accountcode+'1']= dbs[i].number;
+							redata[dbs[i].week][dbs[i].accountcode + '1'] = dbs[i].number;
 							redata[dbs[i].week].zj1 += dbs[i].number;
-							redata[7][dbs[i].accountcode+'1'] += dbs[i].number;
+							redata[7][dbs[i].accountcode + '1'] += dbs[i].number;
 							redata[7].zj1 += dbs[i].number;
 						}
 
@@ -1645,7 +1655,18 @@ exports.callreportchart = function(req, res) {
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
 				output.iTotalDisplayRecords = 8;
 				output.aaData = redata;
+				if (daochu === 'true') {
+					var conf = {};
+					conf.title = '通话记录：' + kaishijieshu.first + ' 至 ' + kaishijieshu.end;
+					conf.atitle = '星期/坐席';
+					conf.filename = 'callreportchart.xlsx';
+					conf.clmsns = clmsns;
+					conf.clomunsarray = clomunsarray;
+					conf.datas = redata
+					callreportsExcel(conf, res);
+				} else {
 				res.send(output);
+			}
 			}
 		});
 
@@ -1680,25 +1701,25 @@ exports.callreportchart = function(req, res) {
 						tmp.tags = nowYear + '-' + tjvalue + '-' + day1111;
 					}
 					for (var kk = 0; kk < clomunsarray.length; kk++) {
-						tmp[clomunsarray[kk]+'0'] = 0;
-						tmp[clomunsarray[kk]+'1'] = 0;
+						tmp[clomunsarray[kk] + '0'] = 0;
+						tmp[clomunsarray[kk] + '1'] = 0;
 					}
-					tmp['zj0'] =0;
-					tmp['zj1'] =0;
+					tmp['zj0'] = 0;
+					tmp['zj1'] = 0;
 					redata[j] = tmp;
 				}
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
 						if (dbs[i].routerline == 1) {
-							redata[dbs[i].week - 1][dbs[i].accountcode+'0'] = dbs[i].number;
+							redata[dbs[i].week - 1][dbs[i].accountcode + '0'] = dbs[i].number;
 							redata[dbs[i].week - 1].zj0 += dbs[i].number;
-							redata[days][dbs[i].accountcode+'0'] += dbs[i].number;
+							redata[days][dbs[i].accountcode + '0'] += dbs[i].number;
 							redata[days].zj0 += dbs[i].number;
 						} else {
-							redata[dbs[i].week - 1][dbs[i].accountcode+'1'] = dbs[i].number;
+							redata[dbs[i].week - 1][dbs[i].accountcode + '1'] = dbs[i].number;
 							redata[dbs[i].week - 1].zj1 += dbs[i].number;
-							redata[days][dbs[i].accountcode+'1'] += dbs[i].number;
+							redata[days][dbs[i].accountcode + '1'] += dbs[i].number;
 							redata[days].zj0 += dbs[i].number;
 						}
 
@@ -1742,11 +1763,11 @@ exports.callreportchart = function(req, res) {
 						tmp.tags = month11 + '月';
 					}
 					for (var kk = 0; kk < clomunsarray.length; kk++) {
-						tmp[clomunsarray[kk]+'0'] = 0;
-						tmp[clomunsarray[kk]+'1'] = 0;
+						tmp[clomunsarray[kk] + '0'] = 0;
+						tmp[clomunsarray[kk] + '1'] = 0;
 					}
-					tmp['zj0'] =0;
-					tmp['zj1'] =0;
+					tmp['zj0'] = 0;
+					tmp['zj1'] = 0;
 					redata[j] = tmp;
 				}
 				console.log(redata);
@@ -1754,15 +1775,15 @@ exports.callreportchart = function(req, res) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
 						if (dbs[i].routerline == 1) {
-							redata[dbs[i].week - (tjvalue - 1) * 3-1][dbs[i].accountcode+'0'] = dbs[i].number;
-							redata[dbs[i].week - (tjvalue - 1) * 3-1].zj0 += dbs[i].number;
-							redata[3][dbs[i].accountcode+'0'] += dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3 - 1][dbs[i].accountcode + '0'] = dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3 - 1].zj0 += dbs[i].number;
+							redata[3][dbs[i].accountcode + '0'] += dbs[i].number;
 							redata[3].zj0 += dbs[i].number;
 						} else {
 							console.log(redata[i], "--" + i + "--", dbs[i].accountcode);
-							redata[dbs[i].week - (tjvalue - 1) * 3-1][dbs[i].accountcode+'1'] = dbs[i].number;
-							redata[dbs[i].week - (tjvalue - 1) * 3-1].zj1 += dbs[i].number;
-							redata[3][dbs[i].accountcode+'1'] += dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3 - 1][dbs[i].accountcode + '1'] = dbs[i].number;
+							redata[dbs[i].week - (tjvalue - 1) * 3 - 1].zj1 += dbs[i].number;
+							redata[3][dbs[i].accountcode + '1'] += dbs[i].number;
 							redata[3].zj1 += dbs[i].number;
 						}
 					}
@@ -1801,25 +1822,25 @@ exports.callreportchart = function(req, res) {
 						tmp.tags = month11 + '月';
 					}
 					for (var kk = 0; kk < clomunsarray.length; kk++) {
-						tmp[clomunsarray[kk]+'0'] = 0;
-						tmp[clomunsarray[kk]+'1'] = 0;
+						tmp[clomunsarray[kk] + '0'] = 0;
+						tmp[clomunsarray[kk] + '1'] = 0;
 					}
-					tmp['zj0'] =0;
-					tmp['zj1'] =0;
+					tmp['zj0'] = 0;
+					tmp['zj1'] = 0;
 					redata[j] = tmp;
 				}
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
 						if (dbs[i].routerline == 1) {
-							redata[dbs[i].week - 1][dbs[i].accountcode+'0'] = dbs[i].number;
+							redata[dbs[i].week - 1][dbs[i].accountcode + '0'] = dbs[i].number;
 							redata[dbs[i].week - 1].zj0 += dbs[i].number;
-							redata[12][dbs[i].accountcode+'0'] += dbs[i].number;
+							redata[12][dbs[i].accountcode + '0'] += dbs[i].number;
 							redata[12].zj0 += dbs[i].number;
 						} else {
-							redata[dbs[i].week - 1][dbs[i].accountcode+'1'] = dbs[i].number;
+							redata[dbs[i].week - 1][dbs[i].accountcode + '1'] = dbs[i].number;
 							redata[dbs[i].week - 1].zj1 += dbs[i].number;
-							redata[12][dbs[i].accountcode+'1'] += dbs[i].number;
+							redata[12][dbs[i].accountcode + '1'] += dbs[i].number;
 							redata[12].zj1 += dbs[i].number;
 						}
 					}
@@ -1836,6 +1857,229 @@ exports.callreportchart = function(req, res) {
 	} else {}
 
 	//end 4	
+}
+
+function callreportsExcel(conf, res) {
+	var filename = conf.filename;
+	var clmsns = conf.clmsns;
+	var title = conf.title;
+	var datas = conf.datas;
+	var atitle = conf.atitle;
+	var clomunsarray = conf.clomunsarray;
+
+
+	var workbook = excelbuilder.createWorkbook('./public', filename)
+	var sheet1 = workbook.createSheet('sheet1', clmsns.length * 2 + 1, datas.length + 3);
+
+	sheet1.set(1, 1, title);
+	sheet1.merge({
+		col: 1,
+		row: 1
+	}, {
+		col: clmsns.length * 2 + 1,
+		row: 1
+	});
+	sheet1.height(1, 30);
+	sheet1.align(1, 1, 'center');
+	sheet1.valign(1, 1, 'center');
+	sheet1.font(1, 1, {
+		name: '宋体',
+		sz: '18',
+		family: '3',
+		scheme: '-',
+		bold: true,
+		iter: false
+	});
+	for (var ii = 0; ii < clmsns.length * 2 + 3; ii++) {
+		sheet1.border(ii + 1, 1, {
+			left: 'thin',
+			top: 'thin',
+			right: 'thin',
+			bottom: 'thin'
+		});
+	}
+
+	sheet1.set(1, 2, atitle);
+	sheet1.align(1, 2, 'center');
+	sheet1.valign(1, 2, 'center');
+	sheet1.width(1, 12);
+	sheet1.rotate(1, 2, 15);
+	sheet1.font(1, 2, {
+		name: '宋体',
+		sz: '11',
+		family: '3',
+		scheme: '-',
+		bold: false,
+		iter: false
+	});
+	sheet1.border(1, 2, {
+		left: 'thin',
+		top: 'thin',
+		right: 'thin',
+		bottom: 'thin'
+	});
+	sheet1.border(1, 3, {
+		left: 'thin',
+		top: 'thin',
+		right: 'thin',
+		bottom: 'thin'
+	});
+	sheet1.merge({
+		col: 1,
+		row: 2
+	}, {
+		col: 1,
+		row: 3
+	});
+
+	for (var i = 0; i < clmsns.length; i++) {
+		var k = (i + 1) * 2;
+		sheet1.width(k, 5);
+		sheet1.width(k + 1, 5);
+		sheet1.set(k, 2, clmsns[i]);
+		sheet1.align(k, 2, 'center');
+		sheet1.valign(k, 2, 'center');
+		sheet1.font(k, 2, {
+			name: '宋体',
+			sz: '11',
+			family: '3',
+			scheme: '-',
+			bold: false,
+			iter: false
+		});
+		sheet1.border(k, 2, {
+			left: 'thin',
+			top: 'thin',
+			right: 'thin',
+			bottom: 'thin'
+		});
+		sheet1.border(k + 1, 2, {
+			left: 'thin',
+			top: 'thin',
+			right: 'thin',
+			bottom: 'thin'
+		});
+		sheet1.font(k + 1, 2, {
+			name: '宋体',
+			sz: '11',
+			family: '3',
+			scheme: '-',
+			bold: false,
+			iter: false
+		});
+
+		sheet1.set(k, 3, '呼入');
+		sheet1.wrap(k, 3, 'true');
+		sheet1.align(k, 3, 'center');
+		sheet1.valign(k, 3, 'center');
+		sheet1.border(k, 3, {
+			left: 'thin',
+			top: 'thin',
+			right: 'thin',
+			bottom: 'thin'
+		});
+		sheet1.font(k, 3, {
+			name: '宋体',
+			sz: '11',
+			family: '3',
+			scheme: '-',
+			bold: false,
+			iter: false
+		});
+		sheet1.set(k + 1, 3, '呼出');
+		sheet1.wrap(k + 1, 3, 'true');
+		sheet1.align(k + 1, 3, 'center');
+		sheet1.valign(k + 1, 3, 'center');
+		sheet1.border(k + 1, 3, {
+			left: 'thin',
+			top: 'thin',
+			right: 'thin',
+			bottom: 'thin'
+		});
+		sheet1.font(k + 1, 3, {
+			name: '宋体',
+			sz: '11',
+			family: '3',
+			scheme: '-',
+			bold: false,
+			iter: false
+		});
+		sheet1.merge({
+			col: k,
+			row: 2
+		}, {
+			col: k + 1,
+			row: 2
+		});
+	}
+	for (var j = 0; j < datas.length; j++) {
+		sheet1.set(1, j + 4, datas[j]['tags']);
+		sheet1.align(1, j + 4, 'center');
+		sheet1.valign(1, j + 4, 'center');
+		sheet1.border(1, j + 4, {
+			left: 'thin',
+			top: 'thin',
+			right: 'thin',
+			bottom: 'thin'
+		});
+		sheet1.font(1, j + 4, {
+			name: '宋体',
+			sz: '11',
+			family: '3',
+			scheme: '-',
+			bold: false,
+			iter: false
+		});
+		for (var jj = 0; jj < clomunsarray.length; jj++) {
+			var mm = (jj + 1) * 2;
+			//console.log('datas:',datas[j]);
+			//console.log('clomus:',clomunsarray[jj]);
+			sheet1.set(mm, j + 4, datas[j][clomunsarray[jj] + '0']);
+			sheet1.set(mm + 1, j + 4, datas[j][clomunsarray[jj] + '1']);
+			sheet1.align(mm, j + 4, 'center');
+			sheet1.valign(mm, j + 4, 'center');
+			sheet1.border(mm, j + 4, {
+				left: 'thin',
+				top: 'thin',
+				right: 'thin',
+				bottom: 'thin'
+			});
+			sheet1.font(mm, j + 4, {
+				name: '宋体',
+				sz: '11',
+				family: '3',
+				scheme: '-',
+				bold: false,
+				iter: false
+			});
+			sheet1.align(mm + 1, j + 4, 'center');
+			sheet1.valign(mm + 1, j + 4, 'center');
+			sheet1.border(mm + 1, j + 4, {
+				left: 'thin',
+				top: 'thin',
+				right: 'thin',
+				bottom: 'thin'
+			});
+			sheet1.font(mm + 1, j + 4, {
+				name: '宋体',
+				sz: '11',
+				family: '3',
+				scheme: '-',
+				bold: false,
+				iter: false
+			});
+		}
+	}
+	workbook.save(function(err) {
+		res.sendfile('./public/callreportchart.xlsx', function(err) {
+			if (err) {
+				// handle error, keep in mind the response may be partially-sent
+				// so check res.headerSent
+			} else {
+				// decrement a download credit etc
+			}
+		});
+	});
 }
 
 //格局化日期：yyyy-MM-dd 

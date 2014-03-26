@@ -99,6 +99,21 @@
 </form>
 </div>
 <script type="text/javascript">
+function daoxls(){
+    var tjtype=$('input[name="iswork"]:checked').val() || -1;
+var tjvalue=$('#dactorName').val();
+var dayfrom=$('#dayfrom').val() || '';
+var dayto=$('#dayto').val() || '';
+if(tjtype ==-1)
+{
+alert('请选择统计类型');
+return;
+}
+else{
+  var url="/selectdb/callreportchart?tjtype="+tjtype+"&tjvalue="+tjvalue+"&clomuns="+clms+"&dayfrom="+dayfrom+"&dayto="+dayto;  
+  window.open(url);
+}
+}
 function starttj(){
 var tjtype=$('input[name="iswork"]:checked').val() || -1;
 var tjvalue=$('#dactorName').val();
@@ -131,6 +146,8 @@ return;
 }
 var clms="<%for(var i=0;i<Agent.length;i++){%><%= Agent[i].uExten%>,<%}%>";
 clms+="zj";
+var clmsn="<%for(var i=0;i<Agent.length;i++){%><%= Agent[i].uName%>,<%}%>";
+clmsn+="总计";
 var aoColumns=[
 { mData: "tags", sClass: "center",bSearchable: false }, 
 <%for(var i=0;i<Agent.length;i++){%>
@@ -182,6 +199,24 @@ $('#datatable').dataTable({
       $("#csv_text").val(csv_value); 
     $("#getcsv").click();
                     }
+     },{
+      "sExtends":"text",
+      "sButtonText": "导出Excel" ,
+      "fnClick": function( nButton, oConfig, oFlash ){
+                var tjtype=$('input[name="iswork"]:checked').val() || -1;
+var tjvalue=$('#dactorName').val();
+var dayfrom=$('#dayfrom').val() || '';
+var dayto=$('#dayto').val() || '';
+if(tjtype ==-1)
+{
+alert('请选择统计类型');
+return;
+}
+else{
+  var url="/selectdb/callreportchart?tjtype="+tjtype+"&tjvalue="+tjvalue+"&clomuns="+clms+"&dayfrom="+dayfrom+"&dayto="+dayto+"&daochu=true"+"&clmsn="+clmsn;  
+  window.open(url);
+}
+        }
      },{
       "sExtends":"text",
       "sButtonText": "新开窗口" ,
