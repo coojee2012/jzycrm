@@ -253,6 +253,24 @@ $('#datatable').dataTable({
                     }
      },{
       "sExtends":"text",
+      "sButtonText": "导出Excel1" ,
+      "fnClick": function( nButton, oConfig, oFlash ){
+                var tjtype=$('input[name="iswork"]:checked').val() || -1;
+var tjvalue=$('#dactorName').val();
+var dayfrom=$('#dayfrom').val() || '';
+var dayto=$('#dayto').val() || '';
+if(tjtype ==-1)
+{
+alert('请选择统计类型');
+return;
+}
+else{
+  var url="/selectdb/paidanchart?tjtype="+tjtype+"&tjvalue="+tjvalue+"&dayfrom="+dayfrom+"&dayto="+dayto+"&daochu=true";  
+  window.open(url);
+}
+        }
+     },{
+      "sExtends":"text",
       "sButtonText": "新开窗口" ,
       "fnClick": function ( nButton, oConfig, oFlash ) {
                        window.open('/chart/paidancharts');

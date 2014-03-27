@@ -1,7 +1,7 @@
 var syslog = require('../common/syslog');
 var util = require('util');
 var excelbuilder = require('msexcel-builder');
-
+var moment=require('moment');
 exports.all = function(req, res) {
 	var tbname = req.query['tbname'] || req.body['tbname'];
 	var groupby = req.query['groupby'] || req.body['groupby'];
@@ -400,6 +400,7 @@ exports.orderchart = function(req, res) {
 	var tjtype = req.query['tjtype'] || req.body['tjtype'];
 	var tjvalue = req.query['tjvalue'] || req.body['tjvalue'];
 	var Orders = require('../modules/crm/OrderRecords.js');
+	var daochu = req.query['daochu'] || req.body['daochu'] || 'false';
 	var output = {};
 	var now = new Date(); //当前日期 
 	var nowYear = now.getFullYear(); //当前年 
@@ -520,7 +521,16 @@ exports.orderchart = function(req, res) {
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
 				output.iTotalDisplayRecords = redata2.length;
 				output.aaData = redata2;
+				if (daochu === 'true') {
+					var conf = {};
+					conf.title = '工单统计：' + dayfrom + ' 至 ' + dayto;
+					conf.atitle = '日期/部门';
+					conf.filename = 'orderchart.xlsx';
+					conf.datas = redata2;
+					orderExcel(conf, res);
+				} else {
 				res.send(output);
+			}
 			}
 
 		});
@@ -611,7 +621,17 @@ exports.orderchart = function(req, res) {
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
 				output.iTotalDisplayRecords = 8;
 				output.aaData = redata;
+				if (daochu === 'true') {
+					var conf = {};
+					conf.title = '工单统计：' + kaishijieshu.first + ' 至 ' + kaishijieshu.end;
+					conf.atitle = '星期/部门';
+					conf.filename = 'orderchart.xlsx';
+					conf.datas = redata;
+					orderExcel(conf, res);
+				} else {
 				res.send(output);
+			
+			}
 			}
 		});
 
@@ -713,7 +733,17 @@ exports.orderchart = function(req, res) {
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
 				output.iTotalDisplayRecords = days;
 				output.aaData = redata;
+				if (daochu === 'true') {
+					var conf = {};
+					conf.title = '工单统计：' + firstday + ' 至 ' + endday;
+					conf.atitle = '日期/部门';
+					conf.filename = 'orderchart.xlsx';
+					conf.datas = redata;
+					console.log('导出：',redata);
+					orderExcel(conf, res);
+				} else {
 				res.send(output);
+			}
 			}
 
 		});
@@ -813,7 +843,16 @@ exports.orderchart = function(req, res) {
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
 				output.iTotalDisplayRecords = 4;
 				output.aaData = redata;
+				if (daochu === 'true') {
+					var conf = {};
+					conf.title = '工单统计：' + firstday + ' 至 ' + endday;
+					conf.atitle = '月份/部门';
+					conf.filename = 'orderchart.xlsx';
+					conf.datas = redata;
+					orderExcel(conf, res);
+				} else {
 				res.send(output);
+			}
 			}
 
 		});
@@ -910,7 +949,16 @@ exports.orderchart = function(req, res) {
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
 				output.iTotalDisplayRecords = 13;
 				output.aaData = redata;
+				if (daochu === 'true') {
+					var conf = {};
+					conf.title = '工单统计：' + firstday + ' 至 ' + endday;
+					conf.atitle = '月份/部门';
+					conf.filename = 'orderchart.xlsx';
+					conf.datas = redata;
+					orderExcel(conf, res);
+				} else {
 				res.send(output);
+			}
 			}
 
 		});
@@ -928,6 +976,7 @@ exports.paidanchart = function(req, res) {
 	var tjtype = req.query['tjtype'] || req.body['tjtype'];
 	var tjvalue = req.query['tjvalue'] || req.body['tjvalue'];
 	var Orders = require('../modules/crm/OrderRecords.js');
+	var daochu = req.query['daochu'] || req.body['daochu'] || 'false';
 	var output = {};
 	var now = new Date(); //当前日期 
 	var nowYear = now.getFullYear(); //当前年 
@@ -1065,7 +1114,16 @@ exports.paidanchart = function(req, res) {
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
 				output.iTotalDisplayRecords = redata2.length;
 				output.aaData = redata2;
-				res.send(output);
+				if (daochu === 'true') {
+					var conf = {};
+					conf.title = '派单统计：' + dayfrom + ' 至 ' + dayto;
+					conf.atitle = '日期/部门';
+					conf.filename = 'paidanchart.xlsx';
+					conf.datas = redata2;
+					paidanExcel(conf, res);
+				} else {
+					res.send(output);
+				}
 			}
 		});
 	} else if (tjtype == 1) {
@@ -1163,7 +1221,16 @@ exports.paidanchart = function(req, res) {
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
 				output.iTotalDisplayRecords = 8;
 				output.aaData = redata;
-				res.send(output);
+				if (daochu === 'true') {
+					var conf = {};
+					conf.title = '派单统计：' + kaishijieshu.first + ' 至 ' + kaishijieshu.end;
+					conf.atitle = '星期/部门';
+					conf.filename = 'paidanchart.xlsx';
+					conf.datas = redata;
+					paidanExcel(conf, res);
+				} else {
+					res.send(output);
+				}
 			}
 		});
 	} else if (tjtype == 2) {
@@ -1273,7 +1340,16 @@ exports.paidanchart = function(req, res) {
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
 				output.iTotalDisplayRecords = days;
 				output.aaData = redata;
-				res.send(output);
+				if (daochu === 'true') {
+					var conf = {};
+					conf.title = '派单统计：' + firstday + ' 至 ' + endday;
+					conf.atitle = '日期/部门';
+					conf.filename = 'paidanchart.xlsx';
+					conf.datas = redata;
+					paidanExcel(conf, res);
+				} else {
+					res.send(output);
+				}
 			}
 		});
 
@@ -1380,7 +1456,16 @@ exports.paidanchart = function(req, res) {
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
 				output.iTotalDisplayRecords = 4;
 				output.aaData = redata;
-				res.send(output);
+				if (daochu === 'true') {
+					var conf = {};
+					conf.title = '派单统计：' + firstday + ' 至 ' + endday;
+					conf.atitle = '月份/部门';
+					conf.filename = 'paidanchart.xlsx';
+					conf.datas = redata;
+					paidanExcel(conf, res);
+				} else {
+					res.send(output);
+				}
 			}
 		});
 	} else {
@@ -1486,7 +1571,16 @@ exports.paidanchart = function(req, res) {
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
 				output.iTotalDisplayRecords = 13;
 				output.aaData = redata;
-				res.send(output);
+				if (daochu === 'true') {
+					var conf = {};
+					conf.title = '派单统计：' + firstday + ' 至 ' + endday;
+					conf.atitle = '月份/部门';
+					conf.filename = 'paidanchart.xlsx';
+					conf.datas = redata;
+					paidanExcel(conf, res);
+				} else {
+					res.send(output);
+				}
 			}
 		});
 	}
@@ -1594,7 +1688,7 @@ exports.callreportchart = function(req, res) {
 					conf.filename = 'callreportchart.xlsx';
 					conf.clmsns = clmsns;
 					conf.clomunsarray = clomunsarray;
-					conf.datas = redata2
+					conf.datas = redata2;
 					callreportsExcel(conf, res);
 				} else {
 					res.send(output);
@@ -1662,11 +1756,11 @@ exports.callreportchart = function(req, res) {
 					conf.filename = 'callreportchart.xlsx';
 					conf.clmsns = clmsns;
 					conf.clomunsarray = clomunsarray;
-					conf.datas = redata
+					conf.datas = redata;
 					callreportsExcel(conf, res);
 				} else {
-				res.send(output);
-			}
+					res.send(output);
+				}
 			}
 		});
 
@@ -1732,7 +1826,18 @@ exports.callreportchart = function(req, res) {
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
 				output.iTotalDisplayRecords = days;
 				output.aaData = redata;
-				res.send(output);
+				if (daochu === 'true') {
+					var conf = {};
+					conf.title = '通话记录：' + firstday + ' 至 ' + endday;
+					conf.atitle = '日期/坐席';
+					conf.filename = 'callreportchart.xlsx';
+					conf.clmsns = clmsns;
+					conf.clomunsarray = clomunsarray;
+					conf.datas = redata;
+					callreportsExcel(conf, res);
+				} else {
+					res.send(output);
+				}
 			}
 
 		});
@@ -1792,7 +1897,18 @@ exports.callreportchart = function(req, res) {
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
 				output.iTotalDisplayRecords = 4;
 				output.aaData = redata;
-				res.send(output);
+				if (daochu === 'true') {
+					var conf = {};
+					conf.title = '通话记录：' + firstday + ' 至 ' + endday;
+					conf.atitle = '月份/坐席';
+					conf.filename = 'callreportchart.xlsx';
+					conf.clmsns = clmsns;
+					conf.clomunsarray = clomunsarray;
+					conf.datas = redata;
+					callreportsExcel(conf, res);
+				} else {
+					res.send(output);
+				}
 			}
 
 		});
@@ -1849,7 +1965,18 @@ exports.callreportchart = function(req, res) {
 				output.sEcho = req.query['sEcho'] || req.body['sEcho'];
 				output.iTotalDisplayRecords = 13;
 				output.aaData = redata;
-				res.send(output);
+				if (daochu === 'true') {
+					var conf = {};
+					conf.title = '通话记录：' + firstday + ' 至 ' + endday;
+					conf.atitle = '月份/坐席';
+					conf.filename = 'callreportchart.xlsx';
+					conf.clmsns = clmsns;
+					conf.clomunsarray = clomunsarray;
+					conf.datas = redata;
+					callreportsExcel(conf, res);
+				} else {
+					res.send(output);
+				}
 			}
 
 		});
@@ -2072,6 +2199,426 @@ function callreportsExcel(conf, res) {
 	}
 	workbook.save(function(err) {
 		res.sendfile('./public/callreportchart.xlsx', function(err) {
+			if (err) {
+				// handle error, keep in mind the response may be partially-sent
+				// so check res.headerSent
+			} else {
+				// decrement a download credit etc
+			}
+		});
+	});
+}
+
+function paidanExcel(conf, res) {
+	var filename = conf.filename;
+	var clomunsarray = ['tags', 'wxjl', 'shbxjl', 'sjsjl', 'ecgsjl', 'jck', 'yys', 'szk', 'zj'];
+	var title = conf.title;
+	var datas = conf.datas;
+	var atitle = conf.atitle;
+	var clmsns = ['维修', '售后', '水检所', '二次供水', '稽查科', '营业所', '水质科', '总计'];
+
+
+	var workbook = excelbuilder.createWorkbook('./public', filename)
+	//var sheet1 = workbook.createSheet('sheet1', clmsns.length * 3 + 1, datas.length + 3);
+	var sheet1 = workbook.createSheet('sheet1', 100, 100);
+	sheet1.set(1, 1, title);
+	sheet1.merge({
+		col: 1,
+		row: 1
+	}, {
+		col: clmsns.length * 3 + 1,
+		row: 1
+	});
+	sheet1.height(1, 30);
+	sheet1.align(1, 1, 'center');
+	sheet1.valign(1, 1, 'center');
+	sheet1.font(1, 1, {
+		name: '宋体',
+		sz: '18',
+		family: '3',
+		scheme: '-',
+		bold: true,
+		iter: false
+	});
+	for (var ii = 0; ii < clmsns.length * 3 + 1; ii++) {
+		sheet1.border(ii + 1, 1, {
+			left: 'thin',
+			top: 'thin',
+			right: 'thin',
+			bottom: 'thin'
+		});
+	}
+
+	sheet1.set(1, 2, atitle);
+	sheet1.align(1, 2, 'center');
+	sheet1.valign(1, 2, 'center');
+	sheet1.width(1, 12);
+	sheet1.rotate(1, 2, 15);
+	sheet1.font(1, 2, {
+		name: '宋体',
+		sz: '11',
+		family: '3',
+		scheme: '-',
+		bold: false,
+		iter: false
+	});
+	sheet1.border(1, 2, {
+		left: 'thin',
+		top: 'thin',
+		right: 'thin',
+		bottom: 'thin'
+	});
+	sheet1.border(1, 3, {
+		left: 'thin',
+		top: 'thin',
+		right: 'thin',
+		bottom: 'thin'
+	});
+	sheet1.merge({
+		col: 1,
+		row: 2
+	}, {
+		col: 1,
+		row: 3
+	});
+
+	for (var i = 0; i < clmsns.length; i++) {
+		var k = (i + 1) * 3 - 1;
+		sheet1.width(k, 4);
+		sheet1.width(k + 1, 4);
+		sheet1.width(k + 2, 4);
+		sheet1.set(k, 2, clmsns[i]);
+		sheet1.align(k, 2, 'center');
+		sheet1.valign(k, 2, 'center');
+		sheet1.font(k, 2, {
+			name: '宋体',
+			sz: '11',
+			family: '3',
+			scheme: '-',
+			bold: false,
+			iter: false
+		});
+		sheet1.border(k, 2, {
+			left: 'thin',
+			top: 'thin',
+			right: 'thin',
+			bottom: 'thin'
+		});
+		sheet1.border(k + 1, 2, {
+			left: 'thin',
+			top: 'thin',
+			right: 'thin',
+			bottom: 'thin'
+		});
+		sheet1.border(k + 2, 2, {
+			left: 'thin',
+			top: 'thin',
+			right: 'thin',
+			bottom: 'thin'
+		});
+		sheet1.font(k + 1, 2, {
+			name: '宋体',
+			sz: '11',
+			family: '3',
+			scheme: '-',
+			bold: false,
+			iter: false
+		});
+		sheet1.font(k + 2, 2, {
+			name: '宋体',
+			sz: '11',
+			family: '3',
+			scheme: '-',
+			bold: false,
+			iter: false
+		});
+		sheet1.set(k, 3, '未处理');
+		sheet1.wrap(k, 3, 'true');
+		sheet1.align(k, 3, 'center');
+		sheet1.valign(k, 3, 'center');
+		sheet1.border(k, 3, {
+			left: 'thin',
+			top: 'thin',
+			right: 'thin',
+			bottom: 'thin'
+		});
+		sheet1.font(k, 3, {
+			name: '宋体',
+			sz: '11',
+			family: '3',
+			scheme: '-',
+			bold: false,
+			iter: false
+		});
+		sheet1.set(k + 1, 3, '处理中');
+		sheet1.wrap(k + 1, 3, 'true');
+		sheet1.align(k + 1, 3, 'center');
+		sheet1.valign(k + 1, 3, 'center');
+		sheet1.border(k + 1, 3, {
+			left: 'thin',
+			top: 'thin',
+			right: 'thin',
+			bottom: 'thin'
+		});
+		sheet1.font(k + 1, 3, {
+			name: '宋体',
+			sz: '11',
+			family: '3',
+			scheme: '-',
+			bold: false,
+			iter: false
+		});
+		sheet1.set(k + 2, 3, '已完成');
+		sheet1.wrap(k + 2, 3, 'true');
+		sheet1.align(k + 2, 3, 'center');
+		sheet1.valign(k + 2, 3, 'center');
+		sheet1.border(k + 2, 3, {
+			left: 'thin',
+			top: 'thin',
+			right: 'thin',
+			bottom: 'thin'
+		});
+		sheet1.font(k + 2, 3, {
+			name: '宋体',
+			sz: '11',
+			family: '3',
+			scheme: '-',
+			bold: false,
+			iter: false
+		});
+		sheet1.merge({
+			col: k,
+			row: 2
+		}, {
+			col: k + 2,
+			row: 2
+		});
+	}
+	for (var j = 0; j < datas.length; j++) {
+		var test =datas[j]['tags'];
+		if(/\d+\-1\-\d+/.test(test)){
+			test=moment(test).format('YYYY—MM—DD');
+		}
+		sheet1.set(1, j + 4, test);
+		sheet1.align(1, j + 4, 'center');
+		sheet1.valign(1, j + 4, 'center');
+		sheet1.border(1, j + 4, {
+			left: 'thin',
+			top: 'thin',
+			right: 'thin',
+			bottom: 'thin'
+		});
+		sheet1.font(1, j + 4, {
+			name: '宋体',
+			sz: '11',
+			family: '3',
+			scheme: '-',
+			bold: false,
+			iter: false
+		});
+		for (var jj = 1; jj < clomunsarray.length; jj++) {
+			var mm = jj * 3 - 1;
+			//console.log('datas:',datas[j]);
+			//console.log('clomus:',clomunsarray[jj]);
+			sheet1.set(mm, j + 4, datas[j][clomunsarray[jj] + '0']);
+			sheet1.set(mm + 1, j + 4, datas[j][clomunsarray[jj] + '1']);
+			sheet1.set(mm + 2, j + 4, datas[j][clomunsarray[jj] + '2']);
+			sheet1.align(mm, j + 4, 'center');
+			sheet1.valign(mm, j + 4, 'center');
+			sheet1.border(mm, j + 4, {
+				left: 'thin',
+				top: 'thin',
+				right: 'thin',
+				bottom: 'thin'
+			});
+			sheet1.font(mm, j + 4, {
+				name: '宋体',
+				sz: '11',
+				family: '3',
+				scheme: '-',
+				bold: false,
+				iter: false
+			});
+			sheet1.align(mm + 1, j + 4, 'center');
+			sheet1.valign(mm + 1, j + 4, 'center');
+			sheet1.border(mm + 1, j + 4, {
+				left: 'thin',
+				top: 'thin',
+				right: 'thin',
+				bottom: 'thin'
+			});
+			sheet1.font(mm + 1, j + 4, {
+				name: '宋体',
+				sz: '11',
+				family: '3',
+				scheme: '-',
+				bold: false,
+				iter: false
+			});
+			sheet1.align(mm + 2, j + 4, 'center');
+			sheet1.valign(mm + 2, j + 4, 'center');
+			sheet1.border(mm + 2, j + 4, {
+				left: 'thin',
+				top: 'thin',
+				right: 'thin',
+				bottom: 'thin'
+			});
+			sheet1.font(mm + 2, j + 4, {
+				name: '宋体',
+				sz: '11',
+				family: '3',
+				scheme: '-',
+				bold: false,
+				iter: false
+			});
+		}
+	}
+	workbook.save(function(err) {
+		console.log(err);
+		res.sendfile('./public/'+filename,  function(err) {
+			if (err) {
+				// handle error, keep in mind the response may be partially-sent
+				// so check res.headerSent
+			} else {
+				// decrement a download credit etc
+			}
+		});
+	});
+}
+
+function orderExcel(conf, res) {
+	var filename = conf.filename;
+	var clomunsarray = ['tags', 'wxjl', 'shbxjl', 'sjsjl', 'ecgsjl', 'jck', 'yys', 'szk', 'zj'];
+	var title = conf.title;
+	var datas = conf.datas;
+	var atitle = conf.atitle;
+	var clmsns = ['维修', '售后', '水检所', '二次供水', '稽查科', '营业所', '水质科', '总计'];
+
+
+	var workbook = excelbuilder.createWorkbook('./public', filename)
+	var sheet1 = workbook.createSheet('sheet1', 100, 100);
+	sheet1.set(1, 1, title);
+	sheet1.merge({
+		col: 1,
+		row: 1
+	}, {
+		col: clmsns.length  + 1,
+		row: 1
+	});
+	sheet1.height(1, 30);
+	sheet1.align(1, 1, 'center');
+	sheet1.valign(1, 1, 'center');
+	sheet1.font(1, 1, {
+		name: '宋体',
+		sz: '18',
+		family: '3',
+		scheme: '-',
+		bold: true,
+		iter: false
+	});
+	for (var ii = 0; ii < clmsns.length  + 1; ii++) {
+		sheet1.border(ii + 1, 1, {
+			left: 'thin',
+			top: 'thin',
+			right: 'thin',
+			bottom: 'thin'
+		});
+	}
+
+	sheet1.set(1, 2, atitle);
+	sheet1.align(1, 2, 'center');
+	sheet1.valign(1, 2, 'center');
+	sheet1.width(1, 16);
+	//sheet1.rotate(1, 2, 15);
+	sheet1.font(1, 2, {
+		name: '宋体',
+		sz: '11',
+		family: '3',
+		scheme: '-',
+		bold: false,
+		iter: false
+	});
+	sheet1.border(1, 2, {
+		left: 'thin',
+		top: 'thin',
+		right: 'thin',
+		bottom: 'thin'
+	});
+
+
+
+	for (var i = 0; i < clmsns.length; i++) {
+		var k = i + 2;
+		sheet1.width(k, 10);
+		sheet1.set(k, 2, clmsns[i]);
+		sheet1.align(k, 2, 'center');
+		sheet1.valign(k, 2, 'center');
+		sheet1.font(k, 2, {
+			name: '宋体',
+			sz: '11',
+			family: '3',
+			scheme: '-',
+			bold: false,
+			iter: false
+		});
+		sheet1.border(k, 2, {
+			left: 'thin',
+			top: 'thin',
+			right: 'thin',
+			bottom: 'thin'
+		});
+	
+	}
+	for (var j = 0; j < datas.length; j++) {
+		
+		var test =datas[j]['tags'];
+		if(/\d+\-1\-\d+/.test(test)){
+			test=moment(test).format('YYYY—MM—DD');
+		}
+		sheet1.set(1, j + 3, test);
+		sheet1.align(1, j + 3, 'center');
+		sheet1.valign(1, j + 3, 'center');
+		sheet1.border(1, j + 3, {
+			left: 'thin',
+			top: 'thin',
+			right: 'thin',
+			bottom: 'thin'
+		});
+
+		sheet1.font(1, j + 3, {
+			name: '宋体',
+			sz: '11',
+			family: '3',
+			scheme: '-',
+			bold: false,
+			iter: false
+		});
+		for (var jj = 1; jj < clomunsarray.length; jj++) {
+			var mm = jj+1;
+			sheet1.set(mm, j + 3, datas[j][clomunsarray[jj]]);
+			sheet1.align(mm, j + 3, 'center');
+			sheet1.valign(mm, j + 3, 'center');
+			sheet1.border(mm, j + 3, {
+				left: 'thin',
+				top: 'thin',
+				right: 'thin',
+				bottom: 'thin'
+			});
+			sheet1.font(mm, j + 3, {
+				name: '宋体',
+				sz: '11',
+				family: '3',
+				scheme: '-',
+				bold: false,
+				iter: false
+			});
+			
+		}
+	}
+	workbook.save(function(err) {
+		if(err)
+		console.log('保存excel发生错误:',err);
+		res.sendfile('./public/'+filename, function(err) {
 			if (err) {
 				// handle error, keep in mind the response may be partially-sent
 				// so check res.headerSent
