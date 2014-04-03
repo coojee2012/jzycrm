@@ -161,7 +161,7 @@ $('#datatable').dataTable({
     aoColumnDefs: [],
              oTableTools: {
              sSwfPath: "/css/swf/copy_csv_xls_pdf.swf",
-             aButtons: [{
+             aButtons: [/*{
       "sExtends":"text",
       "sButtonText": "导出报表" ,
       "fnClick": function ( nButton, oConfig, oFlash ) {
@@ -169,7 +169,7 @@ $('#datatable').dataTable({
       $("#csv_text").val(csv_value); 
     $("#getcsv").click();
                     }
-     },{
+     },*/{
       "sExtends":"text",
       "sButtonText": "导出Excel" ,
       "fnClick": function( nButton, oConfig, oFlash ){
@@ -187,7 +187,7 @@ else{
   window.open(url);
 }
         }
-     },{
+     }/*,{
       "sExtends":"text",
       "sButtonText": "新开窗口" ,
       "fnClick": function ( nButton, oConfig, oFlash ) {
@@ -199,7 +199,7 @@ else{
       "sInfo": "<h6>打印本页</h6><p>请使用浏览器的打印功能 " + "打印本页. 按ESC键退出.</p>",
       //"sMessage": "列表打印",
       "bShowAll": true
-     }
+     }*/
                                 
                                                    
                               ]

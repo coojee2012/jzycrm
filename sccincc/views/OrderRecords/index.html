@@ -183,10 +183,10 @@ var MyDataTable=$('#datatable').dataTable( {
              sSwfPath: "/css/swf/copy_csv_xls_pdf.swf",
              aButtons: [
                          
-                                {
+                             /*   {
 					"sExtends": "copy",
 					"sButtonText": "复制"
-				} ,{
+				} ,*/{
       "sExtends":"text",
       "sButtonText": "导出Excel" ,
       "fnClick": function ( nButton, oConfig, oFlash ) {
@@ -204,7 +204,7 @@ wherexls+='&orderTime_from='+$('#orderTime_from').val();
 wherexls+='&orderTime_to='+$('#orderTime_to').val();
                        window.open('/OrderRecords/excel?'+wherexls);
                     }
-     },/*
+     }/*,
                 {
                   "sExtends": "xls",
                     "sButtonText": "导出该页"  
@@ -215,7 +215,7 @@ wherexls+='&orderTime_to='+$('#orderTime_to').val();
     //  "sParameters": parameters, 
       "sKeys": vKeys, 
       "sButtonText": "导出全部" 
-     } ,*/{
+     } ,{
       "sExtends":"text",
       "sButtonText": "新开窗口" ,
       "fnClick": function ( nButton, oConfig, oFlash ) {
@@ -227,7 +227,7 @@ wherexls+='&orderTime_to='+$('#orderTime_to').val();
       "sInfo": "<h6>打印本页</h6><p>请使用浏览器的打印功能 " + "打印本页. 按ESC键退出.</p>",
       //"sMessage": "列表打印",
       "bShowAll": true
-     }
+     }*/
                                 
                                                    
                               ]

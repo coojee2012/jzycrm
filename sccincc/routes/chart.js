@@ -1,5 +1,6 @@
 var util = require('util');
 var moment = require('moment');
+var nhe   = require('node-highcharts-exporter');
 
 function in_array(arr) {
 	// 判断参数是不是数组 
@@ -354,3 +355,22 @@ exports.getCSV=function(req,res){
 	res.setHeader("Content-Disposition", "attachment;filename=\"Reports.csv\"");
 	res.send(str);
 }
+
+exports.exportpic=function(req,res,next){
+var customExportPath = require('path').dirname(require.main.filename) + '/exported_charts';
+nhe.config.set('processingDir', customExportPath);
+var highchartsExportRequest = req.body;
+    nhe.exportChart(highchartsExportRequest, function(error, exportedChartInfo){
+        if(error){ // Send an error response
+            res.send(error);
+        }
+        else{ // Send the file back to client
+            res.download(exportedChartInfo.filePath, function(){
+                // Optional, remove the directory used for intermediate
+                // exporting steps
+               // rmdir(exportedChartInfo.parentDir, function(err){});
+            });
+        }
+    });
+}
+

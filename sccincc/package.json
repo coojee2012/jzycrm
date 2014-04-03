@@ -19,6 +19,8 @@
     "node-conf":"*",
     "excel-export":">=0.3.11",
     "msexcel-builder":">=0.0.2",
+    "node-highcharts-exporter":"*",
+    "soap":">=0.4.2",
     "xml":"*",
     "urlencode":"*",
     "iconv-lite":"*",

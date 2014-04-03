@@ -92,8 +92,8 @@ exports.excel = function(req, res) {
 		};
 	}
 
-	var fromtime = moment().format("YYYY-MM-DD");
-	var totime = moment().format("YYYY-MM-DD");
+	var fromtime = moment().format("YYYY-MM-DD") ;
+	var totime = moment().format("YYYY-MM-DD") ;
 	if (req.query['orderTime_from'] != '' && req.query['orderTime_from'] != -1) {
 		fromtime = req.query['orderTime_from'];
 	}
@@ -103,7 +103,7 @@ exports.excel = function(req, res) {
 
 	}
 	where.orderTime = {
-		'between': [fromtime, totime]
+		'between': [fromtime+' 00:00:00', totime+ ' 23:59:59']
 	};
 
 
@@ -169,14 +169,18 @@ exports.excel = function(req, res) {
 					if (!dbs[i].__cachedRelations[dbname] || dbs[i].__cachedRelations[dbname] == null) {
 						tmppnj.push('--');
 					} else {
+
 						if (aColumns[j] == 'cID')
 							tmppnj.push(dbs[i].__cachedRelations[dbname].idcard);
 						if (aColumns[j] == 'DepID')
 							tmppnj.push(dbs[i].__cachedRelations[dbname].depName);
 						if (aColumns[j] == 'dactorName')
 							tmppnj.push(dbs[i].__cachedRelations[dbname].uName);
-						if (aColumns[j] == 'serMan')
-							tmppnj.push(dbs[i].__cachedRelations[dbname].serMan);
+						if (aColumns[j] == 'serMan'){
+							//console.log(aColumns[j]);
+							tmppnj.push(dbs[i].__cachedRelations[dbname].uName);
+						}
+							
 					}
 
 				} else if (aColumns[j] != 'id' && searchDb.cloums[aColumns[j]].input.type == 'selectdbGroup') {
@@ -197,7 +201,7 @@ exports.excel = function(req, res) {
 						if (aColumns[j] == 'dactorName')
 							tmppnj.push(dbs[i].__cachedRelations[dbname].uName);
 						if (aColumns[j] == 'serMan')
-							tmppnj.push(dbs[i].__cachedRelations[dbname].serMan);
+							tmppnj.push(dbs[i].__cachedRelations[dbname].uName);
 					}
 
 				} else if (aColumns[j] != 'id' && (searchDb.cloums[aColumns[j]].input.type == 'radios' || searchDb.cloums[aColumns[j]].input.type == 'selects' || searchDb.cloums[aColumns[j]].input.type == 'checkboxes')) {

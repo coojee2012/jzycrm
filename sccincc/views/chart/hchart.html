@@ -1,11 +1,51 @@
 <script type="text/javascript">
+
 	$(function(){
 $('#container').highcharts({
         chart: {
-            type: 'column'
+            type: 'column',
+            width:$("#container").width()
+        },
+        exporting:{
+                        // 是否允许导出
+                        enabled:true,
+                        // 按钮配置
+                        buttons:{
+                            // 导出按钮配置
+                            exportButton:{
+                                text:'导出图片',
+                                menuItems: null,
+                                onclick: function() {
+                                    this.exportChart();
+                                }
+                            },
+                            // 打印按钮配置
+                            printButton:{
+                                enabled:true,
+                                text: '打印图表',
+                                onclick: function () {
+                                 this.print();
+                              }
+                            },
+                            contextButton: {
+                    enabled: false
+                }
+                        },
+                        scale:2,
+                        //width:1024,
+                        // 文件名
+                        filename: 'callhreport',
+                        // 配置导出接口
+                        url: '/chart/callhchart/exportpic',
+                        // 导出文件默认类型
+                        type:'image/svg+xml'
+                      // type:"image/png"
         },
         title: {
             text: '话务统计'
+        },
+        subtitle:{
+text:$('#Timefrom').val()+' 至 '+$('#Timeto').val()
         },
         xAxis: {
             categories: [<%= Agent%>]

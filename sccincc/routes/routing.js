@@ -234,7 +234,12 @@ routes.chart = [
 		method: 'get',
 		fn: 'callhchartget'
 	},
-
+{
+		urlreg: '/chart/callhchart/exportpic',
+		file: '/routes/chart',
+		method: 'post',
+		fn: 'exportpic'
+	},
 	{
 		urlreg: '/chart/callhchart',
 		file: '/routes/chart',
