@@ -15,7 +15,7 @@ callmsg.unid=unid || -1;
 callmsg.caller=caller;
 callmsg.called=called;
 callmsg.poptype=poptype;
-var re=/(^01\d+)|(^1\d+)/;
+var re=/(^01\d+)|(^1\d+)|(^91\d+)|(^901\d+)/;
 var where={};
 var Phone="";
 var Tel="";
@@ -32,7 +32,7 @@ else
 
 try{
 
-	CustomInfo.findOne({where:{phone:phone}},function(err,inst){
+	CustomInfo.findOne({where:where},function(err,inst){
 	if(err)
 	{
 	throw err;

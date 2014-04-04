@@ -15,7 +15,7 @@ $("#agentname").val(parent._USERNAME);
 <div class="row-fluid sortable">
 <div class="box span12">
 <div class="box-content">
-<form class="form-horizontal" method="POST">
+<form class="form-horizontal" id="form1" method="POST">
 <fieldset><legend>新建工单</legend> <input type="hidden"
 	id="callUnitID" name="callUnitID" value="<%
 if(inst!=null){%><%= inst.callUnitID %><% }%>" /> <input type="hidden"
@@ -97,7 +97,7 @@ msg.memo!=null){%><%= msg.memo%><%}%></span></div>
 </div>
 
 <div class="form-actions">
-<button type="submit" class="btn btn-primary">保存</button>
+<button type="submit" id="submitsave" class="btn btn-primary" onclick="javascript:sbm();">保存</button>
 <button type="reset" class="btn">取消</button>
 </div>
 </fieldset>
@@ -108,8 +108,28 @@ msg.memo!=null){%><%= msg.memo%><%}%></span></div>
 <!--/span--></div>
 <!--/row--></div>
 <!-- div containt --> <script type="text/javascript">
+var tid;
+var bClicked = false;
+function sbm(){
+	
+    if(bClicked){
+    	$("#submitsave").attr('disabled',true);
+        alert("不要重复递交");
+        return false;   
+    }
+    bClicked = true;
+    tid = setTimeout("doit()", 10000);
+    //document.forms[0].submit();
+}
+ 
+function doit(){
+    if(tid!=null){clearTimeout(tid);tid=null;}
+    $("#submitsave").attr('disabled',false);
+    bClicked = false;
+}
 $(function(){
-$("#serMan").val(parent._USERID);	
+//$("#submitsave").attr('disabled',false);
+$("#serMan").val(parent._USERID);
 
 $('#OrderTypeid').change(function(){ 
 //alert($(this).children('option:selected').val()); 
