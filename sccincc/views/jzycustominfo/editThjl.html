@@ -41,14 +41,14 @@ function  play() {
 							<div class="control-group"> 
 							<label class="control-label" for="vipname">客户姓名 </label> 
 							<div class="controls"> 
-							<input type="text" class="span6" readonly="readonly" id="vipname" name="vipname" value="<% if(inst!=null && typeof(inst.vipname)!=='object'){%><%= inst.vipname %><% }%>" />
+							<input type="text" class="span6" readonly="readonly" id="vipname" name="vipname" value="<% if(inst!=null && typeof(inst.vip_name)!=='object'){%><%= inst.vip_name %><% }%>" />
 							</div> 
 							</div> 
 
 							<div class="control-group"> 
 							<label class="control-label" for="card_id">会员卡号</label> 
 							<div class="controls"> 
-							<input type="text" class="span6" readonly="readonly" id="card_id" name="card_id" value="<% if(inst!=null && typeof(inst.card_id)!=='object'){%><%= inst.card_id%><%}%>" />
+							<input type="text" class="span6" readonly="readonly" id="card_id" name="card_id" value="<% if(inst!=null && typeof(inst.cid)!=='object'){%><%= inst.cid%><%}%>" />
 							<input type="hidden" id="exten" name="exten" value="<% if(inst!=null){%><%= inst.extent%><%}%>" />
 							</div> 
 							</div> 
@@ -84,7 +84,7 @@ function  play() {
 						
 							<div class="form-actions"> 
 							  <button type="submit" class="btn btn-primary">保存</button> 
-							  <button type="reset" class="btn">取消</button> 
+							<!--   <button type="reset" class="btn">取消</button>  -->
 							</div> 
 						  </fieldset> 
 						</form>   

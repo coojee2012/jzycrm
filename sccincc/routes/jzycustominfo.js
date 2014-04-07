@@ -5,7 +5,7 @@
   var async = require('async');
   //var wcfurl = 'http://127.0.0.1:8088/JzyService.svc?wsdl';
 
-  /*  var config = {
+    var config = {
     server: '192.168.1.2',
     userName: 'sa',
     password: 'sa',
@@ -21,9 +21,9 @@
       database: 'hbposv7' //'bjexpert' //
     }
 
-  };*/
+  };
 
-  var config = {
+ /* var config = {
     server: '127.0.0.1',
     userName: 'sa',
     password: '123',
@@ -39,7 +39,7 @@
       database: 'hbpos7' //'bjexpert' //
     }
 
-  };
+  };*/
 
 
   var mssql = new MSSQL(config);
@@ -139,6 +139,8 @@
     var jieguo = {};
     var iDisplayStart = req.query['iDisplayStart'] || req.body['iDisplayStart'] || 0;
     var iDisplayLength = req.query['iDisplayLength'] || req.body['iDisplayLength'] || 10;
+    if( iDisplayLength<1 )
+      iDisplayLength=10;
     jieguo.iTotalRecords = 10;
     jieguo.sEcho = req.query['sEcho'] || req.body['sEcho'];
     jieguo.iTotalDisplayRecords = 10;
@@ -173,15 +175,21 @@ ORDER BY id
     }
     var order = " order by a.recordtime desc ";
     var skiprows = iDisplayLength * iDisplayStart;
+        skiprows=iDisplayStart;
     var sql2 = "select top " + skiprows + " a.cid from callrecords a left join t_rm_vip_info b on b.card_id = a.cid ";
     sql2 += where + order;
 
     sql += where + ' and a.cid not in (' + sql2 + ')' + order;
 
-    var countsql = "select count(1) from callrecords a left join t_rm_vip_info b on b.card_id = a.cid ";
+    var countsql = "select count(1) as cnt from callrecords a left join t_rm_vip_info b on b.card_id = a.cid ";
     countsql += where;
+
+    console.log(sql);
+    console.log(countsql);
     mssql.exec(countsql, function(err, count) {
       console.log(count);
+       jieguo.iTotalRecords=count[0].cnt;
+       jieguo.iTotalDisplayRecords = count[0].cnt;
       mssql.exec(sql, function(err, dbs) {
         console.log(dbs);
         jieguo.aaData = dbs;
@@ -199,68 +207,56 @@ ORDER BY id
     var cunit = req.body["Vip_name"] || req.query["Vip_name"] || "";
     var cardnum = req.body["Card_id"] || req.query["Card_id"] || "";
     var jbr = req.body["Jbr"] || req.query["Jbr"] || "";
-    var jieguo = {};
+   
+     var jieguo = {};
+    var iDisplayStart = req.query['iDisplayStart'] || req.body['iDisplayStart'] || 0;
+    var iDisplayLength = req.query['iDisplayLength'] || req.body['iDisplayLength'] || 10;
+     if( iDisplayLength<1 )
+      iDisplayLength=10;
     jieguo.iTotalRecords = 10;
     jieguo.sEcho = req.query['sEcho'] || req.body['sEcho'];
     jieguo.iTotalDisplayRecords = 10;
 
-    var sql = "select top 10  a.card_id,a.card_type,b.type_name,b.discount,a.vip_name,a.vip_sex,a.oper_id,c.oper_name,a.social_id,a.vip_add,a.vip_email,a.vip_tel,a.company,a.duty,a.mobile from t_rm_vip_info a ";
+    var sql = "select top "+iDisplayLength+"  a.card_id,a.card_type,b.type_name,b.discount,a.vip_name,a.vip_sex,a.oper_id,c.oper_name,a.social_id,a.vip_add,a.vip_email,a.vip_tel,a.company,a.duty,a.mobile from t_rm_vip_info a ";
     sql += " left join t_rm_vip_type b on b.type_id=a.card_type ";
-    sql += " left join t_sys_operator c on a.oper_id = c.oper_id where 1=1  ";
+    sql += " left join t_sys_operator c on a.oper_id = c.oper_id   ";
+    var where=" where 1=1";
     if (cunit !== '') {
-      sql += " and a.vip_name like '%" + SafePramas(cunit) + "%' ";
+      where += " and a.vip_name like '%" + SafePramas(cunit) + "%' ";
     }
     if (cardnum !== '') {
-      sql += " and a.card_id like '%" + SafePramas(cardnum) + "%' ";
+      where += " and a.card_id like '%" + SafePramas(cardnum) + "%' ";
     }
     if (jbr !== '') {
-      sql += " and a.social_id like '%" + SafePramas(jbr) + "%' ";
+      where += " and a.social_id like '%" + SafePramas(jbr) + "%' ";
     }
+    var order=" order by a.card_id asc ";
+
+    var skiprows = iDisplayStart;
+    
+    var sql2 = "select top "+skiprows+"  a.card_id from t_rm_vip_info a ";
+    sql2 += " left join t_rm_vip_type b on b.type_id=a.card_type ";
+    sql2 += " left join t_sys_operator c on a.oper_id = c.oper_id   ";
+    sql2+=where;
+    sql2+=order;
+
+
+    sql += where + ' and a.card_id not in (' + sql2 + ')' + order;
+
+    var countsql = "select count(1) as cnt from t_rm_vip_info a left join t_rm_vip_type b on b.type_id=a.card_type left join t_sys_operator c on a.oper_id = c.oper_id ";
+    countsql += where;
+console.log(sql);
+    console.log(countsql);
+mssql.exec(countsql, function(err, count) {
+      console.log(count);
+       jieguo.iTotalRecords=count[0].cnt;
+       jieguo.iTotalDisplayRecords = count[0].cnt;
     mssql.exec(sql, function(err, dbs) {
       jieguo.aaData = dbs;
       res.send(jieguo);
     });
+  });
 
-    /* //console.log(soap);
-    soap.createClient(wcfurl, function(err, client) {
-      // console.log(client);
-      if (err) {
-        console.log("连接服务发生异常！", err);
-        res.send("连接服务发生异常！", util.inspect(err, null, null));
-      }
-
-      if (!client) {
-        console.log("无法正常连接服务！");
-        res.send("无法正常连接服务！");
-      } else {
-        client.getCustoms({
-          cunit: cunit,
-          cardnum: cardnum,
-          jbr: jbr
-        }, function(err, result, body) {
-          //client.getCustom({tel:"13699012676"},function(err, result,body){
-          if (err) {
-            console.log("getCustoms err", util.inspect(err, null, null));
-            res.send("getCustoms err:" + util.inspect(err, null, null));
-          } else {
-            console.log("getCustoms", result['getCustomsResult']);
-
-            if (Object.prototype.toString.call(result['getCustomsResult'].CustomInfo) === '[object Array]') {
-              jieguo.aaData = result['getCustomsResult'].CustomInfo;
-            } else if (result['getCustomsResult'].CustomInfo) {
-              jieguo.aaData = [];
-              jieguo.aaData.push(result['getCustomsResult'].CustomInfo);
-            } else
-              jieguo.aaData = [];
-            res.send(jieguo);
-
-          }
-
-
-        });
-      }
-
-    });*/
 
 
 
@@ -273,37 +269,12 @@ ORDER BY id
     sql += " left join t_rm_vip_type b on b.type_id=a.card_type ";
     sql += " left join t_sys_operator c on a.oper_id = c.oper_id where 1=1  ";
     sql += " and a.card_id='" + card_id + "'";
+    console.log(sql);
     mssql.exec(sql, function(err, dbs) {
-      res.send(bds[0]);
+      res.send(dbs[0]);
     });
 
-    /*    soap.createClient(wcfurl, function(err, client) {
-      if (err) {
-        console.log("连接服务发生异常！", err);
-        res.send("连接服务发生异常！", util.inspect(err, null, null));
-      }
-
-      if (!client) {
-        console.log("无法正常连接服务！");
-        res.send("无法正常连接服务！");
-      }
-      client.getCustomById({
-        cardid: card_id
-      }, function(err, result, body) {
-
-        if (err) {
-          console.log("getCustomById err:", util.inspect(err, null, null));
-          res.send({});
-
-        } else {
-          console.log("getCustomById:", result['getCustomByIdResult']);
-          res.send(result['getCustomByIdResult']);
-        }
-
-
-      });
-
-    });*/
+  
   }
 
   //获取商品档案列表
@@ -342,64 +313,50 @@ ORDER BY id
     var Itemrem = req.body["Itemrem"] || req.query["Itemrem"] || "";
     var tiaocode = req.body["tiaocode"] || req.query["tiaocode"] || "";
     var jieguo = {};
+     var iDisplayStart = req.query['iDisplayStart'] || req.body['iDisplayStart'] || 0;
+    var iDisplayLength = req.query['iDisplayLength'] || req.body['iDisplayLength'] || 10;
+     if( iDisplayLength<1 )
+      iDisplayLength=10;
     jieguo.iTotalRecords = 10;
     jieguo.sEcho = req.query['sEcho'] || req.body['sEcho'];
     jieguo.iTotalDisplayRecords = 10;
-    var sql = "select top 10 a.item_no,a.item_subno, a.item_name,a.item_subname,a.item_clsno,b.item_clsname,a.unit_no,a.price,a.sale_price,a.en_dis,a.change_price,a.main_supcust,a.item_rem,c.stock_qty from t_bd_item_info a";
+    var sql = "select top "+iDisplayLength+" a.item_no,a.item_subno, a.item_name,a.item_subname,a.item_clsno,b.item_clsname,a.unit_no,a.price,a.sale_price,a.en_dis,a.change_price,a.main_supcust,a.item_rem,c.stock_qty from t_bd_item_info a";
     sql += " left join t_bd_item_cls b  on a.item_clsno = b.item_clsno"; //获取商品类别
-    sql += " left join t_im_branch_stock c on c.item_no = a.item_no where 1=1 "; //获取库存
+    sql += " left join t_im_branch_stock c on c.item_no = a.item_no  "; //获取库存
+    var where=" where 1=1 ";
     if (ItemName !== '') {
-      sql += " and a.item_name like '%" + SafePramas(ItemName) + "%'";
+      where += " and a.item_name like '%" + SafePramas(ItemName) + "%'";
     }
     if (Price !== '') {
-      sql += " and a.price like '%" + Price + "%'";
+      where += " and a.price like '%" + Price + "%'";
     }
     if (Itemrem !== '') {
-      sql += " and a.item_rem like '%" + SafePramas(Itemrem) + "%'";
+      where += " and a.item_rem like '%" + SafePramas(Itemrem) + "%'";
     }
+    var order=" order by a.item_no asc ";
+
+    var skiprows = iDisplayStart;
+
+    var sql2 = "select top "+skiprows+" a.item_no from t_bd_item_info a";
+    sql2 += " left join t_bd_item_cls b  on a.item_clsno = b.item_clsno"; //获取商品类别
+    sql2 += " left join t_im_branch_stock c on c.item_no = a.item_no  "; //获取库存
+    sql2+=where+order;
+
+    sql+= where + ' and a.item_no not in (' + sql2 + ')' + order;
+var countsql = "select count(1) as cnt from t_bd_item_info a left join t_bd_item_cls b  on a.item_clsno = b.item_clsno left join t_im_branch_stock c on c.item_no = a.item_no ";
+    countsql += where;
+
+mssql.exec(countsql, function(err, count) {
+      console.log(count);
+       jieguo.iTotalRecords=count[0].cnt;
+       jieguo.iTotalDisplayRecords = count[0].cnt;
     mssql.exec(sql, function(err, dbs) {
       jieguo.aaData = dbs;
       res.send(jieguo);
     });
+  });
 
-    /*soap.createClient(wcfurl, function(err, client) {
-      if (err) {
-        console.log("连接服务发生异常！", err);
-        res.send("连接服务发生异常！", util.inspect(err, null, null));
-      }
-
-      if (!client) {
-        console.log("无法正常连接服务！");
-        res.send("无法正常连接服务！");
-      } else {
-        client.getShopItems({
-          itemname: ItemName,
-          price: Price,
-          rembercode: Itemrem,
-          tiaocode: tiaocode
-        }, function(err, result, body) {
-          //client.getCustom({tel:"13699012676"},function(err, result,body){
-          if (err) {
-            console.log("getShopItems err", util.inspect(err, null, null));
-            res.send("getShopItems err:" + util.inspect(err, null, null));
-          } else {
-            console.log("getShopItems", result['getShopItemsResult']);
-            if (Object.prototype.toString.call(result['getShopItemsResult'].shopItemInfo) === '[object Array]') {
-              jieguo.aaData = result['getShopItemsResult'].shopItemInfo;
-            } else if (result['getShopItemsResult'].shopItemInfo) {
-              jieguo.aaData = [];
-              jieguo.aaData.push(result['getShopItemsResult'].shopItemInfo);
-            } else
-              jieguo.aaData = [];
-            res.send(jieguo);
-
-          }
-
-
-        });
-      }
-
-    });*/
+  
 
   }
 
@@ -430,73 +387,54 @@ ORDER BY id
     where.TimeFrom = timefrom;
     where.TimeTo = timeto;
     var jieguo = {};
+      var iDisplayStart = req.query['iDisplayStart'] || req.body['iDisplayStart'] || 0;
+    var iDisplayLength = req.query['iDisplayLength'] || req.body['iDisplayLength'] || 10;
+     if( iDisplayLength<1 )
+      iDisplayLength=10;
     jieguo.iTotalRecords = 10;
     jieguo.sEcho = req.query['sEcho'] || req.body['sEcho'];
     jieguo.iTotalDisplayRecords = 10;
 
-    var sql = " select top 10 a.flow_no,a.oper_date,b.sale_qnty,b.sale_money,c.item_no,c.item_name,c.item_rem from t_rm_payflow a ";
+    var sql = " select top "+iDisplayLength+" a.flow_no,a.oper_date,b.sale_qnty,b.sale_money,c.item_no,c.item_name,c.item_rem from t_rm_payflow a ";
     sql += " left join t_rm_saleflow b on a.flow_no = b.flow_no";
     sql += " left join t_bd_item_info c on c.item_no=b.item_no";
-    sql += " where 1=1";
+    var where = " where 1=1";
     if (card_id !== '') {
-      sql += " and a.vip_no = '" + card_id + "'";
+      where += " and a.vip_no = '" + card_id + "'";
     }
     if (keywords !== '') {
-      sql += " and (c.item_name like '%" + keywords + "%' or c.item_rem like '%" + keywords + "%'";
+      where += " and (c.item_name like '%" + keywords + "%' or c.item_rem like '%" + keywords + "%'";
 
-      sql += ")";
+      where += ")";
     }
 
     if (timefrom !== '') {
-      sql += " and a.oper_date > '" + timefrom + "'";
+      where += " and a.oper_date > '" + timefrom + "'";
     }
     if (timeto !== '') {
-      sql += " and a.oper_date < '" + timeto + "'";
+      where += " and a.oper_date < '" + timeto + "'";
     }
-    sql += " order by a.oper_date desc  ";
+    var order = " order by a.oper_date desc  ";
+     var skiprows = iDisplayStart;
 
+ var sql2 = " select top "+skiprows+" a.flow_no from t_rm_payflow a ";
+    sql2 += " left join t_rm_saleflow b on a.flow_no = b.flow_no";
+    sql2 += " left join t_bd_item_info c on c.item_no=b.item_no";
+
+sql+= where + ' and a.flow_no not in (' + sql2 + ')' + order;
+
+var countsql = "select count(1) as cnt from t_rm_payflow a  left join t_rm_saleflow b on a.flow_no = b.flow_no  left join t_bd_item_info c on c.item_no=b.item_no ";
+    countsql += where;
+mssql.exec(countsql, function(err, count) {
+      console.log(count);
+       jieguo.iTotalRecords=count[0].cnt;
+       jieguo.iTotalDisplayRecords = count[0].cnt;
     mssql.exec(sql, function(err, dbs) {
       jieguo.aaData = dbs;
       res.send(jieguo);
     });
-
-    /*  soap.createClient(wcfurl, function(err, client) {
-      if (err) {
-        console.log("连接服务发生异常！", err);
-        res.send("连接服务发生异常！", util.inspect(err, null, null));
-      }
-
-      if (!client) {
-        console.log("无法正常连接服务！");
-        res.send("无法正常连接服务！");
-      } else {
-        client.getYgItems({
-          keywords: keywords,
-          card_id: card_id,
-          timefrom: timefrom,
-          timeto: timeto
-        }, function(err, result, body) {
-          if (err) {
-            console.log("getYgItems err", util.inspect(err, null, null));
-            res.send("getYgItems err:" + util.inspect(err, null, null));
-          } else {
-            console.log("getYgItems", result['getYgItemsResult']);
-            if (Object.prototype.toString.call(result['getYgItemsResult'].YGous) === '[object Array]') {
-              jieguo.aaData = result['getYgItemsResult'].YGous;
-            } else if (result['getYgItemsResult'].YGous) {
-              jieguo.aaData = [];
-              jieguo.aaData.push(result['getYgItemsResult'].YGous);
-            } else
-              jieguo.aaData = [];
-            res.send(jieguo);
-
-          }
-
-
-        });
-      }
-
-    });*/
+});
+    
   }
 
 
@@ -518,7 +456,7 @@ ORDER BY id
     sql += " left join t_rm_vip_type b on b.type_id=a.card_type ";
     sql += " left join t_sys_operator c on a.oper_id = c.oper_id where 1=1  ";
     sql += " and a.vip_tel='" + phone + "' or a.mobile='" + phone + "'";
-
+console.log(sql);
     mssql.exec(sql, function(err, dbs) {
       res.render('jzycustominfo/screenpop.html', {
         inst: dbs[0],
@@ -528,43 +466,6 @@ ORDER BY id
       });
     });
 
-    /*  soap.createClient(wcfurl, function(err, client) {
-      if (err) {
-        console.log("连接服务发生异常！", err);
-        res.send("连接服务发生异常！", util.inspect(err, null, null));
-      }
-
-      if (!client) {
-        console.log("无法正常连接服务！");
-        res.send("无法正常连接服务！");
-      }
-      client.getCustom({
-        telnum: phone
-      }, function(err, result, body) {
-        //client.getCustom({tel:"13699012676"},function(err, result,body){
-        if (err) {
-          console.log("getCustom err:", util.inspect(err, null, null));
-          res.render('jzycustominfo/screenpop.html', {
-            inst: null,
-            phone: phone,
-            error: err,
-            callmsg: callmsg
-          });
-        } else {
-          console.log("getCustom:", result['getCustomResult']);
-          res.render('jzycustominfo/screenpop.html', {
-            inst: result['getCustomResult'],
-            phone: phone,
-            error: null,
-            callmsg: callmsg
-          });
-
-        }
-
-
-      });
-
-    });*/
 
 
   }
@@ -583,7 +484,7 @@ ORDER BY id
 
     // custom.Jbr = req.body['Jbr'] || req.query['Jbr']||'';
 
-    var sql = "insert into t_rm_vip_info (vip_name,card_id,vip_sex,card_type,card_status,oper_id,oper_date,vip_tel,mobile,company,vip_add) values('" + SafePramas(Vip_name);
+    var sql = "insert into t_rm_vip_info (vip_name,card_id,vip_sex,card_type,card_status,oper_id,oper_date,vip_tel,mobile,company,vip_add) values('" + SafePramas(custom.Vip_name);
 
     sql += "','" + SafePramas(custom.Card_id);
 
@@ -600,7 +501,7 @@ ORDER BY id
 
     sql += "')";
 
-
+console.log(sql);
     mssql.exec(sql, function(err, dbs) {
 
       if (thjlstatus == 0) {
@@ -611,36 +512,6 @@ ORDER BY id
 
     });
 
-    /*   soap.createClient(wcfurl, function(err, client) {
-      if (err) {
-        console.log("连接服务发生异常！", err);
-        res.send("连接服务发生异常！", util.inspect(err, null, null));
-      }
-
-      if (!client) {
-        console.log("无法正常连接服务！");
-        res.send("无法正常连接服务！");
-      }
-      client.insertCustom(custom, function(err, result, body) {
-        if (err) {
-          console.log("insertCustom err:", util.inspect(err, null, null));
-          res.send({});
-        } else {
-          console.log("insertCustom:", result['insertCustomResult']);
-          // res.send(result['insertCustomResult']);
-          if (thjlstatus == 0) {
-            createpostThjlInsert(req, res);
-          } else {
-            createpostThjlUpdate(req, res);
-          }
-
-
-        }
-
-
-      });
-
-    });*/
 
 
   }
@@ -663,7 +534,7 @@ ORDER BY id
 
     if (custom.Vip_sex !== '')
       sql += "',vip_sex='" + SafePramas(custom.Vip_sex);
-    str += "',card_type=" + SafePramas(custom.Card_type);
+    sql += "',card_type=" + SafePramas(custom.Card_type);
     if (custom.Vip_tel !== '')
       sql += ",vip_tel='" + SafePramas(custom.Vip_tel);
     if (custom.Mobile !== '')
@@ -674,7 +545,7 @@ ORDER BY id
       sql += "',vip_add='" + SafePramas(custom.Vip_add);
 
     sql += "' where card_id='" + SafePramas(custom.Card_id) + "'";
-
+console.log(sql);
     mssql.exec(sql, function(err, dbs) {
       if (thjlstatus == 0) {
         createpostThjlInsert(req, res);
@@ -684,37 +555,7 @@ ORDER BY id
     });
 
 
-    /*  // custom.Jbr = req.body['Jbr'] || req.query['Jbr']||'';
-    soap.createClient(wcfurl, function(err, client) {
-      if (err) {
-        console.log("连接服务发生异常！", err);
-        res.send("连接服务发生异常！", util.inspect(err, null, null));
-      }
-
-      if (!client) {
-        console.log("无法正常连接服务！");
-        res.send("无法正常连接服务！");
-      }
-      client.updateCustom(custom, function(err, result, body) {
-        if (err) {
-          console.log("updateCustom err:", util.inspect(err, null, null));
-          res.send({});
-        } else {
-          console.log("updateCustom:", result['updateCustomResult']);
-          //res.send(result['updateCustomResult']);
-          if (thjlstatus == 0) {
-            createpostThjlInsert(req, res);
-          } else {
-            createpostThjlUpdate(req, res);
-          }
-
-
-        }
-
-
-      });
-
-    });*/
+   
   }
 
   exports.createThjlGet = function(req, res) {
@@ -760,7 +601,7 @@ ORDER BY id
     inst.AgentName = agentname;
     inst.Exten = exten;
 
-    var sql = "insert into callrecords (unid,cid,phone,content,dostate,donesth,agentname,exten,recordtime,updatetime) values('" + SafePramas(Unid);
+    var sql = "insert into callrecords (unid,cid,phone,content,dostate,donesth,agentname,exten,recordtime,updatetime) values('" + SafePramas(inst.Unid);
 
     sql += "','" + SafePramas(inst.Cid);
     sql += "','" + SafePramas(inst.Phone);
@@ -771,39 +612,10 @@ ORDER BY id
     sql += "','" + SafePramas(inst.Exten);
     sql += "',GETDATE(),GETDATE()";
     sql += ")";
-
+console.log(sql);
     mssql.exec(sql, function(err, dbs) {
-      res.send({});
+       res.send({Code:1,Message:"新增成功！"});
     });
-
-
-    /* soap.createClient(wcfurl, function(err, client) {
-      if (err) {
-        console.log("连接服务发生异常！", err);
-        res.send("连接服务发生异常！", util.inspect(err, null, null));
-      }
-
-      if (!client) {
-        console.log("无法正常连接服务！");
-        res.send("连接服务发生异常！");
-      }
-
-      client.insertCalls(inst, function(err, result, body) {
-        if (err) {
-          console.log("insertCalls err:", util.inspect(err, null, null));
-          res.send("连接服务发生异常！", util.inspect(err, null, null));
-        } else {
-          console.log("insertCalls:", result['insertCallsResult']);
-          res.send(result['insertCallsResult']);
-
-
-        }
-
-
-      });
-
-    });
-*/
 
   }
 
@@ -840,38 +652,11 @@ ORDER BY id
 
     sql += " where unid='" + inst.Unid + "' and cid='" + inst.Cid + "'";
 
-
+console.log(sql);
     mssql.exec(sql, function(err, dbs) {
-      res.send({});
+      res.send({Code:1,Message:"修改成功！"});
     });
 
-
-    /*soap.createClient(wcfurl, function(err, client) {
-      if (err) {
-        console.log("连接服务发生异常！", err);
-        res.send("连接服务发生异常！", util.inspect(err, null, null));
-      }
-
-      if (!client) {
-        console.log("无法正常连接服务！");
-        res.send("连接服务发生异常！");
-      }
-
-      client.updateCalls(inst, function(err, result, body) {
-        if (err) {
-          console.log("updateCalls err:", util.inspect(err, null, null));
-          res.send("连接服务发生异常！", util.inspect(err, null, null));
-        } else {
-          console.log("updateCalls:", result['updateCallsResult']);
-          res.send(result['updateCallsResult']);
-
-
-        }
-
-
-      });
-
-    });*/
   }
 
 
@@ -905,51 +690,12 @@ ORDER BY id
     sql += "','" + SafePramas(inst.Exten);
     sql += "',GETDATE(),GETDATE()";
     sql += ")";
-
+console.log(sql);
     mssql.exec(sql, function(err, dbs) {
-      res.send({});
+      res.send({Code:1,Message:"新增成功！"});
     });
 
-    //console.log(inst);
-    /*    soap.createClient(wcfurl, function(err, client) {
-      if (err) {
-        console.log("连接服务发生异常！", err);
-        res.render('jzycustominfo/createThjl.html', {
-          title: '通话记录',
-          msg: err,
-          inst: null
-        });
-        //res.send("连接服务发生异常！", util.inspect(err, null, null));
-      }
 
-      if (!client) {
-        console.log("无法正常连接服务！");
-        res.render('jzycustominfo/createThjl.html', {
-          title: '通话记录',
-          msg: "无法正常连接服务！",
-          inst: null
-        });
-      }
-      client.insertCalls(inst, function(err, result, body) {
-        if (err) {
-          console.log("insertCalls err:", util.inspect(err, null, null));
-          res.render('jzycustominfo/createThjl.html', {
-            title: '通话记录',
-            msg: err,
-            inst: null
-          });
-        } else {
-          console.log("insertCalls:", result['insertCallsResult']);
-          //res.send(result['updateCustomResult']);
-          res.redirect('/jzy/listThjl?cid=' + cid);
-
-        }
-
-
-      });
-
-    });
-*/
 
 
   }
@@ -978,63 +724,7 @@ ORDER BY id
     });
 
 
-    /*  soap.createClient(wcfurl, function(err, client) {
-      if (err) {
-        console.log("连接服务发生异常！", err);
-        res.render('jzycustominfo/indexThjl.html', {
-          title: '通话记录列表',
-          cid: cid,
-          where: where
-        });
-        //res.send("连接服务发生异常！", util.inspect(err, null, null));
-      }
-
-      if (!client) {
-        console.log("无法正常连接服务！");
-        res.render('jzycustominfo/indexThjl.html', {
-          title: '通话记录列表',
-          cid: cid,
-          where: where
-        });
-      }
-      client.findCalls({
-        id: id
-      }, function(err, result, body) {
-        if (err) {
-          console.log("findCalls err:", util.inspect(err, null, null));
-          res.render('jzycustominfo/indexThjl.html', {
-            title: '通话记录列表',
-            cid: cid,
-            where: where
-          });
-        } else {
-          console.log("findCalls:", result['findCallsResult']);
-          var inst = {};
-          inst.id = result['findCallsResult'].Id;
-          inst.unid = result['findCallsResult'].Unid;
-          inst.card_id = result['findCallsResult'].Cid
-          inst.vipname = result['findCallsResult'].Vip_name || '';
-          inst.content = result['findCallsResult'].Content || '';
-          inst.dostate = result['findCallsResult'].DoState;
-          inst.donesth = result['findCallsResult'].DoneSth || '';
-          inst.exten = result['findCallsResult'].Exten || '';
-          inst.agentname = result['findCallsResult'].AgentName || '';
-
-          console.log("INST:", inst);
-
-          res.render('jzycustominfo/editThjl.html', {
-            title: '通话记录',
-            msg: null,
-            DoState: dostate,
-            inst: inst
-          });
-
-        }
-
-
-      });
-
-    });*/
+  
 
 
 
@@ -1076,9 +766,10 @@ ORDER BY id
 
 
     sql += " where unid='" + inst.Unid + "' and cid='" + inst.Cid + "'";
-
+console.log(sql);
     mssql.exec(sql, function(err, dbs) {
-      res.send({});
+      //res.send({Code:1,Message:"保存成功！"});
+      res.redirect('/jzy/listThjl?cid=' + cid + '&DoState=' + dostate);
     });
 
     /* soap.createClient(wcfurl, function(err, client) {

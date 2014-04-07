@@ -2,18 +2,18 @@
 $(document).ready(function() {
 var aoColumns=[
                
-               { mData: "CardName", sClass: "center" },
+               { mData: "type_name", sClass: "center" },
                
-               { mData: "Card_id", sClass: "center" },
-               { mData: "Card_type", sClass: "center",bSearchable: false},
-               	{ mData: "Vip_name", sClass: "center",bSearchable: false},              	
-               { mData: "Vip_sex", sClass: "center" },
-               { mData: "Vip_tel", sClass: "center",bSearchable: false},              	
-               { mData: "Company", sClass: "center" },                          
-               { mData: "Discount", sClass: "center",bSearchable: false},
-               	{ mData: "Mobile", sClass: "center",bSearchable: false},
+               { mData: "card_id", sClass: "center" },
+               { mData: "card_type", sClass: "center",bSearchable: false},
+               	{ mData: "vip_name", sClass: "center",bSearchable: false},              	
+               { mData: "vip_sex", sClass: "center" },
+               { mData: "vip_tel", sClass: "center",bSearchable: false},              	
+               { mData: "company", sClass: "center" },                          
+               { mData: "discount", sClass: "center",bSearchable: false},
+               	{ mData: "mobile", sClass: "center",bSearchable: false},
                	
-                 { mData: "Jbr", sClass: "center",bSearchable: false }
+                 { mData: "oper_name", sClass: "center",bSearchable: false }
                  
              ];
 var where='';
@@ -52,9 +52,9 @@ $('#datatable').dataTable( {
     bProcessing: true,
     bServerSide: true,
     bSort: false,
-    bPaginate:false,
+    bPaginate:true,
     bFilter:false,
-    bInfo:false,
+    bInfo:true,
     sAjaxSource: "/jzy/getCustoms?"+where,
     aoColumns:aoColumns ,
     aoColumnDefs: [

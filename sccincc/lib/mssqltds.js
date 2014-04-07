@@ -26,7 +26,7 @@ MSSQL.prototype.connect = function(callback) {
     process.exit(0);
   });
   self.connection.on('debug', function(message) {
-     console.log(message);
+    // console.log(message);
   });
 }
 
@@ -45,7 +45,7 @@ MSSQL.prototype.exec = function(sql, callback) {
 
   request.on('columnMetadata', function(columnsMetadata) {
     columnsMetadata.forEach(function(column) {
-      console.log(column);
+     // console.log(column);
     });
   });
   request.on('row', function(columns) {

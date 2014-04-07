@@ -2,18 +2,18 @@
 $(document).ready(function() {
 var aoColumns=[
                
-               { mData: "Id", sClass: "center" },
-               { mData: "Vip_name", sClass: "center" },
+               { mData: "id", sClass: "center" },
+               { mData: "vip_name", sClass: "center" },
              //  { mData: "Jbr", sClass: "center" },
-               { mData: "AgentName", sClass: "center",bSearchable: false},
-               {mData:'Cid', sClass: "center",bSearchable: false},
-               {mData:'Phone', sClass: "center",bSearchable: false},
-               	{ mData: "Content", sClass: "center",bSearchable: false},              	
-               { mData: "DoState", sClass: "center" },
-               { mData: "DoneSth", sClass: "center",bSearchable: false},                                 
-               { mData: "RecordTime", sClass: "center",bSearchable: false},
+               { mData: "agentname", sClass: "center",bSearchable: false},
+               {mData:'cid', sClass: "center",bSearchable: false},
+               {mData:'phone', sClass: "center",bSearchable: false},
+               	{ mData: "content", sClass: "center",bSearchable: false},              	
+               { mData: "dostate", sClass: "center" },
+               { mData: "donesth", sClass: "center",bSearchable: false},                                 
+               { mData: "recordtime", sClass: "center",bSearchable: false},
             
-               { mData: "Unid", sClass: "center",bSearchable: false }
+               { mData: "unid", sClass: "center",bSearchable: false }
                  
              ];
 var where='';
@@ -39,9 +39,9 @@ $('#datatable').dataTable( {
 	oLanguage: {
 	sLengthMenu: "每页显示 _MENU_ 条记录",
     sZeroRecords: "对不起，查询不到任何相关数据",
-    sInfo: "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
+    sInfo: "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录,",
     sInfoEmtpy: "找不到相关数据",
-    //"sInfoFiltered": "数据表中共为 _MAX_ 条记录",  
+    sInfoFiltered: "数据表中共为 _MAX_ 条记录",  
     sProcessing: "正在加载中...",
     sSearch: "搜索",
     sInfoEmpty: "显示 0 至 0 共 0 项",
@@ -50,9 +50,9 @@ $('#datatable').dataTable( {
     bProcessing: true,
     bServerSide: true,
     bSort: false,
-    bPaginate:false,
+    bPaginate:true,
     bFilter:false,
-    bInfo:false,
+    bInfo:true,
     sAjaxSource: "/jzy/getCalls?"+where,
     aoColumns:aoColumns ,
     aoColumnDefs: [
@@ -63,7 +63,7 @@ $('#datatable').dataTable( {
                                	var str="--";
                                	if(typeof(data)!=='object')
                                		str=data;
-                               return '<a href="/jzy/editThjl?id='+full.Id+'&cid='+cid+'&DoState=<%= where.DoState%>">'+str+'</a>';
+                               return '<a href="/jzy/editThjl?id='+full.id+'&cid='+cid+'&DoState=<%= where.DoState%>">'+str+'</a>';
                                }
                            },
                               {

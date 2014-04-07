@@ -22,6 +22,24 @@ var config = {
 
   };
 
+   /*var config = {
+    server: '192.168.1.2',
+    userName: 'sa',
+    password: 'sa',
+    options: {
+      debug: {
+        packet: false,
+        data: false,
+        payload: false,
+        token: false,
+        log: false
+      },
+      tdsVersion: '7_1',
+      database: 'hbposv7' //'bjexpert' //
+    }
+
+  };
+*/
 
   var mssql = new MSSQL(config);
 exports.get = function(req, res) {
@@ -39,60 +57,31 @@ exports.get = function(req, res) {
     });
   });
 
-  /*	
-	
- soap.createClient(wcfurl, function(err, client) {
- 	 var jieguo = {};
+  var sql = "select  *  from callrecords  ";
+    mssql.exec(sql, function(err, dbs) {
+      var jieguo={};
+      jieguo.aaData = dbs;
+      var count = jieguo.aaData.length;
+      var notdo = 0;
+      var waitdo = 0;
+      for (var i = 0; i < jieguo.aaData.length; i++) {
+        if (jieguo.aaData[i].dostate == 0) {
+          notdo += 1;
+        }
+        if (jieguo.aaData[i].dostate == 1) {
+          waitdo += 1;
+        }
 
-      if (err) {
-        console.log("连接服务发生异常！", err);
-        res.send("连接服务发生异常！", util.inspect(err, null, null));
       }
-
-      if (!client) {
-        console.log("无法正常连接服务！");
-        res.send("无法正常连接服务！");
-      } else {
-        client.getCalls({
-          keywords: '',
-          card_id: '',
-          dostate: -1,
-          timefrom: '',
-          timeto: ''
-
-        }, function(err, result, body) {
-          //client.getCustom({tel:"13699012676"},function(err, result,body){
-          if (err) {
-            console.log("getCalls err", util.inspect(err, null, null));
-            res.send("getCalls err:" + util.inspect(err, null, null));
-          } else {
-            console.log("getCalls", result['getCallsResult']);
-            if (Object.prototype.toString.call(result['getCallsResult'].CallRecords) === '[object Array]') {
-              jieguo.aaData = result['getCallsResult'].CallRecords;
-            } else if (result['getCallsResult'].CallRecords) {
-              jieguo.aaData = [];
-              jieguo.aaData.push(result['getCallsResult'].CallRecords);
-            } else
-              jieguo.aaData = [];
-
-              var count=jieguo.aaData.length;
-              var notdo=0;
-              for(var i=0;i<jieguo.aaData.length;i++){
-              	if(jieguo.aaData[i].DoState==0){
-              		notdo+=1;
-              	}
-
-              }
-              ep.emit('gd', {count:count,notdo:notdo});	
-           
-
-          }
+      ep.emit('gd', {
+        count: count,
+        notdo: notdo,
+        waitdo: waitdo
+      });
+    
+    });
 
 
-        });
-      }
-
-    });	*/
 }
 
 exports.jsonget = function(req, res) {
@@ -119,10 +108,10 @@ exports.jsonget = function(req, res) {
       var notdo = 0;
       var waitdo = 0;
       for (var i = 0; i < jieguo.aaData.length; i++) {
-        if (jieguo.aaData[i].DoState == 0) {
+        if (jieguo.aaData[i].dostate == 0) {
           notdo += 1;
         }
-        if (jieguo.aaData[i].DoState == 1) {
+        if (jieguo.aaData[i].dostate == 1) {
           waitdo += 1;
         }
 

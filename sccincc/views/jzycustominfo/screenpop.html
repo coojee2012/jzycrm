@@ -148,15 +148,15 @@
 <div class="span12">
 <div class="box-content span5">
 <div class="control-group"> <label class="control-label" for="Vip_name">单位名称 </label>
-<div class="controls"><input type="text" class="span12" id="Vip_name" name="Vip_name" value="<% if(inst!=null && typeof(inst.Vip_name)!=='object'){%><%=inst.Vip_name %><% }else{%><%}%>" /></div>
+<div class="controls"><input type="text" class="span12" id="Vip_name" name="Vip_name" value="<% if(inst!=null && typeof(inst.vip_name)!=='object'){%><%=inst.vip_name %><% }else{%><%}%>" /></div>
 </div>
 <div class="control-group"> <label class="control-label"
 	for="Vip_sex">性别 </label>
 <div class="controls">
 <select id="Vip_sex" name="Vip_sex">
-    <option value="男"  <%if(inst!=null && typeof(inst.Vip_sex)!=='object' && inst.Vip_sex == '男'){%>
+    <option value="男"  <%if(inst!=null && typeof(inst.vip_sex)!=='object' && inst.vip_sex == '男'){%>
         selected="selected"<%}%>>男</option>  
-     <option value="女"  <%if(inst!=null && typeof(inst.Vip_sex)!=='object' && inst.Vip_sex == '女'){%>
+     <option value="女"  <%if(inst!=null && typeof(inst.vip_sex)!=='object' && inst.vip_sex == '女'){%>
         selected="selected"<%}%>>女</option>
 </select>
 </div>
@@ -164,13 +164,13 @@
 <div class="control-group"> <label class="control-label"
 	for="Company">其他 </label>
 <div class="controls"><input type="text" class="span12"
-	id="Company" name="Company" value="<% if(inst!=null && typeof(inst.Company)!=='object'){%><%= inst.Company%><%}%>" /> </div>
+	id="Company" name="Company" value="<% if(inst!=null && typeof(inst.company)!=='object'){%><%= inst.company%><%}%>" /> </div>
 </div>
 
 <div class="control-group"> <label class="control-label"
     for="Vip_tel">联系电话一</label>
 <div class="controls"><input type="text" class="span12" id="Vip_tel"
-    name="Vip_tel" value="<% if(inst!=null && typeof(inst.Vip_tel)!=='object'){%><%= inst.Vip_tel%><%}else{%><%= phone%><%}%>" /> 
+    name="Vip_tel" value="<% if(inst!=null && typeof(inst.vip_tel)!=='object'){%><%= inst.vip_tel%><%}else{%><%= phone%><%}%>" /> 
 <input type="hidden" name="phone" id="phone" value="<%= phone%>" />
   </div>
 </div>
@@ -178,15 +178,15 @@
 <div class="control-group"> <label class="control-label"
     for="Mobile">联系电话二</label>
 <div class="controls"><input type="text" class="span12" id="Mobile"
-    name="Mobile" value="<% if(inst!=null && typeof(inst.Mobile)!=='object'){%><%= inst.Mobile%><%}%>" /> </div>
+    name="Mobile" value="<% if(inst!=null && typeof(inst.mobile)!=='object'){%><%= inst.mobile%><%}%>" /> </div>
 </div>
 
 </div>
 <div class="box-content span5">
 <div class="control-group"> <label class="control-label" for="Card_id">会员卡号</label>
 <div class="controls"><input type="text" class="span12" id="Card_id"
-    name="Card_id" value="<%if(inst!=null && typeof(inst.Card_id)!=='object'){%><%= inst.Card_id%><%}%>" /> </div>
-<input type="hidden" id="cdid" name="cdid" value="<%if(inst!=null && typeof(inst.Card_id)!=='object'){%><%= inst.Card_id%><%}%>"/>
+    name="Card_id" value="<%if(inst!=null && typeof(inst.card_id)!=='object'){%><%= inst.card_id%><%}%>" /> </div>
+<input type="hidden" id="cdid" name="cdid" value="<%if(inst!=null && typeof(inst.card_id)!=='object'){%><%= inst.card_id%><%}%>"/>
 </div>
 
 
@@ -195,15 +195,15 @@
 </label>
 <div class="controls">
 <select id="Card_type" name="Card_type">
-  <option value=4  <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 4){%>
+  <option value=4  <%if(inst!=null && typeof(inst.card_type)!=='object' && inst.card_type == 4){%>
         selected="selected"<%}%>>普通卡</option> 
-  <option value=0  <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 0){%>
+  <option value=0  <%if(inst!=null && typeof(inst.card_type)!=='object' && inst.card_type == 0){%>
         selected="selected"<%}%>>会员卡</option>  
-  <option value=1  <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 1){%>
+  <option value=1  <%if(inst!=null && typeof(inst.card_type)!=='object' && inst.card_type == 1){%>
         selected="selected"<%}%>>单位88</option>
-  <option value=2  <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 2){%>
+  <option value=2  <%if(inst!=null && typeof(inst.card_type)!=='object' && inst.card_type == 2){%>
         selected="selected"<%}%>>单位85</option>
-  <option value=3 <%if(inst!=null && typeof(inst.Card_type)!=='object' && inst.Card_type == 3){%>
+  <option value=3 <%if(inst!=null && typeof(inst.card_type)!=='object' && inst.card_type == 3){%>
         selected="selected"<%}%>>单位82</option>
 </select>
 </div>
@@ -212,20 +212,20 @@
 <div class="control-group"> <label class="control-label" for="Discount">折扣
 </label>
 <div class="controls"><input type="text" class="span12" readonly="readonly" id="Discount"
-    name="Discount" value="<% if(inst!=null && typeof(inst.Discount)!=='object'){%><%= inst.Discount%><%}%>" /> </div>
+    name="Discount" value="<% if(inst!=null && typeof(inst.discount)!=='object'){%><%= inst.discount%><%}%>" /> </div>
 </div>
 
 <div class="control-group"> <label class="control-label"
     for="Vip_add">联系地址</label>
 <div class="controls"><input type="text" class="span12" id="Vip_add"
-    name="Vip_add" value="<% if(inst!=null && typeof(inst.Vip_add)!=='object'){%><%= inst.Vip_add%><%}%>" /> </div>
+    name="Vip_add" value="<% if(inst!=null && typeof(inst.vip_add)!=='object'){%><%= inst.vip_add%><%}%>" /> </div>
 </div>
 
 
 <div class="control-group"> <label class="control-label"
     for="Jbr">经办人 </label>
 <div class="controls"><textarea class="span12 autogrow" id="Jbr"
- name="Jbr"><% if(inst!=null && typeof(inst.Jbr)!=='object'){%><%= inst.Jbr%><%}%></textarea>
+ name="Jbr"><% if(inst!=null && typeof(inst.oper_name)!=='object'){%><%= inst.oper_name%><%}%></textarea>
 </div>
 </div>
 
@@ -351,19 +351,19 @@ where+='&'+'Jbr'+$('#Jbr').val();
                                 //for(var iii in data.aaData){
                                     //alert(iii);
                                     str+="<tr>";
-                                    str+="<td>"+data.aaData.Vip_name+"</td>";
-                                    str+="<td>"+data.aaData.Card_id+"</td>";
-                                    if(typeof(data.aaData.Company)==='object'){
+                                    str+="<td>"+data.aaData.vip_name+"</td>";
+                                    str+="<td>"+data.aaData.card_id+"</td>";
+                                    if(typeof(data.aaData.company)==='object'){
     str+="<td>————</td>";
 
 }else{
-str+="<td>"+data.aaData.Company+"</td>";
+str+="<td>"+data.aaData.company+"</td>";
 }
    
-                                    str+="<td><a href=javascript:setselect('"+data.aaData.Card_id+"');>选择</a></td>";
+                                    str+="<td><a href=javascript:setselect('"+data.aaData.card_id+"');>选择</a></td>";
                                      str+="</tr>"
 
-                                if(data.aaData.Vip_name==""){
+                                if(data.aaData.vip_name==""){
                                   
                                 }
 
@@ -379,16 +379,16 @@ str+="<td>"+data.aaData.Company+"</td>";
                                 for(var i=0;i<data.aaData.length;i++){
                                     
                                     str+="<tr>";
-                                    str+="<td>"+data.aaData[i].Vip_name+"</td>";
-                                    str+="<td>"+data.aaData[i].Card_id+"</td>";
-                                    if(typeof(data.aaData[i].Company)==='object'){
+                                    str+="<td>"+data.aaData[i].vip_name+"</td>";
+                                    str+="<td>"+data.aaData[i].card_id+"</td>";
+                                    if(typeof(data.aaData[i].company)==='object'){
     str+="<td>————</td>";
 
 }else{
-str+="<td>"+data.aaData[i].Company+"</td>";
+str+="<td>"+data.aaData[i].company+"</td>";
 }
                                     
-                                    str+="<td><a href=javascript:setselect('"+data.aaData[i].Card_id+"');>选择</a></td>";
+                                    str+="<td><a href=javascript:setselect('"+data.aaData[i].card_id+"');>选择</a></td>";
                                      str+="</tr>";
 
                                 if(i==data.aaData.length-1){
@@ -423,37 +423,37 @@ function setselect(card_id){
                     data:{id:card_id},
                     success: function (data, textStatus) {  
                     if(data!=null) {
-                        if(typeof(data.Vip_name)==='object')
+                        if(typeof(data.vip_name)==='object')
                             $('#Vip_name').val("");
                         else
-                       $('#Vip_name').val(data.Vip_name);
-                   if(typeof(data.Card_id)==='object')
+                       $('#Vip_name').val(data.vip_name);
+                   if(typeof(data.card_id)==='object')
                     $('#Card_id').val("");
 else
 
 
-                       $('#Card_id').val(data.Card_id);
+                       $('#Card_id').val(data.card_id);
 
-                   if(typeof(data.Vip_sex)==='object')
+                   if(typeof(data.vip_sex)==='object')
                      $('#Vip_sex').val(""); 
                  else
 
-                       $('#Vip_sex').val(data.Vip_sex); 
+                       $('#Vip_sex').val(data.vip_sex); 
 
-                   if(typeof(data.Card_id)==='object')
+                   if(typeof(data.oper_name)==='object')
                     $('#Jbr').val(""); 
                     else
-                       $('#Jbr').val(data.Jbr); 
+                       $('#Jbr').val(data.oper_name); 
 
-                   if(typeof(data.Card_type)!=='object')
-                       $('#Card_type').val(data.Card_type);
+                   if(typeof(data.card_type)!=='object')
+                       $('#Card_type').val(data.card_type);
 
-                   if(typeof(data.Company)==='object')
+                   if(typeof(data.company)==='object')
                      $('#Company').val("");
                     else
-                       $('#Company').val(data.Company);
+                       $('#Company').val(data.company);
 
-                   $("#cdid").val(data.Card_id);
+                   $("#cdid").val(data.card_id);
 
 
                        $('#mysearch').modal('hide');
