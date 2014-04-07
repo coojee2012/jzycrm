@@ -1,9 +1,9 @@
-  var soap = require('soap');
+  //var soap = require('soap');
   var fs = require('fs');
   var util = require('util');
   var MSSQL = require('../lib/mssqltds');
   var async = require('async');
-  var wcfurl = 'http://127.0.0.1:8088/JzyService.svc?wsdl';
+  //var wcfurl = 'http://127.0.0.1:8088/JzyService.svc?wsdl';
 
   /*  var config = {
     server: '192.168.1.2',
@@ -190,47 +190,7 @@ ORDER BY id
     });
 
 
-    /*soap.createClient(wcfurl, function(err, client) {
-
-      if (err) {
-        console.log("连接服务发生异常！", err);
-        res.send("连接服务发生异常！", util.inspect(err, null, null));
-      }
-
-      if (!client) {
-        console.log("无法正常连接服务！");
-        res.send("无法正常连接服务！");
-      } else {
-        client.getCalls({
-          keywords: keywords,
-          card_id: card_id,
-          dostate: dostate,
-          timefrom: timefrom,
-          timeto: timeto
-
-        }, function(err, result, body) {
-          //client.getCustom({tel:"13699012676"},function(err, result,body){
-          if (err) {
-            console.log("getCalls err", util.inspect(err, null, null));
-            res.send("getCalls err:" + util.inspect(err, null, null));
-          } else {
-            console.log("getCalls", result['getCallsResult']);
-            if (Object.prototype.toString.call(result['getCallsResult'].CallRecords) === '[object Array]') {
-              jieguo.aaData = result['getCallsResult'].CallRecords;
-            } else if (result['getCallsResult'].CallRecords) {
-              jieguo.aaData = [];
-              jieguo.aaData.push(result['getCallsResult'].CallRecords);
-            } else
-              jieguo.aaData = [];
-            res.send(jieguo);
-
-          }
-
-
-        });
-      }
-
-    });*/
+    
 
 
   }
