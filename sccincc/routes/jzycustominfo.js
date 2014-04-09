@@ -5,7 +5,7 @@
   var async = require('async');
   //var wcfurl = 'http://127.0.0.1:8088/JzyService.svc?wsdl';
 
-    var config = {
+   /* var config = {
     server: '192.168.1.2',
     userName: 'sa',
     password: 'sa',
@@ -21,9 +21,9 @@
       database: 'hbposv7' //'bjexpert' //
     }
 
-  };
+  };*/
 
- /* var config = {
+  var config = {
     server: '127.0.0.1',
     userName: 'sa',
     password: '123',
@@ -39,7 +39,7 @@
       database: 'hbpos7' //'bjexpert' //
     }
 
-  };*/
+  };
 
 
   var mssql = new MSSQL(config);
