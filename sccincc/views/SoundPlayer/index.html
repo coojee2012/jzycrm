@@ -5,6 +5,8 @@
             ready: function (event) {
             	var str="<%= hostname%>:<%= port%>/sounds/<%= myfilename%>.mp3";
             	//alert(str);http://192.168.1.115:81/sounds/
+                $(this).jPlayer("setMedia", { mp3: "<%= hostname%>:<%= port%>/sounds/<%= myfilename%>.mp3" });
+               /*$(this).jPlayer("setMedia", { mp3: "http://192.168.1.115:81/sounds/<%= myfilename%>.mp3" });*/
                /* $(this).jPlayer("setMedia", { mp3: "<%= hostname%>:<%= port%>/sounds/<%= myfilename%>.mp3" });*/
                $(this).jPlayer("setMedia", { mp3: "http://192.168.1.115/sounds/<%= myfilename%>.mp3" });
               
