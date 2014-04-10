@@ -1,6 +1,6 @@
 var util=require('util');
 var EventProxy = require('eventproxy');
-var soap = require('soap');
+//var soap = require('soap');
 var fs = require('fs');
 var wcfurl = 'http://127.0.0.1:8088/JzyService.svc?wsdl';
 

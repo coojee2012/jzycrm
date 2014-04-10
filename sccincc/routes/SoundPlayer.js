@@ -9,7 +9,7 @@ exports.SoundPlayer=function(req,res){
     var port=req.app.get('port');
     console.log(hostname,":",port);
     
-    recordfiles.findOne({where:where},function(err,db){
+    recordfiles.findOne({where:where,order:'cretime desc'},function(err,db){
     if(err){
     	
     }

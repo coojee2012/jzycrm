@@ -1,4 +1,4 @@
-  var soap = require('soap');
+  //var soap = require('soap');
   var fs = require('fs');
   var util = require('util');
   var MSSQL = require('../lib/mssqltds');

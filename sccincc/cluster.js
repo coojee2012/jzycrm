@@ -146,8 +146,21 @@ function yybs(){
             console.log(' MASTER ' + 'message ' + msg);
         });
     });
+
+
+
     
 		**/
+
+
+		var normal = require('child_process').fork('getip.js');
+	normal.on('exit',function(code,signal){
+    console.log('奶妈程序退出了：'+code);
+	});
+	normal.on('error',function(err){
+    console.log('奶妈程序发生异常：'+err);
+	});
+
 	} else if (cluster.isWorker) {
 		console.log(' WORKER ' + "start worker ..." + cluster.worker.id);
 
