@@ -2,5 +2,6 @@
 	"sysname":"四川建设网客服服务系统",
 	"phone":"15308098290",
 	"email":"11366846@qq.com",
+	"wcfurl":"http://221.182.119.26:8008/YBW/services/user?wsdl",
 	"version":"1.0"
 }

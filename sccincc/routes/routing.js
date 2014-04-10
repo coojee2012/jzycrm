@@ -621,6 +621,12 @@ routes.CustomInfo = [{
 	method: 'get',
 	fn: 'createget'
 }];
+routes.fzcustominfo=[{
+urlreg: '/fzcustominfo',
+	file: '/routes/fzcustominfo',
+	method: 'get',
+	fn: 'get'	
+}];
 //自动添加于：2013-07-17 18:43:33
 routes.DepInfo = [{
 	urlreg: '/DepInfo',

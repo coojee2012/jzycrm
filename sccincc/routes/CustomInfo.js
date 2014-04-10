@@ -3,6 +3,9 @@ var DbMode = require('../modules/crm/CustomInfo');
 var util = require('util');
 var crypto = require('crypto');
 var md5 = crypto.createHash('md5');
+
+
+
 var inld = new Array();
 for (var key in DbMode.relations) {
 	inld.push(key);
@@ -256,3 +259,6 @@ exports.del = function(req, res) {
 	});
 
 }
+
+
+
