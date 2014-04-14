@@ -15,7 +15,6 @@
     "log4js":">=0.3",
     "mysql":"*",
     "socket.io":"*",
-    "node-rest-client":">=0.8.4",
     "xmlhttprequest":"*",
     "node-conf":"*",
     "excel-export":">=0.3.11",

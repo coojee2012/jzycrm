@@ -143,7 +143,9 @@ exports.excel = function(req, res) {
 	for (var key in searchDb.relations) {
 		inld.push(key);
 	}
-	var aColumns = ["id", "cID", "uaddr", "orderContent", "uphone", "utel", "DepID", "dactorName", "orderReslut", "serMan", "OrderOptions", "orderTime"];
+	var aColumns = ["id", "cID", "orderTime", "serMan", "uaddr", "orderContent",
+	 "uphone", "utel", "DepID", "dactorName", "OrderOptions",
+	  "orderReslut"];
 
 	console.log(where);
 	searchDb.all({
@@ -151,7 +153,10 @@ exports.excel = function(req, res) {
 		where: where,
 		order: order
 	}, function(err, dbs) {
-		console.log('dbs:', dbs);
+		if(dbs.length<1){
+			console.log('dbs:', dbs);
+		}
+		
 		if (err)
 			res.send('导出数据发生异常！');
 
@@ -230,6 +235,14 @@ exports.excel = function(req, res) {
 				type: 'string',
 				width: 8
 			}, {
+				caption: '记录时间',
+				type: 'string',
+				width: 12
+			}, {
+				caption: '服务座席',
+				type: 'string',
+				width: 10
+			}, {
 				caption: '联系地址',
 				type: 'string',
 				width: 16
@@ -254,48 +267,14 @@ exports.excel = function(req, res) {
 				type: 'string',
 				width: 10
 			}, {
-				caption: '回访内容',
-				type: 'string',
-				width: 20
-			}, {
-				caption: '服务座席',
-				type: 'string',
-				width: 10
-			}, {
 				caption: '工单状态',
 				type: 'string',
 				width: 10
 			}, {
-				caption: '记录时间',
+				caption: '回访内容',
 				type: 'string',
-				width: 12
+				width: 20
 			}
-			/*,{
-		caption: '记录时间',
-		type: 'date',
-		beforeCellWrite: function() {
-			var originDate = new Date(Date.UTC(1899, 11, 30));
-			return function(row, cellData, eOpt) {
-				if (eOpt.rowNum % 2) {
-					eOpt.styleIndex = 1;
-				} else {
-					eOpt.styleIndex = 2;
-				}
-				if (cellData === null) {
-					eOpt.cellType = 'string';
-					return 'N/A';
-				} else
-					return (cellData - originDate) / (24 * 60 * 60 * 1000);
-			}
-		}()
-	}*/
-			/*, {
-		caption: 'bool',
-		type: 'bool'
-	}, {
-		caption: 'number',
-		type: 'number'
-	}*/
 		];
 		conf.rows = redata;
 		sheet1.set(1, 1, '工单记录 ：' + fromtime + ' 至 ' + totime + '');
@@ -361,8 +340,10 @@ exports.excel = function(req, res) {
 				if (err) {
 					// handle error, keep in mind the response may be partially-sent
 					// so check res.headerSent
+					res.end();
 				} else {
 					// decrement a download credit etc
+					res.end();
 				}
 			});
 		});

@@ -1,5 +1,6 @@
 var DbMode = require('../modules/crm/CustomInfo');
-
+var conf = require('node-conf').load("common");
+var soap = require("soap");
 var util = require('util');
 var crypto = require('crypto');
 var md5 = crypto.createHash('md5');
@@ -15,33 +16,15 @@ GET获取列表
 **/
 exports.get = function(req, res) {
 	var where = {};
-
-
-
 	where['cname'] = '';
 	where['cname'] = '';
-
-
-
 	where['idcard'] = '';
 	where['idcard'] = '';
-
-
-
 	where['phone'] = '';
 	where['phone'] = '';
-
-
-
 	where['work'] = '';
 	where['work'] = '';
-
-
-
 	where['areaCode'] = -1;
-
-
-
 	res.render('CustomInfo/index.html', {
 		title: '用户信息列表',
 		where: where

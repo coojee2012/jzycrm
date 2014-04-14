@@ -1,24 +1,82 @@
  var conf = require('node-conf').load("common");
  var soap = require("soap");
-var  client=require('node-rest-client');
+
  exports.get = function(req, res) {
+ 	var where = {};
+ 	where['in0'] = '';
+ 	where['in1'] = '';
+ 	res.render('fzcustominfo/index.html', {
+ 		title: '发展用户列表',
+ 		where: where
+ 	});
+ };
+ exports.post = function(req, res) {
+ 	var where = {};
+ 	var query = req.body;
+ 	for (var key in query) {
+ 		where[key] = query[key] || '';
+ 	}
+ 	res.render('fzcustominfo/index.html', {
+ 		title: '发展用户列表',
+ 		where: where
+ 	});
+ };
+
+ exports.getwx = function(req, res) {
+ 	var where = {};
+ 	where['in0'] = '';
+ 	where['in1'] = '';
+ 	where['in2'] = '';
+ 	where['in3'] = '';
+ 	res.render('fzcustominfo/wx.html', {
+ 		title: '正式用户列表',
+ 		where: where
+ 	});
+ };
+
+ exports.postwx = function(req, res) {
+ 	var where = {};
+ 	var query = req.body;
+ 	for (var key in query) {
+ 		where[key] = query[key] || '';
+ 	}
+ 	res.render('fzcustominfo/wx.html', {
+ 		title: '正式用户列表',
+ 		where: where
+ 	});
+ };
+
+ exports.getList = function(req, res) {
  	var in0 = req.query.in0 || "";
  	var in1 = req.query.in1 || "";
+ 	var output = {};
+ 	output.aaData = [];
+ 	output.sEcho = "";
  	soap.createClient(conf.wcfurl, function(err, client) {
- 		client.getList({
- 			in0: in0,
- 			in1: in1
- 		}, function(err, result,body) {
- 			//res.set('Content-Type', 'text/xml');
- 			//res.send(result); 
- 			//console.log(result);
- 			if (result && result.out !== null && result.out.Usefz && result.out.Usefz.length > 0) {
- 				res.send(result.out.Usefz);
- 			} else {
- 				res.send([]);
- 			}
+ 		if (err || !client) {
+ 			console.log('无法访问远程服务！');
+ 			output.sEcho = "无法访问远程服务！";
+ 			res.send(output);
+ 		} else {
+ 			client.getList({
+ 				in0: in0,
+ 				in1: in1
+ 			}, function(err, result, body) {
+ 				/*res.set('Content-Type', 'text/xml');
+ 			res.send(body); 
+ 			console.log(body);*/
+ 				if (result && result.out !== null && result.out.Usefz && result.out.Usefz.length > 0) {
+ 					output.aaData = result.out.Usefz;
+ 					output.sEcho = "查询成功！";
+ 					res.send(output);
+ 				} else {
+ 					output.sEcho = "查询成功！";
+ 					res.send(output);
+ 				}
 
- 		});
+ 			});
+ 		}
+
  	});
 
  }
@@ -28,30 +86,32 @@ var  client=require('node-rest-client');
  	var in1 = req.query.in1 || "";
  	var in2 = req.query.in2 || "2001-01";
  	var in3 = req.query.in3 || "2014-04";
+ 	var output = {};
+ 	output.aaData = [];
+ 	output.sEcho = "";
  	soap.createClient(conf.wcfurl, function(err, client) {
- 		client.getAll({
- 			in0: in0,
- 			in1: in1,
- 			in2: in2,
- 			in3: in3
- 		}, function(err, result) {
- 			console.log(result);
- 			if (result && result.out !== null && result.out.Rxwx && result.out.Rxwx.length > 0) {
- 				res.send(result.out.Rxwx);
- 			} else {
- 				res.send(result);
- 			}
+ 		if (err || !client) {
 
- 		});
+ 		} else {
+ 			client.getAll({
+ 				in0: in0,
+ 				in1: in1,
+ 				in2: in2,
+ 				in3: in3
+ 			}, function(err, result, body) {
+ 				//console.log(result);
+ 				/*res.set('Content-Type', 'text/xml');
+ 			res.send(body); 
+ 			console.log(body);*/
+
+ 				if (result && result.out !== null && result.out.Rxwx && result.out.Rxwx.length > 0) {
+ 					res.send(result.out.Rxwx);
+ 				} else {
+ 					res.send([]);
+ 				}
+
+ 			});
+ 		}
+
  	});
  }
-
- function callRestService(verb, url, args)
-{
-    var client = new restClient();
- 
-    client[verb](url, args, function(data, response) {
-        console.log(data);
-        //console.log(response);
-    });
-}
