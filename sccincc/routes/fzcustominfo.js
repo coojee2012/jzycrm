@@ -1,6 +1,6 @@
  var conf = require('node-conf').load("common");
  var soap = require("soap");
-
+var  client=require('node-rest-client');
  exports.get = function(req, res) {
  	var in0 = req.query.in0 || "";
  	var in1 = req.query.in1 || "";
@@ -9,14 +9,14 @@
  			in0: in0,
  			in1: in1
  		}, function(err, result,body) {
- 			res.set('Content-Type', 'text/xml');
- 			res.send(body); 
- 			console.log(body);
- 			/*if (result && result.out !== null && result.out.Usefz && result.out.Usefz.length > 0) {
+ 			//res.set('Content-Type', 'text/xml');
+ 			//res.send(result); 
+ 			//console.log(result);
+ 			if (result && result.out !== null && result.out.Usefz && result.out.Usefz.length > 0) {
  				res.send(result.out.Usefz);
  			} else {
  				res.send([]);
- 			}*/
+ 			}
 
  		});
  	});
@@ -45,3 +45,13 @@
  		});
  	});
  }
+
+ function callRestService(verb, url, args)
+{
+    var client = new restClient();
+ 
+    client[verb](url, args, function(data, response) {
+        console.log(data);
+        //console.log(response);
+    });
+}
