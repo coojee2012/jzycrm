@@ -644,12 +644,12 @@ urlreg: '/fzcustominfo/wx',
 },{
 urlreg: '/fzcustominfo/getList',
 	file: '/routes/fzcustominfo',
-	method: 'get',
+	method: 'post',
 	fn: 'getList'	
 },{
 urlreg: '/fzcustominfo/getall',
 	file: '/routes/fzcustominfo',
-	method: 'get',
+	method: 'post',
 	fn: 'getAll'	
 }];
 //自动添加于：2013-07-17 18:43:33

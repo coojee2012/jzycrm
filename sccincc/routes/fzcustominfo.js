@@ -47,11 +47,13 @@
  };
 
  exports.getList = function(req, res) {
- 	var in0 = req.query.in0 || "";
- 	var in1 = req.query.in1 || "";
+ 	var in0 = req.body.in0 || "";
+ 	var in1 = req.body.in1 || "";
  	var output = {};
  	output.aaData = [];
  	output.sEcho = "";
+ 	output.iTotalRecords = 0;
+ 	output.iTotalDisplayRecords = 0;
  	soap.createClient(conf.wcfurl, function(err, client) {
  		if (err || !client) {
  			console.log('无法访问远程服务！');
@@ -68,6 +70,8 @@
  				if (result && result.out !== null && result.out.Usefz && result.out.Usefz.length > 0) {
  					output.aaData = result.out.Usefz;
  					output.sEcho = "查询成功！";
+ 					output.iTotalRecords = result.out.Usefz.length;
+ 					output.iTotalDisplayRecords = result.out.Usefz.length;
  					res.send(output);
  				} else {
  					output.sEcho = "查询成功！";
@@ -82,16 +86,20 @@
  }
 
  exports.getAll = function(req, res) {
- 	var in0 = req.query.in0 || "";
- 	var in1 = req.query.in1 || "";
- 	var in2 = req.query.in2 || "2001-01";
- 	var in3 = req.query.in3 || "2014-04";
+ 	var in0 = req.body.in0 || "";
+ 	var in1 = req.body.in1 || "";
+ 	var in2 = req.body.in2 || "2001-01";
+ 	var in3 = req.body.in3 || "2099-12";
  	var output = {};
  	output.aaData = [];
+ 	output.iTotalRecords = 0;
+ 	output.iTotalDisplayRecords = 0;
  	output.sEcho = "";
  	soap.createClient(conf.wcfurl, function(err, client) {
  		if (err || !client) {
-
+ 			console.log('无法访问远程服务！');
+ 			output.sEcho = "无法访问远程服务！";
+ 			res.send(output);
  		} else {
  			client.getAll({
  				in0: in0,
@@ -105,9 +113,14 @@
  			console.log(body);*/
 
  				if (result && result.out !== null && result.out.Rxwx && result.out.Rxwx.length > 0) {
- 					res.send(result.out.Rxwx);
+ 					output.aaData = result.out.Rxwx;
+ 					output.sEcho = "查询成功！";
+ 					output.iTotalRecords = result.out.Rxwx.length;
+ 					output.iTotalDisplayRecords = result.out.Rxwx.length;
+ 					res.send(output);
  				} else {
- 					res.send([]);
+ 					output.sEcho = "查询成功！";
+ 					res.send(output);
  				}
 
  			});

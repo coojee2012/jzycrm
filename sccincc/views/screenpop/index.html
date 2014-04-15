@@ -214,7 +214,7 @@
 <form class="form-horizontal" method="post" id="form1" name="form1">
     <div class="box-content span6">
         <div class="control-group<%if(error!=null && error.cname!=null){%>error<%}%>">
-            <label class="control-label" for="cname">用户姓名</label>
+            <label class="control-label" for="cname">户名</label>
             <div class="controls">
                 <input type="text" class="span12" id="cname" name="cname" value="<% if(inst!=null && inst.cname!=null){%><%=inst.cname%><%}else{%>无<%}%>" />
                 <span class="help-inline">
@@ -222,7 +222,7 @@
             </div>
         </div>
         <div class="control-group<%if(error!=null && error.idcard!=null){%>error<%}%>">
-            <label class="control-label" for="idcard">用户号</label>
+            <label class="control-label" for="idcard">户号</label>
             <div class="controls">
                 <input type="text" class="span12"
     id="idcard" name="idcard" value="<% if(inst!=null && inst.idcard!=null){%><%= inst.idcard%><%}%>" />
@@ -312,7 +312,7 @@
     </div>
     <div class="form-actions">
         <button type="button" class="btn btn-primary" id="submit" name="submit">保存</button>
-        <button type="reset" class="btn">取消</button>
+        <!-- <button type="reset" class="btn">取消</button> -->
     </div>
     <input type="hidden" id="id" name="id" value="<% if(inst!=null && inst.id!=null){%><%= inst.id%><%}%>" /></form>
 <div style="display: none">
@@ -327,6 +327,40 @@
         Top Right
     </button>
 </div>
+</div>
+<div class="box-content">
+    <div class="box-header well">
+                    <h2>
+                        <i class="icon-th"></i>
+                        用水信息
+                    </h2>
+                    <div class="box-icon">
+                        <a href="#"
+    class="btn btn-minimize btn-round">
+                            <i class="icon-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+
+    <table class="table table-striped table-bordered bootstrap-datatable datatable">
+        <tr>
+        <th>用水日期</th><th>用水起度</th><th>用水止度</th><th>用水量</th><th>用水金额</th><th>抄表员</th><th>抄表日期</th>
+    </tr>
+    <%if(inst!=null && inst.waterinfo!=null){%>
+    <%for(var i100=0;i100<inst.waterinfo.length;i100++){%>
+    <tr>
+      <td><%= inst.waterinfo[i].uDate%></td>  
+      <td><%= inst.waterinfo[i].beginWater%></td> 
+      <td><%= inst.waterinfo[i].endWater%></td> 
+      <td><%= inst.waterinfo[i].waterReal%></td> 
+      <td><%= inst.waterinfo[i].payTotal%></td> 
+      <td><%= inst.waterinfo[i].copyMan%></td> 
+      <td><%= inst.waterinfo[i].copyDate%></td> 
+    </tr>
+    <%}%>
+     <%}%>
+
+    </table>
 </div>
 <div class="box-content">
 <a href="javascript:addconsult();"
