@@ -1,0 +1,227 @@
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+$("#search").click(function(){
+checkinput();
+});
+
+	var aoColumns = [
+
+		{
+			mData: "uName",
+			sClass: "center",
+			"aTargets": [0]
+		}, {
+			mData: "hId",
+			sClass: "center",
+			"aTargets": [1]
+		}, {
+			mData: "uAddress",
+			sClass: "center",
+			bSearchable: false,
+			"aTargets": [2]
+		}, {
+			mData: "bh",
+			sClass: "center",
+			bSearchable: false,
+			"aTargets": [3]
+		}, {
+			mData: "uCotogy",
+			sClass: "center",
+			"aTargets": [4]
+		},{
+			mData: "call",
+			sClass: "center",
+			"aTargets": [5]
+		}, {
+			mData: "buildTime",
+			sClass: "center",
+			bSearchable: false,
+			"aTargets": [6]
+		}, {
+			mData: "uDate",
+			sClass: "center",
+			bSearchable: false,
+			"aTargets": [7]
+		},{
+			mData: "sFqf",
+			sClass: "center",
+			bSearchable: false,
+			"aTargets": [8]
+		}, {
+			mData: "sfTs",
+			sClass: "center",
+			bSearchable: false,
+			"aTargets": [9]
+		}, {
+			mData: "sfXh",
+			sClass: "center",
+			bSearchable: false,
+			"aTargets": [10]
+		}
+
+	];
+	/*var where = '';
+	where += 'in0=' + $('#in0').val();
+	where += '&in1=' + $('#in1').val();
+	where += '&in2=' + $('#in1').val();
+	where += '&in3=' + $('#in1').val();*/
+	$('#datatable').dataTable({
+		sDom: " <'row-fluid'<'span4'l><'span4'f><'span4'T>r>t<'row-fluid'<'span4'i><'span8 center'p>>",
+		//sDom: 'T<"clear">lfrtip',
+		sPaginationType: "bootstrap",
+		//bDestroy:true,
+		oLanguage: {
+			sLengthMenu: "每页显示 _MENU_ 条记录",
+			sZeroRecords: "对不起，查询不到任何相关数据,请输入准确的查询信息",
+			sInfo: "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
+			sInfoEmtpy: "找不到相关数据",
+			//"sInfoFiltered": "数据表中共为 _MAX_ 条记录",  
+			sProcessing: "正在加载中...",
+			sSearch: "搜索",
+			sInfoEmpty: "显示 0 至 0 共 0 项",
+			oPaginate: {
+				"sFirst": "第一页",
+				"sPrevious": "上一页 ",
+				"sNext": "下一页 ",
+				"sLast": "末页 "
+			}
+		},
+		bProcessing: true,
+		bServerSide: true,
+		bPaginate: false,
+		bSort: false,
+		bFilter: false,
+		 bInfo: true,
+		sAjaxSource: "/fzcustominfo/getRxws",
+		sServerMethod: "POST",
+		fnServerParams: function (aoData) {
+    var where=  getWhere();
+    for(var key in where){
+     aoData.push( { "name": key, "value":where[key]} );
+    }    
+    },
+		aoColumnDefs: aoColumns,
+		oTableTools: {
+			sSwfPath: "/css/swf/copy_csv_xls_pdf.swf",
+			aButtons: []
+		}
+		// "fnServerData": fnDataTablesPipeline
+	});
+});
+</script>
+
+<script type="text/javascript">
+function checkinput() {
+	var in0 = $('#in0').val();
+	var in1 = $('#in1').val();
+	if (in0 == '' && in1 == '') {
+		alert("请输入户名或户号！");
+		
+	} else {
+		var oTable = $('#datatable').dataTable();
+		oTable.fnDraw();
+		//return true;
+	}
+}
+
+function getWhere() {
+	var where = {};
+	//gt > gete >=  lt  < lte <=   inq IN nin NOT IN neq  != like  LIKE
+	where.in0 = $('#in0').val(); //添加需要查询的条件个数
+	where.in1 = $('#in1').val();
+	where.in2 = $('#in2').val()==""?"":$('#in2').val().substr(0,7);
+	where.in3 = $('#in3').val()==""?"":$('#in3').val().substr(0,7);
+	return where;
+}
+</script>
+<script type="text/javascript">
+
+
+</script>
+
+
+<div class="container-fluid">
+
+<div class="row-fluid sortable">
+<div class="box span12">
+<form class="form-horizontal" method="POST">
+<div class="box-content span5">
+<div class="control-group"><label class="control-label" for="in0">户号</label>
+<div class="controls"> <input type="text" class="span12" id="in0"
+name="in0" > 
+     </div>
+</div>
+ </div>
+
+<div class="box-content span5">
+<div class="control-group"><label class="control-label" for="in1">户名</label>
+<div class="controls"> <input type="text" class="span12" id="in1"
+name="in1"> 
+     </div>
+</div>
+</div>
+
+<div class="box-content span4">
+<div class="control-group"><label class="control-label" for="in2">建档日期 从</label>
+<div class="controls"> <input type="text" class="datepicker span12" id="in2"
+name="in2" > 
+     </div>
+</div>
+</div>
+
+<div class="box-content span4">
+<div class="control-group">
+<label class="control-label" for="in3">到</label>
+<div class="controls"> <input type="text" class="datepicker span12" id="in3"
+name="in3" > 
+ </div>
+</div>            
+</div>
+
+<div class="box-content span2">
+<input type="button" class="btn btn-small btn-info"  id="search" value="搜索" />
+</div>
+
+</form>
+
+</div>
+</div>
+<div class="box-header well" data-original-title>
+<h2><i class="icon-user"></i> 热线维修子系统信息列表</h2>
+<div class="box-icon"><a href="#"
+	class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+
+</div>
+</div>
+<div class="box-content">
+<table class="table table-striped table-bordered bootstrap-datatable datatable" id="datatable">
+	<thead>
+		<tr>
+			 
+			<th>户名</th>
+			<th>户号</th>
+			<th>联系电话</th>    
+			<th>用水地址</th>
+			  
+			<th>表号</th>
+			      
+			<th>用水类别</th>
+
+			<th>用水年月</th>
+			 <th>用水年月</th>
+			<th>是否欠费</th>
+			    
+			<th>是否停水</th>
+			     
+			<th>是否销户</th>
+		</tr>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+</div>
+</div>
+

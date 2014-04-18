@@ -647,6 +647,20 @@ urlreg: '/fzcustominfo/getList',
 	method: 'post',
 	fn: 'getList'	
 },{
+urlreg: '/fzcustominfo/yh',
+	file: '/routes/fzcustominfo',
+	method: 'get',
+	fn: 'getyh'	
+},{
+urlreg: '/fzcustominfo/yh',
+	file: '/routes/fzcustominfo',
+	method: 'post',
+	fn: 'postyh'	
+},{urlreg: '/fzcustominfo/getRxws',
+	file: '/routes/fzcustominfo',
+	method: 'post',
+	fn: 'getRxws'	
+},{
 urlreg: '/fzcustominfo/getall',
 	file: '/routes/fzcustominfo',
 	method: 'post',

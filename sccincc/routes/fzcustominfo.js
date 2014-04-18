@@ -128,3 +128,73 @@
 
  	});
  }
+ exports.getyh = function(req, res) {
+ 	var where = {};
+ 	where['in0'] = '';
+ 	where['in1'] = '';
+ 	where['in2'] = '';
+ 	where['in3'] = '';
+ 	where['in4'] = '';
+ 	res.render('fzcustominfo/yh.html', {
+ 		title: '正式用户列表',
+ 		where: where
+ 	});
+ };
+
+ exports.postyh = function(req, res) {
+ 	var where = {};
+ 	var query = req.body;
+ 	for (var key in query) {
+ 		where[key] = query[key] || '';
+ 	}
+ 	res.render('fzcustominfo/yh.html', {
+ 		title: '正式用户列表',
+ 		where: where
+ 	});
+ };
+
+ exports.getRxws = function(req, res) {
+ 	var in0 = req.body.in0 || ""; //户号
+ 	var in1 = req.body.in1 || "城市花园"; //户名
+ 	var in2 = req.body.in2 || ""; //表号
+ 	var in3 = req.body.in3 || ""; //联系地址	
+ 	var in4 = req.body.in4 || ""; //联系方式
+ 	var output = {};
+ 	output.aaData = [];
+ 	output.iTotalRecords = 0;
+ 	output.iTotalDisplayRecords = 0;
+ 	output.sEcho = "";
+ 	soap.createClient(conf.wcfurl, function(err, client) {
+ 		if (err || !client) {
+ 			console.log('无法访问远程服务！');
+ 			output.sEcho = "无法访问远程服务！";
+ 			res.send(output);
+ 		} else {
+ 			client.getRxws({
+ 				in0: in0,
+ 				in1: in1,
+ 				in2: in2,
+ 				in3: in3,
+ 				in4: in4
+ 			}, function(err, result, body) {
+ 				console.log(result);
+ 				/*res.set('Content-Type', 'text/xml');
+ 			res.send(body); 
+ 			console.log(body);*/
+
+ 				if (result && result.out !== null && result.out.Rxwx && result.out.Rxwx.length > 0) {
+ 					output.aaData = result.out.Rxwx;
+ 					output.sEcho = "查询成功！";
+ 					output.iTotalRecords = result.out.Rxwx.length;
+ 					output.iTotalDisplayRecords = result.out.Rxwx.length;
+ 					res.send(output);
+ 				} else {
+ 					output.sEcho = "查询成功！";
+ 					res.send(output);
+ 				}
+
+ 			});
+ 		}
+
+ 	});
+ }
