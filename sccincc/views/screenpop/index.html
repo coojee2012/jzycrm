@@ -279,6 +279,13 @@
                     />
 欠费停水
                 </label>
+                <label
+    class="radio">
+                    <input type="radio" id="csex_1" name="csex" 
+                    value="0"<% if(inst!=null && inst.csex=='-1' ){%>checked='checked'<%} else if(inst==null){%><%}else{%><%}%>
+                    />
+消户
+                </label>
             </div>
         </div>
         <div class="control-group<%if(error!=null && error.work!=null){%>error<%}%>">

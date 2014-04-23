@@ -45,7 +45,7 @@
  		where: where
  	});
  };
-
+//发展子系统信息查询
  exports.getList = function(req, res) {
  	var in0 = req.body.in0 || "";
  	var in1 = req.body.in1 || "";
@@ -84,7 +84,7 @@
  	});
 
  }
-
+//用水信息查询
  exports.getAll = function(req, res) {
  	var in0 = req.body.in0 || "";
  	var in1 = req.body.in1 || "";
@@ -152,13 +152,13 @@
  		where: where
  	});
  };
-
+//正式用户信息
  exports.getRxws = function(req, res) {
  	var in0 = req.body.in0 || ""; //户号
- 	var in1 = req.body.in1 || "城市花园"; //户名
+ 	var in1 = req.body.in1 || ""; //户名
  	var in2 = req.body.in2 || ""; //表号
  	var in3 = req.body.in3 || ""; //联系地址	
- 	var in4 = req.body.in4 || ""; //联系方式
+ 	var in4 = req.body.in4 || "1270093324"; //联系方式
  	var output = {};
  	output.aaData = [];
  	output.iTotalRecords = 0;

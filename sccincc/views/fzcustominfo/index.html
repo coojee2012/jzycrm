@@ -22,6 +22,8 @@ $(document).ready(function() {
 			mRender: function(data, type, full) {
 				if (data && typeof(data) === 'object') 
 					return "";
+				else
+					return data;
 			}
 		}, {
 			mData: "call",
@@ -30,6 +32,8 @@ $(document).ready(function() {
 			mRender: function(data, type, full) {
 				if (data && typeof(data) === 'object') 
 					return "";
+				else
+					return data;
 			}
 		}, {
 			mData: "address",
