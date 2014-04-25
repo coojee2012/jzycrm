@@ -65,7 +65,7 @@ exports.get = function(req, res) {
 							in3: in3,
 							in4: "1270093324"
 						}, function(err, result, body) {
-							if(err)
+							if (err)
 								console.log(err);
 							if (result && result.out !== null && result.out.Rxwx && result.out.Rxwx.length > 0) {
 								cb(null, result.out.Rxwx[0]);
@@ -73,6 +73,8 @@ exports.get = function(req, res) {
 								cb(null, null);
 							}
 
+						}, {
+							timeout: 10 * 1000
 						});
 					}
 
@@ -82,12 +84,38 @@ exports.get = function(req, res) {
 				function(cb, resluts) {
 					var huhao = "";
 					if (resluts.findsoap != null) {
-						huhao=resluts.findsoap.hId;
+						huhao = resluts.findsoap.hId;
 					} else if (resluts.findlocal != null) {
-						huhao=resluts.findlocal.idcard;
+						huhao = resluts.findlocal.idcard;
 					}
 					if (huhao !== "") {
-						cb(null, []);
+						soap.createClient(conf.wcfurl, function(err, client) {
+							console.log("准备从SOAP获取用户用水信息！");
+							if (err || !client) {
+								console.log(err);
+								cb(err, null);
+							} else {
+								console.log("已经建立了连接！");
+								client.getAll({
+									in0: huhao,
+									in1: "",
+									in2: "",
+									in3: ""
+								}, function(err, result, body) {
+									if (err)
+										console.log(err);
+									if (result && result.out !== null && result.out.Rxwx && result.out.Rxwx.length > 0) {
+										cb(null, result.out.Rxwx);
+									} else {
+										cb(null, []);
+									}
+
+								}, {
+									timeout: 10 * 1000
+								});
+							}
+
+						});
 					} else {
 						cb(null, []);
 					}
@@ -100,9 +128,9 @@ exports.get = function(req, res) {
 			var local = results.findlocal;
 			var remote = results.findsoap;
 			var warterinfo = results.getwaterinfo;
-console.log("remote",remote);
-console.log("warterinfo",warterinfo);
-console.log("local",local);
+			console.log("remote", remote);
+			console.log("warterinfo", warterinfo);
+			console.log("local", local);
 			if (remote == null && local == null) {
 				res.render('screenpop/index.html', {
 					inst: null,
@@ -128,11 +156,11 @@ console.log("local",local);
 				inst.workunit = ""; //水表口径
 				inst.lifeAddr = remote.uAddress; //用水地址
 				inst.cage = remote.uCotogy; //用水性质
-				var state="1";
-				if(remote.sfTs=="是")
-					state="0";
-				if(remote.sfTs=="是")
-					state="-1";
+				var state = "1";
+				if (remote.sfTs == "是")
+					state = "0";
+				if (remote.sfTs == "是")
+					state = "-1";
 				inst.csex = state; //用水情况【欠费停水，正常用水，消户】
 				inst.work = remote.bh; //水表号
 				inst.waterinfo = warterinfo;
@@ -144,7 +172,7 @@ console.log("local",local);
 					callmsg: callmsg
 				});
 
-			}else{
+			} else {
 				res.render('500', {});
 			}
 
@@ -181,6 +209,7 @@ exports.post = function(req, res) {
 			console.log(custom);
 			CustomInfo.upsert(custom, function(err, inst) {
 				if (err) {
+					console.log(err);
 					syslog.add(req, res, 'sql', err);
 					console.log('更新用户信息发生异常：', err);
 					//res.render('screenpop/index.html', { title: '新增系统外线',inst:inst,error:err});
@@ -215,6 +244,7 @@ exports.post = function(req, res) {
 				if (!valid) {
 					//console.log(custom); // hash of errors {attr: [errmessage, errmessage, ...], attr: ...}
 					//res.render('screenpop/index.html',{inst:custom,error:custom.errors});
+					console.log(custom.errors);
 					res.send({
 						success: false,
 						error: custom.errors

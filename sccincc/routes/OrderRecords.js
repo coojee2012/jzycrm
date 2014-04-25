@@ -770,6 +770,7 @@ exports.getPhone = function(req, res) {
 				if (inst.__cachedRelations.UserInfo2 != null) {
 					udata.name = inst.__cachedRelations.UserInfo2.uName;
 					udata.phone = inst.__cachedRelations.UserInfo2.uPhone;
+					udata.content=inst.orderContent;
 				}
 				res.send({
 					success: true,

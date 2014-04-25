@@ -318,13 +318,20 @@ function dialout(phonenumber){
 function cdsms(orderId){
 	getPhone(orderId,function(udata){
 		if (!udata || udata.phone == "") {
-            alert("为能获取到有效手机号码，发送短信将失败！");
+            alert("未能获取到有效手机号码，发送短信将失败！");
             return false;
         }
 		
 		$("#cusname").val(udata.name);
-        $("#phonenumber").val(udata.phone);
-        $('#sendsms').modal('show');
+        
+        if(!udata.phone){
+alert("工单还没有派单,无师傅联系方式，不能崔单！");
+        }else{
+          $("#phonenumber").val(udata.phone);
+        $("#smscontent").val(udata.content);
+          $('#sendsms').modal('show');
+        }
+        
 		});
 }
 
@@ -1081,7 +1088,7 @@ $(function(){
 <form class="form-horizontal" method="get">
 <fieldset>
 <div class="control-group"><label class="control-label"
-	for="cusname">用户姓名</label>
+	for="cusname">师傅姓名</label>
 <div class="controls"><input type="text" class="span6 typeahead"
 	id="cusname" name="cusname" readonly="readonly"></div>
 </div>
@@ -1093,7 +1100,7 @@ $(function(){
 </div>
 
 <div class="control-group"><label class="control-label"
-	for="smscontent">催单内容</label>
+	for="smscontent">工单内容</label>
 <div class="controls"><textarea id="smscontent" name="smscontent"
 	class="autogrow"></textarea></div>
 </div>

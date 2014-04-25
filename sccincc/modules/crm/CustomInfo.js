@@ -14,7 +14,7 @@ var hunfou=[{checked:' selected="selected"',value:1, name:'已婚'},
 var CustomInfo = schema.define('CustomInfo', {
 	cname:   {type:String,limit:50,default:function(){return '';}},
 	csex:    {type: Number, default: function () { return 0 }},
-	cage:  {type: Number, default: function () { return 1 }},
+	cage:  {type: String,limit:50,default: function () { return "" }},
 	marital:    {type: Number, default: function () { return 0 }},
 	cAddr:   {type:String,limit:150,default:function(){return '';}},
 	tel:    {type: String,limit:50,default:function(){return '';}},
@@ -70,7 +70,7 @@ CustomInfo.validatesPresenceOf('cname', 'phone',{message: '必填，不能为空
 //CustomInfo.validatesLengthOf('userPwd', {min: 8, message: {min: '密码不能少于8位'}});
 //CustomInfo.validatesInclusionOf('cage', {in: ['男', '女']});
 //UserInfo.validatesExclusionOf('domain', {in: ['www', 'billing', 'admin']});
-CustomInfo.validatesNumericalityOf('cage', {int: true});
+//CustomInfo.validatesNumericalityOf('cage', {int: true});
 //UserInfo.validatesUniquenessOf('email', {message: 'email is not unique'});
 
 schema.models.CustomInfo;

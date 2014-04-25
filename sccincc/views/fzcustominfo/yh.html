@@ -118,14 +118,14 @@ checkinput();
 function checkinput() {
 	var in0 = $('#in0').val();
 	var in1 = $('#in1').val();
-	if (in0 == '' && in1 == '') {
-		alert("请输入户名或户号！");
+	//if (in0 == '' && in1 == '') {
+	//	alert("请输入户名或户号！");
 		
-	} else {
+	//} else {
 		var oTable = $('#datatable').dataTable();
 		oTable.fnDraw();
 		//return true;
-	}
+	//}
 }
 
 function getWhere() {
@@ -133,8 +133,9 @@ function getWhere() {
 	//gt > gete >=  lt  < lte <=   inq IN nin NOT IN neq  != like  LIKE
 	where.in0 = $('#in0').val(); //添加需要查询的条件个数
 	where.in1 = $('#in1').val();
-	where.in2 = $('#in2').val()==""?"":$('#in2').val().substr(0,7);
-	where.in3 = $('#in3').val()==""?"":$('#in3').val().substr(0,7);
+	where.in2 = $('#in2').val();
+	where.in3 = $('#in3').val();
+	where.in4 = $('#in4').val();
 	return where;
 }
 </script>
@@ -149,6 +150,7 @@ function getWhere() {
 <div class="row-fluid sortable">
 <div class="box span12">
 <form class="form-horizontal" method="POST">
+
 <div class="box-content span5">
 <div class="control-group"><label class="control-label" for="in0">户号</label>
 <div class="controls"> <input type="text" class="span12" id="in0"
@@ -165,22 +167,32 @@ name="in1">
 </div>
 </div>
 
-<div class="box-content span4">
-<div class="control-group"><label class="control-label" for="in2">建档日期 从</label>
-<div class="controls"> <input type="text" class="datepicker span12" id="in2"
+<div class="box-content span5">
+<div class="control-group"><label class="control-label" for="in2">表号</label>
+<div class="controls"> <input type="text" class=" span12" id="in2"
 name="in2" > 
      </div>
 </div>
 </div>
 
-<div class="box-content span4">
+<div class="box-content span5">
 <div class="control-group">
-<label class="control-label" for="in3">到</label>
-<div class="controls"> <input type="text" class="datepicker span12" id="in3"
+<label class="control-label" for="in3">联系地址</label>
+<div class="controls"> <input type="text" class=" span12" id="in3"
 name="in3" > 
  </div>
 </div>            
 </div>
+
+<div class="box-content span5">
+<div class="control-group">
+<label class="control-label" for="in4">联系电话</label>
+<div class="controls"> <input type="text" class=" span12" id="in4"
+name="in4" > 
+ </div>
+</div>            
+</div>
+
 
 <div class="box-content span2">
 <input type="button" class="btn btn-small btn-info"  id="search" value="搜索" />
@@ -204,7 +216,7 @@ name="in3" >
 			 
 			<th>户名</th>
 			<th>户号</th>
-			<th>联系电话</th>    	  
+			<th>用水地址</th>    	  
 			<th>表号</th>			      
 			<th>用水类别</th>
 			<th>联系电话</th>
