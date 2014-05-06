@@ -26,7 +26,13 @@ checkinput();
 			mData: "bh",
 			sClass: "center",
 			bSearchable: false,
-			"aTargets": [3]
+			"aTargets": [3],
+			"mRender": function(data, type, full) {
+				if (data && typeof(data) === 'object') 
+					return "";
+				else 
+					return data;
+			}
 		}, {
 			mData: "uCotogy",
 			sClass: "center",
@@ -34,7 +40,13 @@ checkinput();
 		},{
 			mData: "call",
 			sClass: "center",
-			"aTargets": [5]
+			"aTargets": [5],
+			"mRender": function(data, type, full) {
+				if (data && typeof(data) === 'object') 
+					return "";
+				else 
+					return data;
+			}
 		}, {
 			mData: "buildTime",
 			sClass: "center",

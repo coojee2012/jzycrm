@@ -295,12 +295,16 @@ exports.GetCallInfo=function(req,res){
                 {
                   
                     resjson.caller=inst.callednumber;
+                    resjson.caller=resjson.caller.replace(/^0/,'');
                     resjson.called=inst.callernumber;
+                    resjson.called=resjson.called.replace(/^0/,'');
                 }
                 else
                 {
                 	resjson.caller=inst.callernumber;
+                	resjson.caller=resjson.caller.replace(/^0/,'');
                     resjson.called=inst.callednumber;
+                    resjson.called=resjson.called.replace(/^0/,'');
                 }
                 
               

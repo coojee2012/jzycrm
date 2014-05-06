@@ -26,6 +26,7 @@
     "iconv-lite":"*",
     "agi":"*",
     "moment":"*",
+    "async":"*",
     "guid":"*",
     "xmldom":"*",  
     "connect-mysql":"*",

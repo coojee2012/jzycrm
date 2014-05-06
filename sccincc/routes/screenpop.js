@@ -49,7 +49,7 @@ exports.get = function(req, res) {
 				var in1 = ""; //户名
 				var in2 = ""; //表号
 				var in3 = ""; //联系地址	
-				var in4 = phone || "1270093324"; //联系方式
+				var in4 = phone || ""; //联系方式
 
 				soap.createClient(conf.wcfurl, function(err, client) {
 					console.log("准备从SOAP获取用户信息！");
@@ -63,7 +63,7 @@ exports.get = function(req, res) {
 							in1: in1,
 							in2: in2,
 							in3: in3,
-							in4: "1270093324"
+							in4: in4
 						}, function(err, result, body) {
 							if (err)
 								console.log(err);

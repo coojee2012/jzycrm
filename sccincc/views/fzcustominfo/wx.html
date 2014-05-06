@@ -76,62 +76,63 @@ checkinput();
 		},{
 			mData: "call",
 			sClass: "center",
-			"aTargets": [5]
-		}, {
-			mData: "buildTime",
-			sClass: "center",
-			bSearchable: false,
-			"aTargets": [6]
+			"aTargets": [5],
+			"mRender": function(data, type, full) {
+				if (data && typeof(data) === 'object') 
+					return "";
+				else 
+					return data;
+			}
 		}, {
 			mData: "uDate",
 			sClass: "center",
 			bSearchable: false,
-			"aTargets": [7]
+			"aTargets": [6]
 		}, {
 			mData: "beginWater",
 			sClass: "center",
 			bSearchable: false,
-			"aTargets": [8]
+			"aTargets": [7]
 		}, {
 			mData: "endWater",
 			sClass: "center",
 			bSearchable: false,
-			"aTargets": [9]
+			"aTargets": [8]
 		}, {
 			mData: "waterReal",
 			sClass: "center",
 			bSearchable: false,
-			"aTargets": [10]
+			"aTargets": [9]
 		}, {
 			mData: "payTotal",
 			sClass: "center",
 			bSearchable: false,
-			"aTargets": [11]
+			"aTargets": [10]
 		}, {
 			mData: "copyMan",
 			sClass: "center",
 			bSearchable: false,
-			"aTargets": [12]
+			"aTargets": [11]
 		}, {
 			mData: "copyDate",
 			sClass: "center",
 			bSearchable: false,
-			"aTargets": [13]
+			"aTargets": [12]
 		}, {
 			mData: "sFqf",
 			sClass: "center",
 			bSearchable: false,
-			"aTargets": [14]
+			"aTargets": [13]
 		}, {
 			mData: "sfTs",
 			sClass: "center",
 			bSearchable: false,
-			"aTargets": [15]
+			"aTargets": [14]
 		}, {
 			mData: "sfXh",
 			sClass: "center",
 			bSearchable: false,
-			"aTargets": [16]
+			"aTargets": [15]
 		}
 
 	];
@@ -204,8 +205,8 @@ function getWhere() {
 	//gt > gete >=  lt  < lte <=   inq IN nin NOT IN neq  != like  LIKE
 	where.in0 = $('#in0').val(); //添加需要查询的条件个数
 	where.in1 = $('#in1').val();
-	where.in2 = $('#in2').val()==""?"":$('#in2').val().substr(0,7);
-	where.in3 = $('#in3').val()==""?"":$('#in2').val().substr(0,7);
+	where.in2 = $('#in2').val()==""?"":$('#in2').val();//.substr(0,7);
+	where.in3 = $('#in3').val()==""?"":$('#in3').val();//.substr(0,7);
 	return where;
 }
 </script>
@@ -237,8 +238,8 @@ name="in1">
 </div>
 
 <div class="box-content span4">
-<div class="control-group"><label class="control-label" for="in2">建档日期 从</label>
-<div class="controls"> <input type="text" class="datepicker span12" id="in2"
+<div class="control-group"><label class="control-label" for="in2">用水年月 从</label>
+<div class="controls"> <input type="text" class="span12" placeholder="格式,如：2014-01" id="in2"
 name="in2" > 
      </div>
 </div>
@@ -247,7 +248,7 @@ name="in2" >
 <div class="box-content span4">
 <div class="control-group">
 <label class="control-label" for="in3">到</label>
-<div class="controls"> <input type="text" class="datepicker span12" id="in3"
+<div class="controls"> <input type="text" class="span12" placeholder="格式,如：2014-01" id="in3"
 name="in3" > 
  </div>
 </div>            
@@ -262,7 +263,7 @@ name="in3" >
 </div>
 </div>
 <div class="box-header well" data-original-title>
-<h2><i class="icon-user"></i> 热线维修子系统信息列表</h2>
+<h2><i class="icon-user"></i> 水费信息列表</h2>
 <div class="box-icon"><a href="#"
 	class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
 
@@ -275,14 +276,14 @@ name="in3" >
 			 
 			<th>户名</th>
 			<th>户号</th>
-			<th>联系电话</th>    
+			    
 			<th>用水地址</th>
-			  
+			
 			<th>表号</th>
 			      
 			<th>用水类别</th>
-
-			<th>用水年月</th>
+			<th>联系电话</th>
+			
 			 <th>用水年月</th>
 			 <th>用水起度</th>
 			 <th>用水止度</th>
