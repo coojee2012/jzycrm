@@ -49,10 +49,10 @@ my	($matched_sysautomon,$sth);
 		#解析所有members
 		foreach  (split(/\&/,$row->{'members'})) {
 			next if ($_ eq '');
-			if ($_ eq $PARAM->{'number'}) {
+			#if ($_ eq $PARAM->{'number'}) {
 				$matched_sysautomon=$row;
 				last;
-			}
+			#}
 		}
 	}
 

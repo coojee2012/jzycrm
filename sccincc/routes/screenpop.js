@@ -38,20 +38,28 @@ exports.get = function(req, res) {
 	try {
 		async.auto({
 			findlocal: function(cb) {
-				CustomInfo.findOne({
-					where: where
-				}, function(err, inst) {
-					cb(err, inst);
-				});
+				if (phone == "") {
+					cb(null, null);
+				} else {
+					CustomInfo.findOne({
+						where: where
+					}, function(err, inst) {
+						cb(err, inst);
+					});
+				}
+
 			},
 			findsoap: function(cb) {
 				var in0 = ""; //户号
 				var in1 = ""; //户名
 				var in2 = ""; //表号
 				var in3 = ""; //联系地址	
-				var in4 = phone || ""; //联系方式
+				var in4 = phone; //联系方式
 
-				soap.createClient(conf.wcfurl, function(err, client) {
+				if (phone == "") {
+					cb(null, null);
+				} else{
+					soap.createClient(conf.wcfurl, function(err, client) {
 					console.log("准备从SOAP获取用户信息！");
 					if (err || !client) {
 						console.log(err);
@@ -79,6 +87,9 @@ exports.get = function(req, res) {
 					}
 
 				});
+				}
+
+				
 			},
 			getwaterinfo: ["findlocal", "findsoap",
 				function(cb, resluts) {

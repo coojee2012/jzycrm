@@ -92,8 +92,8 @@ exports.excel = function(req, res) {
 		};
 	}
 
-	var fromtime = moment().format("YYYY-MM-DD") ;
-	var totime = moment().format("YYYY-MM-DD") ;
+	var fromtime = moment().format("YYYY-MM-DD");
+	var totime = moment().format("YYYY-MM-DD");
 	if (req.query['orderTime_from'] != '' && req.query['orderTime_from'] != -1) {
 		fromtime = req.query['orderTime_from'];
 	}
@@ -103,7 +103,7 @@ exports.excel = function(req, res) {
 
 	}
 	where.orderTime = {
-		'between': [fromtime+' 00:00:00', totime+ ' 23:59:59']
+		'between': [fromtime + ' 00:00:00', totime + ' 23:59:59']
 	};
 
 
@@ -144,8 +144,9 @@ exports.excel = function(req, res) {
 		inld.push(key);
 	}
 	var aColumns = ["id", "cID", "orderTime", "serMan", "uaddr", "orderContent",
-	 "uphone", "utel", "DepID", "dactorName", "OrderOptions",
-	  "orderReslut"];
+		"uphone", "utel", "DepID", "dactorName", "OrderOptions",
+		"orderReslut"
+	];
 
 	console.log(where);
 	searchDb.all({
@@ -153,10 +154,10 @@ exports.excel = function(req, res) {
 		where: where,
 		order: order
 	}, function(err, dbs) {
-		if(dbs.length<1){
+		if (dbs.length < 1) {
 			console.log('dbs:', dbs);
 		}
-		
+
 		if (err)
 			res.send('导出数据发生异常！');
 
@@ -181,11 +182,11 @@ exports.excel = function(req, res) {
 							tmppnj.push(dbs[i].__cachedRelations[dbname].depName);
 						if (aColumns[j] == 'dactorName')
 							tmppnj.push(dbs[i].__cachedRelations[dbname].uName);
-						if (aColumns[j] == 'serMan'){
+						if (aColumns[j] == 'serMan') {
 							//console.log(aColumns[j]);
 							tmppnj.push(dbs[i].__cachedRelations[dbname].uName);
 						}
-							
+
 					}
 
 				} else if (aColumns[j] != 'id' && searchDb.cloums[aColumns[j]].input.type == 'selectdbGroup') {
@@ -227,55 +228,54 @@ exports.excel = function(req, res) {
 		conf.stylesXmlFile = "./public/excel/styles.xml";
 		conf.title = '工单记录[' + fromtime + ' 至 ' + totime + ']';
 		conf.cols = [{
-				caption: '编号',
-				type: 'string',
-				width: 6
-			}, {
-				caption: '户号',
-				type: 'string',
-				width: 8
-			}, {
-				caption: '记录时间',
-				type: 'string',
-				width: 12
-			}, {
-				caption: '服务座席',
-				type: 'string',
-				width: 10
-			}, {
-				caption: '联系地址',
-				type: 'string',
-				width: 16
-			}, {
-				caption: '受理内容',
-				type: 'string',
-				width: 18
-			}, {
-				caption: '手机号码',
-				type: 'string',
-				width: 14
-			}, {
-				caption: '固定号码',
-				type: 'string',
-				width: 10
-			}, {
-				caption: '处理部门',
-				type: 'string',
-				width: 10
-			}, {
-				caption: '处理人员',
-				type: 'string',
-				width: 10
-			}, {
-				caption: '工单状态',
-				type: 'string',
-				width: 10
-			}, {
-				caption: '回访内容',
-				type: 'string',
-				width: 20
-			}
-		];
+			caption: '编号',
+			type: 'string',
+			width: 6
+		}, {
+			caption: '户号',
+			type: 'string',
+			width: 8
+		}, {
+			caption: '记录时间',
+			type: 'string',
+			width: 12
+		}, {
+			caption: '服务座席',
+			type: 'string',
+			width: 10
+		}, {
+			caption: '联系地址',
+			type: 'string',
+			width: 16
+		}, {
+			caption: '受理内容',
+			type: 'string',
+			width: 18
+		}, {
+			caption: '手机号码',
+			type: 'string',
+			width: 14
+		}, {
+			caption: '固定号码',
+			type: 'string',
+			width: 10
+		}, {
+			caption: '处理部门',
+			type: 'string',
+			width: 10
+		}, {
+			caption: '处理人员',
+			type: 'string',
+			width: 10
+		}, {
+			caption: '工单状态',
+			type: 'string',
+			width: 10
+		}, {
+			caption: '回访内容',
+			type: 'string',
+			width: 20
+		}];
 		conf.rows = redata;
 		sheet1.set(1, 1, '工单记录 ：' + fromtime + ' 至 ' + totime + '');
 		sheet1.merge({
@@ -296,9 +296,14 @@ exports.excel = function(req, res) {
 			bold: true,
 			iter: false
 		});
-	for(var ii=0;ii<aColumns.length;ii++){
-		sheet1.border(ii+1, 1, {left:'thin',top:'thin',right:'thin',bottom:'thin'});
-	}
+		for (var ii = 0; ii < aColumns.length; ii++) {
+			sheet1.border(ii + 1, 1, {
+				left: 'thin',
+				top: 'thin',
+				right: 'thin',
+				bottom: 'thin'
+			});
+		}
 
 		for (var i = 0; i < conf.cols.length; i++) {
 			sheet1.set(i + 1, 2, conf.cols[i].caption);
@@ -314,7 +319,12 @@ exports.excel = function(req, res) {
 				bold: true,
 				iter: false
 			});
-			sheet1.border(i+1, 2, {left:'thin',top:'thin',right:'thin',bottom:'thin'});
+			sheet1.border(i + 1, 2, {
+				left: 'thin',
+				top: 'thin',
+				right: 'thin',
+				bottom: 'thin'
+			});
 		}
 		for (var j = 0; j < redata.length; j++) {
 			for (var jj = 0; jj < redata[j].length; jj++) {
@@ -324,14 +334,19 @@ exports.excel = function(req, res) {
 				sheet1.align(jj + 1, j + 3, 'center');
 				sheet1.valign(jj + 1, j + 3, 'center');
 				sheet1.font(jj + 1, j + 3, {
-				name: '宋体',
-				sz: '11',
-				family: '3',
-				scheme: '-',
-				bold: false,
-				iter: false
-			});
-				sheet1.border(jj+1, j+3, {left:'thin',top:'thin',right:'thin',bottom:'thin'});
+					name: '宋体',
+					sz: '11',
+					family: '3',
+					scheme: '-',
+					bold: false,
+					iter: false
+				});
+				sheet1.border(jj + 1, j + 3, {
+					left: 'thin',
+					top: 'thin',
+					right: 'thin',
+					bottom: 'thin'
+				});
 			}
 		}
 		workbook.save(function(err) {
@@ -480,7 +495,7 @@ exports.createpost = function(req, res) {
 									//smscontent += '。备注:' + inst.memo;
 
 									//工作时间段处理
-									if (iswork == 1) {
+									if (iswork === 1) {
 										var userinfo = require('../modules/crm/UserInfo');
 										userinfo.all({
 											where: {
@@ -489,6 +504,7 @@ exports.createpost = function(req, res) {
 										}, function(err, users) {
 											if (err) {
 												syslog.add(req, res, 'sql', err);
+												console.error(err);
 												res.redirect('/OrderRecords?cID=' + inst.cID);
 											} else {
 												for (var i5 = 0; i5 < users.length; i5++) {
@@ -504,6 +520,7 @@ exports.createpost = function(req, res) {
 														Sms_mod.save(function(err, instsms) {
 															if (err) {
 																syslog.add(req, res, 'sql', err);
+																console.error(err);
 															} else {
 
 															}
@@ -770,13 +787,31 @@ exports.getPhone = function(req, res) {
 				if (inst.__cachedRelations.UserInfo2 != null) {
 					udata.name = inst.__cachedRelations.UserInfo2.uName;
 					udata.phone = inst.__cachedRelations.UserInfo2.uPhone;
-					udata.content=inst.orderContent;
+					//udata.content = inst.orderContent;
 				}
-				res.send({
-					success: true,
-					udata: udata,
-					msg: "获取成功！"
+
+				var custominfo = require('../modules/crm/CustomInfo');
+				custominfo.findOne({
+					where: {
+						id: inst.cID
+					}
+				}, function(err, custom) {
+					var smscontent = '户号:' + custom.idcard + '.地址:' + custom.lifeAddr;
+					smscontent += '.故障:' + inst.orderContent;
+					smscontent += '.电话:' + custom.phone;
+
+					udata.content = smscontent;
+
+
+					res.send({
+						success: true,
+						udata: udata,
+						msg: "获取成功！"
+					});
+
 				});
+
+
 			} else {
 				res.send({
 					success: false,

@@ -39,13 +39,15 @@ var depid=parent.__USERDEPT;
 //维修和水检所看到自己的
 if(depid==1 || depid==7){
 where+=',,,,,'+'depid:::::'+depid;	
+}else{
+ where+=',,,,,'+'depid:::::-1'; 
 }
 
-var depid=parent._USERDEPT;
+/*var depid=parent._USERDEPT;
 //维修和水检所看到自己的
 if(depid==="1" || depid==="7"){
 where+=',,,,,'+'depid:::::'+depid;	
-}
+}*/
 
 if(where!=='')
 	where=where.replace(/^\,{5}/,'');
