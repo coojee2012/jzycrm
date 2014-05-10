@@ -1139,7 +1139,7 @@ exports.paidanchart = function(req, res) {
 			} else {
 				var redata = [];
 				var weekcn = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日', '总计'];
-				for (var j = 0; j <= weekcn.length; j++) {
+				for (var j = 0; j < weekcn.length; j++) {
 					var tmp = {};
 					tmp.tags = [weekcn[j]];
 					tmp.wxjl0 = 0;

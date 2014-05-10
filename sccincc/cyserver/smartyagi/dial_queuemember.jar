@@ -51,7 +51,7 @@ exit;
         if($status eq 'OK' || $status eq '在线'){
            #如果这个被叫默认启动自动录音,那么就启动
                
-		$AGI->exec('AGI','agi://127.0.0.1/sysautomon?type=callee&number='.$PARAM->{'callednum'}.'&callnum='.$calleridnum);
+		#$AGI->exec('AGI','agi://127.0.0.1/sysautomon?type=callee&number='.$PARAM->{'callednum'}.'&callnum='.$calleridnum);
 
 		#记录当前呼叫方法
 		#$self->_callsession('action=local_extension','local_extension='.$PARAM->{'callednum'});

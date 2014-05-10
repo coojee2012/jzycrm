@@ -502,7 +502,7 @@ exports.createpost = function(req, res) {
 												uDepId: inst.DepID
 											}
 										}, function(err, users) {
-											if (err) {
+											if (err || users.length<1) {
 												syslog.add(req, res, 'sql', err);
 												console.error(err);
 												res.redirect('/OrderRecords?cID=' + inst.cID);
@@ -540,7 +540,11 @@ exports.createpost = function(req, res) {
 												id: inst.dactorName
 											}
 										}, function(err, user) {
-											//发送短信
+											if(err || user==null){
+												res.redirect('/OrderRecords?cID=' + inst.cID);
+											}
+											else {
+												//发送短信
 											var sms2 = require('../modules/crm/Sms');
 											var Sms_mod = new sms2();
 											Sms_mod.mobile = user.uPhone;
@@ -578,6 +582,8 @@ exports.createpost = function(req, res) {
 													});
 												}
 											}
+											}
+											
 
 										});
 

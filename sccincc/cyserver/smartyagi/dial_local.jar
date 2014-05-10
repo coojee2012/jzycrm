@@ -71,7 +71,7 @@ my	($def_typeof,$def_voicemail,$def_dialargs);
 	if ($row->{'typeof'} eq 'extension' && ($def_typeof eq 'extension' || $def_typeof eq '')) {
 
 		#如果这个被叫默认启动自动录音,那么就启动
-		#$AGI->exec('AGI','agi://127.0.0.1/sysautomon?type=callee&number='.$PARAM->{'callednum'});
+		#$AGI->exec('AGI','agi://127.0.0.1/sysautomon?type=callee&number='.$PARAM->{'callednum'}.'&callnum='.$INPUT->{'callerid'});
 
 		#记录当前呼叫方法
 		#$self->_callsession('action=local_extension','local_extension='.$PARAM->{'callednum'});
