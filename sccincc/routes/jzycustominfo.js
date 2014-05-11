@@ -132,10 +132,10 @@
   //获取通话记录列表
   exports.getCalls = function(req, res) {
     var card_id = req.body["Card_id"] || req.query["Card_id"];
-    var keywords = req.body["KeyWords"] || req.query["KeyWords"];
+    var keywords = req.body["KeyWords"] || req.query["KeyWords"] || "";
     var dostate = req.body["DoState"] || req.query["DoState"] || "";
-    var timefrom = req.body["TimeFrom"] || req.query["TimeFrom"];
-    var timeto = req.body["TimeTo"] || req.query["TimeTo"];
+    var timefrom = req.body["TimeFrom"] || req.query["TimeFrom"] || "";
+    var timeto = req.body["TimeTo"] || req.query["TimeTo"] || "";
     var jieguo = {};
     var iDisplayStart = req.query['iDisplayStart'] || req.body['iDisplayStart'] || 0;
     var iDisplayLength = req.query['iDisplayLength'] || req.body['iDisplayLength'] || 10;
@@ -457,14 +457,29 @@ mssql.exec(countsql, function(err, count) {
     sql += " left join t_sys_operator c on a.oper_id = c.oper_id where 1=1  ";
     sql += " and a.vip_tel='" + phone + "' or a.mobile='" + phone + "'";
 console.log(sql);
-    mssql.exec(sql, function(err, dbs) {
+
+    var sql2="select type_id,discount from t_rm_vip_type";
+
+     mssql.exec(sql2, function(err2, dbs2) {
+      console.log(dbs2);
+      var dddd={};
+      for(var i=0;i<dbs2.length;i++){
+        var tmpkey=dbs2[i].type_id.replace(/\s+/g,"");
+dddd["id_"+tmpkey]=dbs2[i].discount;
+      }
+      console.log(dddd);
+        mssql.exec(sql, function(err, dbs) {
       res.render('jzycustominfo/screenpop.html', {
         inst: dbs[0],
+        cardtype:util.inspect(dddd),
         phone: phone,
         error: null,
         callmsg: callmsg
       });
     });
+
+     });
+  
 
 
 
@@ -480,11 +495,12 @@ console.log(sql);
     custom.Mobile = req.body['Mobile'] || req.query['Mobile'] || '';
     custom.Company = req.body['Company'] || req.query['Company'] || '';
     custom.Vip_add = req.body['Vip_add'] || req.query['Vip_add'] || '';
+    custom.Jbr=req.body['Jbr'] || req.query['Jbr'] || '';
     var thjlstatus = req.body['thjlstatus'] || req.query['thjlstatus'] || 0;
 
     // custom.Jbr = req.body['Jbr'] || req.query['Jbr']||'';
 
-    var sql = "insert into t_rm_vip_info (vip_name,card_id,vip_sex,card_type,card_status,oper_id,oper_date,vip_tel,mobile,company,vip_add) values('" + SafePramas(custom.Vip_name);
+    var sql = "insert into t_rm_vip_info (vip_name,card_id,vip_sex,card_type,card_status,oper_id,oper_date,vip_tel,mobile,company,vip_add,social_id) values('" + SafePramas(custom.Vip_name);
 
     sql += "','" + SafePramas(custom.Card_id);
 
@@ -498,6 +514,8 @@ console.log(sql);
     sql += "','" + SafePramas(custom.Company);
 
     sql += "','" + SafePramas(custom.Vip_add);
+
+      sql += "','" + SafePramas(custom.Jbr);
 
     sql += "')";
 
@@ -527,6 +545,9 @@ console.log(sql);
     custom.Mobile = req.body['Mobile'] || req.query['Mobile'] || '';
     custom.Company = req.body['Company'] || req.query['Company'] || '';
     custom.Vip_add = req.body['Vip_add'] || req.query['Vip_add'] || '';
+
+    custom.Jbr=req.body['Jbr'] || req.query['Jbr'] || '';
+
     var thjlstatus = req.body['thjlstatus'] || req.query['thjlstatus'] || 0;
 
     var sql = "update t_rm_vip_info set vip_name='" + SafePramas(custom.Vip_name);
@@ -534,7 +555,7 @@ console.log(sql);
 
     if (custom.Vip_sex !== '')
       sql += "',vip_sex='" + SafePramas(custom.Vip_sex);
-    sql += "',card_type=" + SafePramas(custom.Card_type);
+    sql += "',card_type='" + SafePramas(custom.Card_type);
     if (custom.Vip_tel !== '')
       sql += ",vip_tel='" + SafePramas(custom.Vip_tel);
     if (custom.Mobile !== '')
@@ -543,6 +564,8 @@ console.log(sql);
       sql += "',company='" + SafePramas(custom.Company);
     if (custom.Vip_add !== '')
       sql += "',vip_add='" + SafePramas(custom.Vip_add);
+    if(custom.Jbr!=="")
+      sql += "',social_id='" + SafePramas(custom.Jbr);
 
     sql += "' where card_id='" + SafePramas(custom.Card_id) + "'";
 console.log(sql);

@@ -224,13 +224,37 @@
 
 <div class="control-group"> <label class="control-label"
     for="Jbr">经办人 </label>
-<div class="controls"><textarea class="span12 autogrow" id="Jbr"
- name="Jbr"><% if(inst!=null && typeof(inst.oper_name)!=='object'){%><%= inst.oper_name%><%}%></textarea>
+<div class="controls"><input type="text" class="span12 autogrow" id="Jbr"
+ name="Jbr" value="<% if(inst!=null && typeof(inst.social_id)!=='object'){%><%= inst.social_id%><%}%>" />
 </div>
 </div>
 
 </div>
 </div>
+<div class="box-header well" data-original-title>
+<span style="font-weight:bold;">最近通话记录</span>
+<div class="box-icon"><a href="#"
+  class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+</div>
+</div>
+<div class="box-content">
+<table class="table table-striped table-bordered bootstrap-datatable datatable">
+  <thead>
+    <tr>
+       
+      <th width="20%">记录时间</th>
+        
+      <th width="30%">通话类容</th>
+      <th width="20%">处理状态</th>
+      <th width="30%">处理内容</th>      
+    </tr>
+  </thead>
+  <tbody id="lsthjl3">
+  </tbody>
+
+  </table>
+</div>
+
 <div class="box-content span12">
   <div class="span4"><span style="font-weight:bold;">通话记录</span></div>
   <div class="span6"></div>
@@ -328,6 +352,61 @@
 
 
 <script type="text/javascript">
+$(function(){
+$("#Card_type").change(function(event) {
+  var dicot=<%= cardtype%>;
+ var test=$("#Card_type").val();
+/*for(var key in dicot){
+  if(key=="id_0")
+     alert(dicot[key]);
+  alert(key);
+ 
+}*/
+ $("#Discount").val(dicot["id_"+test]);
+});
+
+//lsthjl3
+var where='Card_id='+$('#Card_id').val();
+    where+='&iDisplayStart=0&iDisplayLength=3';
+   $.ajax(
+              {
+                  url: '/jzy/getCalls?'+where,
+                  dataType: 'json',
+                  type: 'GET',
+                  async: false,
+                  data:{},
+                  success: function (data, textStatus) {                      
+                  if(data && data.aaData.length>0){
+                    var html="";
+                    for(var ii=0;ii<data.aaData.length;ii++){
+html+="<tr>";
+html+="<td>"+data.aaData[ii].recordtime+"</td>";
+html+="<td>"+data.aaData[ii].content+"</td>";
+var tmmmp="未处理";
+if(data.aaData[ii].dostate=="1")
+  tmmmp="处理中";
+if(data.aaData[ii].dostate=="2")
+  tmmmp="已完成";
+
+html+="<td>"+tmmmp+"</td>";
+html+="<td>"+data.aaData[ii].donesth+"</td>";
+html+="</tr>";
+
+                    }
+                    $("#lsthjl3").html(html);
+                  }            
+                  },
+                  error: function (XMLHttpRequest, textStatus, errorThrown) {
+                      alert('服务器访问发生异常！' + textStatus);
+                      return;
+                  }
+              }
+              );  
+
+
+});
+
+
 function addyy1(){
     alert(1);
 }
@@ -388,11 +467,12 @@ str+="<td>"+data.aaData.company+"</td>";
 str+="<td>"+data.aaData[i].company+"</td>";
 }
                                     
-                                    str+="<td><a href=javascript:setselect('"+data.aaData[i].card_id+"');>选择</a></td>";
+                                    str+="<td><a href=\"javascript:setselect('"+data.aaData[i].card_id+"');\">选择</a></td>";
                                      str+="</tr>";
 
                                 if(i==data.aaData.length-1){
                                  $("#selectcustom").html(str); 
+                                // alert(str);
                                  $('#mysearch').modal('show');
                                   
                                 }
@@ -440,13 +520,30 @@ else
 
                        $('#Vip_sex').val(data.vip_sex); 
 
-                   if(typeof(data.oper_name)==='object')
+                   if(typeof(data.social_id)==='object')
                     $('#Jbr').val(""); 
                     else
-                       $('#Jbr').val(data.oper_name); 
+                       $('#Jbr').val(data.social_id); 
 
                    if(typeof(data.card_type)!=='object')
-                       $('#Card_type').val(data.card_type);
+                   {
+                     var tmptype=data.card_type.replace(/\s+/g,"");
+                     //alert(tmptype);
+                      $("#Card_type").find("option[value="+tmptype+"]").attr("selected","selected");
+
+                     //$('#Card_type').val(tmptype);
+                      var dicot=<%= cardtype%>;
+ var test=$("#Card_type").val();
+/*for(var key in dicot){
+  if(key=="id_0")
+     alert(dicot[key]);
+  alert(key);
+ 
+}*/
+ $("#Discount").val(dicot["id_"+test]);
+
+                   }
+                      
 
                    if(typeof(data.company)==='object')
                      $('#Company').val("");
