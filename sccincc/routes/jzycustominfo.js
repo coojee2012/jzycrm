@@ -458,20 +458,21 @@ mssql.exec(countsql, function(err, count) {
     sql += " and a.vip_tel='" + phone + "' or a.mobile='" + phone + "'";
 console.log(sql);
 
-    var sql2="select type_id,discount from t_rm_vip_type";
+    var sql2="select type_id,discount,type_name from t_rm_vip_type";
 
      mssql.exec(sql2, function(err2, dbs2) {
       console.log(dbs2);
       var dddd={};
       for(var i=0;i<dbs2.length;i++){
         var tmpkey=dbs2[i].type_id.replace(/\s+/g,"");
-dddd["id_"+tmpkey]=dbs2[i].discount;
+        dddd["id_"+tmpkey]=dbs2[i].discount;
       }
       console.log(dddd);
         mssql.exec(sql, function(err, dbs) {
       res.render('jzycustominfo/screenpop.html', {
         inst: dbs[0],
         cardtype:util.inspect(dddd),
+        cardtype2:dbs2,
         phone: phone,
         error: null,
         callmsg: callmsg

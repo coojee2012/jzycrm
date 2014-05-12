@@ -195,16 +195,12 @@
 </label>
 <div class="controls">
 <select id="Card_type" name="Card_type">
-  <option value=4  <%if(inst!=null && typeof(inst.card_type)!=='object' && inst.card_type == 4){%>
-        selected="selected"<%}%>>普通卡</option> 
-  <option value=0  <%if(inst!=null && typeof(inst.card_type)!=='object' && inst.card_type == 0){%>
-        selected="selected"<%}%>>会员卡</option>  
-  <option value=1  <%if(inst!=null && typeof(inst.card_type)!=='object' && inst.card_type == 1){%>
-        selected="selected"<%}%>>单位88</option>
-  <option value=2  <%if(inst!=null && typeof(inst.card_type)!=='object' && inst.card_type == 2){%>
-        selected="selected"<%}%>>单位85</option>
-  <option value=3 <%if(inst!=null && typeof(inst.card_type)!=='object' && inst.card_type == 3){%>
-        selected="selected"<%}%>>单位82</option>
+  <%for(var iii=0;iii<cardtype2.length;iii++){
+    var tmp=cardtype2[iii].type_id.replace(/\s+/g,"");
+    %>
+  <option value=<%= tmp%>><%= cardtype2[iii].type_name%></option> 
+  <%}%>
+
 </select>
 </div>
 </div>
@@ -242,8 +238,7 @@
   <thead>
     <tr>
        
-      <th width="20%">记录时间</th>
-        
+      <th width="20%">记录时间</th>        
       <th width="30%">通话类容</th>
       <th width="20%">处理状态</th>
       <th width="30%">处理内容</th>      
@@ -353,6 +348,11 @@
 
 <script type="text/javascript">
 $(function(){
+var carddddd=0;
+<%if(inst!=null && typeof(inst.card_type)!=='object'){%>
+  carddddd=<%= inst.card_type%>;
+<%}%>
+$("#Card_type").find("option[value="+carddddd+"]").attr("selected","selected");
 $("#Card_type").change(function(event) {
   var dicot=<%= cardtype%>;
  var test=$("#Card_type").val();
@@ -363,9 +363,17 @@ $("#Card_type").change(function(event) {
  
 }*/
  $("#Discount").val(dicot["id_"+test]);
+ addoldrecord();
 });
 
 //lsthjl3
+addoldrecord();
+
+
+});
+
+
+function addoldrecord(){
 var where='Card_id='+$('#Card_id').val();
     where+='&iDisplayStart=0&iDisplayLength=3';
    $.ajax(
@@ -402,10 +410,7 @@ html+="</tr>";
                   }
               }
               );  
-
-
-});
-
+}
 
 function addyy1(){
     alert(1);
