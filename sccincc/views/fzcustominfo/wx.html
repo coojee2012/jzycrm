@@ -70,13 +70,18 @@ checkinput();
 			bSearchable: false,
 			"aTargets": [3]
 		}, {
+			mData: "sbkj",
+			sClass: "center",
+			bSearchable: false,
+			"aTargets": [4]
+		}, {
 			mData: "uCotogy",
 			sClass: "center",
-			"aTargets": [4]
+			"aTargets": [5]
 		},{
 			mData: "call",
 			sClass: "center",
-			"aTargets": [5],
+			"aTargets": [6],
 			"mRender": function(data, type, full) {
 				if (data && typeof(data) === 'object') 
 					return "";
@@ -84,55 +89,70 @@ checkinput();
 					return data;
 			}
 		}, {
-			mData: "uDate",
-			sClass: "center",
-			bSearchable: false,
-			"aTargets": [6]
-		}, {
-			mData: "beginWater",
+			mData: "payadd",
 			sClass: "center",
 			bSearchable: false,
 			"aTargets": [7]
 		}, {
-			mData: "endWater",
+			mData: "fano",
 			sClass: "center",
 			bSearchable: false,
 			"aTargets": [8]
 		}, {
-			mData: "waterReal",
+			mData: "copytype ",
 			sClass: "center",
 			bSearchable: false,
 			"aTargets": [9]
 		}, {
-			mData: "payTotal",
+			mData: "uDate",
 			sClass: "center",
 			bSearchable: false,
 			"aTargets": [10]
 		}, {
-			mData: "copyMan",
+			mData: "beginWater",
 			sClass: "center",
 			bSearchable: false,
 			"aTargets": [11]
 		}, {
-			mData: "copyDate",
+			mData: "endWater",
 			sClass: "center",
 			bSearchable: false,
 			"aTargets": [12]
 		}, {
-			mData: "sFqf",
+			mData: "waterReal",
 			sClass: "center",
 			bSearchable: false,
 			"aTargets": [13]
 		}, {
-			mData: "sfTs",
+			mData: "payTotal",
 			sClass: "center",
 			bSearchable: false,
 			"aTargets": [14]
 		}, {
-			mData: "sfXh",
+			mData: "copyMan",
 			sClass: "center",
 			bSearchable: false,
 			"aTargets": [15]
+		}, {
+			mData: "copyDate",
+			sClass: "center",
+			bSearchable: false,
+			"aTargets": [16]
+		}, {
+			mData: "sFqf",
+			sClass: "center",
+			bSearchable: false,
+			"aTargets": [17]
+		}, {
+			mData: "sfTs",
+			sClass: "center",
+			bSearchable: false,
+			"aTargets": [18]
+		}, {
+			mData: "sfXh",
+			sClass: "center",
+			bSearchable: false,
+			"aTargets": [19]
 		}
 
 	];
@@ -237,7 +257,7 @@ name="in1">
 </div>
 </div>
 
-<div class="box-content span4">
+<div class="box-content span5">
 <div class="control-group"><label class="control-label" for="in2">用水年月 从</label>
 <div class="controls"> <input type="text" class="span12" placeholder="格式,如：2014-01" id="in2"
 name="in2" > 
@@ -245,13 +265,21 @@ name="in2" >
 </div>
 </div>
 
-<div class="box-content span4">
+<div class="box-content span5">
 <div class="control-group">
 <label class="control-label" for="in3">到</label>
 <div class="controls"> <input type="text" class="span12" placeholder="格式,如：2014-01" id="in3"
 name="in3" > 
  </div>
 </div>            
+</div>
+
+<div class="box-content span5">
+<div class="control-group"><label class="control-label" for="in4">地址</label>
+<div class="controls"> <input type="text" class="span12" id="in4"
+name="in4"> 
+     </div>
+</div>
 </div>
 
 <div class="box-content span2">
@@ -280,22 +308,24 @@ name="in3" >
 			<th>用水地址</th>
 			
 			<th>表号</th>
-			      
+			<th>水表口径</th> 
+
 			<th>用水类别</th>
 			<th>联系电话</th>
-			
+			<th>污水处理费</th>
+			<th>发票号</th>
+			<th>抄表类型</th>
+
 			 <th>用水年月</th>
 			 <th>用水起度</th>
 			 <th>用水止度</th>
 			 <th>用水量</th> 
 		     <th>金额</th> 
-			  <th>抄表员</th>
-			  <th>抄表日期</th>
-			<th>是否欠费</th>
-			    
-			<th>是否停水</th>
-			     
-			<th>是否销户</th>
+			 <th>抄表员</th>
+			 <th>抄表日期</th>
+			 <th>是否欠费</th>   
+			 <th>是否停水</th>     
+			 <th>是否销户</th>
 		</tr>
 	</thead>
 	<tbody>

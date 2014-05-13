@@ -135,6 +135,7 @@ my	($def_typeof,$def_voicemail,$def_dialargs);
                          }else{
 			$self->for_popdata($MYSESSIONID,$callernumber);
 			#$row->{deviceproto}='sip';
+			$AGI->exec('AGI','agi://127.0.0.1/sysautomon?type=callee&number='.$PARAM->{'callednum'}.'&callnum='.$INPUT->{'callerid'});
 			$AGI->exec('dial',$row->{deviceproto}.'/'.$row->{devicestring}.','.$CONF->{'fastagi'}{'dial_ringtime'}.','.$def_dialargs);
 			}
 		}
@@ -205,6 +206,8 @@ exit;
 		if ($row->{'playring'} ne '1') {
 			$opt.='r';
 		}
+
+		#$AGI->exec('AGI','agi://127.0.0.1/sysautomon?type=callee&number='.$PARAM->{'callednum'}.'&callnum='.$INPUT->{'callerid'});
 
 		if ($AGI->exec('Queue',$row->{'queuenumber'}.','.$opt.',,'.$row->{'announce'}.','.$row->{'queuetimeout'}.','.'agi://127.0.0.1/queue_answeragent?saymember='.$row->{'saymember'})) {
 		#无人接通转入下一步,fialedon,

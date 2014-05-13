@@ -194,6 +194,7 @@ $AGI->exec('noop','主叫号码:'.$ROUTER_PROCESS_CALLERIDNUM);
 		$AGI->exec('set','ROUTER_PROCESS_CALLERIDNUM='.$ROUTER_PROCESS_CALLERIDNUM);
 		$AGI->exec('noop','本地处理');
 
+#$AGI->exec('AGI','agi://127.0.0.1/sysautomon?type=callee&number='.$PARAM->{'callednum'}.'&callnum='.$INPUT->{'callerid'});
 	#通路
 	} elsif ($matched_rule->{'process_mode'} eq '2') {
 

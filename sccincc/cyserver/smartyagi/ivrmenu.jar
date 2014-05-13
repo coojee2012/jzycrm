@@ -29,6 +29,14 @@ my	$DBH = $self->database_pconnect();			#DBI object
 	#进入IVR系统必须以answer模式工作
 	$AGI->exec('answer');
 	$AGI->exec('playback','./user_custom/stopwater');
+
+defined(my $pid=fork()) or die "Fork process failured:$!\n";  
+unless($pid)  
+{  
+     $AGI->exec('AGI','agi://127.0.0.1/sysautomon?type=callee&number='.$PARAM->{'ivrnumber'}.'&callnum='.$INPUT->{'callerid'});
+     exit();  
+}
+
 	$AGI->exec('AGI','agi://127.0.0.1/dial_local?&typeof=queue&callednum=401');
 	return();
 

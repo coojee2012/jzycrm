@@ -488,9 +488,9 @@ exports.createpost = function(req, res) {
 								if (err) {
 									syslog.add(req, res, 'sql', err);
 								} else {
-									var smscontent = '户号:' + custom.idcard + '.地址:' + custom.lifeAddr;
-									smscontent += '.故障:' + inst.orderContent;
-									smscontent += '.电话:' + custom.phone;
+									var smscontent = '户_号:' + custom.idcard + '.地_址:' + custom.lifeAddr;
+									smscontent += '.故_障:' + inst.orderContent;
+									smscontent += '.电_话:' + custom.phone;
 									//smscontent += '。表号:' + custom.work;
 									//smscontent += '。备注:' + inst.memo;
 
@@ -802,9 +802,9 @@ exports.getPhone = function(req, res) {
 						id: inst.cID
 					}
 				}, function(err, custom) {
-					var smscontent = '户号:' + custom.idcard + '.地址:' + custom.lifeAddr;
-					smscontent += '.故障:' + inst.orderContent;
-					smscontent += '.电话:' + custom.phone;
+					var smscontent = '户_号:' + custom.idcard + '.地_址:' + custom.lifeAddr;
+					smscontent += '.故_障:' + inst.orderContent;
+					smscontent += '.电_话:' + custom.phone;
 
 					udata.content = smscontent;
 
