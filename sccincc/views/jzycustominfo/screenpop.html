@@ -10,7 +10,12 @@
               {
                   //alert("ddd");
                   var cdid=$("#cdid").val();
-
+                  var content=$("#content").val();
+                  if(content=="" || /^\s+\s$/.test(content)){
+                    alert("通话内容不能为空！");
+                    return false;
+                  }
+                    
                   var url="/jzy/screenPopInsert";
                   if(cdid!="")
                     url="/jzy/screenPopUpdate";
@@ -348,7 +353,7 @@
 
 <script type="text/javascript">
 $(function(){
-var carddddd=0;
+var carddddd=4;
 <%if(inst!=null && typeof(inst.card_type)!=='object'){%>
   carddddd=<%= inst.card_type%>;
 <%}%>
@@ -374,7 +379,8 @@ addoldrecord();
 
 
 function addoldrecord(){
-var where='Card_id='+$('#Card_id').val();
+var CardId=$('#Card_id').val()==""?"-99999":$('#Card_id').val();
+var where='Card_id='+CardId;
     where+='&iDisplayStart=0&iDisplayLength=3';
    $.ajax(
               {

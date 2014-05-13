@@ -173,7 +173,7 @@ ORDER BY id
     if (timeto !== '') {
       where += " and a.recordtime < '" + timeto + "'";
     }
-    var order = " order by a.recordtime desc ";
+    var order = " order by a.dostate asc,a.recordtime desc ";
     var skiprows = iDisplayLength * iDisplayStart;
         skiprows=iDisplayStart;
     var sql2 = "select top " + skiprows + " a.cid from callrecords a left join t_rm_vip_info b on b.card_id = a.cid ";
@@ -558,7 +558,7 @@ console.log(sql);
       sql += "',vip_sex='" + SafePramas(custom.Vip_sex);
     sql += "',card_type='" + SafePramas(custom.Card_type);
     if (custom.Vip_tel !== '')
-      sql += ",vip_tel='" + SafePramas(custom.Vip_tel);
+      sql += "',vip_tel='" + SafePramas(custom.Vip_tel);
     if (custom.Mobile !== '')
       sql += "',mobile='" + SafePramas(custom.Mobile);
     if (custom.Company !== '')
