@@ -89,17 +89,17 @@ checkinput();
 					return data;
 			}
 		}, {
-			mData: "payadd",
+			mData: "payAdd",
 			sClass: "center",
 			bSearchable: false,
 			"aTargets": [7]
 		}, {
-			mData: "fano",
+			mData: "faNo",
 			sClass: "center",
 			bSearchable: false,
 			"aTargets": [8]
 		}, {
-			mData: "copytype ",
+			mData: "copyType",
 			sClass: "center",
 			bSearchable: false,
 			"aTargets": [9]
@@ -137,7 +137,17 @@ checkinput();
 			mData: "copyDate",
 			sClass: "center",
 			bSearchable: false,
-			"aTargets": [16]
+			"aTargets": [16],
+			"mRender": function(data, type, full) {
+				if (data && data !== '') {
+					var t=data.split('\+');
+
+				return t[0];	
+				}
+					
+				else 
+					return "";
+			}
 		}, {
 			mData: "sFqf",
 			sClass: "center",
@@ -291,7 +301,7 @@ name="in4">
 </div>
 </div>
 <div class="box-header well" data-original-title>
-<h2><i class="icon-user"></i> 水费信息列表</h2>
+<h2><i class="icon-user"></i> 热线维系子系统-水费信息列表</h2>
 <div class="box-icon"><a href="#"
 	class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
 

@@ -75,8 +75,8 @@ msg.DepID!=null){%>error<%}%>"> <label class="control-label"
 
 <div class="control-group"> <label class="control-label" for="iswork">上班时段</label>
 <div class="controls">
-<label class="radio"> <input type="radio" id="iswork0" name="iswork" value=1 checked="checked" />是</label>
-<label class="radio"> <input type="radio" id="iswork1" name="iswork" value=0 />否</label>
+<label class="radio"> <input type="radio" id="iswork0" name="iswork" value="yes" checked="checked" />是</label>
+<label class="radio"> <input type="radio" id="iswork1" name="iswork" value="no" />否</label>
 </div>
 </div>
 
@@ -142,7 +142,7 @@ $("#orderContent").html($(this).children('option:selected').text()+".");
 <script type="text/javascript">
 $("input[name='iswork']").bind("click",function(){		
 var ckval=$('input[name="iswork"]:checked').val();
-if(ckval==0){
+if(ckval=="no"){
 	var depid=$("#DepID").val();
 	$("#dactorName").removeAttr("disabled");
 	 $.ajax(

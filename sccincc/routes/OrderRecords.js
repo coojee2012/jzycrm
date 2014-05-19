@@ -449,7 +449,7 @@ exports.createpost = function(req, res) {
 		}*/
 				OrderRecords_mod[key] = req.body[key];
 			}
-			if (iswork == 0) {
+			if (iswork == "no") {
 				OrderRecords_mod['paidanTime'] = OrderRecords_mod['orderTime'];
 				OrderRecords_mod.OrderOptions = 1;
 			}
@@ -495,7 +495,7 @@ exports.createpost = function(req, res) {
 									//smscontent += '。备注:' + inst.memo;
 
 									//工作时间段处理
-									if (iswork === 1) {
+									if (iswork === 'yes') {
 										var userinfo = require('../modules/crm/UserInfo');
 										userinfo.all({
 											where: {
@@ -513,7 +513,7 @@ exports.createpost = function(req, res) {
 														var Sms_mod = new sms2();
 														Sms_mod.mobile = users[i5].uPhone;
 														Sms_mod.content = smscontent;
-														Sms_mod.shuoming = "发送短信给派单员";
+														Sms_mod.shuoming = "发送短信给派单员。";
 														Sms_mod.agentname = agentname || req.session.username || '工作时间段';
 														Sms_mod.pdyname = '--';
 														Sms_mod.wxsname = '--';
@@ -937,6 +937,7 @@ exports.paiDan = function(req, res) {
 							var Sms_mod = new sms2();
 							Sms_mod.mobile = inst12.__cachedRelations.UserInfo2.uPhone;
 							Sms_mod.content = sms;
+							Sms_mod.shuoming = "派单给师傅的短信";
 							Sms_mod.agentname = inst12.__cachedRelations.UserInfo3.uName || '无坐席';
 							Sms_mod.pdyname = agentname || req.session.username || '无派单员';
 							Sms_mod.wxsname = inst12.__cachedRelations.UserInfo2.uName || '无师傅';
@@ -944,7 +945,7 @@ exports.paiDan = function(req, res) {
 							if (Sms_mod.agentname == Sms_mod.pdyname) {
 								Sms_mod.pdtype = 1;
 							}
-							Sms_mod.shuoming = shuoming;
+							//Sms_mod.shuoming = shuoming;
 							console.log(Sms_mod);
 							Sms_mod.save(function(err, instsms) {
 								if (err) {

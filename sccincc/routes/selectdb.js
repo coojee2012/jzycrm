@@ -1287,6 +1287,8 @@ exports.paidanchart = function(req, res) {
 					redata[j] = tmp;
 				}
 
+					var a=0;
+
 				for (var i = 0; i < dbs.length; i++) {
 					var depid = dbs[i].DepId;
 					switch (depid) {
@@ -1315,24 +1317,28 @@ exports.paidanchart = function(req, res) {
 
 					}
 
+
 					function tmpfun(str) {
 						if (dbs[i].OrderOptions == 0) {
-							redata[dbs[i].week][str + '0'] = dbs[i].number;
-							redata[dbs[i].week]['zj0'] += dbs[i].number;
+							redata[dbs[i].week-1][str + '0'] = dbs[i].number;
+							redata[dbs[i].week-1]['zj0'] += dbs[i].number;
 							redata[days][str + '0'] += dbs[i].number;
 							redata[days]['zj0'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 1) {
-							redata[dbs[i].week][str + '1'] = dbs[i].number;
-							redata[dbs[i].week]['zj1'] += dbs[i].number;
+							redata[dbs[i].week-1][str + '1'] = dbs[i].number;
+							redata[dbs[i].week-1]['zj1'] += dbs[i].number;
 							redata[days][str + '1'] += dbs[i].number;
 							redata[days]['zj1'] += dbs[i].number;
 						}
 						if (dbs[i].OrderOptions == 2) {
-							redata[dbs[i].week][str + '2'] = dbs[i].number;
-							redata[dbs[i].week]['zj2'] += dbs[i].number;
-							redata[days][str + '2'] += dbs[i].number;
+							redata[dbs[i].week-1][str + '2'] = dbs[i].number;
+							redata[dbs[i].week-1]['zj2'] += dbs[i].number;
+
+							redata[days][str + '2'] = redata[days][str + '2'] +0+ dbs[i].number + 0;;
 							redata[days]['zj2'] += dbs[i].number;
+				
+							
 						}
 					}
 				}
@@ -1652,7 +1658,7 @@ exports.callreportchart = function(req, res) {
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
-						if (dbs[i].routerline == 1) {
+						if (dbs[i].routerline === 1) {
 							redata[dbs[i].week][dbs[i].accountcode + '0'] = dbs[i].number;
 							redata[dbs[i].week].zj0 += dbs[i].number;
 							redata[dbs.length][dbs[i].accountcode + '0'] += dbs[i].number;
@@ -1703,7 +1709,7 @@ exports.callreportchart = function(req, res) {
 
 		var kaishijieshu = mm(nowYear, tjvalue);
 		var sql = "SELECT count(*) as number,accountcode,routerline,WEEKDAY(date(cretime)) as week  FROM `callsession` where 1=1 ";
-		sql += " and cretime > '" + kaishijieshu.first + " 00:00:00' and cretime < '" + kaishijieshu.end + " 23:59:59'  group by accountcode,WEEKDAY(date(cretime)) order by WEEKDAY(date(cretime)) asc";
+		sql += " and cretime > '" + kaishijieshu.first + " 00:00:00' and cretime < '" + kaishijieshu.end + " 23:59:59'  group by accountcode,routerline,WEEKDAY(date(cretime)) order by WEEKDAY(date(cretime)) asc";
 		callsession.query(sql, function(err, dbs) {
 			if (err) {
 				res.send({
@@ -1728,12 +1734,15 @@ exports.callreportchart = function(req, res) {
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
-						if (dbs[i].routerline == 1) {
+						
+						if (dbs[i].routerline === 1) {
+							//console.log(1,dbs[i].routerline,dbs[i].week,dbs[i].number);
 							redata[dbs[i].week][dbs[i].accountcode + '0'] = dbs[i].number;
 							redata[dbs[i].week].zj0 += dbs[i].number;
 							redata[7][dbs[i].accountcode + '0'] += dbs[i].number;
 							redata[7].zj0 += dbs[i].number;
 						} else {
+							//console.log(2,dbs[i].routerline,dbs[i].week,dbs[i].number);
 							redata[dbs[i].week][dbs[i].accountcode + '1'] = dbs[i].number;
 							redata[dbs[i].week].zj1 += dbs[i].number;
 							redata[7][dbs[i].accountcode + '1'] += dbs[i].number;
@@ -1774,7 +1783,7 @@ exports.callreportchart = function(req, res) {
 		var endday = formatDate(new Date(nowYear, tjvalue - 1, days));
 
 		var sql = "SELECT count(*) as number,accountcode,routerline,DAYOFMONTH(date(cretime)) as week  FROM `callsession` where 1=1 ";
-		sql += " and cretime > '" + firstday + " 00:00:00' and cretime < '" + endday + " 23:59:59'  group by accountcode,DAYOFMONTH(cretime) order by DAYOFMONTH(date(cretime)) asc";
+		sql += " and cretime > '" + firstday + " 00:00:00' and cretime < '" + endday + " 23:59:59'  group by accountcode,routerline,DAYOFMONTH(cretime) order by DAYOFMONTH(date(cretime)) asc";
 
 		callsession.query(sql, function(err, dbs) {
 			if (err) {
@@ -1805,7 +1814,7 @@ exports.callreportchart = function(req, res) {
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
-						if (dbs[i].routerline == 1) {
+						if (dbs[i].routerline === 1) {
 							redata[dbs[i].week - 1][dbs[i].accountcode + '0'] = dbs[i].number;
 							redata[dbs[i].week - 1].zj0 += dbs[i].number;
 							redata[days][dbs[i].accountcode + '0'] += dbs[i].number;
@@ -1848,7 +1857,7 @@ exports.callreportchart = function(req, res) {
 		var firstday = formatDate(new Date(nowYear, (tjvalue - 1) * 3, 1));
 		var endday = formatDate(new Date(nowYear, (tjvalue * 3) - 1, 31));
 		var sql = "SELECT count(*) as number,accountcode,routerline,MONTH(date(cretime)) as week  FROM `callsession` where 1=1 ";
-		sql += " and cretime > '" + firstday + " 00:00:00' and cretime < '" + endday + " 23:59:59'  group by accountcode,MONTH(cretime) order by MONTH(date(cretime)) asc";
+		sql += " and cretime > '" + firstday + " 00:00:00' and cretime < '" + endday + " 23:59:59'  group by accountcode,routerline,MONTH(cretime) order by MONTH(date(cretime)) asc";
 		callsession.query(sql, function(err, dbs) {
 			if (err) {
 				res.send({
@@ -1879,7 +1888,7 @@ exports.callreportchart = function(req, res) {
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
-						if (dbs[i].routerline == 1) {
+						if (dbs[i].routerline === 1) {
 							redata[dbs[i].week - (tjvalue - 1) * 3 - 1][dbs[i].accountcode + '0'] = dbs[i].number;
 							redata[dbs[i].week - (tjvalue - 1) * 3 - 1].zj0 += dbs[i].number;
 							redata[3][dbs[i].accountcode + '0'] += dbs[i].number;
@@ -1918,7 +1927,7 @@ exports.callreportchart = function(req, res) {
 		var firstday = formatDate(new Date(tjvalue, 0, 1));
 		var endday = formatDate(new Date(tjvalue, 11, 31));
 		var sql = "SELECT count(*) as number,accountcode,routerline,MONTH(date(cretime)) as week  FROM `callsession` where 1=1 ";
-		sql += " and cretime > '" + firstday + " 00:00:00' and cretime < '" + endday + " 23:59:59'  group by accountcode,MONTH(cretime) order by MONTH(date(cretime)) asc";
+		sql += " and cretime > '" + firstday + " 00:00:00' and cretime < '" + endday + " 23:59:59'  group by accountcode,routerline,MONTH(cretime) order by MONTH(date(cretime)) asc";
 		callsession.query(sql, function(err, dbs) {
 			if (err) {
 				res.send({
@@ -1948,7 +1957,7 @@ exports.callreportchart = function(req, res) {
 				for (var i = 0; i < dbs.length; i++) {
 
 					if (contains(clomunsarray, dbs[i].accountcode)) {
-						if (dbs[i].routerline == 1) {
+						if (dbs[i].routerline === 1) {
 							redata[dbs[i].week - 1][dbs[i].accountcode + '0'] = dbs[i].number;
 							redata[dbs[i].week - 1].zj0 += dbs[i].number;
 							redata[12][dbs[i].accountcode + '0'] += dbs[i].number;

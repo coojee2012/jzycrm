@@ -130,37 +130,56 @@ return where;
 
 <form class="form-horizontal" method="POST" action="/fzcustominfo">
 
-<div class="box-content span5">
-<div class="control-group">
-<label class="control-label" for="in0">申请时间 </label>
-<div class="controls"> <input type="text" class="span10 datepicker" id="in0"
-name="in0" value="<%= where.in0%>" > 
- </div>
-</div>
-</div>
+
 
 <div class="box-content span5">
 <div class="control-group">
-<label class="control-label" for="in1">户名 </label>
-<div class="controls"> <input type="text" class="span10" id="in1"
-name="in1" value="<%= where.in0%>" > 
+<label class="control-label" for="in0">户名 </label>
+<div class="controls"> <input type="text" class="span10" id="in0"
+name="in0" value="<%= where.in0%>" > 
  </div>
 </div>
 </div>
 
  <div class="box-content span5">
  	<div class="control-group">
-<label class="control-label" for="in2">联系方式</label>
-<div class="controls"> <input type="text" class="span10" id="in2"
-name="in2" value="<%= where.in1%>" > 
+<label class="control-label" for="in1">联系方式</label>
+<div class="controls"> <input type="text" class="span10" id="in1"
+name="in1" value="<%= where.in1%>" > 
  </div>
  </div>
  </div>
-            
+ <div class="box-content span5">
+<div class="control-group">
+<label class="control-label" for="in2">申请时间 从</label>
+<div class="controls"> <input type="text" class="span10" placeholder="格式,如：2014-01" id="in2"
+name="in2" value="<%= where.in2%>" > 
+ </div>
+</div>
+</div>
 <div class="box-content span5">
-<div class="control-group"><label class="control-label" for="in3">申请地址</label>
-<div class="controls"> <input type="text" class="span12" id="in3"
-name="in3"> 
+<div class="control-group">
+<label class="control-label" for="in3">到 </label>
+<div class="controls"> <input type="text" class="span10" placeholder="格式,如：2014-12" id="in3"
+name="in3" value="<%= where.in3%>" > 
+ </div>
+</div>
+</div>
+
+ 
+
+<div class="box-content span5">
+<div class="control-group"><label class="control-label" for="in4">联系人</label>
+<div class="controls"> <input type="text" class="span12" id="in4"
+name="in4" value="<%= where.in4%>"> 
+     </div>
+</div>
+</div>
+
+<div class="box-content span5">
+<div class="control-group"><label class="control-label" for="in5">申请地址</label>
+<div class="controls"> <input type="text" class="span12" id="in5"
+name="in5" value="<%= where.in5%>"> 
      </div>
 </div>
 </div>
@@ -189,23 +208,16 @@ name="in3">
 	<thead>
 		<tr>
 			 
-			<th>申请号</th>
-			  
+			<th>申请号</th>		  
 			<th>户名</th>
-			 <th>表号</th>
-			<th>水表口径</th>
-			  
-			<th>申请时间</th>
-			  
-			<th>联系人</th>
-			      
-			<th>联系方式</th>
-
-			
+					  
+			<th>申请时间</th>		  
+			<th>联系人</th>		      
+			<th>联系方式</th>			
 
 			<th>申请地址</th>
 			  
-			<th>用水类别</th>		          
+			<th>申请类别</th>		          
 			  
 			<th>申请状态</th>
 			    
