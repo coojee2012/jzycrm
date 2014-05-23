@@ -34,7 +34,7 @@ where+=',,,,,'+'cretime:::::between|||||'+crtimefrom+ '=====' + crtimeto;
 
 where+=',,,,,'+'doymicac:::::'+$('#doymicac option:selected').text();
 where+=',,,,,'+'callnumber:::::like|||||'+$('#callnumber').val();
-
+where+=',,,,,'+'filesize:::::gt|||||0';
 if(where!=='')
 	where=where.replace(/^\,{5}/,'');
 

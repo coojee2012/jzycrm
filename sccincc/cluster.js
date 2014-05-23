@@ -45,12 +45,12 @@ yybs();
 // 当主进程被终止时，关闭所有工作进程
 process.on('SIGTERM', function() {
 	console.log('主进程死亡！');
-	for ( var pid in workers) {
+	for (var pid in workers) {
 		process.kill(pid);
 	}
-	
+
 	process.exit(0);
-	
+
 });
 
 
@@ -58,65 +58,66 @@ process.on('SIGTERM', function() {
 	//yybs();	
 });
 */
-function yybs(){
+
+function yybs() {
 	if (cluster.isMaster) {
 		console.log(' MASTER ' + "启动主进程...");
-	// 初始开启与CPU 数量相同的工作进程
-		for ( var i = 0; i < numCPUs; i++) {
+		// 初始开启与CPU 数量相同的工作进程
+		for (var i = 0; i < numCPUs; i++) {
 			var worker = cluster.fork();
 			workers[worker.pid] = worker;
 			worker.on('exit', function(code, signal) {
-				  if( signal ) {
-				    console.log("worker was killed by signal: "+signal);
-				  } else if( code !== 0 ) {
-				    console.log("worker exited with error code: "+code);
-				  } else {
-				    console.log("worker success!");
-				  }
-				});
-			
+				if (signal) {
+					console.log("worker was killed by signal: " + signal);
+				} else if (code !== 0) {
+					console.log("worker exited with error code: " + code);
+				} else {
+					console.log("worker success!");
+				}
+			});
+
 			//worker.send(' MASTER ' + '创建子进程：' + worker.id);
 		}
-		
-	cluster.on('fork', function (worker) {
-        console.log(' MASTER ' + 'fork: worker' + worker.id);
-    });
-	
-    cluster.on('online', function (worker) {
-        console.log(' MASTER ' + 'online: worker' + worker.id);
-        //worker.send(' MASTER ' + '子进程：' + worker.id+'运行成功！');
-        
-    });
 
-    cluster.on('listening', function (worker, address) {
-        console.log(' MASTER ' + 'listening: worker' + worker.id + ',pid:' + worker.process.pid + ', Address:' + address.address + ":" + address.port);
-    });
+		cluster.on('fork', function(worker) {
+			console.log(' MASTER ' + 'fork: worker' + worker.id);
+		});
 
-    cluster.on('disconnect', function (worker) {
-        console.log(' MASTER ' + 'disconnect: worker' + worker.id);
-    });
+		cluster.on('online', function(worker) {
+			console.log(' MASTER ' + 'online: worker' + worker.id);
+			//worker.send(' MASTER ' + '子进程：' + worker.id+'运行成功！');
 
-   
-   	cluster.on('exit', function(worker, code, signal) {
-			  console.log(' MASTER ' + 'exit worker' + worker.id + ' died');
-			  var exitCode = worker.process.exitCode;
-			  console.log(' MASTER '+ 'worker ' + worker.process.pid + ' died ('+exitCode+'). restarting...');
-			   delete workers[worker.pid];
-				worker = cluster.fork();
-				workers[worker.pid] = worker;
-				worker.on('exit', function(code, signal) {
-					  if( signal ) {
-					    console.log("worker was killed by signal: "+signal);
-					  } else if( code !== 0 ) {
-					    console.log("worker exited with error code: "+code);
-					  } else {
-					    console.log("worker success!");
-					  }
-					});
-				
+		});
+
+		cluster.on('listening', function(worker, address) {
+			console.log(' MASTER ' + 'listening: worker' + worker.id + ',pid:' + worker.process.pid + ', Address:' + address.address + ":" + address.port);
+		});
+
+		cluster.on('disconnect', function(worker) {
+			console.log(' MASTER ' + 'disconnect: worker' + worker.id);
+		});
+
+
+		cluster.on('exit', function(worker, code, signal) {
+			console.log(' MASTER ' + 'exit worker' + worker.id + ' died');
+			var exitCode = worker.process.exitCode;
+			console.log(' MASTER ' + 'worker ' + worker.process.pid + ' died (' + exitCode + '). restarting...');
+			delete workers[worker.pid];
+			worker = cluster.fork();
+			workers[worker.pid] = worker;
+			worker.on('exit', function(code, signal) {
+				if (signal) {
+					console.log("worker was killed by signal: " + signal);
+				} else if (code !== 0) {
+					console.log("worker exited with error code: " + code);
+				} else {
+					console.log("worker success!");
+				}
 			});
-   	
-    
+
+		});
+
+
 		/**
 		// 主进程分支
 		cluster.on('death', function(worker) {
@@ -126,8 +127,8 @@ function yybs(){
 				workers[worker.pid] = worker;
 			});
 	**/
-	
-	/**
+
+		/**
 	//主进程和分支进程间通信
 	 function eachWorker(callback) {
         for (var id in cluster.workers) {
@@ -148,17 +149,25 @@ function yybs(){
     });
     
 		**/
+
+		var normal = require('child_process').fork(__dirname + '/motherboom.js');
+		normal.on('exit', function(code, signal) {
+			console.log('奶妈程序退出了：' + code);
+		});
+		normal.on('error', function(err) {
+			console.log('奶妈程序发生异常：' + err);
+		});
+
 	} else if (cluster.isWorker) {
 		console.log(' WORKER ' + "start worker ..." + cluster.worker.id);
 
-        process.on('message', function(msg) {
-         console.log(' WORKER '+msg);
-        process.send(' WORKER worker'+cluster.worker.id+' received!');
-        });
+		process.on('message', function(msg) {
+			console.log(' WORKER ' + msg);
+			process.send(' WORKER worker' + cluster.worker.id + ' received!');
+		});
 
 		// 工作进程分支，启动服务器
 		var app = require('./app');
-		app.listen(83);
-	}
-	else{}
+		app.listen(80);
+	} else {}
 }

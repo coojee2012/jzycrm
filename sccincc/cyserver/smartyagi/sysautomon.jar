@@ -58,6 +58,9 @@ my	($matched_sysautomon,$sth);
 		}
 
 
+
+
+
 		#产生自动录音指令
 	my	$filename = $PARAM->{'number'}.'_'.$MYSESSIONID.'_'.time().'_'.int(rand(999));
 		#$self->_callsession(undef,'sysautomon_filename='.$filename);
@@ -76,7 +79,7 @@ my	($matched_sysautomon,$sth);
 		#创建数据库记录
 		$DBH->do("insert into recordfiles set ".
 			"filename = '".$filename."',".
-			"extname = 'mp3',".
+			"extname = 'wav',".
 			"folder = '".$matched_sysautomon->{'id'}."',".
 			"cretime = now(),".
 			"associate = '".$MYSESSIONID."',"."callnumber  = '".$PARAM->{'callnum'}."',".
@@ -85,11 +88,11 @@ my	($matched_sysautomon,$sth);
                         "calltype  = '".$PARAM->{'type'}."'")
 			or die $self->logfile(4, 'Database Error : '.$DBH->errstr);
 
-		#$AGI->exec('MixMonitor',"$vmfpath/$filename\.wav,ab,chmod 777 $vmfpath/$filename\.wav");
-		$AGI->exec('MixMonitor',"$vmfpath/$filename\.wav,ab,/usr/bin/lame  -V7 -B24 --tt $vmfpath/$filename\.wav --add-id3v2 $vmfpath/$filename\.wav $vmfpath/$filename\.mp3");
+		$AGI->exec('MixMonitor',"$vmfpath/$filename\.wav,ab,chmod 777 $vmfpath/$filename\.wav");
+		#$AGI->exec('MixMonitor',"$vmfpath/$filename\.wav,ab,/usr/bin/lame  -V7 -B24 --tt $vmfpath/$filename\.wav --add-id3v2 $vmfpath/$filename\.wav $vmfpath/$filename\.mp3");
 		#my $wav2mp3="/usr/bin/lame  -V7 -B24 --tt $vmfpath/$filename\.wav --add-id3v2 $vmfpath/$filename\.wav $vmfpath/$filename\.mp3";
 		#`$wav2mp3`;
-		system("chmod 777 $vmfpath/*\.*");
+		#system("chmod 777 $vmfpath/*\.*");
 		#my $test="test -r $vmfpath/$filename\.mp3 && rm -f $vmfpath/$filename\.wav";
 		#`$test`;
 		
