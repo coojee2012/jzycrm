@@ -98,16 +98,16 @@ $('#datatable').dataTable( {
 
 <script type="text/javascript">
 function checkinput(){
-	var in0=$('#in0').val();
-	var in1=$('#in1').val();
-	if(in0 =='' && in1==''){
-		alert("请输入至少一个查询条件！");
-		return false;
-	}else{
+	//var in0=$('#in0').val();
+	//var in1=$('#in1').val();
+	//if(in0 =='' && in1==''){
+	//	alert("请输入至少一个查询条件！");
+	//	return false;
+	//}else{
 		 var oTable=$('#datatable').dataTable();
              oTable.fnDraw();
-		return true;
-	}
+	//	return true;
+	//}
 }
 function getWhere(){
 	var where={};

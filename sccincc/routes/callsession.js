@@ -28,6 +28,9 @@ exports.get = function(req, res) {
 	where['extension'] = '';
 	where['extension'] = '';
 
+	where['cretime_from']='';
+    where['cretime_to']='';
+
 
 
 	where['routerline'] = -1;

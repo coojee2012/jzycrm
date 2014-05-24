@@ -18,6 +18,18 @@ var aoColumns=[
 var where='';
 
 
+var crtimefrom=$('#cretime_from').val();
+    if(crtimefrom=='')
+      crtimefrom='2001-01-01 00:00:00';
+    else
+      crtimefrom+=' 00:00:00';
+var crtimeto=$('#cretime_to').val();
+    if(crtimeto=='')
+      crtimeto='2099-12-31 23:59:59';
+      else
+      crtimeto+=' 23:59:59';
+
+where+=',,,,,'+'cretime:::::between|||||'+crtimefrom+ '=====' + crtimeto;
 where+=',,,,,'+'accountcode:::::like|||||'+$('#accountcode').val();
 
 
@@ -178,7 +190,8 @@ name="accountcode" value="<%= where.accountcode%>" />
      </div>
 </div>
   
-<div class="control-group"><label class="control-label" for="routerline">呼叫方向 </label>
+<div class="control-group">
+<label class="control-label" for="routerline">呼叫方向 </label>
 <div class="controls">
     <select id="routerline" name="routerline"> 
     	  <option value="-1" <%if(where.routerline==-1){%> selected="selected" <%}%>>
@@ -192,6 +205,21 @@ name="accountcode" value="<%= where.accountcode%>" />
 							</option> 
 								  </select>   </div>
 </div>
+
+<div class="control-group">
+<label class="control-label" for="cretime">通话时间  从</label>
+<div class="controls">
+ <input type="text" class="input-xlarge datepicker" id="cretime_from" name="cretime_from" value="<%= where.cretime_from%>"> 
+     </div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="cretime">到</label>
+<div class="controls">
+<input type="text" class="input-xlarge datepicker" id="cretime_to" name="cretime_to" value="<%= where.cretime_to%>">
+     </div>
+</div>
+
        
 <div class="modal-footer">
 <button class="btn btn-small btn-danger" data-dismiss="modal"
