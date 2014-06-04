@@ -33,6 +33,7 @@
         "connect-jugglingdb": "*",
         "eventproxy": "*",
         "formidable": "*",
+        "readable-stream": "*",
         "stylus": "*"
     }
 }
