@@ -13,7 +13,17 @@ $(document).ready(function() {
 		}, {
 			mData: "sdate",
 			sClass: "center",
-			"aTargets": [2]
+			"aTargets": [2],
+			"mRender": function(data, type, full) {
+				if (data && data !== '') {
+					var t=data.split('\+');
+
+				return t[0];	
+				}
+					
+				else 
+					return "";
+			}
 		}, {
 			mData: "relater",
 			sClass: "center",
@@ -39,7 +49,13 @@ $(document).ready(function() {
 			mData: "address",
 			sClass: "center",
 			bSearchable: false,
-			"aTargets": [5]
+			"aTargets": [5],
+			mRender: function(data, type, full) {
+				if (data && typeof(data) === 'object') 
+					return "";
+				else
+					return data;
+			}
 		}, {
 			mData: "sCotogy",
 			sClass: "center",
@@ -114,6 +130,10 @@ function getWhere(){
 //gt > gete >=  lt  < lte <=   inq IN nin NOT IN neq  != like  LIKE
 where.in0=$('#in0').val();//添加需要查询的条件个数
 where.in1=$('#in1').val();
+where.in2=$('#in2').val();
+where.in3=$('#in3').val();
+where.in4=$('#in4').val();
+where.in5=$('#in5').val();
 return where;
 }
 </script>

@@ -228,6 +228,7 @@ function getWhere() {
 	where.in1 = $('#in1').val();
 	where.in2 = $('#in2').val()==""?"":$('#in2').val();//.substr(0,7);
 	where.in3 = $('#in3').val()==""?"":$('#in3').val();//.substr(0,7);
+	where.in4 = $('#in4').val()==""?"":$('#in4').val();
 	return where;
 }
 </script>
@@ -324,11 +325,12 @@ name="in4">
 			
 			 <th>抄表员</th>
 			<th>查表类型</th>
+			<th>抄表日期</th>
 
 			<th>发票号</th>
 		     
 			
-			 <th>抄表日期</th>
+			 
 			 <th>是否欠费</th>   
 			 <th>是否停水</th>     
 			 <th>是否销户</th>

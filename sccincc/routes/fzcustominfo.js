@@ -32,6 +32,7 @@
  	where['in1'] = '';
  	where['in2'] = '';
  	where['in3'] = '';
+ 	where['in4'] = '';
  	res.render('fzcustominfo/wx.html', {
  		title: '水费列表',
  		where: where
@@ -49,14 +50,14 @@
  		where: where
  	});
  };
-//发展子系统信息查询
+ //发展子系统信息查询
  exports.getList = function(req, res) {
- 	var in0 = req.body.in0 || "";//户号
- 	var in1 = req.body.in1 || "";//联系方式
- 	var in2 = req.body.in2 || "";//开始时间
- 	var in3 = req.body.in3 || "";//结束时间
- 	var in4 = req.body.in4 || "";//联系人
- 	var in5 = req.body.in5 || "";//申请地址
+ 	var in0 = req.body.in0 || ""; //户号
+ 	var in1 = req.body.in1 || ""; //联系方式
+ 	var in2 = req.body.in2 || ""; //开始时间
+ 	var in3 = req.body.in3 || ""; //结束时间
+ 	var in4 = req.body.in4 || ""; //联系人
+ 	var in5 = req.body.in5 || ""; //申请地址
 
  	var output = {};
  	output.aaData = [];
@@ -80,7 +81,7 @@
  				/*res.set('Content-Type', 'text/xml');
  			res.send(body); 
  			console.log(body);*/
- 			console.log(result);
+ 				console.log(result);
  				if (result && result.out && result.out !== null && result.out.Usefz && result.out.Usefz.length > 0) {
  					output.aaData = result.out.Usefz;
  					output.sEcho = "查询成功！";
@@ -98,13 +99,14 @@
  	});
 
  }
-//用水信息查询
+ //用水信息查询
  exports.getAll = function(req, res) {
- 	var in0 = req.body.in0 || "";//户号
- 	var in1 = req.body.in1 || "";//户名
+ 	var in0 = req.body.in0 || ""; //户号
+ 	var in1 = req.body.in1 || ""; //户名
  	var in2 = req.body.in2 || "";
  	var in3 = req.body.in3 || "";
- 	
+ 	var in4 = req.body.in4 || "";
+
  	var output = {};
  	output.aaData = [];
  	output.iTotalRecords = 10;
@@ -120,14 +122,15 @@
  				in0: in0,
  				in1: in1,
  				in2: in2,
- 				in3: in3
+ 				in3: in3//,
+ 				//in4: in4
  			}, function(err, result, body) {
  				//console.log(result);
  				/*res.set('Content-Type', 'text/xml');
- 			res.send(body); 
- 			console.log(body);*/
+ 			res.send(body); */
+ 			console.log(body);
 
- 				if (result && result.out !== null && result.out.Rxwx && result.out.Rxwx.length > 0) {
+ 				if (result && result.out && result.out !== null && result.out.Rxwx && result.out.Rxwx.length > 0) {
  					output.aaData = result.out.Rxwx;
  					output.sEcho = "查询成功！";
  					output.iTotalRecords = result.out.Rxwx.length;
@@ -167,7 +170,7 @@
  		where: where
  	});
  };
-//正式用户信息
+ //正式用户信息
  exports.getRxws = function(req, res) {
  	var in0 = req.body.in0 || ""; //户号
  	var in1 = req.body.in1 || ""; //户名
@@ -195,9 +198,9 @@
  				console.log(result);
  				/*res.set('Content-Type', 'text/xml');
  			res.send(body); */
- 			console.log(body);
-console.log(result);
- 				if (result && result.out &&result.out !== null && result.out.Rxwx && result.out.Rxwx.length > 0) {
+ 				console.log(body);
+ 				console.log(result);
+ 				if (result && result.out && result.out !== null && result.out.Rxwx && result.out.Rxwx.length > 0) {
  					output.aaData = result.out.Rxwx;
  					output.sEcho = "查询成功！";
  					output.iTotalRecords = result.out.Rxwx.length;
