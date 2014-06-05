@@ -3,6 +3,7 @@ var schema = require('../../dbconfig').schema;
 var Inputs = require('../../autoinput/autoinput');
 var moment = require('moment');
 var callsession = schema.define('callsession', {
+	//id:{type:String,limit:50},
 	accountcode:   {type:String,limit:50},
 	callernumber:   {type:String,limit:50},
 	extension:   {type:String,limit:50},

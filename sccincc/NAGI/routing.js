@@ -12,7 +12,7 @@ var routing = function(v) {
   this.args = v.args;
   this.logger = v.logger;
   this.vars = v.vars;
-  this.sessionnum = guid.create();
+  this.sessionnum = ""; // guid.create();
   this.ivrlevel = 0;
   this.transferlevel = 0; //防止呼叫转移死循环
   this.lastinputkey = '';
@@ -28,20 +28,24 @@ routing.prototype.router = function() {
   var args = self.args;
   var vars = self.vars;
   self.routerline = args.routerline;
+  self.sessionnum = vars.agi_uniqueid.replace(/\./, "");
   //self.args.called=self.args.called ||  self.vars.agi_dnid || self.vars.agi_extension;
   async.auto({
     AddCDR: function(cb) {
-      var mod = new callsession();
+      var mod = {}; // new callsession();
       mod.id = self.sessionnum;
       mod.cretime = moment().format("YYYY-MM-DD HH:mm:ss");
       mod.routerline = args.routerline;
       mod.callernumber = vars.agi_callerid;
       mod.extension = args.called;
-      mod.frist_cdruniqueid = vars.agi_uniqueid;
-      mod.accountcode = vars.agi_accountcode;
-      mod.save(function(err, inst) {
+      mod.frist_cdruniqueid = self.sessionnum; //vars.agi_uniqueid.replace(/\./,"");
+      mod.accountcode = self.sessionnum;
+      callsession.create(mod, function(err, inst) {
         cb(err, inst);
       });
+      /* mod.save(function(err, inst) {
+        cb(err, inst);
+      });*/
     },
     MixMonitor: ['AddCDR',
       function(cb, results) {
@@ -103,18 +107,19 @@ routing.prototype.dialout = function(linenum, callback) {
   var args = self.args;
   var vars = self.vars;
   async.auto({
-     getdymember: function(cb, results) {
-        extension.findOne({
-          where: {
-            accountcode: vars.agi_callerid
-          }
-        }, function(err, inst) {
-          cb(err, inst);
-        });
-      },
-    updateCDR: ["getdymember",function(cb) {
+    getdymember: function(cb, results) {
+      extension.findOne({
+        where: {
+          accountcode: vars.agi_callerid
+        }
+      }, function(err, inst) {
+        cb(err, inst);
+      });
+    },
+    updateCDR: ["getdymember",
+      function(cb) {
 
-       callsession.findOne({
+        callsession.findOne({
           where: {
             id: self.sessionnum
           },
@@ -132,8 +137,9 @@ routing.prototype.dialout = function(linenum, callback) {
           }
         });
 
-    
-    }],
+
+      }
+    ],
     updatePopScreen: ['updateCDR',
       function(cb, results) {
 
@@ -158,7 +164,7 @@ routing.prototype.dialout = function(linenum, callback) {
           }
         });
 
-      
+
       }
     ],
     automonitor: ["updateCDR",
@@ -172,7 +178,7 @@ routing.prototype.dialout = function(linenum, callback) {
         var trunkdevice = "qcc";
         var called = args.called;
 
-       
+
         var channele = "";
         if (trunkproto === 'PRI' || trunkproto === 'FXO') {
           channele = 'DAHDI/g' + trunkdevice;
@@ -220,23 +226,23 @@ routing.prototype.extension = function(extennum, assign, callback) {
   var vars = self.vars;
   self.args.called = extennum;
   var args = self.args;
-  async.auto({ 
+  async.auto({
     dial: function(cb, resluts) {
-        var extenproto = 'SIP';
-        var timeout ='60';
-        timeout = parseInt(timeout);
-        context.Dial(extenproto + '/' + extennum, timeout, 'tr', function(err, response) {
-            logger.debug("拨打分机返回结果：", response);
-            if (err) {
-              cb(err, response);
-            } else {
-              context.getVariable('DIALSTATUS', function(err, response) {
-                cb(null, response);
-              });
-            }
+      var extenproto = 'SIP';
+      var timeout = '60';
+      timeout = parseInt(timeout);
+      context.Dial(extenproto + '/' + extennum, timeout, 'tr', function(err, response) {
+        logger.debug("拨打分机返回结果：", response);
+        if (err) {
+          cb(err, response);
+        } else {
+          context.getVariable('DIALSTATUS', function(err, response) {
+            cb(null, response);
           });
-        
-      },
+        }
+      });
+
+    },
     afterdial: ['dial',
       function(cb, resluts) {
         var re = /(\d+)\s+\((\w+)\)/;
@@ -245,11 +251,11 @@ routing.prototype.extension = function(extennum, assign, callback) {
           anwserstatus = RegExp.$2;
         }
         logger.debug("应答状态：", anwserstatus);
-   
-      
+
+
 
         if (anwserstatus !== 'ANSWER') {
-        cb("应答不成功。", -1);
+          cb("应答不成功。", -1);
         } else {
           logger.debug("应答成功。");
           cb(null, 1);
@@ -287,7 +293,8 @@ routing.prototype.sysmonitor = function(monitype, callback) {
       mod.folder = "/var/spool/asterisk/monitor/3/";
       mod.callnumber = callnumber;
       mod.extennum = extennum;
-      mod.calltype = self.routerline;
+      mod.calltype = self.routerline=="1"?"callee":"caller";
+      mod.doymicac = monitype;
       mod.save(function(err, inst) {
         cb(err, inst);
       });
@@ -334,11 +341,17 @@ routing.prototype.queue = function(queuenum, assign, callback) {
         cb(err, response);
       });
     },
-    queue: ['Answer',
+   // $AGI->exec('playback','./user_custom/stopwater');
+    stopwater:['Answer',function(cb,results){
+      context.Playback('user_custom/stopwater', function(err, response) {
+              cb(err, response);
+            });
+    }],
+    queue: ['stopwater',
       function(cb, results) {
         //Queue(queuename,options,URL,announceoverride,timeout,agi,cb)
         var queuetimeout = 60;
-        context.Queue(queuenum, 'tc', '', '', queuetimeout, 'agi://127.0.0.1/queueAnswered?queuenum=' + queuenum + '&sessionnum=' + self.sessionnum, function(err, response) {
+        context.Queue(queuenum, 'tc', '', '', queuetimeout, 'agi://127.0.0.1:4574/queueAnswered?queuenum=' + queuenum + '&sessionnum=' + self.sessionnum, function(err, response) {
           logger.debug("队列拨打返回结果:", response);
           cb(err, response);
         });
@@ -348,6 +361,8 @@ routing.prototype.queue = function(queuenum, assign, callback) {
     getQueueStatus: ['queue',
       function(cb, results) {
         context.getVariable('QUEUESTATUS', function(err, response) {
+          logger.debug("获取呼叫队列状态response：", response);
+
           var queueStatus = '';
           var reg = /(\d+)\s+\((.*)\)/;
           var c = null,
@@ -412,7 +427,7 @@ routing.prototype.queueAnswered = function() {
       function(cb, results) {
         callsession.findOne({
           where: {
-            id: self.sessionnum
+            frist_cdruniqueid: self.sessionnum
           },
           order: "cretime desc"
         }, function(err, inst) {
@@ -454,9 +469,10 @@ routing.prototype.queueAnswered = function() {
         });
       }
     ],
-    automonitor: ['getAnswerMem',
+    automonitor: ['getdymember',
       function(cb, results) {
-        self.sysmonitor("队列", cb);
+        var dynumber = results.getdymember.doymicaccount || results.getAnswerMem;
+        self.sysmonitor(dynumber, cb);
       }
     ]
   }, function(err, results) {
@@ -474,26 +490,25 @@ routing.prototype.findqueuemember = function() {
   var vars = self.vars;
   var extennum = args.localnum;
   async.auto({
-    findLocal: function(cb, results) {
-        extension.findOne({
-          where: {
-            accountcode: extennum
-          }
-        }, function(err, inst) {
-          if (err)
-            cb(err, inst);
-          if (inst != null && inst.dndinfo=="off") {
-            cb(null, inst);
-          } else {
-            cb("在本地号码中没有找到队列成员号码，或分机示忙中！", null);
-          }
+    findLocal: function(cb) {
+      extension.findOne({
+        where: {
+          accountcode: extennum
+        }
+      }, function(err, inst) {
+        if (err)
+          cb(err, inst);
+        if (inst != null && inst.dndinfo == "off") {
+          cb(null, inst);
+        } else {
+          cb("在本地号码中没有找到队列成员号码，或分机示忙中！", null);
+        }
 
-        });
-      }
-    ,
+      });
+    },
     dial: ['findLocal',
       function(cb, resluts) {
-        var extenproto =  'SIP';
+        var extenproto = 'SIP';
         var timeout = '60';
         timeout = parseInt(timeout);
         context.Dial(extenproto + '/' + extennum, timeout, 'tr', function(err, response) {
@@ -516,7 +531,7 @@ routing.prototype.findqueuemember = function() {
         if (re.test(resluts.dial.result)) {
           anwserstatus = RegExp.$2;
         }
-        logger.debug("拨打队列分机应答状态：", anwserstatus);        
+        logger.debug("拨打队列分机应答状态：", anwserstatus);
         if (anwserstatus !== 'ANSWER') {
           cb("拨打队列分机应答不成功！", -1);
         } else {
@@ -527,6 +542,7 @@ routing.prototype.findqueuemember = function() {
     ]
   }, function(err, results) {
     logger.error(err);
+    logger.debug("拨打队列分机结束。");
     context.end();
   });
 }

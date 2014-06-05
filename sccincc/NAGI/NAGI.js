@@ -116,7 +116,7 @@ if (cluster.isMaster) {
 			count: true
 		});
 	});
-	server.listen(4573, function() {
+	server.listen(4574, function() {
 		logger.info('成功启动AGI服务!');
 	});
 

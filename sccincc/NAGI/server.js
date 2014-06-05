@@ -38,9 +38,9 @@ var server = AGI.createServer(function(context) {
     vars: null
   });
 
-  server.getConnections(function(err, count) {
+ /* server.getConnections(function(err, count) {
     logger.info('当前服务器连接数：' + count);
-  });
+  });*/
 
   server.on("error", function(err) {
     logger.error(err);
@@ -64,6 +64,7 @@ var server = AGI.createServer(function(context) {
     }
 
     logger.debug(vars);
+    logger.info('捕获到来自' + vars.agi_callerid + '的新呼叫， 呼叫编号为: ' + vars.agi_uniqueid);
     route.args = args;
     route.vars = vars;
     if (typeof(route[router]) === 'function') {
@@ -75,7 +76,7 @@ var server = AGI.createServer(function(context) {
     }
 
 
-    logger.info('捕获到来自' + vars.agi_callerid + '的新呼叫， 呼叫编号为: ' + vars.agi_uniqueid);
+  
   });
   //监听事件返回结果
   context.on('response', function(response) {
@@ -128,7 +129,7 @@ var server = AGI.createServer(function(context) {
 });
 
 if (!module.parent) {
-  server.listen(4573);
+  server.listen(4574);
 }
 
 module.exports = server;
