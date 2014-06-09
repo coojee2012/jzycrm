@@ -802,11 +802,13 @@ exports.getPhone = function(req, res) {
 						id: inst.cID
 					}
 				}, function(err, custom) {
-					var smscontent = '户_号:' + custom.idcard + '.地_址:' + custom.lifeAddr;
+					var smscontent = '户_号:' + custom.idcard + '.地_址:' + inst.uaddr;//custom.lifeAddr;
 					smscontent += '.故_障:' + inst.orderContent;
 					smscontent += '.电_话:' + custom.phone;
 
 					udata.content = smscontent;
+					udata.agent=inst.serMan;
+					//udata.pdan=inst.
 
 
 					res.send({

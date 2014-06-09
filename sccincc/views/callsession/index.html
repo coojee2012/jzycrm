@@ -93,7 +93,7 @@ $('#datatable').dataTable( {
                                    mRender: function (data, type,full) {
                                 //    return 100;
                                 var caller,called;
-                                if(full.routerline==2){
+                                if(full.routerline==1){
                                 	caller=full.callernumber;
                                 	called=full.extension;
                                 }else{
@@ -140,8 +140,8 @@ var tm=	{ name: '呼叫方向',
   create: false,
   table: true,
   selects: 
-   [{ checked: '', value: 1, name: '呼出' },
-     { checked: '', value: 2, name: '呼入' } ] }.selects;
+   [{ checked: '', value: 1, name: '呼入' },
+     { checked: '', value: 2, name: '呼出' } ] }.selects;
 for(var tmtm in tm)
 	if(tm[tmtm].value==value){
 return tm[tmtm].name;
@@ -198,10 +198,10 @@ name="accountcode" value="<%= where.accountcode%>" />
 							 请选择 
 							</option> 
 							<option value="1" <%if(where.routerline==1){%> selected="selected" <%}%>>
-							 呼出 
+							 呼入 
 							</option> 
 							<option value="2" <%if(where.routerline==2){%> selected="selected" <%}%>  >
-							 呼入 
+							 呼出 
 							</option> 
 								  </select>   </div>
 </div>

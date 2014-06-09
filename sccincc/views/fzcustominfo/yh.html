@@ -34,13 +34,18 @@ checkinput();
 					return data;
 			}
 		}, {
+			mData: "sbkj",
+			sClass: "center",
+			bSearchable: false,
+			"aTargets": [4]
+		}, {
 			mData: "uCotogy",
 			sClass: "center",
-			"aTargets": [4]
+			"aTargets": [5]
 		},{
 			mData: "call",
 			sClass: "center",
-			"aTargets": [5],
+			"aTargets": [6],
 			"mRender": function(data, type, full) {
 				if (data && typeof(data) === 'object') 
 					return "";
@@ -48,10 +53,40 @@ checkinput();
 					return data;
 			}
 		}, {
+			mData: "jfDate",
+			sClass: "center",
+			bSearchable: false,
+			"aTargets": [7],
+			"mRender": function(data, type, full) {
+				if (data && data !== '') {
+					var t=data.split('\+');
+
+				return t[0];	
+				}
+					
+				else 
+					return "";
+			}
+		}, {
 			mData: "buildTime",
 			sClass: "center",
 			bSearchable: false,
-			"aTargets": [6],
+			"aTargets": [8],
+			"mRender": function(data, type, full) {
+				if (data && data !== '') {
+					var t=data.split('\+');
+
+				return t[0];	
+				}
+					
+				else 
+					return "";
+			}
+		}, {
+			mData: "hbDate",
+			sClass: "center",
+			bSearchable: false,
+			"aTargets": [9],
 			"mRender": function(data, type, full) {
 				if (data && data !== '') {
 					var t=data.split('\+');
@@ -66,12 +101,12 @@ checkinput();
 			mData: "sfTs",
 			sClass: "center",
 			bSearchable: false,
-			"aTargets": [7]
+			"aTargets": [10]
 		}, {
 			mData: "sfXh",
 			sClass: "center",
 			bSearchable: false,
-			"aTargets": [8]
+			"aTargets": [11]
 		}
 
 	];
@@ -228,10 +263,13 @@ name="in4" >
 			<th>户名</th>
 			<th>户号</th>
 			<th>用水地址</th>    	  
-			<th>表号</th>			      
+			<th>表号</th>
+			<th>水表口径</th>				      
 			<th>用水类别</th>
 			<th>联系电话</th>
-			<th>建档日期</th>		    
+			<th>交付日期</th>
+			<th>建户日期</th>
+			<th>换表日期</th>		    
 			<th>是否停水</th>			     
 			<th>是否销户</th>
 		</tr>

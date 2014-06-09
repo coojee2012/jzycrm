@@ -32,6 +32,20 @@ routing.prototype.router = function() {
   //self.args.called=self.args.called ||  self.vars.agi_dnid || self.vars.agi_extension;
   async.auto({
     AddCDR: function(cb) {
+
+      var callnumber = null,
+        exten = null;
+
+      /*if (args.routerline === "1") {
+        callnumber = vars.agi_callerid;
+        exten = args.called;
+         logger.debug("呼叫方向1：", args.routerline,callnumber,exten);
+      } else {
+        exten = vars.agi_callerid;
+        callnumber = args.called;
+        logger.debug("呼叫方向2：", args.routerline,callnumber,exten);
+      }*/
+
       var mod = {}; // new callsession();
       mod.id = self.sessionnum;
       mod.cretime = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -43,36 +57,36 @@ routing.prototype.router = function() {
       callsession.create(mod, function(err, inst) {
         cb(err, inst);
       });
-      /* mod.save(function(err, inst) {
-        cb(err, inst);
-      });*/
     },
-    MixMonitor: ['AddCDR',
-      function(cb, results) {
-        //self.sysmonitor(cb);
-        cb(null, null);
-      }
-    ],
     Route: ['AddCDR',
       function(cb, results) {
         var processmode = null;
         var processdefined = null;
         var match = false;
         //呼入=1
-        if (args.routerline == "1") {
+        if (args.routerline === "1") {
           self["queue"](401, 1, function(err, result) {
             cb(err, result);
           });
         }
         //呼出=2
         else {
-          if (/^8\d\d\d/.test(args.called)) {
+          if (/^80\d\d/.test(args.called)) {
             self["extension"](args.called, 1, function(err, result) {
               cb(err, result);
             });
 
           } else {
-            self["dialout"](args.called, 1, function(err, result) {
+            var called = args.called;
+            if (called.length == 5 && /^9/.test(called)) {
+              called = called.replace(/^9/, "");
+              logger.debug("9called:", called);
+            } else if (!(/^0/.test(called))) {
+              called = "0" + called;
+              logger.debug("0called:", called);
+            }
+
+            self["dialout"](called, function(err, result) {
               cb(err, result);
             });
           }
@@ -117,7 +131,7 @@ routing.prototype.dialout = function(linenum, callback) {
       });
     },
     updateCDR: ["getdymember",
-      function(cb) {
+      function(cb, results) {
 
         callsession.findOne({
           where: {
@@ -130,7 +144,7 @@ routing.prototype.dialout = function(linenum, callback) {
             cb("外呼更新呼叫记录发生异常！", inst);
           } else {
             inst.accountcode = results.getdymember.doymicaccount || vars.agi_callerid
-            inst.extension = vars.agi_callerid;
+           // inst.extension = vars.agi_callerid;
             callsession.updateOrCreate(inst, function(err, o) {
               cb(err, o);
             });
@@ -153,11 +167,12 @@ routing.prototype.dialout = function(linenum, callback) {
             cb("写入弹屏数据发生异常！", inst);
           } else {
             inst.callernumber = vars.agi_callerid;
-            inst.callednumber = args.called;
+            inst.callednumber = linenum || args.called;
             inst.routerdype = 2;
             inst.status = 'waite';
             inst.creattime = moment().format("YYYY-MM-DD HH:mm:ss");
             inst.callid = self.sessionnum;
+            inst.uid = self.sessionnum;
             callevent.updateOrCreate(inst, function(err, o) {
               cb(err, o);
             });
@@ -168,15 +183,16 @@ routing.prototype.dialout = function(linenum, callback) {
       }
     ],
     automonitor: ["updateCDR",
-      function(cb) {
-        self.sysmonitor("呼出", cb);
+      function(cb, results) {
+        var dycn = results.getdymember.doymicaccount || vars.agi_callerid;
+        self.sysmonitor(dycn, "caller", cb);
       }
     ],
     dial: ['automonitor',
       function(cb, results) {
         var trunkproto = "SIP";
-        var trunkdevice = "qcc";
-        var called = args.called;
+        var trunkdevice = "siptrunk";
+        var called = linenum || args.called;
 
 
         var channele = "";
@@ -269,7 +285,7 @@ routing.prototype.extension = function(extennum, assign, callback) {
 
 
 //发起系统录音
-routing.prototype.sysmonitor = function(monitype, callback) {
+routing.prototype.sysmonitor = function(monitype, calltype, callback) {
   var self = this;
   var context = self.context;
   var logger = self.logger;
@@ -283,17 +299,17 @@ routing.prototype.sysmonitor = function(monitype, callback) {
     //添加一条录音记录
     addRecords: function(cb) {
       var filename = self.sessionnum;
-      //var extennum = self.routerline === '呼入' ? args.called : vars.agi_callerid;
-      //var callnumber = self.routerline === '呼出' ? args.called : vars.agi_callerid;
-      var extennum = args.called;
-      var callnumber = vars.agi_callerid;
+      var extennum = calltype === 'callee' ? args.called : vars.agi_callerid;
+      var callnumber = calltype === 'callee' ? vars.agi_callerid : args.called;
+      //var extennum = args.called;
+      //var callnumber = vars.agi_callerid;
       var mod = new recordfiles();
       mod.filename = filename;
       mod.extname = 'wav';
       mod.folder = "/var/spool/asterisk/monitor/3/";
       mod.callnumber = callnumber;
       mod.extennum = extennum;
-      mod.calltype = self.routerline=="1"?"callee":"caller";
+      mod.calltype = calltype;
       mod.doymicac = monitype;
       mod.save(function(err, inst) {
         cb(err, inst);
@@ -337,16 +353,18 @@ routing.prototype.queue = function(queuenum, assign, callback) {
         if (err)
           logger.error(err);
 
-        logger.debug("IVR应答结果：", response);
+        logger.debug("Answer应答结果：", response);
         cb(err, response);
       });
     },
-   // $AGI->exec('playback','./user_custom/stopwater');
-    stopwater:['Answer',function(cb,results){
-      context.Playback('user_custom/stopwater', function(err, response) {
-              cb(err, response);
-            });
-    }],
+    // $AGI->exec('playback','./user_custom/stopwater');
+    stopwater: ['Answer',
+      function(cb, results) {
+        context.Playback('user_custom/stopwater', function(err, response) {
+          cb(err, response);
+        });
+      }
+    ],
     queue: ['stopwater',
       function(cb, results) {
         //Queue(queuename,options,URL,announceoverride,timeout,agi,cb)
@@ -462,6 +480,7 @@ routing.prototype.queueAnswered = function() {
             inst.status = 'waite';
             inst.creattime = moment().format("YYYY-MM-DD HH:mm:ss");
             inst.callid = self.sessionnum;
+            inst.uid = self.sessionnum;
             callevent.updateOrCreate(inst, function(err, o) {
               cb(err, o);
             });
@@ -472,7 +491,7 @@ routing.prototype.queueAnswered = function() {
     automonitor: ['getdymember',
       function(cb, results) {
         var dynumber = results.getdymember.doymicaccount || results.getAnswerMem;
-        self.sysmonitor(dynumber, cb);
+        self.sysmonitor(dynumber, 'callee', cb);
       }
     ]
   }, function(err, results) {
@@ -541,7 +560,9 @@ routing.prototype.findqueuemember = function() {
       }
     ]
   }, function(err, results) {
-    logger.error(err);
+    if (err)
+      logger.error(err);
+
     logger.debug("拨打队列分机结束。");
     context.end();
   });

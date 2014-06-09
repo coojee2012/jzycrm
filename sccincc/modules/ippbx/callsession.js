@@ -23,10 +23,10 @@ callsession.cloums={
 		routerline:   {name:"呼叫方向",input:Inputs.Selects,search:true,create:false,table:true,selects:[
 		         		                                                                           {checked:' selected="selected"',
 		      		                                                                            	 value:1,
-		      		                                                                            	 name:'呼出'},
+		      		                                                                            	 name:'呼入'},
 		      		                                                                           {checked:'',
 		      			                                                                       value:2,
-		      			                                                                       name:'呼入'}
+		      			                                                                       name:'呼出'}
 		      		                                                                             ]},
 		
 		cretime:   {name:"呼叫时间",input:Inputs.Date,search:false,create:false,table:true},

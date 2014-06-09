@@ -5,6 +5,10 @@ var  audio=$("#pcaudio")[0];
 audio.src=str;
 audio.play();
     });
+function download(){
+var str="<%= hostname%>:<%= port%>/sounds/<%= myfilename%>.wav";
+window.open(str);	
+}
 </script>
 
 
@@ -14,7 +18,7 @@ audio.play();
  <audio src="" controls="controls" id="pcaudio" class="col-sm-9">
  您的浏览器不支持此播放标签！
  </audio>
-<!--  <a href="javascript:download();" class="btn btn-primary col-sm-1" target="_blank">下载</a> -->
+ <a href="javascript:download();" class="btn btn-primary col-sm-1" target="_blank">下载</a> 
  </div> 
 </div>
     

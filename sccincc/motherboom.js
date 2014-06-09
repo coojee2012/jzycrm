@@ -80,7 +80,7 @@ var t = setInterval(function() {
 					cb(null, null);
 				}
 			}
-		],
+		]/*,
 		delnull: ["upsize",
 			function(cb, results) {
 				var thisdate = moment().format("YYYY-MM-DD");
@@ -89,7 +89,7 @@ var t = setInterval(function() {
 					cb(err, null);
 				});
 			}
-		]
+		]*/
 
 	}, function(err, results) {
 
