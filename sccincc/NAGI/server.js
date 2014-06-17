@@ -10,14 +10,14 @@ log4js.configure({
   }, {
     "type": "file",
     "filename": "app.log",
-    "maxLogSize": 102400,
-    "backups": 3,
+    "maxLogSize": 10240000,
+    "backups": 5,
     "category": "app"
   }, {
     "type": "file",
     "filename": "agi.log",
-    "maxLogSize": 102400,
-    "backups": 3,
+    "maxLogSize": 10240000,
+    "backups": 5,
     "category": "agi"
   }],
   "replaceConsole": true

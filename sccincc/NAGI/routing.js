@@ -29,6 +29,7 @@ routing.prototype.router = function() {
   var vars = self.vars;
   self.routerline = args.routerline;
   self.sessionnum = vars.agi_uniqueid.replace(/\./, "");
+  logger.debug("进入路由处理！");
   //self.args.called=self.args.called ||  self.vars.agi_dnid || self.vars.agi_extension;
   async.auto({
     AddCDR: function(cb) {
@@ -54,6 +55,7 @@ routing.prototype.router = function() {
       mod.extension = args.called;
       mod.frist_cdruniqueid = self.sessionnum; //vars.agi_uniqueid.replace(/\./,"");
       mod.accountcode = self.sessionnum;
+      logger.debug("添加CDR，主叫：",vars.agi_callerid,",被叫:",args.called);
       callsession.create(mod, function(err, inst) {
         cb(err, inst);
       });

@@ -92,6 +92,15 @@ if (cluster.isMaster) {
 		});
 
 	});
+
+	var normal = require('child_process').fork(__dirname + '/motherboom.js');
+		normal.on('exit', function(code, signal) {
+			console.log('奶妈程序退出了：' + code);
+		});
+		normal.on('error', function(err) {
+			console.log('奶妈程序发生异常：' + err);
+		});
+
 } else if (cluster.isWorker) {
 	logger.info(' 子进程-> ' + "启动子进程 ..." + cluster.worker.id);
 	process.on('message', function(msg) {
