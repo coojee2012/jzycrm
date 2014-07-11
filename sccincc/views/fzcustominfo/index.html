@@ -46,7 +46,7 @@ $(document).ready(function() {
 					return data;
 			}
 		}, {
-			mData: "address",
+			mData: "nature",
 			sClass: "center",
 			bSearchable: false,
 			"aTargets": [5],
@@ -57,14 +57,25 @@ $(document).ready(function() {
 					return data;
 			}
 		}, {
+			mData: "address",
+			sClass: "center",
+			bSearchable: false,
+			"aTargets": [6],
+			mRender: function(data, type, full) {
+				if (data && typeof(data) === 'object') 
+					return "";
+				else
+					return data;
+			}
+		}, {
 			mData: "sCotogy",
 			sClass: "center",
-			"aTargets": [6]
+			"aTargets": [7]
 		}, {
 			mData: "state",
 			sClass: "center",
 			bSearchable: false,
-			"aTargets": [7]
+			"aTargets": [8]
 		}
 
 	];
@@ -172,7 +183,7 @@ name="in1" value="<%= where.in1%>" >
  <div class="box-content span5">
 <div class="control-group">
 <label class="control-label" for="in2">申请时间 从</label>
-<div class="controls"> <input type="text" class="span10" placeholder="格式,如：2014-01" id="in2"
+<div class="controls"> <input type="text" class="span10" placeholder="格式,如：2014-01-01" id="in2"
 name="in2" value="<%= where.in2%>" > 
  </div>
 </div>
@@ -180,7 +191,7 @@ name="in2" value="<%= where.in2%>" >
 <div class="box-content span5">
 <div class="control-group">
 <label class="control-label" for="in3">到 </label>
-<div class="controls"> <input type="text" class="span10" placeholder="格式,如：2014-12" id="in3"
+<div class="controls"> <input type="text" class="span10" placeholder="格式,如：2014-12-31" id="in3"
 name="in3" value="<%= where.in3%>" > 
  </div>
 </div>
@@ -234,7 +245,7 @@ name="in5" value="<%= where.in5%>">
 			<th>申请时间</th>		  
 			<th>联系人</th>		      
 			<th>联系方式</th>			
-
+            <th>用水性质</th>
 			<th>申请地址</th>
 			  
 			<th>申请类别</th>		          
