@@ -2,7 +2,7 @@
     $().ready(function () {
 
     });
-      
+
         $(document).ready(function() 
           {
               //$('#Tip').hide();//显示操作提示的元素不可见
@@ -15,7 +15,11 @@
                     alert("通话内容不能为空！");
                     return false;
                   }
-                    
+                  var cardnumber=$("#Card_id").val();
+                  if(cardnumber=="" || /^\s+\s$/.test(cardnumber)){
+                      alert("会员卡号不能为空!");
+                      return false;
+                  }
                   var url="/jzy/screenPopInsert";
                   if(cdid!="")
                     url="/jzy/screenPopUpdate";
@@ -28,7 +32,7 @@
                       {
                       //$("#savesuccess").click();
                       var Card_id=$("#Card_id").val();
-                      $("#Card_id").attr("readonly","readonly");
+                     // $("#Card_id").attr("readonly","readonly");
                       $("#cdid").val(Card_id);
                       $("#thjlstatus").val(1);
                       alert(result.Message);

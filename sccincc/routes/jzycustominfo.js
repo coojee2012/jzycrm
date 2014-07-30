@@ -26,7 +26,7 @@
   var config = {
     server: '127.0.0.1',
     userName: 'sa',
-    password: '123',
+    password: '123456Aa',
     options: {
       debug: {
         packet: false,
