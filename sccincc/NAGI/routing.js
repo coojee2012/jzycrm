@@ -245,7 +245,22 @@ routing.prototype.extension = function(extennum, assign, callback) {
   self.args.called = extennum;
   var args = self.args;
   async.auto({
-    dial: function(cb, resluts) {
+    getdymember: function(cb, results) {
+          extension.findOne({
+              where: {
+                  accountcode: extennum
+              }
+          }, function(err, inst) {
+              cb(err, inst);
+          });
+      },
+    automonitor: ["getdymember",
+          function(cb, results) {
+              var dycn = results.getdymember.doymicaccount || vars.agi_callerid;
+              self.sysmonitor(dycn, "callee", cb);
+          }
+      ],
+    dial:["automonitor", function(cb, resluts) {
       var extenproto = 'SIP';
       var timeout = '60';
       timeout = parseInt(timeout);
@@ -260,7 +275,7 @@ routing.prototype.extension = function(extennum, assign, callback) {
         }
       });
 
-    },
+    }],
     afterdial: ['dial',
       function(cb, resluts) {
         var re = /(\d+)\s+\((\w+)\)/;

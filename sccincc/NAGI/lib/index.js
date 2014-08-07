@@ -6,7 +6,8 @@ var agi = {
   createServer: function(handler) {
     return require('net').createServer(function(stream) {
      console.log("AGI服务已启动....");
-      var context = new Context(stream);
+      var context = new Context(stream)
+        context.addListener(0);
       handler(context);
     });
   }

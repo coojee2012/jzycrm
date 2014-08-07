@@ -377,14 +377,14 @@ function paidan(orderId,depid1){
 			alert("工单数据有误！");
 		return false;	
 		}
-		var content='户号:';
+		var content='户_号:';
     content+=''+data.CustomInfo.idcard || '';
-		content+='.地址:'+data.CustomInfo.lifeAddr;
+		content+='.地_址:'+data.CustomInfo.lifeAddr;
 		//content+='.姓名:'+data.CustomInfo.cname;
-    content+='.故障:'+data.orderContent;
+    content+='.故_障:'+data.orderContent;
 		var phone=data.CustomInfo.phone||'';
 		    phone=phone.replace(/^0+/g,'');
-		content+='.电话:'+phone;
+		content+='.电_话:'+phone;
 		
 		//content+='.表号:'+data.CustomInfo.work || '';
 		

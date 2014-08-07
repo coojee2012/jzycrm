@@ -13,12 +13,16 @@ window.open(str);
 
 
 
- <div class="text-center">
-         <div class="controls  col-sm-12">
- <audio src="" controls="controls" id="pcaudio" class="col-sm-9">
+<div class="box-content">
+    <div class="controls">
+         <div class="controls  span9">
+ <audio src="" controls="controls" id="pcaudio" >
  您的浏览器不支持此播放标签！
  </audio>
- <a href="javascript:download();" class="btn btn-primary col-sm-1" target="_blank">下载</a> 
- </div> 
+             </div>
+        <div  class="controls  span3">
+ <a href="<%= hostname%>:<%= port%>/sounds/<%= myfilename%>.wav" target="_blank">下载</a>
+ </div>
+        </div>
 </div>
     
