@@ -145,7 +145,11 @@ routing.prototype.dialout = function(linenum, callback) {
             logger.error("外呼更新呼叫记录发生异常:", err);
             cb("外呼更新呼叫记录发生异常！", inst);
           } else {
-            inst.accountcode = results.getdymember.doymicaccount || vars.agi_callerid
+            var doymicaccount=vars.agi_callerid;
+            if(results.getdymember && results.getdymember.doymicaccount)
+              doymicaccount=results.getdymember.doymicaccount;
+
+            inst.accountcode = doymicaccount;
            // inst.extension = vars.agi_callerid;
             callsession.updateOrCreate(inst, function(err, o) {
               cb(err, o);
@@ -186,8 +190,14 @@ routing.prototype.dialout = function(linenum, callback) {
     ],
     automonitor: ["updateCDR",
       function(cb, results) {
-        var dycn = results.getdymember.doymicaccount || vars.agi_callerid;
-        self.sysmonitor(dycn, "caller", cb);
+        var doymicaccount=vars.agi_callerid;
+            if(results.getdymember && results.getdymember.doymicaccount)
+              doymicaccount=results.getdymember.doymicaccount;
+
+           // inst.accountcode = doymicaccount;
+
+        //var dycn = results.getdymember.doymicaccount || vars.agi_callerid;
+        self.sysmonitor(doymicaccount, "caller", cb);
       }
     ],
     dial: ['automonitor',
@@ -256,8 +266,15 @@ routing.prototype.extension = function(extennum, assign, callback) {
       },
     automonitor: ["getdymember",
           function(cb, results) {
-              var dycn = results.getdymember.doymicaccount || vars.agi_callerid;
-              self.sysmonitor(dycn, "callee", cb);
+
+             var doymicaccount=vars.agi_callerid;
+            if(results.getdymember && results.getdymember.doymicaccount)
+              doymicaccount=results.getdymember.doymicaccount;
+
+           // inst.accountcode = doymicaccount;
+
+              //var dycn = results.getdymember.doymicaccount || vars.agi_callerid;
+              self.sysmonitor(doymicaccount, "callee", cb);
           }
       ],
     dial:["automonitor", function(cb, resluts) {

@@ -20,12 +20,12 @@ exports.get = function(req, res) {
 
 
 	where['stopReson'] = '';
-	where['stopReson'] = '';
-
+	where['startTime_from'] = '';
+where['startTime_to'] = '';
 
 
 	where['smsTell'] = '';
-	where['smsTell'] = '';
+
 
 
 
