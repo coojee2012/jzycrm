@@ -5,3 +5,4 @@ web.log*
 *.dll
 *.exe
 sccincc/node_modules
+sccincc/*.log
