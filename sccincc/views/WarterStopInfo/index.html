@@ -25,6 +25,15 @@ where+=',,,,,'+'stopReson:::::like|||||'+$('#stopReson').val();
 
 where+=',,,,,'+'smsTell:::::like|||||'+$('#smsTell').val();
 
+if($('#startTime_from').val()!='' && $('#startTime_to').val()!=''){
+where+=',,,,,'+'startTime:::::between|||||'+$('#startTime_from').val()+' 00:00:00====='+$('#startTime_to').val()+' 23:59:59';
+}
+if($('#startTime_from').val()!='' && $('#startTime_to').val()==''){
+  where+=',,,,,'+'startTime:::::gte|||||'+$('#startTime_from').val()+' 00:00:00';
+}
+if($('#startTime_from').val()=='' && $('#startTime_to').val()!=''){
+  where+=',,,,,'+'startTime:::::lte|||||'+$('#startTime_to').val()+' 23:59:59';
+}
 
 //where+=',,,,,'+'areaID:::::'+$('#areaID').val();
 
@@ -289,6 +298,17 @@ data-provide="typeahead" data-items="4" data-source='["Alabama"]'>
      </div>
 </div>
   
+<div class="control-group"><label class="control-label" for="startTime_from">停水日期 从</label>
+<div class="controls">
+ <input type="text" class="input-xlarge datepicker" id="startTime_from" name="startTime_from" value="<%= where.startTime_from%>"> 
+     </div>
+</div>
+
+<div class="control-group"><label class="control-label" for="startTime_to">到</label>
+<div class="controls">
+<input type="text" class="input-xlarge datepicker" id="startTime_to" name="startTime_to" value="<%= where.startTime_to%>">
+     </div>
+</div>
 
        
 <div class="modal-footer">

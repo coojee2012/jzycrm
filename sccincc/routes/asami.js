@@ -176,7 +176,7 @@ var outnumber=req.body['outnumber']||req.query['outnumber'];
 var exten=req.body['exten']||req.query['exten'];
 
 var Variable="CHANNEL(language)=cn,FRI2_OUTGOING_MEMBERID=1,POPTYPE="+variable;	
-var channel="LOCAL/"+outnumber+"@sub-outgoing";
+var channel="LOCAL/"+outnumber+"@sub-outgoing/n";
 var Context='sub-outgoing-callback';
 //var Context='app-exten';
 var action=new AsAction.Originate();
