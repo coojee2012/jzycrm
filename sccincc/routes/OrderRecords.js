@@ -645,8 +645,15 @@ exports.editget = function(req, res) {
 //编辑POST
 exports.editpost = function(req, res) {
 	var id = req.body["id"];
-	var pageindex = req.query["pageindex"] || req.body["pageindex"];
+	var pageindex = req.query["distart"] || req.body["distart"];
 	var where = {};
+    for (var key in req.query) {
+        if (key == 'distart' || key == 'id')
+            continue;
+        where += "&" + key + '=' + req.query[key];
+
+    }
+
 	DbMode.findOne({
 		where: {
 			id: id
