@@ -646,7 +646,7 @@ exports.editget = function(req, res) {
 exports.editpost = function(req, res) {
 	var id = req.body["id"];
 	var pageindex = req.query["distart"] || req.body["distart"];
-	var where = {};
+	var where = "";
     for (var key in req.query) {
         if (key == 'distart' || key == 'id')
             continue;
@@ -880,6 +880,8 @@ exports.getOrder = function(req, res) {
 					data.CustomInfo = inst.__cachedRelations.CustomInfo;
 					data.OrderType = inst.__cachedRelations.OrderType;
 					data.orderReslut = inst.orderReslut;
+                    data.uphone=inst.uphone || "";
+                    data.uaddr=inst.uaddr || "";
 					//console.log(data);
 					res.send({
 						success: true,

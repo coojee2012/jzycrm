@@ -395,10 +395,12 @@ function paidan(orderId,depid1){
 		}
 		var content='户_号:';
     content+=''+data.CustomInfo.idcard || '';
-		content+='.地_址:'+data.CustomInfo.lifeAddr;
+		//content+='.地_址:'+data.CustomInfo.lifeAddr;
+        content+='.地_址:'+data.uaddr;
 		//content+='.姓名:'+data.CustomInfo.cname;
     content+='.故_障:'+data.orderContent;
-		var phone=data.CustomInfo.phone||'';
+	//	var phone=data.CustomInfo.phone||'';
+        var phone=data.uphone||'';
 		    phone=phone.replace(/^0+/g,'');
 		content+='.电_话:'+phone;
 		
@@ -439,10 +441,12 @@ $("#dactorName2").html(str);
 
     var content='户_号:';
     content+=''+data.CustomInfo.idcard || '';
-    content+='.地_址:'+data.CustomInfo.lifeAddr;
+    //content+='.地_址:'+data.CustomInfo.lifeAddr;
+            content+='.地_址:'+data.uaddr;
     //content+='.姓名:'+data.CustomInfo.cname;
     content+='.故_障:'+data.orderContent;
-    var phone=data.CustomInfo.phone||'';
+   // var phone=data.CustomInfo.phone||'';
+            var phone=data.uphone||'';
         phone=phone.replace(/^0+/g,'');
     content+='.电_话:'+phone;
     

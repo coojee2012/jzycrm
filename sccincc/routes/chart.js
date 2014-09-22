@@ -117,13 +117,13 @@ exports.callhchartpost = function(req, res) {
 		} else {
 
 			
-
+//新版系统：1呼入，2呼出
 			for (var i = 0; i < dbs.length; i++) {
-				if (dbs[i].routerline === 1)
+				if (dbs[i].routerline === 2)
 					tmp[dbs[i].uName].outcalls = dbs[i].number;
-				else if (dbs[i].routerline == 0) {
+				else {
 					tmp[dbs[i].uName].incalls = dbs[i].number;
-				}else{
+				//}else{
 					
 				}
 
