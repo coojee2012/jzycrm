@@ -21,22 +21,29 @@ var t = setInterval(function() {
 					var lastsize = 0;
 					async.eachSeries(results.findFiles, function(file, callback) {
 						fs.stat(path + file, function(err, stats) {
-							//console.log(stats);
-							var mtime = stats.mtime.valueOf();
-							var filesize = stats.size;
-							if (mtime > lasttime) {
-								lastfile = file;
-								lasttime = mtime;
-								lastsize = filesize;
-							}
+                            if(err || !stats){
+                                console.log(err,path + file);
 
-							if (mtime < daysago) {
-								var oldPath = path + file;
-								var newPath = npath + file;
-								fs.rename(oldPath, newPath, function() {
-									console.log("将文件:" + oldPath + ",移动到:" + newPath);
-								});
-							}
+                            }else{
+                                var mtime = stats.mtime.valueOf();
+                                var filesize = stats.size;
+                                if (mtime > lasttime) {
+                                    lastfile = file;
+                                    lasttime = mtime;
+                                    lastsize = filesize;
+                                }
+
+                                if (mtime < daysago) {
+
+                                    var oldPath = path + file;
+                                    var newPath = npath + file;
+                                    fs.rename(oldPath, newPath, function() {
+                                        console.log("将文件:" + oldPath + ",移动到:" + newPath);
+                                    });
+                                }
+                            }
+
+
 							//console.log(daysago, mtime, lasttime);
 							callback();
 						});
@@ -53,27 +60,51 @@ var t = setInterval(function() {
 				}
 			}
 		],
-		upsize: ["mvFiles",
+        findZero:function(cb){
+            DbMode.all({
+                where:{
+                    filesize:0,
+                    cretime:{"gt":moment().format("YYYY-MM-DD")+" 00:00:00"}
+                }
+            },function(err,dbs){
+                cb(err,dbs);
+            });
+        },
+		upsize: ["findZero",
 			function(cb, results) {
-				if (results.mvFiles !== null) {
-					var filesize = results.mvFiles.lastsize / 1024;
-					var filename = results.mvFiles.lastfile.split('.')[0];
+				if (results.findZero.length>0) {
+                    async.eachSeries(results.findZero, function(item, callback) {
+                        fs.stat(path + item.filename+".wav", function(err, stats) {
+                            if(err || !stats){
+                                console.log(err,path + item.filename+".wav");
+                                callback();
+                            }else{
+                               // var mtime = stats.mtime.valueOf();
+                                var filesize = stats.size/1024;
+                                DbMode.findOne({
+                                    where: {
+                                        filename: item.filename
+                                    }
+                                }, function(err, inst) {
+                                    if (err || inst == null) {
+                                        callback(err, inst);
+                                    } else {
+                                        inst.filesize = filesize;
+                                        DbMode.updateOrCreate(inst, function(err, o) {
+                                            console.log("更新完毕！");
+                                            callback(err, o);
+                                        });
+                                    }
+                                });
+                            }
+                            });
 
-					DbMode.findOne({
-						where: {
-							filename: filename
-						}
-					}, function(err, inst) {
-						if (err || inst == null) {
-							cb(err, inst);
-						} else {
-							inst.filesize = filesize;
-							DbMode.updateOrCreate(inst, function(err, o) {
-								console.log("更新完毕！");
-								cb(err, o);
-							});
-						}
-					});
+                    },function(err){
+                        cb(err,null);
+                    });
+
+
+
 
 
 				} else {
