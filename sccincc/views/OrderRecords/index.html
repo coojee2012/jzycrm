@@ -30,14 +30,14 @@ var aoColumns=[
 var vKeys=["id","cID.idcard","uaddr","orderContent","uphone","utel","DepID.depName","dactorName.uName","orderReslut","serMan.uName","OrderOptions","orderTime","id"];
 var where='';
 var where2='';
-where+=',,,,,'+'serMan:::::'+$('#serMan').val();
-where2+='serMan='+$('#serMan').val();
-where+=',,,,,'+'DepID:::::'+$('#DepID').val();
-where2+='&DepID='+$('#DepID').val();
-where+=',,,,,'+'OrderOptions:::::'+$('#options').val();
-where2+='&OrderOptions='+$('#options').val();
-where+=',,,,,'+'dactorName:::::'+$('#dactorName').val();
-where2+='&dactorName='+$('#dactorName').val();
+where+=',,,,,'+'serMan:::::<%=where.serMan%>';//+($('#serMan').val() || -1);
+where2+='serMan=<%=where.serMan%>' ;//+( $('#serMan').val() || -1 ) ;
+where+=',,,,,'+'DepID:::::<%=where.DepID%>';//+($('#DepID').val() || -1);
+where2+='&DepID=<%=where.DepID%>';//+($('#DepID').val() || -1);
+where+=',,,,,'+'OrderOptions:::::<%= where.OrderOptions %>';
+where2+='&OrderOptions=<%= where.OrderOptions %>';
+where+=',,,,,'+'dactorName:::::<%=where.dactorName%>';//+($('#dactorName').val() || -1);
+where2+='&dactorName=<%=where.dactorName%>';//+($('#dactorName').val() || -1);
 where+=',,,,,'+'orderReslut:::::'+$('#orderReslut').val();
 where2+='&orderReslut='+$('#orderReslut').val();
 where+=',,,,,'+'orderContent:::::like|||||'+$('#orderContent').val();
@@ -192,10 +192,11 @@ var MyDataTable=$('#datatable').dataTable( {
       "fnClick": function ( nButton, oConfig, oFlash ) {
     
         var wherexls="";
-wherexls+='serMan='+$('#serMan').val() || -1;
-wherexls+='&DepID='+$('#DepID').val() || -1;
-wherexls+='&OrderOptions='+$('#options').val() || -1;
-wherexls+='&dactorName='+$('#dactorName').val() || -1;
+          wherexls+='id='+($('#id').val() || -1);
+wherexls+='&serMan=<%= where.serMan%>';//+($('#serMan').val() || -1);
+wherexls+='&DepID=<%= where.DepID%>';//+($('#DepID').val() || -1);
+wherexls+='&OrderOptions=<%= where.OrderOptions%>';//+($('#OrderOptions').val() || -1);
+wherexls+='&dactorName=<%= where.dactorName%>';//+($('#dactorName').val() || -1);
 wherexls+='&orderReslut='+$('#orderReslut').val();
 wherexls+='&orderContent='+$('#orderContent').val();
 wherexls+='&uphone='+$('#uphone').val();
@@ -256,6 +257,8 @@ var intervalid=setInterval(function(){
 MyDataTable.fnDraw();
 }, 60000);
 }
+
+$("#OrderOptions").val("<%= where.OrderOptions %>");
 
 });
 
@@ -938,7 +941,7 @@ $(function(){
                         	
                         	htmlappend+="</optgroup>";
 	                		}
-		                		$('#dactorName').html(htmlappend);
+		                    $('#dactorName').html(htmlappend);
 	                		
                         	
 	                        }
@@ -978,7 +981,7 @@ $(function(){
 	for="id">工单编号 </label>
 <div class="controls">
 <input type="text" class="span6 typeahead" id="id" name="id" value="<%= where.id%>" />
-<input type="hidden" id="options" name="options" value="<%= where.OrderOptions%>" />
+<!-- input type="hidden" id="options" name="options" value="<%= where.OrderOptions || ''%>" / -->
 </div>
 
 </div>
@@ -992,6 +995,16 @@ $(function(){
 <div class="controls"><input type="text" class="span6 typeahead" id="uaddr" value="<%= where.uaddr%>" name="uaddr" /></div>
 </div>
 
+    <div class="control-group"><label class="control-label" for="OrderOptions">处理结果 </label>
+        <div class="controls">
+    <select id="OrderOptions" name="OrderOptions">
+        <option value="-1">请选择</option>
+        <option value="0">未处理</option>
+        <option value="1">处理中</option>
+        <option value="2">已完成</option>
+    </select>
+        </div>
+    </div>
 
 <div class="control-group"><label class="control-label" for="orderContent">受理内容 </label>
 <div class="controls"><input type="text" class="span6 typeahead" id="orderContent" value="<%= where.orderContent%>" name="orderContent" /></div>
@@ -1001,8 +1014,9 @@ $(function(){
 <div class="control-group"><label class="control-label" for="DepID">处理部门 </label>
 <div class="controls">
 <select id="DepID" name="DepID">
-<option value='<%=where.DepID%>'  ></option>
-</select></div>
+<!--option value='<%= where.DepID%>'></option-->
+</select>
+</div>
 </div>
 
 
@@ -1016,7 +1030,7 @@ $(function(){
 
 <div class="control-group"><label class="control-label" for="serMan">服务座席 </label>
 <div class="controls"><select id="serMan" name="serMan">
-<option value='<%=where.serMan%>'  ></option>
+<!-- option value='<%=where.serMan%>'  ></option -->
 </select></div>
 </div>
 
@@ -1095,11 +1109,11 @@ $(function(){
 </div>
 
 <div id="sendsms" class="modal hide fade" tabindex="-1" role="dialog"
-	aria-labelledby="myModalLabel" aria-hidden="true">
+	aria-labelledby="myModalLabel2" aria-hidden="true">
 <div class="modal-header">
 <button type="button" class="close" data-dismiss="modal"
 	aria-hidden="true">×</button>
-<h3 id="myModalLabel">短信催单</h3>
+<h3 id="myModalLabel2">短信催单</h3>
 </div>
 <div class="modal-body">
 <div class="row-fluid sortable">
@@ -1141,11 +1155,11 @@ $(function(){
 
 
 <div id="paidan" class="modal hide fade" tabindex="-1" role="dialog"
-	aria-labelledby="myModalLabel" aria-hidden="true">
+	aria-labelledby="myModalLabel3" aria-hidden="true">
 <div class="modal-header">
 <button type="button" class="close" data-dismiss="modal"
 	aria-hidden="true">×</button>
-<h3 id="myModalLabel2">派单处理</h3>
+<h3 id="myModalLabel3">派单处理</h3>
 </div>
 <div class="modal-body">
 <div class="row-fluid sortable">
@@ -1187,22 +1201,22 @@ $(function(){
 
 
 <div id="paidan2" class="modal hide fade" tabindex="-1" role="dialog"
-	aria-labelledby="myModalLabel1" aria-hidden="true">
+	aria-labelledby="myModalLabel5" aria-hidden="true">
 <div class="modal-header">
 <button type="button" class="close" data-dismiss="modal"
 	aria-hidden="true">×</button>
-<h3 id="myModalLabel21">片区派单</h3>
+<h3 id="myModalLabel5">片区派单</h3>
 </div>
 <div class="modal-body">
 </div>
 </div>
 
 <div id="huifang" class="modal hide fade" tabindex="-1" role="dialog"
-	aria-labelledby="myModalLabel" aria-hidden="true">
+	aria-labelledby="myModalLabel4" aria-hidden="true">
 <div class="modal-header">
 <button type="button" class="close" data-dismiss="modal"
 	aria-hidden="true">×</button>
-<h3 id="myModalLabel3">用户回访</h3>
+<h3 id="myModalLabel4">用户回访</h3>
 </div>
 <div class="modal-body">
 <div class="row-fluid sortable">

@@ -21,7 +21,12 @@ exports.get = function(req, res) {
 	var pageindex = req.query['pageindex'] || 0;
 	var cID = req.query['cID'] || req.body['cID'];
 	var serMan = req.query['serMan'] || req.body['serMan'];
-	var options = req.query['options'] || req.body['options'] || -1;
+	var options = -1;
+    if(req.query['OrderOptions'] )
+        options=req.query['OrderOptions'] ;
+    if(req.body['OrderOptions'])
+        options=req.body['OrderOptions'];
+
 	//if(where!=null){}
 	if (cID !== '')
 		where.cID = cID;
@@ -39,6 +44,7 @@ exports.get = function(req, res) {
 	where.orderTime_from = '';
 	where.orderTime_to = '';
 	where.OrderTypeid = -1;
+    console.log(options);
 	where.OrderOptions = options;
 	if (req.session.roleid == 8) //派单部门只能看到自己部门的
 		where.DepID = req.session.deptid;
@@ -62,6 +68,10 @@ exports.excel = function(req, res) {
 	/*if (req.query['serMan'] && req.query['serMan'] != '' && req.query['serMan'] != -1) {
 		where.serMan = req.query['serMan'];
 	}*/
+    if (req.query['id'] && req.query['id'] != '') {
+        where.id = req.query['id'];
+    }
+
 	if (req.query['DepID'] && req.query['DepID'] != '' && req.query['DepID'] != -1) {
 		where.DepID = req.query['DepID'];
 	}
@@ -105,6 +115,9 @@ exports.excel = function(req, res) {
 	where.orderTime = {
 		'between': [fromtime + ' 00:00:00', totime + ' 23:59:59']
 	};
+
+    if(where.id)
+    delete where.orderTime;
 
 
 
@@ -153,10 +166,13 @@ exports.excel = function(req, res) {
 		include: inld,
 		where: where,
 		order: order
-	}, function(err, dbs) {
-		if (dbs.length < 1) {
-			console.log('dbs:', dbs);
-		}
+	},
+
+
+        function(err, dbs) {
+		if (dbs.length > 0) {
+			console.log('需要导出:', dbs.length,"条记录！");
+
 
 		if (err)
 			res.send('导出数据发生异常！');
@@ -221,6 +237,8 @@ exports.excel = function(req, res) {
 		}
 
 
+
+        console.log('需要导出redata:', redata.length,"条记录！");
 		var workbook = excelbuilder.createWorkbook('./public', 'sample.xlsx')
 		var sheet1 = workbook.createSheet('sheet1', aColumns.length, redata.length + 2);
 
@@ -276,7 +294,11 @@ exports.excel = function(req, res) {
 			type: 'string',
 			width: 20
 		}];
+
+
+
 		conf.rows = redata;
+
 		sheet1.set(1, 1, '工单记录 ：' + fromtime + ' 至 ' + totime + '');
 		sheet1.merge({
 			col: 1,
@@ -326,6 +348,7 @@ exports.excel = function(req, res) {
 				bottom: 'thin'
 			});
 		}
+
 		for (var j = 0; j < redata.length; j++) {
 			for (var jj = 0; jj < redata[j].length; jj++) {
 				sheet1.set(jj + 1, j + 3, redata[j][jj]);
@@ -349,19 +372,29 @@ exports.excel = function(req, res) {
 				});
 			}
 		}
+
 		workbook.save(function(err) {
-			console.log('生成xlsx：', err);
+			console.log('xlsx：', err);
 			res.sendfile('./public/sample.xlsx', function(err) {
 				if (err) {
 					// handle error, keep in mind the response may be partially-sent
 					// so check res.headerSent
+                    console.log("发送excel发生异常:",err);
 					res.end();
 				} else {
 					// decrement a download credit etc
+                    console.log("发送excel发生正常:",err);
 					res.end();
 				}
 			});
 		});
+
+
+
+            }else{
+
+            res.send("没有可以导出的数据！");
+        }
 		//var result = nodeExcel.execute(conf);
 		//res.setHeader('Content-Type', 'application/vnd.openxmlformats');
 		//res.setHeader("Content-Disposition", "attachment; filename=" + "orderrecords.xlsx");
@@ -373,7 +406,8 @@ exports.excel = function(req, res) {
 exports.post = function(req, res) {
 	var where = {};
 	var pageindex = req.query['pageindex'] || 0;
-	var query = req.body || req.query;
+	var query = req.body;// || req.query;
+    console.log(query);
 	for (var key in query) {
 		where[key] = query[key] || '';
 	}
@@ -612,9 +646,10 @@ exports.editget = function(req, res) {
 	for (var key in req.query) {
 		if (key == 'distart' || key == 'id')
 			continue;
-		where += "&" + key + '=' + req.query[key];
+		where += "&" + key + '=' + req.query[key] ;
 
 	}
+
 	var pageindex = req.query.distart;
 	DbMode.findOne({
 		where: {

@@ -207,6 +207,8 @@ app.get('*', function(req, res){
  * console.log('Express server listening on port ' + app.get('port')); });
  */
 
+app.setMaxListeners=0;
+
 if (!module.parent) {
 	app.listen(83);
 	console.log("Express server listening on port %d in %s mode", app
