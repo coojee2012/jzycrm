@@ -68,7 +68,7 @@ exports.excel = function(req, res) {
 	/*if (req.query['serMan'] && req.query['serMan'] != '' && req.query['serMan'] != -1) {
 		where.serMan = req.query['serMan'];
 	}*/
-    if (req.query['id'] && req.query['id'] != '') {
+    if (req.query['id'] && req.query['id'] != '' && req.query['id'] != '-1') {
         where.id = req.query['id'];
     }
 
@@ -189,23 +189,25 @@ exports.excel = function(req, res) {
 					}
 					var dbcl = searchDb.cloums[aColumns[j]].selectdb.value;
 					if (!dbs[i].__cachedRelations[dbname] || dbs[i].__cachedRelations[dbname] == null) {
-						tmppnj.push('--');
-					} else {
+						tmppnj.push(' ');
+					}
+                    else {
 
 						if (aColumns[j] == 'cID')
-							tmppnj.push(dbs[i].__cachedRelations[dbname].idcard);
+							tmppnj.push(dbs[i].__cachedRelations[dbname].idcard || ' ');
 						if (aColumns[j] == 'DepID')
-							tmppnj.push(dbs[i].__cachedRelations[dbname].depName);
+							tmppnj.push(dbs[i].__cachedRelations[dbname].depName || ' ');
 						if (aColumns[j] == 'dactorName')
-							tmppnj.push(dbs[i].__cachedRelations[dbname].uName);
+							tmppnj.push(dbs[i].__cachedRelations[dbname].uName || ' ');
 						if (aColumns[j] == 'serMan') {
 							//console.log(aColumns[j]);
-							tmppnj.push(dbs[i].__cachedRelations[dbname].uName);
+							tmppnj.push(dbs[i].__cachedRelations[dbname].uName || ' ');
 						}
 
 					}
 
-				} else if (aColumns[j] != 'id' && searchDb.cloums[aColumns[j]].input.type == 'selectdbGroup') {
+				}
+                else if (aColumns[j] != 'id' && searchDb.cloums[aColumns[j]].input.type == 'selectdbGroup') {
 					var finddb = searchDb.cloums[aColumns[j]].selectdbGroup.dbname.split("/");
 					var dbname = finddb[finddb.length - 1];
 					if (searchDb.cloums[aColumns[j]].selectdbGroup && searchDb.cloums[aColumns[j]].selectdbGroup.as !== undefined) {
@@ -217,19 +219,27 @@ exports.excel = function(req, res) {
 						tmppnj.push('--');
 					} else {
 						if (aColumns[j] == 'cID')
-							tmppnj.push(dbs[i].__cachedRelations[dbname].idcard);
+							tmppnj.push(dbs[i].__cachedRelations[dbname].idcard || ' ');
 						if (aColumns[j] == 'DepID')
-							tmppnj.push(dbs[i].__cachedRelations[dbname].depName);
+							tmppnj.push(dbs[i].__cachedRelations[dbname].depName || ' ');
 						if (aColumns[j] == 'dactorName')
-							tmppnj.push(dbs[i].__cachedRelations[dbname].uName);
+							tmppnj.push(dbs[i].__cachedRelations[dbname].uName || ' ');
 						if (aColumns[j] == 'serMan')
-							tmppnj.push(dbs[i].__cachedRelations[dbname].uName);
+							tmppnj.push(dbs[i].__cachedRelations[dbname].uName || ' ');
 					}
 
-				} else if (aColumns[j] != 'id' && (searchDb.cloums[aColumns[j]].input.type == 'radios' || searchDb.cloums[aColumns[j]].input.type == 'selects' || searchDb.cloums[aColumns[j]].input.type == 'checkboxes')) {
+				}
+                else if (aColumns[j] != 'id' && (searchDb.cloums[aColumns[j]].input.type == 'radios' || searchDb.cloums[aColumns[j]].input.type == 'selects' || searchDb.cloums[aColumns[j]].input.type == 'checkboxes')) {
 					tmppnj.push(serverfn["get_" + aColumns[j]](dbs[i][aColumns[j]]));
-				} else {
-					tmppnj.push(dbs[i][aColumns[j]]);
+				}
+                else {
+                    var str=" ";
+                    if(dbs[i][aColumns[j]] && dbs[i][aColumns[j]] !='')
+                    {
+                        str=dbs[i][aColumns[j]];
+                    }
+                    tmppnj.push(str);
+
 				}
 
 			}
@@ -238,7 +248,7 @@ exports.excel = function(req, res) {
 
 
 
-        console.log('需要导出redata:', redata.length,"条记录！");
+        console.log('需要导出redata:', redata.length,"条记录！",redata);
 		var workbook = excelbuilder.createWorkbook('./public', 'sample.xlsx')
 		var sheet1 = workbook.createSheet('sheet1', aColumns.length, redata.length + 2);
 
@@ -379,20 +389,16 @@ exports.excel = function(req, res) {
 				if (err) {
 					// handle error, keep in mind the response may be partially-sent
 					// so check res.headerSent
-                    console.log("发送excel发生异常:",err);
+                    console.log("发送excel异常:",err);
 					res.end();
 				} else {
 					// decrement a download credit etc
-                    console.log("发送excel发生正常:",err);
+                    console.log("发送excel正常:",err);
 					res.end();
 				}
 			});
 		});
-
-
-
             }else{
-
             res.send("没有可以导出的数据！");
         }
 		//var result = nodeExcel.execute(conf);

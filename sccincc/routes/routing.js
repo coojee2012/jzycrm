@@ -1501,6 +1501,11 @@ routes.cdr = [{
 	file: '/routes/cdr',
 	method: 'get',
 	fn: 'createget'
+},{
+    urlreg: '/db/backup',
+    file: '/routes/cdr',
+    method: 'get',
+    fn: 'backupdb'
 }];
 //自动添加于：2013-07-17 18:43:33
 routes.checkservice = [{

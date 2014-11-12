@@ -42,6 +42,11 @@ where[key]=query[key]||'';
 }
 res.render('cdr/index.html', { title: '通话记录列表',where:where});	
 };
+
+exports.backupdb=function(req,res){
+    var fs=require('fs');
+    res.render('cdr/backup.html', { files: '通话记录列表'});
+}
 /**
 GET新建
 **/
