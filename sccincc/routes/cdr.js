@@ -45,7 +45,29 @@ res.render('cdr/index.html', { title: '通话记录列表',where:where});
 
 exports.backupdb=function(req,res){
     var fs=require('fs');
-    res.render('cdr/backup.html', { files: '通话记录列表'});
+    fs.readdir('./public/dbbackups',function(err,files){
+
+        if(err){
+            res.send(err);
+        }
+        else{
+            var filenames={};
+            var dates=[];
+            for(var i=0;i<files.length;i++){
+                if(/^callcenter(\d+)\.gz/.test(files[i])){
+                    dates.push(RegExp.$1);
+                    filenames[RegExp.$1]=files[i];
+                }
+
+            }
+            dates.sort(function(a,b){
+                return a<b?1:-1;
+            });
+            res.render('cdr/backup.html', { files: filenames,dates:dates});
+        }
+
+    });
+
 }
 /**
 GET新建
