@@ -1,12 +1,12 @@
 <script type="text/javascript">
 $(function () {
-var str="<%= hostname%>:<%= port%>/sounds/<%= myfilename%>.wav";
+var str="<%= hostname%>:<%= port%>/<%= sounds%>/<%= myfilename%>.wav";
 var  audio=$("#pcaudio")[0];
 audio.src=str;
 audio.play();
     });
 function download(){
-var str="<%= hostname%>:<%= port%>/sounds/<%= myfilename%>.wav";
+var str="<%= hostname%>:<%= port%>/<%= sounds%>/<%= myfilename%>.wav";
 window.open(str);	
 }
 </script>
@@ -21,7 +21,7 @@ window.open(str);
  </audio>
              </div>
         <div  class="controls  span3">
- <a href="<%= hostname%>:<%= port%>/sounds/<%= myfilename%>.wav" target="_blank">下载</a>
+ <a href="<%= hostname%>:<%= port%>/<%= sounds%>/<%= myfilename%>.wav" target="_blank">下载</a>
  </div>
         </div>
 </div>

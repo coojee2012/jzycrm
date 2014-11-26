@@ -36,7 +36,7 @@ exports.get = function(req, res) {
 		where.serMan = serMan;
 	else
 		where.serMan = -1;
-	where.dactorName = -1;
+	where.dactorName =  req.query['dactorName'] || -1;
 	where.orderReslut = '';
 	where.uphone = '';
 	where.uaddr = '';
@@ -81,6 +81,9 @@ exports.excel = function(req, res) {
 	if (req.query['dactorName'] != 'undefined' && req.query['dactorName'] != '' && req.query['dactorName'] != -1) {
 		where.dactorName = req.query['dactorName'];
 	}
+    if (req.query['serMan'] != 'undefined' && req.query['serMan'] != '' && req.query['serMan'] != -1) {
+        where.serMan = req.query['serMan'];
+    }
 	if (req.query['orderReslut'] != 'undefined' && req.query['orderReslut'] != '' && req.query['orderReslut'] != -1) {
 		where.orderReslut = {
 			'like': req.query['orderReslut']

@@ -80,7 +80,7 @@ $('#datatable').dataTable( {
                             	
                                    mRender: function (data, type,full) {
                                 	 var str='';            			           
-               			            str+='<a href="javascript:play(\''+full.filename+'\');"><i class="icon-zoom-in icon-white"></i>播放</a>';
+               			            str+='<a href="javascript:play(\''+full.filename+'\',\''+full.extennum+'\');"><i class="icon-zoom-in icon-white"></i>播放</a>';
                			           
                			            return str;
                               
@@ -110,8 +110,8 @@ $('#datatable').dataTable( {
 </script>
 
 <script type="text/javascript">
-function  play(src) {
-    var filename='/SoundPlayer?filename='+src;
+function  play(src,exten) {
+    var filename='/SoundPlayer?filename='+src+'&exten='+exten;
     $("#playerframeid").attr("src", filename);
     $("#showplayer").modal("show");       
     }

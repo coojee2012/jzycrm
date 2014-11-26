@@ -787,8 +787,49 @@ $(function(){
 	                }
 
 	            }
-	            );	
-	
+	            );
+
+
+
+    $.ajax(
+            {
+                url: '/selectdb/',
+                dataType: 'json',
+                type: 'POST',
+                async: false,
+                data:{tbname:'crm/UserInfo',key:'id',value:'uName'},
+                success: function (data, textStatus) {
+                    if(data.success)
+                    {
+                        $("<option value='-1'  >请选择</option>").appendTo("#dactorName");
+                        for (var i = 0; i < data.data.length; i++) {
+
+                        <%if(where!=null){ %>
+                                if( data.data[i].id==<%= where.dactorName%>)
+                                {
+                                    $("<option value='" + data.data[i].id + "' selected='selected' >" + data.data[i].uName + "</option>").appendTo("#dactorName");
+                                }
+                            <%}else{%>
+                                if(false){}
+                            <%}%>
+                        else{
+                                $("<option value='" + data.data[i].id + "'  >" + data.data[i].uName + "</option>").appendTo("#dactorName");
+                            }
+                        }
+                    }
+                    else{
+                        alert(data.msg);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert('服务器访问发生异常！' + textStatus);
+                    return;
+                }
+
+            }
+    );
+
+
 });
 
 
@@ -823,10 +864,7 @@ $(function(){
 	            }
 	            );	
 	
-});
 
-
-$(function(){
 	 $.ajax(
 	            {
 	                url: '/selectdb/',
@@ -868,10 +906,10 @@ $(function(){
 	            }
 	            );	
 	
-});
 
 
-$(function(){
+
+
 	 $.ajax(
 	            {
 	                url: '/selectdb/',
@@ -910,13 +948,7 @@ $(function(){
 	            }
 	            );	
 	
-});
 
-</script>
-
-<script type="text/javascript">
-
-$(function(){
 	 $.ajax(
 	            {
 	                url: '/selectdb/',
@@ -995,7 +1027,7 @@ $(function(){
 <div class="controls"><input type="text" class="span6 typeahead" id="uaddr" value="<%= where.uaddr%>" name="uaddr" /></div>
 </div>
 
-    <div class="control-group"><label class="control-label" for="OrderOptions">处理结果 </label>
+    <div class="control-group"><label class="control-label" for="OrderOptions">工单状态</label>
         <div class="controls">
     <select id="OrderOptions" name="OrderOptions">
         <option value="-1">请选择</option>
@@ -1012,14 +1044,19 @@ $(function(){
 
 
 <div class="control-group"><label class="control-label" for="DepID">处理部门 </label>
-<div class="controls">
-<select id="DepID" name="DepID">
-<!--option value='<%= where.DepID%>'></option-->
-</select>
-</div>
+    <div class="controls">
+        <select id="DepID" name="DepID">
+            <!--option value='<%= where.DepID%>'></option-->
+        </select>
+    </div>
 </div>
 
-
+    <div class="control-group"><label class="control-label" for="dactorName">处理人员</label>
+        <div class="controls">
+            <select id="dactorName" name="dactorName">
+            </select>
+        </div>
+    </div>
 
 
 <div class="control-group"><label class="control-label"
