@@ -13,54 +13,50 @@ exports.get=function(req,res){
 	
 	
 	var OrderRecords = require('../modules/crm/OrderRecords');
-	var where={};
+	var where="";
 	if(req.session.roleid == 8 )//派单部门只能看到自己部门的
-		where.DepID=req.session.deptid;
+        where+=" and DepID="+req.session.deptid;
 		
-	OrderRecords.all({where:where},function(err,dbs){
-		var count=dbs.length;
-		var notdo=0;
-		for(var i=0;i<count;i++){
-			if(dbs[i].OrderOptions==0)
-				notdo++;
-		}
-		ep.emit('gd', {count:count,notdo:notdo});	
+	OrderRecords.query("select count(1) as cnt from OrderRecords where 1=1 and OrderOptions=0 "+where+";",function(err,dbs){
+		var notdo=dbs[0].cnt;
+        OrderRecords.query("select count(1) as cnt from OrderRecords where 1=1 "+where+";",function(err,dbs){
+         var count= dbs[0].cnt;
+         ep.emit('gd', {count:count,notdo:notdo});
+        });
+
 	});
 	
 	var ConsultRecords = require('../modules/crm/ConsultRecords');
 	
-	ConsultRecords.all({},function(err,dbs){
-		var count=dbs.length;
-		var notdo=0;
-		for(var i=0;i<count;i++){
-			if(dbs[i].isOver==0)
-				notdo++;
-		}
-		ep.emit('zx', {count:count,notdo:notdo});	
+	ConsultRecords.query("select count(1) as cnt from ConsultRecords where isOver=0;",function(err,dbs){
+		var notdo = dbs[0].cnt;
+        ConsultRecords.query("select count(1) as cnt from ConsultRecords;",function(err,dbs){
+            var count= dbs[0].cnt;
+            ep.emit('zx', {count:count,notdo:notdo});
+        });
+
 	});
 	
    var WarterStopInfo = require('../modules/crm/WarterStopInfo');
 	
-   WarterStopInfo.all({},function(err,dbs){
-		var count=dbs.length;
-		var notdo=0;
-		for(var i=0;i<count;i++){
-			if(dbs[i].isres==0)
-				notdo++;
-		}
-		ep.emit('ts', {count:count,notdo:notdo});	
+   WarterStopInfo.query("select count(1) as cnt from WarterStopInfo where isres=0;",function(err,dbs){
+       var notdo = dbs[0].cnt;
+       WarterStopInfo.query("select count(1) as cnt from WarterStopInfo",function(err,dbs){
+           var count= dbs[0].cnt;
+           ep.emit('ts', {count:count,notdo:notdo});
+       });
+
 	});
 	
    var Sms = require('../modules/crm/Sms');
 	
-   Sms.all({},function(err,dbs){
-		var count=dbs.length;
-		var notdo=0;
-		for(var i=0;i<count;i++){
-			if(dbs[i].sendState==0)
-				notdo++;
-		}
-		ep.emit('dx', {count:count,notdo:notdo});	
+   Sms.query("select count(1) as cnt from Sms where sendState=0;",function(err,dbs){
+       var notdo = dbs[0].cnt;
+       Sms.query("select count(1) as cnt from Sms;",function(err,dbs){
+           var count= dbs[0].cnt;
+           ep.emit('dx', {count:count,notdo:notdo});
+       });
+
 	});
    
 	
@@ -77,26 +73,25 @@ exports.jsonget=function(req,res){
     });
 
   var OrderRecords = require('../modules/crm/OrderRecords');
-	var where={};
+	var where="";
 	if(req.session.roleid == 8 )//派单部门只能看到自己部门的
-		where.DepID=req.session.deptid;
-		
-	OrderRecords.all({where:where},function(err,dbs){
-		var count=dbs.length;
-		var notdo=0;
-		var waitdo=0;
-		var harddo=0;
-		for(var i=0;i<count;i++){
-			if(dbs[i].OrderOptions==0)
-				notdo++;
-			else if(dbs[i].OrderOptions==1)
-				waitdo++;
-			else
-				harddo++;
+    where+=" and DepID="+req.session.deptid;
+
+    var notdo=0;
+    var waitdo=0;
+    var harddo=0;
+
+	OrderRecords.query("select count(1) as cnt from OrderRecords where 1=1 and OrderOptions=0  "+where+";",function(err,dbs){
+        notdo=dbs[0].cnt;
+        OrderRecords.query("select count(1) as cnt from OrderRecords where 1=1 and OrderOptions=1  "+where+";",function(err,dbs){
+            waitdo= dbs[0].cnt;
+            OrderRecords.query("select count(1) as cnt from OrderRecords where 1=1 and OrderOptions=2  "+where+";",function(err,dbs){
+                harddo=  dbs[0].cnt;
+                ep.emit('gd', {notdo:notdo,waitdo:waitdo,harddo:harddo});
+            });
+        });
 
 
-		}
-		ep.emit('gd', {notdo:notdo,waitdo:waitdo,harddo:harddo});	
 	});
 
     }
