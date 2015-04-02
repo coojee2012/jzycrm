@@ -10,6 +10,7 @@ var callsession = schema.define('callsession', {
 	routerline:   {type: Number, default: function () { return 0 }},
 	cretime:   {type: Date, default: function () {return moment().format("YYYY-MM-DD HH:mm:ss"); }},
 	hanguptime:   {type: Date, default: function () { return moment().format("YYYY-MM-DD HH:mm:ss"); }},
+    ishangup:{type:String,limit:10,default:'yes'},
 	frist_cdruniqueid:    {type:String,limit:50}
 
 }, {

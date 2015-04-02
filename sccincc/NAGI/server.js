@@ -100,6 +100,7 @@ var server = AGI.createServer(function(context) {
           context.end();
         } else {
           inst.hanguptime = moment().format("YYYY-MM-DD HH:mm:ss");
+            inst.ishangup='yes';
           callsession.updateOrCreate(inst, function(err, o) {
             if (err)
               logger.error(err);
