@@ -439,6 +439,7 @@ exports.orderchart = function(req, res) {
 					redata[dbs[j].week].jck = 0;
 					redata[dbs[j].week].yys = 0;
 					redata[dbs[j].week].szk = 0;
+                    redata[dbs[j].week].wsbzglk = 0;
 					redata[dbs[j].week].zj = 0;
 
 
@@ -453,6 +454,7 @@ exports.orderchart = function(req, res) {
 				redata[dbs.length].jck = 0;
 				redata[dbs.length].yys = 0;
 				redata[dbs.length].szk = 0;
+                redata[dbs.length].wsbzglk = 0;
 				redata[dbs.length].zj = 0;
 
 
@@ -510,7 +512,12 @@ exports.orderchart = function(req, res) {
 						redata[dbs.length].zj += dbs[i].number;
 					}
 
-
+                    if (dbs[i].DepId == 15) {
+                        redata[dbs[i].week].wsbzglk = dbs[i].number;
+                        redata[dbs[i].week].zj += dbs[i].number;
+                        redata[dbs.length].wsbzglk += dbs[i].number;
+                        redata[dbs.length].zj += dbs[i].number;
+                    }
 
 				}
 				var redata2 = [];
@@ -560,6 +567,7 @@ exports.orderchart = function(req, res) {
 					tmp.jck = 0;
 					tmp.yys = 0;
 					tmp.szk = 0;
+                    tmp.wsbzglk=0;
 					tmp.zj = 0;
 					redata[j] = tmp;
 				}
@@ -614,6 +622,13 @@ exports.orderchart = function(req, res) {
 						redata[7].zj += dbs[i].number;
 					}
 
+
+                    if (dbs[i].DepId == 15) {
+                        redata[dbs[i].week].wsbzglk = dbs[i].number;
+                        redata[dbs[i].week].zj += dbs[i].number;
+                        redata[7].wsbzglk += dbs[i].number;
+                        redata[7].zj += dbs[i].number;
+                    }
 
 
 				}
@@ -672,6 +687,7 @@ exports.orderchart = function(req, res) {
 					tmp.jck = 0;
 					tmp.yys = 0;
 					tmp.szk = 0;
+                    tmp.wsbzglk=0;
 					tmp.zj = 0;
 					redata[j] = tmp;
 				}
@@ -726,7 +742,12 @@ exports.orderchart = function(req, res) {
 						redata[days].zj += dbs[i].number;
 					}
 
-
+                    if (dbs[i].DepId == 15) {
+                        redata[dbs[i].week - 1].wsbzglk = dbs[i].number;
+                        redata[dbs[i].week - 1].zj += dbs[i].number;
+                        redata[days].wsbzglk += dbs[i].number;
+                        redata[days].zj += dbs[i].number;
+                    }
 
 				}
 				output.iTotalRecords = days;
@@ -782,6 +803,7 @@ exports.orderchart = function(req, res) {
 					tmp.jck = 0;
 					tmp.yys = 0;
 					tmp.szk = 0;
+                    tmp.wsbzglk=0;
 					tmp.zj = 0;
 					redata[j] = tmp;
 				}
@@ -836,6 +858,12 @@ exports.orderchart = function(req, res) {
 						redata[3].zj += dbs[i].number;
 					}
 
+                    if (dbs[i].DepId == 15) {
+                        redata[dbs[i].week - (tjvalue - 1) * 3 - 1].wsbzglk = dbs[i].number;
+                        redata[dbs[i].week - (tjvalue - 1) * 3 - 1].zj += dbs[i].number;
+                        redata[3].wsbzglk += dbs[i].number;
+                        redata[3].zj += dbs[i].number;
+                    }
 
 
 				}
@@ -888,6 +916,7 @@ exports.orderchart = function(req, res) {
 					tmp.jck = 0;
 					tmp.yys = 0;
 					tmp.szk = 0;
+                    tmp.wsbzglk=0;
 					tmp.zj = 0;
 					redata[j] = tmp;
 				}
@@ -943,6 +972,12 @@ exports.orderchart = function(req, res) {
 					}
 
 
+                    if (dbs[i].DepId == 15) {
+                        redata[dbs[i].week - 1].wsbzglk = dbs[i].number;
+                        redata[dbs[i].week - 1].zj += dbs[i].number;
+                        redata[12].wsbzglk += dbs[i].number;
+                        redata[12].zj += dbs[i].number;
+                    }
 
 				}
 				output.iTotalRecords = 13;
