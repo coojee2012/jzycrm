@@ -41,7 +41,7 @@ var server = AGI.createServer(function(context) {
  /* server.getConnections(function(err, count) {
     logger.info('当前服务器连接数：' + count);
   });*/
-  server.addListener(0);
+  //server.addListener(0);
   server.on("error", function(err) {
     logger.error(err);
   });

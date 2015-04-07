@@ -424,7 +424,7 @@ routing.prototype.queue = function (queuenum, assign, callback) {
         findDnd: ['getQueueMember', function (cb, results) {
             extension.all({
                 where: {
-                    accountcode: {'in': results.getQueueMember},
+                    accountcode: {'inq': results.getQueueMember},
                     dndinfo: 'on'
                 }
             }, function (err, dbs) {
@@ -445,10 +445,10 @@ routing.prototype.queue = function (queuenum, assign, callback) {
         findBusyCallee: ['getQueueMember', function (cb, results) {
             callsession.all({
                 where: {
-                    extension: {'in': results.getQueueMember},
+                    extension: {'inq': results.getQueueMember},
                     ishangup: 'no',
                     routerline:1,
-                    cretime: {'lte': moment().format("YYYY-MM-DD") + ' 00:00:00'}
+                    cretime: {'gt': moment().format("YYYY-MM-DD") + ' 00:00:00'}
                 }
             }, function (err, dbs) {
                 if (err)
@@ -467,10 +467,10 @@ routing.prototype.queue = function (queuenum, assign, callback) {
         findBusyCaller: ['getQueueMember', function (cb, results) {
             callsession.all({
                 where: {
-                    callernumber: {'in': results.getQueueMember},
+                    callernumber: {'inq': results.getQueueMember},
                     ishangup: 'no',
                     routerline:2,
-                    cretime: {'lte': moment().format("YYYY-MM-DD") + ' 00:00:00'}
+                    cretime: {'gt': moment().format("YYYY-MM-DD") + ' 00:00:00'}
                 }
             }, function (err, dbs) {
                 if (err)
